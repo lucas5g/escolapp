@@ -1,0 +1,28 @@
+#!/bin/bash
+command=$1
+
+generateDatabase(){
+  if [ "$1" == "gd" ]; then 
+    source .env
+
+    #Exportar banco
+    docker exec laradock_mysql_1 sh -c 'exec mysqldump -u root -proot jisa-express' > jisa-express.sql
+
+    #Importar banco na clever cloud
+    docker exec -i laradock_mysql_1 sh -c "mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE" < jisa-express.sql
+
+
+    exit 0
+  fi
+}
+
+main(){
+
+  generateDatabase $command
+  echo -e "\nComando não encontrado :(\n"
+
+
+
+}
+
+main

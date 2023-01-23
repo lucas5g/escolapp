@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container {
+    @apply flex gap-5 mt-5 text-sm
+    /* bg-green-400 flex */
+  }
+
+  
+}
