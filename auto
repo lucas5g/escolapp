@@ -16,6 +16,7 @@ generateDatabase(){
 
 update(){
   if [ "$1" == "update" ]; then
+    start=`date +%s`
     git add .
     git commit -m "$2"
     git push
@@ -29,7 +30,11 @@ update(){
       && pm2 restart jisa --update-env
     "
 
-    echo -e "\n\n https://test.codificar.dev.br \n\n"
+    echo -e "\n\nhttps://test.codificar.dev.br \n"
+
+    end=`date +%s`
+    runtime=$((end-start))
+    echo "Tempo de deploy $runtime.\n\n"
     exit 0
   fi
 }
@@ -40,14 +45,10 @@ message=$2
 
 main(){
 
-  start=`date +%s`
-
   generateDatabase $command
   update $command "$message"
   echo -e "\nComando não encontrado :(\n"
 
-  end=`date +%s`
-  runtime=$((end-start))
   echo $runtime
 
 }
