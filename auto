@@ -30,11 +30,12 @@ update(){
       && pm2 restart jisa --update-env
     "
 
-    echo -e "\n\nhttps://test.codificar.dev.br \n"
+    echo -e "\nhttps://test.codificar.dev.br \n"
 
     end=`date +%s`
     runtime=$((end-start))
-    echo "Tempo de deploy $runtime.\n\n"
+
+    echo -e "Tempo de deploy $runtime.\n\n"
     exit 0
   fi
 }
