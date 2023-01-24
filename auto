@@ -40,9 +40,15 @@ message=$2
 
 main(){
 
+  start=`date +%s`
+
   generateDatabase $command
   update $command "$message"
   echo -e "\nComando não encontrado :(\n"
+
+  end=`date +%s`
+  runtime=$((end-start))
+  echo $runtime
 
 }
 
