@@ -35,7 +35,7 @@ update(){
     end=`date +%s`
     runtime=$((end-start))
 
-    echo -e "Tempo de deploy $runtime.\n"
+    echo -e "Duração do Deploy: $runtime segundos.\n"
     exit 0
   fi
 }
@@ -49,8 +49,6 @@ main(){
   generateDatabase $command
   update $command "$message"
   echo -e "\nComando não encontrado :(\n"
-
-  echo $runtime
 
 }
 

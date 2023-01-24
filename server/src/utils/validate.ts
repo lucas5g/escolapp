@@ -3,7 +3,7 @@ import { Schema } from "zod";
 
 export const validate = (schema: Schema) => (req: Request, res: Response, next: NextFunction) => {
   
-  console.log('validate', req.body)
+  // console.log('validate', req.body)
   try {
     if(Object.keys(req.body).length !== 0){
       schema.parse(req.body)
