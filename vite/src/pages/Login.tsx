@@ -30,9 +30,8 @@ export function Login() {
       const { data } = error?.response 
 
       alert(data)
-
-      setLoading(false)
     } finally {
+      setLoading(false)
     }
 
   }
