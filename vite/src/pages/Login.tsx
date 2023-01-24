@@ -11,7 +11,7 @@ export function Login() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  if(location.pathname !== '/login') location.href = '/login'
+  if (location.pathname !== '/login') location.href = '/login'
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault()
@@ -19,7 +19,7 @@ export function Login() {
       email, password
     })
 
-   
+
     setLoading(true)
 
     try {
@@ -29,8 +29,8 @@ export function Login() {
       localStorage.setItem('accessToken', data.accessToken)
       location.href = '/'
     } catch (error: any) {
-      
-      const { data } = error?.response 
+
+      const { data } = error?.response
 
       alert(data)
     } finally {
@@ -41,30 +41,36 @@ export function Login() {
 
   return (
     <div className="flex items-center justify-center h-screen p-5">
-      <form
-        onSubmit={handleLogin}
-        className="flex flex-col gap-5 bg-white rounded p-5 lg:w-1/3 w-full">
-        <Input
-          type='email'
-          name="email-login"
-          placeholder="Email"
-          value={email}
-          onChange={event => setEmail(event.target.value)}
-          required
-        />
-        <Input
-          type='password'
-          name="password-login"
-          placeholder="Senha"
-          value={password}
-          onChange={event => setPassword(event.target.value)}
-          required
-        />
-        <Button 
-          disabled={loading}
-          value={'Acessar'}
+      <div className="bg-white rounded lg:w-1/3 w-full">
+        <h1 className="text-center bg-blue-500 text-white py-4 rounded-t text-xl">
+          Acesso da Plataforma
+        </h1>
+        <form onSubmit={handleLogin} className='flex flex-col gap-5 p-5' >
+
+          <Input
+            type='email'
+            name="email-login"
+            placeholder="Email"
+            value={email}
+            onChange={event => setEmail(event.target.value)}
+            required
           />
-      </form>
+          <Input
+            type='password'
+            name="password-login"
+            placeholder="Senha"
+            value={password}
+            onChange={event => setPassword(event.target.value)}
+            required
+          />
+          <footer className="flex justify-end">
+            <Button
+              disabled={loading}
+              value={'Acessar'}
+            />
+          </footer>
+        </form>
+      </div>
     </div>
   )
 }

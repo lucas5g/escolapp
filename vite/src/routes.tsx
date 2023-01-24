@@ -1,9 +1,10 @@
 import { createBrowserRouter, redirect, RouterProvider } from 'react-router-dom'
-import { Course } from './pages/Course'
+import { Course } from './pages/Course-skip'
 import { Game } from './pages/Game'
 import { Group } from './pages/Group'
 import { Home } from './pages/Home'
 import { Login } from './pages/Login'
+import { Modality } from './pages/Modality'
 import { Team } from './pages/Team'
 
 
@@ -11,7 +12,9 @@ const routesPrivate = createBrowserRouter([
   { path: '/', element: <Home />},
   { path: '/home', element: <Home /> },
   { path: '/turmas', element: <Group /> },
-  { path: '/cursos', element: <Course /> },
+  { path: '/modalidades', element: <Modality /> },
+  
+  // { path: '/cursos', element: <Course /> },
   { path: '/jogos', element: <Game /> },
   { path: '/equipes', element: <Team /> },
   { path: '*', element: <Home /> }, 

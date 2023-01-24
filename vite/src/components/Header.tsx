@@ -3,10 +3,15 @@ import { List, X } from "phosphor-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import logo from '../assets/logo.png'
-import { Aside } from "./Aside"
-import { Card } from "./Card"
 
-export const menus = ['Home', 'Turmas', 'Cursos', 'Jogos', 'Equipes']
+
+export const menus = [
+  // 'Home', 
+  'Turmas', 
+  'Modalidades',
+  'Equipes',
+  'Jogos', 
+]
 
 // const menus = ['Home', 'Turmas']
 
