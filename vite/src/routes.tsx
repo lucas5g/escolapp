@@ -15,7 +15,7 @@ const routesPrivate = createBrowserRouter([
   { path: '/cursos', element: <Course /> },
   { path: '/jogos', element: <Game /> },
   { path: '/equipes', element: <Team /> },
-
+  { path: '/login', element: <Login /> }, 
   { path: '*', element: <Home /> }
 ])
 
@@ -23,6 +23,8 @@ const routesPublic = createBrowserRouter([
   { path: '/login', element: <Login /> },
   { path: '*', element: <Login /> },
 ])
+
+console.log('24/11')
 
 export function Routes() {
 
