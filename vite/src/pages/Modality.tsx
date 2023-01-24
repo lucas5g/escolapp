@@ -11,37 +11,38 @@ import { swr } from "../utils/swr";
 export function Modality() {
 
   const fields = [
-    { key: 'name', value: 'Nome da Turma',  },
-    { key: 'codcur', value: 'Código do Curso' },
-    { key: 'codper', value: 'Código do Período'  }
+    { key: 'name', value: 'Nome da Modalidade', },
+    { key: 'membersQuantity', value: 'Qtd. Membros' },
+    { key: 'teamsQuantity', value: 'Qtd. Equipes' }
   ]
 
-  const [course, setCourse] = useState({})
-  const { data, error } = swr('courses')
+  fields.map(row => console.log(row.value))
 
-  if (error) return <Error error={error}/>
+  const [modality, setModality] = useState({})
+  const { data, error } = swr('modalities')
+
+  if (error) return <Error error={error} />
   if (!data) return <Loading />
 
-  const courses = data
+  const modalities = data
 
   return (
     <Layout>
-      Menu modalidades
-      {/* <Main>
+      <Main>
         <Table
-          heads={['Nome', 'Cód. Curso', 'Cód. Período']}
-          items={courses}
-          item={course}
-          setItem={setCourse}
+          heads={fields.map(head => head.value)}
+          items={modalities}
+          item={modality}
+          setItem={setModality}
         />
         <Form
           fields={fields}
-          item={course}
-          setItem={setCourse}
-          uri='courses'
+          item={modality}
+          setItem={setModality}
+          uri='modalities'
         />
 
-      </Main> */}
+      </Main>
     </Layout>
   )
 }

@@ -27,7 +27,7 @@ export function Input({ ...props }: Props) {
         placeholder=''
         type={getType(props.name ?? '')}
       />
-      <span className='absolute left-0 top-[.9em] px-1  tracking-wide peer-focus:text-blue-600 pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-6 bg-white ml-2 peer-valid:text-sm peer-valid:-translate-y-6 peer-focus:bg-white autofill:bg-green-300' >
+      <span className='absolute left-0 top-[.9em] px-1  tracking-wide peer-focus:text-blue-600 pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-6 bg-white ml-2 peer-valid:text-sm peer-valid:-translate-y-6 peer-focus:bg-white text-gray-500' >
         {props.placeholder}
       </span>
 

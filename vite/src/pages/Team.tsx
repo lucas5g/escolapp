@@ -4,8 +4,8 @@ import { Main } from "../components/Main";
 
 export function Team() {
   const fields = [
-    { key: 'name', value: 'Nome da Turma',  },
-    { key: 'codcur', value: 'Código do Curso' },
+    { key: 'name', value: 'Nome da Equipe',  },
+    { key: 'modalityId', value: 'Modalidade' },
     { key: 'codper', value: 'Código do Período'  }
   ]
 
