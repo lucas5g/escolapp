@@ -1,10 +1,8 @@
 #!/bin/bash
-command=$1
 
 generateDatabase(){
   if [ "$1" == "gd" ]; then 
     source .env
-
     #Exportar banco
     docker exec laradock_mysql_1 sh -c 'exec mysqldump -u root -proot jisa-express' > jisa-express.sql
 
@@ -16,12 +14,35 @@ generateDatabase(){
   fi
 }
 
+update(){
+  if [ "$1" == "update" ]; then
+    git add .
+    git commit -m "$2"
+    git push
+    ssh -t root@test.codificar.dev.br "\
+      cd projects/jisa \
+      && git pull \
+      && source ~/.nvm/nvm.sh \
+      && cd server \
+      && npm i \
+      && npm run build \
+      && pm2 restart jisa --update-env
+    "
+
+    echo -e "\n\n https://test.codificar.dev.br \n\n"
+    exit 0
+  fi
+}
+
+  # && cd server \
+command=$1
+message=$2
+
 main(){
 
   generateDatabase $command
+  update $command "$message"
   echo -e "\nComando não encontrado :(\n"
-
-
 
 }
 

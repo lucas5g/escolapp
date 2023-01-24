@@ -19,8 +19,9 @@ export const routes = Router()
 /**
  * Default
  */
-routes.get('/', (req:Request, res:Response) => res.json({api: 'JISA 10/01 - 01:24'}))
+routes.get('/', (req:Request, res:Response) => res.json({api: 'Test api 23/01'}))
 routes.post('/login', validate(AuthSchema), AuthController.login)
+
 
 /**
  * Auth routes
