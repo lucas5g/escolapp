@@ -30,16 +30,18 @@ export function Modality() {
     <Layout>
       <Main>
         <Table
-          heads={fields.map(head => head.value)}
+          fields={fields}
           items={modalities}
           item={modality}
           setItem={setModality}
+          width={55}
         />
         <Form
           fields={fields}
           item={modality}
           setItem={setModality}
           uri='modalities'
+          width={45}
         />
 
       </Main>

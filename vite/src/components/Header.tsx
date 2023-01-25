@@ -10,6 +10,7 @@ export const menus = [
   'Turmas', 
   'Modalidades',
   'Equipes',
+  'Locais',
   'Jogos', 
 ]
 

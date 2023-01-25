@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import csv from 'csvtojson'
 import bcrypt from 'bcrypt'
 import { idToStringProfile } from '../../src/utils/id-to-string-profile'
-import { sleep } from '../../src/utils/sleep'
+import { setTimeout } from 'timers/promises'
 
 
 const prisma = new PrismaClient()
@@ -12,9 +12,9 @@ const prisma = new PrismaClient()
 // createUsers()
 // createModalities()
 // createPlaces()
-createStudents()
+// createStudents()
 // createGenres()
-// createTeams()
+createTeams()
 async function createGenres() {
   const genres = await csv().fromFile(`${__dirname}/data/genres.csv`)
 
@@ -39,6 +39,7 @@ async function createTeams() {
 
   const teams = await csv().fromFile(`${__dirname}/data/teams.csv`)
   teams.forEach(async (row, index) => {
+    await setTimeout(index * 100)
     await prisma.team.upsert({
       where:{
         id: Number(row.id_equipe)
@@ -57,7 +58,7 @@ async function createTeams() {
         genreId: Number(row.id_genero)
       }
     })
-
+    console.log(`${row.nome_equipe} atualizado com sucesso!`)
   })
 
 }

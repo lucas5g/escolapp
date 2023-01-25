@@ -35,7 +35,7 @@ export function Group() {
     <Layout>
       <Main>
         <Table
-          heads={['Nome', 'Cód. Curso', 'Cód. Período']}
+          fields={fields}
           items={groups}
           item={group}
           setItem={setGroup}

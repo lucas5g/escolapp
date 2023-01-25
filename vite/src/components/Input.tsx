@@ -18,7 +18,7 @@ export function Input({ ...props }: Props) {
 
 
   return (
-    <label className="relative text-gray-800">
+    <label className="relative text-gray-800 w-full">
       <input
         name={props.name}
         id={props.name}

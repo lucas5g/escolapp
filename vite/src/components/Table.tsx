@@ -1,24 +1,24 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
-import { Card } from "./Card";
+import { Card, Width } from "./Card";
 
 interface Props {
-  heads: string[]
+  fields: any[]
   items: any[]
   item: any
   setItem: Function
+  width?: Width
 }
-export function Table({ heads, items, item, setItem }: Props) {
+export function Table({ fields, items, item, setItem, width = 100 }: Props) {
 
-  const itemsKeys = Object.keys(items[0])
 
   return (
-    <Card>
+    <Card width={width}>
       <table className="w-full mt-2">
         <thead>
-          <tr className="border-b">
-            {heads.map(head => {
-              return <td key={head} className="pb-3">{head}</td>
+          <tr className="border-b font-semibold">
+            {fields.map(head => {
+              return <td key={head.key} className="pb-3 pr-2">{head.value}</td>
             })}
           </tr>
         </thead>
@@ -36,12 +36,11 @@ export function Table({ heads, items, item, setItem }: Props) {
                   window.scrollTo({top:0, behavior:'smooth'})
                 }}
               >
-                {itemsKeys.map(rowKey => {
-                  // console.log({rowKey})
-                  return rowKey !== 'id' && (
+                {fields.map(field => {
+                  return  (
                     <td
-                      className="h-12"
-                      key={rowKey}>{row[rowKey]}</td>
+                      className="h-14"
+                      key={field.key}>{row[field.key]}</td>
 
                   )
                 })}
