@@ -18,7 +18,7 @@ export function Table({ fields, items, item, setItem, width = 100 }: Props) {
         <thead>
           <tr className="border-b font-semibold">
             {fields.map(head => {
-              return <td key={head.key} className="pb-3 pr-2">{head.value}</td>
+              return <td key={head.key} className="pb-3 pr-1 ">{head.value}</td>
             })}
           </tr>
         </thead>

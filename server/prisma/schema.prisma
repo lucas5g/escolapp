@@ -60,14 +60,15 @@ model Genre {
 }
 
 model Team {
-  id         Int       @id @default(autoincrement())
+  id         Int    @id @default(autoincrement())
   name       String
   modalityId Int?
   groupId    Int?
   genreId    Int?
-  Genre      Genre?    @relation(fields: [genreId], references: [id])
-  Group      Group?    @relation(fields: [groupId], references: [id])
-  Modality   Modality? @relation(fields: [modalityId], references: [id])
+
+  genre    Genre?    @relation(fields: [genreId], references: [id])
+  group    Group?    @relation(fields: [groupId], references: [id])
+  modality Modality? @relation(fields: [modalityId], references: [id])
 
   @@index([genreId], map: "Team_genreId_fkey")
   @@index([groupId], map: "Team_groupId_fkey")

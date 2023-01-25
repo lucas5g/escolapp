@@ -17,7 +17,7 @@ export function Layout({ children }: Props) {
       <Header />
       <main className="flex flex-1">
         <Aside />
-        <section className="w-full  flex flex-col gap-5 px-5 py-5 lg:ml-[12em] ">
+        <section className="w-full  flex flex-col gap-5 px-5 py-5 lg:ml-[10em] ">
           <Title />
           {children}
         </section>
