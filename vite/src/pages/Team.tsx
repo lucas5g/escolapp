@@ -31,14 +31,12 @@ export function Team() {
           item={team}
           items={teams}
           setItem={setTeam}
-          width={55}
         />
         <Form
           fields={fields}
           item={team}
           setItem={setTeam}
           uri='teams'
-          width={45}
         />
 
       </Main>

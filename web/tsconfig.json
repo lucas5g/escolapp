@@ -39,7 +39,7 @@
     "**/*.tsx",
     "prisma/seed/data/students.mjs",
     "prisma/seed/index.mjs"
-, "../test/cypress/cypress.config.ts"  ],
+, "../test/cypress/cypress.config.ts", "src/utils/test.js"  ],
   "exclude": [
     "node_modules"
   ]

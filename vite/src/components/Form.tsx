@@ -50,8 +50,8 @@ export function Form({ item, setItem, fields, uri, width}: Props) {
 
   }
 
-  // return item.id && (
-  return (
+  return item.id && (
+  // return (
     <Card width={width} >
 
         <div className="flex justify-end mb-5">
