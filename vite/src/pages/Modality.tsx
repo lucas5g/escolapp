@@ -34,14 +34,12 @@ export function Modality() {
           items={modalities}
           item={modality}
           setItem={setModality}
-          width={55}
         />
         <Form
           fields={fields}
           item={modality}
           setItem={setModality}
           uri='modalities'
-          width={45}
         />
 
       </Main>
