@@ -12,6 +12,8 @@ model User {
   email    String @unique
   password String
   name     String
+
+  games Game[]
 }
 
 model Project {
@@ -34,11 +36,14 @@ model Modality {
   membersQuantity Int
   teamsQuantity   Int
   teams           Team[]
+  games           Game[]
 }
 
 model Place {
   id   Int    @id @default(autoincrement())
   name String @unique
+
+  games Game[]
 }
 
 model Student {
@@ -73,4 +78,23 @@ model Team {
   @@index([genreId], map: "Team_genreId_fkey")
   @@index([groupId], map: "Team_groupId_fkey")
   @@index([modalityId], map: "Team_modalityId_fkey")
+}
+
+model Game {
+  id          Int      @id @default(autoincrement())
+  date        DateTime
+  startHours  DateTime
+  endHours    DateTime
+  description String
+
+  placeId    Int?
+  modalityId Int?
+  userId     Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  Place    Place?    @relation(fields: [placeId], references: [id])
+  Modality Modality? @relation(fields: [modalityId], references: [id])
+  User     User?     @relation(fields: [userId], references: [id])
 }

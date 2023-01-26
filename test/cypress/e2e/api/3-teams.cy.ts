@@ -13,7 +13,7 @@ describe('Teams', () => {
 
   let accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikx1Y2FzIGRlIHNvdXNhIGFzc3Vuw6fDo28gMjIiLCJpYXQiOjE2NzQ2MjE3NzMsImV4cCI6MTY3NDY2NDk3M30.TFA_uMB8oxnvBxxws_l_NzEOln_0qm-IzJP0aJXyINk'
   before(() => {
-    return
+    // return
     cy.login().then(res => accessToken = res.accessToken)
   })
 
