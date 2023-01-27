@@ -1,10 +1,6 @@
-import { Paper } from "@mui/material";
-import { signIn } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
 import { Children, ReactNode } from "react";
 import { Layout } from "./Layout";
-import { Loading } from "./Loading";
+// import { Loading } from "./Loading";
 
 interface Props {
   error: any
@@ -13,7 +9,6 @@ interface Props {
 export function Error({ error }: Props) {
 
   console.log('error fetch', error.response)
-  const router = useRouter()
 
   if (error?.response?.data === 'Without permission') {
     return (
@@ -40,11 +35,11 @@ interface LayoutErrorProps {
 }
 
 function LayoutError({ title }: LayoutErrorProps) {
+
+  document.title = title
+
   return (
     <Layout>
-      <Head>
-        <title>{title}</title>
-      </Head>
       <div className="h-full flex items-center justify-center">
         <p className="bg-white text-4xl px-7 py-3 rounded shadow">
           {title}

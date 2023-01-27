@@ -1,8 +1,13 @@
+import { Children, ReactNode } from "react";
 
-export function Main(){
+interface Props{
+  children: ReactNode
+}
+
+export function Main({children}:Props){
   return (
-    <main className="w-full flex">
-
+    <main className="flex lg:flex-row flex-col gap-5 w-full">
+      {children}
     </main>
   )
 }
