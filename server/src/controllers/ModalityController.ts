@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Modality } from "../models/Modality";
-import { GroupType } from "../utils/schemas";
 
 export class ModalityController{
 

@@ -10,6 +10,9 @@ export class Team {
       select:{
         id:true,
         name:true,
+        modalityId:true,
+        groupId:true,
+        genreId:true,
         modality: true,
         group: true, 
         genre: true

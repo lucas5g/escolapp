@@ -1,5 +1,5 @@
 import { X } from "phosphor-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, ReactNode, useState } from "react";
 import { mutate } from "swr";
 import { api } from "../utils/axios";
 import { Button } from "./Button";
@@ -11,10 +11,11 @@ interface Props {
   setItem: Function
   fields: any[]
   uri: string,
-  width?: Width  
+  width?: Width
+  children?: ReactNode
 }
 
-export function Form({ item, setItem, fields, uri, width}: Props) {
+export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   const [loading, setLoading] = useState(false)
 
@@ -50,44 +51,66 @@ export function Form({ item, setItem, fields, uri, width}: Props) {
 
   }
 
-  return item.id && (
-  // return (
+  // return item.id && (
+  return (
     <Card width={width} >
 
-        <div className="flex justify-end mb-5">
-          <button
-            title='Fechar formulário'
-            className="bg-red-400 p-1 rounded hover:bg-red-600"
-            onClick={() => setItem({})}
-            type='button'
-          >
-            <X className="" size={20} color='#ffffff' weight="bold" />
-          </button>
+      <div className="flex justify-end mb-5">
+        <button
+          title='Fechar formulário'
+          className="bg-red-400 p-1 rounded hover:bg-red-600"
+          onClick={() => setItem({})}
+          type='button'
+        >
+          <X className="" size={20} color='#ffffff' weight="bold" />
+        </button>
 
-        </div>
+      </div>
 
-        <form onSubmit={item.id ? handleSubmitUpdate : handleSubmitCreate}
-          className='flex flex-col gap-6'>
+      <form onSubmit={item.id ? handleSubmitUpdate : handleSubmitCreate}
+        className='flex flex-col gap-6'>
 
-          {fields.map(field => {
-            const value = item[field.key] || ''
+        {fields.map(field => {
+          const value = item[field.key] || ''
+          // console.log('\nfield.key', field.key)
+          // console.log('value', value)
+
+          if (field.options) {
             return (
-              <Input
+              <select
                 key={field.key}
                 name={field.key}
-                placeholder={field.value}
+                id={field.key}
                 value={value}
                 onChange={event => setItem({ ...item, [field.key]: event.target.value })}
-                required
-              />
+              >
+                <option>{field.value}</option>
+                {field?.options?.map((option: any) => {
+                  return <option key={option.id} value={option.id} >{option.name}</option>
+                })
+                }
+              </select>
             )
-          })}
+          }
+          return (
+            <Input
+              key={field.key}
+              name={field.key}
+              placeholder={field.value}
+              value={value}
+              onChange={event => setItem({ ...item, [field.key]: event.target.value })}
+              required
+            />
+          )
+        })}
 
-          <footer className="flex justify-end">
-            <Button value={item.id ? 'Atualizar' : 'Cadastrar'} disabled={loading} />
-          </footer>
+        {children}
 
-        </form>
-    </Card>
+        <footer className="flex justify-end">
+          <Button value={item.id ? 'Atualizar' : 'Cadastrar'} disabled={loading} />
+        </footer>
+
+      </form>
+    </Card >
   )
 }

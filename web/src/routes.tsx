@@ -6,6 +6,7 @@ import { Login } from './pages/Login'
 import { Modality } from './pages/Modality'
 import { Place } from './pages/Place'
 import { Team } from './pages/Team'
+import { Test } from './pages/Test'
 
 
 const routesPrivate = createBrowserRouter([
@@ -16,6 +17,7 @@ const routesPrivate = createBrowserRouter([
   { path: '/equipes', element: <Team /> },
   { path: '/locais', element: <Place /> },
   { path: '/jogos', element: <Game /> },
+  { path: '/test', element: <Test /> },
   { path: '*', element: <Home /> }, 
   {
   
