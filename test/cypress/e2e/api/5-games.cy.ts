@@ -1,7 +1,7 @@
 describe('Games', () => {
   Cypress.config().baseUrl = Cypress.env('api')
 
-  let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikx1Y2FzIGRlIHNvdXNhIGFzc3Vuw6fDo28gMjIiLCJpYXQiOjE2NzQ3ODYxMDksImV4cCI6MTY3NDgyOTMwOX0.fx1Qzx5cM3gFZhmB7osJPsJrsdQqqQs8Ky-ZnZd6Sak"
+  let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikx1Y2FzIGRlIHNvdXNhIGFzc3Vuw6fDo28gMjIiLCJpYXQiOjE2NzUxMzEzODUsImV4cCI6MTY3NTE3NDU4NX0.Ao0ftPYePOG49AuARxFJKuOrjd1StkreG4SIOCpr4XI"
 
   before(() => {
     return

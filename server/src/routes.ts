@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express'
 
 import { AuthController } from './controllers/AuthController'
 import { CourseController } from './controllers/CourseController'
+import { GameController } from './controllers/GameController'
 import { GroupController } from './controllers/GroupController'
 import { ModalityController } from './controllers/ModalityController'
 import { PlaceController } from './controllers/PlaceController'
@@ -72,6 +73,16 @@ routes.get('/students/:ra', StudentController.show)
 routes.post('/students', StudentController.create)
 routes.put('/students/:ra', StudentController.update)
 routes.delete('/students/:ra',StudentController.delete)
+
+/**
+ * Games
+ */
+routes.get('/games', GameController.index)
+routes.get('/games/:id', GameController.show)
+routes.post('/games', GameController.create)
+routes.put('/games/:id', GameController.update)
+routes.delete('/games/:id',GameController.delete)
+
 
 /**
  * Projects

@@ -16,8 +16,6 @@ export function Modality() {
     { key: 'teamsQuantity', value: 'Qtd. Equipes' }
   ]
 
-  fields.map(row => console.log(row.value))
-
   const [modality, setModality] = useState({})
   const { data, error } = swr('modalities')
 

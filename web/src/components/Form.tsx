@@ -1,10 +1,10 @@
+import { MenuItem, TextField } from "@mui/material";
 import { X } from "phosphor-react";
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { api } from "../utils/axios";
 import { Button } from "./Button";
 import { Card, Width } from "./Card";
-import { Input } from "./Input";
 
 interface Props {
   item: any,
@@ -74,33 +74,29 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
           const value = item[field.key] || ''
           // console.log('\nfield.key', field.key)
           // console.log('value', value)
-
-          if (field.options) {
-            return (
-              <select
-                key={field.key}
-                name={field.key}
-                id={field.key}
-                value={value}
-                onChange={event => setItem({ ...item, [field.key]: event.target.value })}
-              >
-                <option>{field.value}</option>
-                {field?.options?.map((option: any) => {
-                  return <option key={option.id} value={option.id} >{option.name}</option>
-                })
-                }
-              </select>
-            )
-          }
           return (
-            <Input
+            <TextField
               key={field.key}
               name={field.key}
-              placeholder={field.value}
+              label={field.value}
+              select={field?.options?.length > 0}
               value={value}
               onChange={event => setItem({ ...item, [field.key]: event.target.value })}
-              required
-            />
+
+            >
+              {field?.options?.map((option: any) => {
+                // console.log(option)
+                return (
+                  <MenuItem
+                    key={option.id}
+                    value={option.id}
+
+                  >
+                    {option.name}
+                  </MenuItem>
+                )
+              })}
+            </TextField>
           )
         })}
 

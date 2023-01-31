@@ -1,38 +1,38 @@
 import { prisma } from "../utils/prisma";
 
-export class Group {
+export class Game {
 
   static async findMany(){
-    return await prisma.group.findMany({
+    return await prisma.game.findMany({
       orderBy:{
-        name:'asc'
+        // name:'asc'
       },
       // take: 5
     })
   }
 
   static async findUnique(id:number) {
-    return await prisma.group.findUnique({
+    return await prisma.game.findUnique({
       where: { id }
     })
   }
 
   static async create(data:any) {
-    return await prisma.group.create({ data })
+    return await prisma.game.create({ data })
   }
 
   static async update(id:number, data:any){
 
-    // return {msg: 'update group', id}
+    // return {msg: 'update game', id}
 
-    return await prisma.group.update({
+    return await prisma.game.update({
       where: {id},
       data,
     })
   }
 
   static async delete(id:number){
-    return await prisma.group.delete({
+    return await prisma.game.delete({
       where: {id}
     })
   }

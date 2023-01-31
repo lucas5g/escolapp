@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Error } from "../components/Error";
 import { Form } from "../components/Form";
 import { Layout } from "../components/Layout";
@@ -20,18 +20,38 @@ const genres = [
   { id: 3, name: 'MISTO' },
 ]
 
+interface Team {
+  id: number
+  name: string
+  groupId: number
+  modalityId: number
+  genreId: number
+}
 
 export function Team() {
 
 
-  const [team, setTeam] = useState({})
+  const [team, setTeam] = useState({} as Team)
 
   const { data, error } = swr('teams')
   const { data: groups, error: errorGroups } = swr('groups')
   const { data: modalities, error: errorModalities } = swr('modalities')
 
+
+  // useEffect(() => {
+  //   if(!teams) return
+  //   const group = groups.find((group:any) => group.id === team.groupId )
+  //   // const modality = modalities.find((modality:any) => modality.id === team.modalityId)
+  //   const genre = genres.find((genre:any) => genre.id === team.genreId)
+  //   console.log(`${group?.name} ${genre?.name} `)
+  //     // ${modality?.name}
+
+  // }, [team])
+
+
+
   if (error || errorGroups) return <Error error={error} />
-  if (!data || !groups) return <Loading />
+  if (!data || !groups || !groups || !modalities) return <Loading />
 
   const fieldsForm = [
     { key: 'groupId', value: 'Turma', options: groups },
@@ -42,6 +62,14 @@ export function Team() {
 
   const teams = data
 
+  // const group = groups.find((group: any) => group.id === team.groupId)
+  // const modality = modalities.find((modality: any) => modality.id === team.modalityId)
+  // const genre = genres.find((genre: any) => genre.id === team.genreId)
+  // const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`
+  // console.log({ teamName })
+  // team.name = teamName
+  // useEffect(() => {
+  // }, [team.groupId, team.modalityId, team.genreId])
 
 
   return (
