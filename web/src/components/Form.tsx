@@ -1,6 +1,5 @@
 import { MenuItem, TextField } from "@mui/material";
-import { X } from "phosphor-react";
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useState } from "react";
 import { mutate } from "swr";
 import { api } from "../utils/axios";
 import { Button } from "./Button";
@@ -40,7 +39,8 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     event.preventDefault()
     setLoading(true)
     try {
-      await api.post(uri, item)
+      const { data } = await api.post(uri, item)
+      setItem(data)
       mutate(uri)
     } catch (error: any) {
       const { data } = error.response
@@ -50,37 +50,38 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     }
 
   }
+  
+  function getType(key:string){
+    const type:any = {
+      codcur: 'number',
+      codper: 'number',
+      teamsQuantity: 'number',
+      membersQuantity: 'number',
+      date: 'date',
+      startHours: 'time'
+    }
+
+    return type[key]
+  }
 
   // return item.id && (
   return (
     <Card width={width} >
-
-      <div className="flex justify-end mb-5">
-        <button
-          title='Fechar formulário'
-          className="bg-red-400 p-1 rounded hover:bg-red-600"
-          onClick={() => setItem({})}
-          type='button'
-        >
-          <X className="" size={20} color='#ffffff' weight="bold" />
-        </button>
-
-      </div>
-
       <form onSubmit={item.id ? handleSubmitUpdate : handleSubmitCreate}
         className='flex flex-col gap-6'>
 
         {fields.map(field => {
           const value = item[field.key] || ''
-          // console.log('\nfield.key', field.key)
-          // console.log('value', value)
+   
           return (
             <TextField
               key={field.key}
+              type={getType(field.key)}
               name={field.key}
               label={field.value}
               select={field?.options?.length > 0}
-              value={value}
+              value={value ?? new Date()}
+              focused={field.key === 'date' || field.key === 'startHours'}
               onChange={event => setItem({ ...item, [field.key]: event.target.value })}
 
             >
@@ -102,10 +103,10 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
         {children}
 
-        <footer className="flex justify-end">
+        <footer className="flex justify-end gap-3">
           <Button value={item.id ? 'Atualizar' : 'Cadastrar'} disabled={loading} />
+          <Button secondary onClick={() => setItem({})} type='reset' value='Cancelar' />
         </footer>
-
       </form>
     </Card >
   )

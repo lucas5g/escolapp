@@ -71,9 +71,10 @@ model Team {
   groupId    Int?
   genreId    Int?
 
-  genre    Genre?    @relation(fields: [genreId], references: [id])
-  group    Group?    @relation(fields: [groupId], references: [id])
-  modality Modality? @relation(fields: [modalityId], references: [id])
+  genre    Genre?     @relation(fields: [genreId], references: [id])
+  group    Group?     @relation(fields: [groupId], references: [id])
+  modality Modality?  @relation(fields: [modalityId], references: [id])
+  GameTeam GameTeam[]
 
   @@index([genreId], map: "Team_genreId_fkey")
   @@index([groupId], map: "Team_groupId_fkey")
@@ -94,7 +95,23 @@ model Game {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  Place    Place?    @relation(fields: [placeId], references: [id])
-  Modality Modality? @relation(fields: [modalityId], references: [id])
-  User     User?     @relation(fields: [userId], references: [id])
+  Place    Place?     @relation(fields: [placeId], references: [id])
+  Modality Modality?  @relation(fields: [modalityId], references: [id])
+  User     User?      @relation(fields: [userId], references: [id])
+  GameTeam GameTeam[]
+}
+
+model GameTeam {
+  id            Int @id @default(autoincrement())
+  gameId        Int
+  teamId        Int
+  fairPlayPoint Int
+  goals         Int
+  points        Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  game Game @relation(fields: [gameId], references: [id])
+  team Team @relation(fields: [teamId], references: [id])
 }

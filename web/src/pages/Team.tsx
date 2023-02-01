@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Error } from "../components/Error";
 import { Form } from "../components/Form";
@@ -30,47 +31,38 @@ interface Team {
 
 export function Team() {
 
-
   const [team, setTeam] = useState({} as Team)
 
   const { data, error } = swr('teams')
   const { data: groups, error: errorGroups } = swr('groups')
   const { data: modalities, error: errorModalities } = swr('modalities')
 
+  /**
+   * Create name team by options
+   */
+  useEffect(() => {
+    if(!groups || !modalities ) return
+    const group = groups.find((group: any) => group.id === team.groupId) 
+    const modality = modalities.find((modality: any) => modality.id === team.modalityId)
+    const genre = genres.find((genre: any) => genre.id === team.genreId)
+    const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`.trim()
+    setTeam({...team, name:teamName})
 
-  // useEffect(() => {
-  //   if(!teams) return
-  //   const group = groups.find((group:any) => group.id === team.groupId )
-  //   // const modality = modalities.find((modality:any) => modality.id === team.modalityId)
-  //   const genre = genres.find((genre:any) => genre.id === team.genreId)
-  //   console.log(`${group?.name} ${genre?.name} `)
-  //     // ${modality?.name}
-
-  // }, [team])
-
-
+  }, [team.groupId, team.modalityId, team.genreId])
 
   if (error || errorGroups) return <Error error={error} />
   if (!data || !groups || !groups || !modalities) return <Loading />
+
+
 
   const fieldsForm = [
     { key: 'groupId', value: 'Turma', options: groups },
     { key: 'modalityId', value: 'Modalidade', options: modalities },
     { key: 'genreId', value: 'Gênero', options: genres },
-    { key: 'name', value: 'Nome da Equipe' },
+    // { key: 'name', value: 'Nome da Equipe' },
   ]
 
   const teams = data
-
-  // const group = groups.find((group: any) => group.id === team.groupId)
-  // const modality = modalities.find((modality: any) => modality.id === team.modalityId)
-  // const genre = genres.find((genre: any) => genre.id === team.genreId)
-  // const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`
-  // console.log({ teamName })
-  // team.name = teamName
-  // useEffect(() => {
-  // }, [team.groupId, team.modalityId, team.genreId])
-
 
   return (
     <Layout>
@@ -86,7 +78,15 @@ export function Team() {
           item={team}
           setItem={setTeam}
           uri='teams'
-        />
+        >
+          <TextField
+            id="name"
+            name="name"
+            label="Nome da Equipe"
+            value={team.name ?? ''}
+            onChange={event => setTeam({ ...team, name: event.target.value })}
+          />
+        </Form>
       </Main>
     </Layout>
   )
