@@ -40,6 +40,21 @@ update(){
   fi
 }
 
+fixMysql(){
+  if [ "$1" == "fixMysql" ]; then
+    status=$(pgrep mysql | wc -l)
+    
+    if [ "$status" == 0 ]; then 
+      echo 'up mysql'
+      cd ~/projects/laradock
+      docker-compose up -d mysql phpmyadmin
+    fi
+
+    exit
+
+  fi
+}
+
   # && cd server \
 command=$1
 message=$2
@@ -48,6 +63,7 @@ main(){
 
   generateDatabase $command
   update $command "$message"
+  fixMysql $command
   echo -e "\nComando não encontrado :(\n"
 
 }
