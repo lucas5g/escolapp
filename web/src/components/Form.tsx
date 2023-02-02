@@ -14,6 +14,7 @@ interface Props {
   children?: ReactNode
 }
 
+
 export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   const [loading, setLoading] = useState(false)
@@ -58,7 +59,8 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
       teamsQuantity: 'number',
       membersQuantity: 'number',
       date: 'date',
-      startHours: 'time'
+      startHours: 'time',
+      endHours: 'time'
     }
 
     return type[key]
@@ -72,6 +74,8 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
         {fields.map(field => {
           const value = item[field.key] || ''
+          const inputLabelProps = field.key === 'date' || field.key === 'startHours' || field.key === 'endHours' ? {shrink:true} : {}
+          // const inputLabelProps = {}
    
           return (
             <TextField
@@ -80,10 +84,12 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               name={field.key}
               label={field.value}
               select={field?.options?.length > 0}
-              value={value ?? new Date()}
-              focused={field.key === 'date' || field.key === 'startHours'}
+              value={value}
               onChange={event => setItem({ ...item, [field.key]: event.target.value })}
-
+              // required
+              InputLabelProps={inputLabelProps}
+              // size='small'                 
+              // props
             >
               {field?.options?.map((option: any) => {
                 // console.log(option)
