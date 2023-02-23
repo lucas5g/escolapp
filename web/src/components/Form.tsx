@@ -51,9 +51,9 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     }
 
   }
-  
-  function getType(key:string){
-    const type:any = {
+
+  function getType(key: string) {
+    const type: any = {
       codcur: 'number',
       codper: 'number',
       teamsQuantity: 'number',
@@ -74,9 +74,9 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
         {fields.map(field => {
           const value = item[field.key] || ''
-          const inputLabelProps = field.key === 'date' || field.key === 'startHours' || field.key === 'endHours' ? {shrink:true} : {}
+          const inputLabelProps = field.key === 'date' || field.key === 'startHours' || field.key === 'endHours' ? { shrink: true } : {}
           // const inputLabelProps = {}
-   
+
           return (
             <TextField
               key={field.key}
@@ -88,8 +88,8 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               onChange={event => setItem({ ...item, [field.key]: event.target.value })}
               // required
               InputLabelProps={inputLabelProps}
-              // size='small'                 
-              // props
+            // size='small'                 
+            // props
             >
               {field?.options?.map((option: any) => {
                 // console.log(option)
@@ -111,7 +111,15 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
         <footer className="flex justify-end gap-3">
           <Button value={item.id ? 'Atualizar' : 'Cadastrar'} disabled={loading} />
-          <Button secondary onClick={() => setItem({})} type='reset' value='Cancelar' />
+          <Button
+            type='reset'
+            secondary
+            onClick={() => {
+              setItem({})
+              window.scrollTo({top:0, behavior:'smooth'})
+            }}
+            value='Cancelar'
+          />
         </footer>
       </form>
     </Card >

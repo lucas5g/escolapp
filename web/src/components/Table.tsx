@@ -12,7 +12,7 @@ export function Table({ fields, items, item, setItem, width = 100 }: Props) {
 
   return (
     <Card width={width}>
-      {items.length === 0 && 
+      {items.length === 0 &&
         <p className="text-gray-500" >Sem registros.</p>
       }
       {items.length > 0 &&
@@ -40,7 +40,13 @@ export function Table({ fields, items, item, setItem, width = 100 }: Props) {
                   title="Clique para Editar"
                   onClick={() => {
                     setItem(row)
-                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                    const width = document.querySelector('body')?.offsetWidth
+                    if (Number(width) > 1024) {
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                    } else {
+                      window.scrollTo({ top: 1600, behavior: 'smooth' })
+                      // window.scrollBy({top:1500})
+                    }
                   }}
                 >
                   {fields.map(field => {
