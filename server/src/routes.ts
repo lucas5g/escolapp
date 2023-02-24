@@ -12,8 +12,8 @@ import { TeamController } from './controllers/TeamController'
 import { UserController } from './controllers/UserController'
 
 import { auth } from './utils/auth'
-import { AuthSchema, GroupSchema } from './utils/schemas'
-import { validate } from './utils/validate'
+import { AuthBodySchema, GameBodySchema, GroupBodySchema } from './utils/schemas'
+import { validation } from './utils/validation'
 
 export const routes = Router()
 
@@ -21,7 +21,7 @@ export const routes = Router()
  * Default
  */
 routes.get('/', (req:Request, res:Response) => res.json({api: 'Test api 01/02 01'}))
-routes.post('/login', validate(AuthSchema), AuthController.login)
+routes.post('/login', validation(AuthBodySchema), AuthController.login)
 
 
 /**
@@ -43,7 +43,7 @@ routes.delete('/users/:id', UserController.delete)
  */
 routes.get('/groups', GroupController.index)
 routes.get('/groups/:id', GroupController.show)
-routes.post('/groups', validate(GroupSchema), GroupController.create)
+routes.post('/groups', validation(GroupBodySchema), GroupController.create)
 routes.put('/groups/:id', GroupController.update)
 routes.delete('/groups/:id',GroupController.delete)
 
@@ -79,7 +79,7 @@ routes.delete('/students/:ra',StudentController.delete)
  */
 routes.get('/games', GameController.index)
 routes.get('/games/:id', GameController.show)
-routes.post('/games', GameController.create)
+routes.post('/games', validation(GameBodySchema), GameController.create)
 routes.put('/games/:id', GameController.update)
 routes.delete('/games/:id',GameController.delete)
 

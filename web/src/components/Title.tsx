@@ -2,7 +2,8 @@ import { Card } from "./Card";
 import { menus } from "./Header";
 
 export function Title() {
-  const titleHeader = menus.find(menu => menu.toLowerCase() === location.pathname.replace('/', '')) || 'Home'
+  const titleHeader = menus
+    .find(menu => menu.toLowerCase().replace('á','a') === location.pathname.replace('/', '')) || 'Home'
   
   document.title = `${titleHeader} | JISA`
   return (

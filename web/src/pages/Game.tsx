@@ -21,12 +21,16 @@ const fields = [
 interface Game {
 
 }
-
+interface User{
+  name:string 
+}
 export function Game() {
 
   const [game, setGame] = useState({} as Game)
   const { data, error } = swr('games')
   const { data:places, error:errorPlaces} = swr('places')
+  const { data:modalities, error:errorModalities} = swr('modalities')
+  const { data:users, error:errorUsers}:{data:User[], error:any} = swr('users')
 
   if (error) return <Error error={error} />
   if (!data) return <Loading />
@@ -36,12 +40,11 @@ export function Game() {
     { key: 'startHours', value: 'Início' },
     { key: 'endHours', value: 'Final' },
     {key: 'placeId', value:'Local', options:places},
-    { key: 'modalityId', value: 'Modalidade' },
-    { key: 'userId', value: 'Juíz' }
+    { key: 'modalityId', value: 'Modalidade', options: modalities },
+    { key: 'userId', value: 'Juíz', options:users },
   ]
 
-  const games: Game[] = data
-
+  const games = data
 
   return (
     <Layout>

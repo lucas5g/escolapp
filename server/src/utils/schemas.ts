@@ -1,25 +1,30 @@
 import { z } from "zod";
 
-export const GroupSchema = z.object({
-  name: z.string({
-    // required_error:'Nome da Turma é obrigatório'
-  }),
-  codcur: z.coerce.number(),
-  // ({
-    // required_error: 'Código do Curso é obrigatório'
-  // }),
-  codper: z.coerce.number()
+export const GroupBodySchema = z.object({
+  name: z.string(),
+  codcur: z.number(),
+  codper: z.number()
 })
 
-export type GroupType = z.infer<typeof GroupSchema>
+export type GroupBodyType = z.infer<typeof GroupBodySchema>
 
 
-export const AuthSchema = z.object({
+export const AuthBodySchema = z.object({
   email: z.string().email({
     message: 'E-mail inválido!'
   }),
   password: z.string().min(3)
 })
 
+export type AuthBodyType = z.infer<typeof AuthBodySchema>
 
-export type AuthType = z.infer<typeof AuthSchema>
+export const GameBodySchema = z.object({
+  date: z.date(),
+  startHours: z.date(),
+  endHours: z.date(),
+  placeId: z.number(),
+  modalityId: z.number(),
+  userId: z.number()
+})
+
+export type GameBodyType = z.infer<typeof GameBodySchema>

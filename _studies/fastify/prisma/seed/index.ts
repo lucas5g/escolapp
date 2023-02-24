@@ -32,7 +32,6 @@ async function createGenres() {
         name: row.nome_genero,
       }
     })
-    console.log(`${row.nome_genero} atualizado com sucesso!`)
   })
 }
 
