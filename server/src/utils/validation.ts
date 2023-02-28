@@ -1,6 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { Schema } from "zod";
 
+const messagesTranslate = (message:string)=> {
+  const messageObject:any = {
+    'Expected date, received string':'Data esperada, texto recebido.',
+    'Required':'é obrigatório.',
+    'Invalid datetime':'deve ser data horas.',
+    'Invalid date':'deve ser data.'
+  }
+  return messageObject[message]
+}
+
 export const validation = (schema: Schema) => (req: Request, res: Response, next: NextFunction) => {
   
   try {
@@ -15,16 +25,24 @@ export const validation = (schema: Schema) => (req: Request, res: Response, next
     next()
   } catch (error: any) {
 
-    console.log(error.errors)
-    const fields = error.errors.map((error: {message:string}) => {
+    let message = ``    
+    const errors = error.errors.map((error:any) => {
+      message += `${error.path} ${messagesTranslate(error.message)}\n`
       return {
+        path: error.path[0],
         message: error.message
       }
     })
 
-    console.log(error.errors)
+    // console.log({
+    //   message,
+    //   errors
+    // })
 
-    return res.status(400).send(fields)
+    return res.status(400).send({
+      message,
+      errors
+    })
   }
 
 }

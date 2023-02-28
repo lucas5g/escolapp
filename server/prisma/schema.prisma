@@ -84,8 +84,8 @@ model Team {
 model Game {
   id          Int      @id @default(autoincrement())
   date        DateTime
-  startHours  DateTime
-  endHours    DateTime
+  startHours  String
+  endHours    String
   description String
 
   placeId    Int?

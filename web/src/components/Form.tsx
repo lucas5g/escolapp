@@ -1,4 +1,5 @@
 import { MenuItem, TextField } from "@mui/material";
+import moment from "moment";
 import { FormEvent, ReactNode, useState } from "react";
 import { mutate } from "swr";
 import { api } from "../utils/axios";
@@ -39,55 +40,43 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
   async function handleSubmitCreate(event: FormEvent) {
     event.preventDefault()
     setLoading(true)
+    console.log({item})
     try {
       const { data } = await api.post(uri, item)
       setItem(data)
       mutate(uri)
     } catch (error: any) {
-      const { data } = error.response
-      alert(data)
+      const { message } = error.response.data
+      alert(message)
     } finally {
       setLoading(false)
     }
 
   }
 
-  function getType(key: string) {
-    const type: any = {
-      codcur: 'number',
-      codper: 'number',
-      teamsQuantity: 'number',
-      membersQuantity: 'number',
-      date: 'date',
-      startHours: 'time',
-      endHours: 'time'
-    }
 
-    return type[key]
-  }
 
-  // return item.id && (
   return (
     <Card width={width} >
-      <form onSubmit={item.id ? handleSubmitUpdate : handleSubmitCreate}
+      <form onSubmit={item?.id ? handleSubmitUpdate : handleSubmitCreate}
         className='flex flex-col gap-6'>
 
-        {fields.map(field => {
-          const value = item[field.key] || ''
-          const inputLabelProps = field.key === 'date' || field.key === 'startHours' || field.key === 'endHours' ? { shrink: true } : {}
-          // const inputLabelProps = {}
+        {children}
 
+        {fields.map(field => {
+          // console.log(item, field)
+          const value = item[field.key] || ''
+          // const inputLabelProps = {}
+          // return 
           return (
             <TextField
               key={field.key}
-              type={getType(field.key)}
+              type={field.type || 'text'}
               name={field.key}
               label={field.value}
               select={field?.options?.length > 0}
-              value={value}
-              onChange={event => setItem({ ...item, [field.key]: event.target.value })}
-              // required
-              InputLabelProps={inputLabelProps}
+              value={field.type === 'date' ? moment().format('YYYY-MM-DD hh:mm') : value}
+              onChange={event =>  setItem({ ...item, [field.key]: event.target.value })}
             // size='small'                 
             // props
             >
@@ -107,16 +96,15 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
           )
         })}
 
-        {children}
 
         <footer className="flex justify-end gap-3">
-          <Button value={item.id ? 'Atualizar' : 'Cadastrar'} disabled={loading} />
+          <Button value={item?.id ? 'Atualizar' : 'Cadastrar'} disabled={loading} />
           <Button
             type='reset'
             secondary
             onClick={() => {
               setItem({})
-              window.scrollTo({top:0, behavior:'smooth'})
+              window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
             value='Cancelar'
           />

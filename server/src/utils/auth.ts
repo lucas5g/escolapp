@@ -4,7 +4,7 @@ export  function auth(req:Request, res:Response, next: NextFunction){
   const authHeader = req.headers['authorization']
   const token = authHeader?.split(' ')[1]
 
-  if(!token) return res.status(401).json('Nenhum token fornecido!')
+  if(!token) return res.status(401).json({message:'Nenhum token fornecido!'})
 
   try{
     const decoded = jwt.verify(token, process.env.JWT_SECRET || '') as {id:number, name: string, email: string}
@@ -12,7 +12,7 @@ export  function auth(req:Request, res:Response, next: NextFunction){
     return next()
         
   }catch(error){
-    res.status(401).json('Token inválido!')
+    res.status(401).json({message:'Token inválido!'})
   }
 
 }

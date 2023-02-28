@@ -19,9 +19,9 @@ export const AuthBodySchema = z.object({
 export type AuthBodyType = z.infer<typeof AuthBodySchema>
 
 export const GameBodySchema = z.object({
-  date: z.date(),
-  startHours: z.date(),
-  endHours: z.date(),
+  date: z.string().datetime(),
+  startHours: z.string().datetime(),
+  endHours: z.string().datetime(),
   placeId: z.number(),
   modalityId: z.number(),
   userId: z.number()
