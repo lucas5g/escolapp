@@ -1,4 +1,9 @@
 import clsx from "clsx";
+import moment from "moment";
+moment.locale('pt-br');
+
+// import 'moment/locale/pt-br'
+
 import { Card, Width } from "./Card";
 interface Props {
   fields: any[]
@@ -51,10 +56,19 @@ export function Table({ fields, items, item, setItem, width = 100 }: Props) {
                 >
                   {fields.map(field => {
                     const keyName = field.key.replace('Id', '')
+                    if (field.key === 'date') {
+                      return (
+                        <td key={field.key}>
+                          {moment(row[field.key]).locale('pt-br').format('DD/MM')}
+                        </td>
+                      )
+                    }
                     return (
                       <td
                         className="h-14 text-end first:text-start"
-                        key={field.key}>{row[keyName]?.['name'] ?? row[field.key]}</td>
+                        key={field.key}>
+                        {row[keyName]?.['name'] ?? row[field.key]}
+                      </td>
                     )
                   })}
                 </tr>

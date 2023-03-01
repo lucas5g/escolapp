@@ -34,11 +34,7 @@ interface User {
 }
 export function Game() {
 
-  const [game, setGame] = useState({
-    date: moment().format('yyyy-MM-DD'),
-    startHours: moment().format('hh:mm'),
-    endHours: moment().add(1, 'hours').format('hh:mm')
-  } as GameInterface)
+  const [game, setGame] = useState({} as GameInterface)
   const { data, error } = swr('games')
   const { data: places, error: errorPlaces } = swr('places')
   const { data: modalities, error: errorModalities } = swr('modalities')
@@ -57,7 +53,7 @@ export function Game() {
   ]
 
   const games = data
-  console.log(game)
+
   return (
     <Layout>
       <Main>
@@ -75,18 +71,18 @@ export function Game() {
         >
           <TextField
             name='date'
-            label='Início'
+            label='Data'
             type='date'
-            value={game?.date}
-            onChange={event => setGame({ ...game, date: event.target.value })}
-          // value={game?.date || moment().format('yyyy-MM-DD')}
+            // value={moment(game?.date).format('YYYY-MM-DD')}
+            value={game?.date || moment().format('YYYY-MM-DD') }
+            onChange={event => setGame({ ...game, date: moment(event.target.value).format('YYYY-MM-DD') })}
           />
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <TextField
               name='startHours'
               label='Início'
               type='time'
-              value={game?.startHours}
+              value={game?.startHours || moment().format('HH:mm')}
               onChange={event => setGame({
                 ...game,
                 startHours: event.target.value,
@@ -99,7 +95,7 @@ export function Game() {
               name='endHours'
               label='Fim'
               type='time'
-              value={game?.endHours}
+              value={game?.endHours || moment().add(1, 'hours').format('HH:mm')}
               onChange={event => setGame({ ...game, endHours: event.target.value })}
 
               fullWidth

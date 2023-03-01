@@ -39,10 +39,10 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   async function handleSubmitCreate(event: FormEvent) {
     event.preventDefault()
+
     setLoading(true)
-    console.log({item})
     try {
-      const { data } = await api.post(uri, item)
+      const { data } = await api.post(uri, {...item, date:new Date(item.date)})
       setItem(data)
       mutate(uri)
     } catch (error: any) {
@@ -54,12 +54,10 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   }
 
-
-
   return (
     <Card width={width} >
       <form onSubmit={item?.id ? handleSubmitUpdate : handleSubmitCreate}
-        className='flex flex-col gap-6'>
+        className='flex flex-col gap-5'>
 
         {children}
 

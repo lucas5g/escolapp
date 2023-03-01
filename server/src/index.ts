@@ -9,3 +9,4 @@ app.use(express.json())
 app.use(routes)
 
 app.listen(process.env.PORT, () => {console.log(`\nRUN API - http://localhost:${process.env.PORT}\n`)})
+

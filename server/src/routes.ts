@@ -80,7 +80,7 @@ routes.delete('/students/:ra',StudentController.delete)
 routes.get('/games', GameController.index)
 routes.get('/games/:id', GameController.show)
 routes.post('/games', validation(GameBodySchema), GameController.create)
-routes.put('/games/:id', GameController.update)
+routes.put('/games/:id', validation(GameBodySchema), GameController.update)
 routes.delete('/games/:id',GameController.delete)
 
 
