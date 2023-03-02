@@ -38,6 +38,7 @@ export function Group() {
           items={groups}
           item={group}
           setItem={setGroup}
+          positionBottom={groups.length * 100}
         />
         <Form
           fields={fields}

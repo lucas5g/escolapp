@@ -1,13 +1,18 @@
 import moment from "moment";
 import { prisma } from "../utils/prisma";
+import { GameBodyType } from "../utils/schemas";
 
 export class Game {
 
   static async findMany() {
     return await prisma.game.findMany({
-      orderBy: {
-        // name:'asc'
-      },
+      orderBy: [
+        {date:'asc'},
+        {startHours:'asc'}
+      ]
+      // include:{
+      //   Place:true
+      // }
       // take: 5
     })
   }
@@ -18,15 +23,23 @@ export class Game {
     })
   }
 
-  static async create(data: any) {
-    return await prisma.game.create({data})
+  static async create(data: GameBodyType) {
+    return await prisma.game.create({
+      data: {
+        ...data,
+        date: new Date(data.date)
+      }
+    })
   }
 
-  static async update(id: number, data: any) {
-
+  static async update(id: number, data: GameBodyType) {
+    console.log(new Date(data.date))
     return await prisma.game.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        date: new Date(data.date)
+      }
     })
   }
 

@@ -26,7 +26,6 @@ export class TeamController{
 
   static async create(req: Request, res:Response){
     const { body } = req
-
     return res.json(await Team.create(body))
   }
 

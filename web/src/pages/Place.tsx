@@ -29,6 +29,7 @@ export function Place() {
           item={place}
           items={places}
           setItem={setPlace}
+          positionBottom={places.length * 100}
         />
         <Form
           fields={fields}

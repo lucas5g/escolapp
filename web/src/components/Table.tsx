@@ -11,10 +11,17 @@ interface Props {
   item: any
   setItem: Function
   width?: Width
+  positionBottom?: number
 }
 
-export function Table({ fields, items, item, setItem, width = 100 }: Props) {
-
+export function Table({
+  fields,
+  items,
+  item,
+  setItem,
+  width = 100,
+  positionBottom = 500
+}: Props) {
   return (
     <Card width={width}>
       {items.length === 0 &&
@@ -49,7 +56,7 @@ export function Table({ fields, items, item, setItem, width = 100 }: Props) {
                     if (Number(width) > 1024) {
                       window.scrollTo({ top: 0, behavior: 'smooth' })
                     } else {
-                      window.scrollTo({ top: 1600, behavior: 'smooth' })
+                      window.scrollTo({ top: positionBottom, behavior: 'smooth' })
                       // window.scrollBy({top:1500})
                     }
                   }}

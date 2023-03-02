@@ -20,18 +20,16 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   const [loading, setLoading] = useState(false)
 
-
   async function handleSubmitUpdate(event: FormEvent) {
     event.preventDefault()
-
     setLoading(true)
 
     try {
       await api.put(`${uri}/${item.id}`, item)
       mutate(uri)
     } catch (error: any) {
-      const { data } = error.response
-      alert(data)
+      const { message } = error.response.data
+      alert(message)
     } finally {
       setLoading(false)
     }
@@ -39,10 +37,9 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   async function handleSubmitCreate(event: FormEvent) {
     event.preventDefault()
-
     setLoading(true)
     try {
-      const { data } = await api.post(uri, {...item, date:new Date(item.date)})
+      const { data } = await api.post(uri, item)
       setItem(data)
       mutate(uri)
     } catch (error: any) {
@@ -73,7 +70,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               name={field.key}
               label={field.value}
               select={field?.options?.length > 0}
-              value={field.type === 'date' ? moment().format('YYYY-MM-DD hh:mm') : value}
+              value={value}
               onChange={event =>  setItem({ ...item, [field.key]: event.target.value })}
             // size='small'                 
             // props

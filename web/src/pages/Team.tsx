@@ -53,8 +53,6 @@ export function Team() {
   if (error || errorGroups) return <Error error={error} />
   if (!data || !groups || !groups || !modalities) return <Loading />
 
-
-
   const fieldsForm = [
     { key: 'groupId', value: 'Turma', options: groups },
     { key: 'modalityId', value: 'Modalidade', options: modalities },
@@ -72,6 +70,7 @@ export function Team() {
           item={team}
           items={teams}
           setItem={setTeam}
+          positionBottom={teams.length * 100}
         />
         <Form
           fields={fieldsForm}

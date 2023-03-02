@@ -95,10 +95,10 @@ model Game {
   createdAt DateTime @default(now()) 
   updatedAt DateTime @default(now()) @updatedAt
 
-  Place    Place?     @relation(fields: [placeId], references: [id])
-  Modality Modality?  @relation(fields: [modalityId], references: [id])
-  User     User?      @relation(fields: [userId], references: [id])
-  GameTeam GameTeam[]
+  place    Place?     @relation(fields: [placeId], references: [id])
+  modality Modality?  @relation(fields: [modalityId], references: [id])
+  user     User?      @relation(fields: [userId], references: [id])
+  gameTeam GameTeam[]
 }
 
 model GameTeam {

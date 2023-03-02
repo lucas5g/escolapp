@@ -15,14 +15,14 @@ export function Layout({ children }: Props) {
   return (
     <div className="h-screen flex flex-col justify-between bg-blue-50">
       <Header />
-      <main className="flex flex-1 lg:mt-[5.7em] mt-[6.3em]">
+      <main className="flex flex-1 lg:mt-[5.7em] mt-[6.3em] pb-4">
         <Aside />
         <section className="w-full  flex flex-col gap-3 px-3 lg:ml-[10em]">
           <Title />
           {children}
         </section>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
 
   )
