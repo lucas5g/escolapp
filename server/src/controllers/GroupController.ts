@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { Group } from "../models/Group";
-
-import { GroupSchema } from "../utils/schemas";
+import { GroupBodyType } from "../utils/schemas";
 
 export class GroupController{
 
@@ -16,7 +15,7 @@ export class GroupController{
 
   static async create(req: Request, res:Response){
     
-    const data = GroupSchema.parse(req.body)
+    const data = req.body as GroupBodyType
   
     return res.json(await Group.create(data))
   }
@@ -24,7 +23,7 @@ export class GroupController{
   static async update(req: Request, res:Response){
 
     const { id } = req.params 
-    const data = GroupSchema.parse(req.body)
+    const data = req.body as GroupBodyType
     
     return res.json(await Group.update(Number(id), data))
   }
