@@ -2,12 +2,12 @@ import { Request, Response } from "express"
 import { User } from "../models/User"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { AuthType } from "../utils/schemas"
+import { AuthBodyType } from "../utils/schemas"
   
 export class AuthController{
   static async login(req:Request, res:Response){
 
-    const {email, password} = req.body as AuthType
+    const {email, password} = req.body as AuthBodyType
     const user = await User.showByEmail(email)
     const isCorrectPassword = await bcrypt.compare(password, user?.password || '')
 

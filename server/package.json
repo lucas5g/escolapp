@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node dist",
-    "build": "tsup src",
+    "build": "tsc && tsup src",
     "dev": "tsx watch src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

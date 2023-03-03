@@ -170,7 +170,7 @@ async function createStudents() {
 
   students.forEach(async (student, index) => {
     // return console.log(`test ${index}`)
-    await sleep(100 * index)
+    await setTimeout(100 * index)
     
     await prisma.student.upsert({
       where: {
