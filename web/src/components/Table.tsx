@@ -29,7 +29,7 @@ export function Table({
       }
       {items.length > 0 &&
         <table className="w-full mt-2">
-          <thead className="">
+          <thead>
             <tr className="border-b font-semibold">
               {fields.map(head => {
                 return (
@@ -45,13 +45,17 @@ export function Table({
               return (
                 <tr
                   key={row.id}
-                  className={clsx("border-b hover:bg-blue-50 hover:cursor-pointer transition-colors rounded", {
+                  className={clsx("border-b hover:bg-blue-50 hover:cursor-pointer transition-colors rounded text-sm", {
                     'border-b-blue-300 bg-blue-100': row.id === item.id,
-                    'text-sm': item.id
+                    // 'text-sm': item.id
                   })}
                   title="Clique para Editar"
                   onClick={() => {
-                    setItem(row)
+                    if('date' in row){
+                      setItem({...row, date: moment(row.date).toDate()})
+                    }else{
+                      setItem(row)
+                    }
                     const width = document.querySelector('body')?.offsetWidth
                     if (Number(width) > 1024) {
                       window.scrollTo({ top: 0, behavior: 'smooth' })

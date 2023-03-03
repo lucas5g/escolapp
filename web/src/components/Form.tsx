@@ -22,8 +22,8 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   async function handleSubmitUpdate(event: FormEvent) {
     event.preventDefault()
+    // return console.log(item)
     setLoading(true)
-
     try {
       await api.put(`${uri}/${item.id}`, item)
       mutate(uri)
@@ -37,6 +37,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   async function handleSubmitCreate(event: FormEvent) {
     event.preventDefault()
+    // return console.log(item)
     setLoading(true)
     try {
       const { data } = await api.post(uri, item)

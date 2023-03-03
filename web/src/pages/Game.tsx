@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import moment from "moment";
+moment.locale('br')
 import { useState } from "react";
 import { Error } from "../components/Error";
 import { Form } from "../components/Form";
@@ -20,7 +21,7 @@ const fields = [
 
 interface GameInterface {
   id: number
-  date: string,
+  date: Date,
   startHours: string
   endHours: string
   placeId: number
@@ -52,11 +53,16 @@ export function Game() {
   const games = data.map(game => {
     return {
       ...game,
-      modality: modalities.find((modality:any) => modality.id === game.id).name,
-      place: places.find((place:any) => place.id === game.placeId).name,
-      user: users.find((user:any) => user.id === game.userId)?.name
+      modality: modalities.find((modality: any) => modality.id === game.id).name,
+      place: places.find((place: any) => place.id === game.placeId).name,
+      user: users.find((user: any) => user.id === game.userId)?.name
+        .split(' ')
+        .slice(0,3)
+        .join(' ')
+
     }
   })
+
   console.log(game)
   return (
     <Layout>
@@ -71,9 +77,9 @@ export function Game() {
           fields={fieldsForm}
           item={{
             ...game,
-            modality:undefined,
-            place:undefined,
-            user:undefined
+            modality: undefined,
+            place: undefined,
+            user: undefined
           }}
           setItem={setGame}
           uri={'games'}
@@ -82,32 +88,35 @@ export function Game() {
             name='date'
             label='Data'
             type='date'
-            // value={moment(game?.date).format('YYYY-MM-DD')}
-            value={game?.date || moment().format('YYYY-MM-DD')}
-            onChange={event => setGame({ ...game, date: moment(event.target.value).format('YYYY-MM-DD') })}
+            InputLabelProps={{ shrink: true }}
+            value={game?.date ? moment(game.date).format('YYYY-MM-DD') : ''}
+            // onChange={event => setGame({ ...game, date: moment(event.target.value).format() })}
+            onChange={event => setGame({ ...game, date: moment(event.target.value).toDate() })}
+
           />
           <div className="flex gap-4">
             <TextField
               name='startHours'
               label='Início'
               type='time'
-              value={game?.startHours || moment().format('HH:mm')}
+              value={game?.startHours ?? ''}
               onChange={event => setGame({
                 ...game,
                 startHours: event.target.value,
-                endHours: event.target.value
+                endHours: moment(event.target.value, 'HH:mm').add(1, 'hours').format('HH:mm')
               })}
               fullWidth
+              InputLabelProps={{ shrink: true }}
 
             />
             <TextField
               name='endHours'
               label='Fim'
               type='time'
-              value={game?.endHours || moment().add(1, 'hours').format('HH:mm')}
+              value={game?.endHours || ''}
               onChange={event => setGame({ ...game, endHours: event.target.value })}
-
               fullWidth
+              InputLabelProps={{ shrink: true }}
 
             />
           </div>

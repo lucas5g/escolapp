@@ -33,13 +33,9 @@ export class Game {
   }
 
   static async update(id: number, data: GameBodyType) {
-    console.log(new Date(data.date))
     return await prisma.game.update({
       where: { id },
-      data: {
-        ...data,
-        date: new Date(data.date)
-      }
+      data
     })
   }
 
