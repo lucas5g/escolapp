@@ -8,5 +8,5 @@ app.use(cors())
 app.use(express.json())
 app.use(routes)
 
-app.listen(process.env.PORT, () => {console.log(`\nRUN API - http://localhost:${process.env.PORT}\n`)})
+app.listen(process.env.PORT || 8000, () => {console.log(`\nRUN API - http://localhost:${process.env.PORT}\n`)})
 
