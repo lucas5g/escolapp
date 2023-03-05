@@ -19,7 +19,7 @@ export const AuthBodySchema = z.object({
 export type AuthBodyType = z.infer<typeof AuthBodySchema>
 
 export const GameBodySchema = z.object({
-  date: z.coerce.date(),
+  date: z.string().datetime({ offset:true}),
   startHours: z.string(),
   endHours: z.string(),
   placeId: z.number(),

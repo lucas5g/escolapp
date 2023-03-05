@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
+  // provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -92,7 +93,7 @@ model Game {
   modalityId Int?
   userId     Int?
 
-  createdAt DateTime @default(now()) 
+  createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
   place    Place?     @relation(fields: [placeId], references: [id])

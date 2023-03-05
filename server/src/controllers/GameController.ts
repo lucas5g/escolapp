@@ -32,7 +32,7 @@ export class GameController{
   static async create(req: Request, res:Response){
     
     const data = req.body as GameBodyType
-    return res.json(await Game.create(data))
+    return res.status(201).json(await Game.create(data))
 
   }
 
