@@ -20,7 +20,7 @@ export const routes = Router()
 /**
  * Default
  */
-routes.get('/', (req:Request, res:Response) => res.json({api: 'Test api 01/02 01'}))
+routes.get('/', (req:Request, res:Response) => res.json({api: 'Api release 2023-03-05'}))
 routes.post('/login', validation(AuthBodySchema), AuthController.login)
 
 
