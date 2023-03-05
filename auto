@@ -27,6 +27,7 @@ update(){
       echo -e "\n\nErro build do app\n\n"
       exit 0
     fi
+    cd ..
 
     git add .
     git commit -m "$2"

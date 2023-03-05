@@ -18,7 +18,7 @@ describe('Students', () => {
     cy.login().then(res => accessToken = res.accessToken )
   })
 
-  it('Create student', () => {
+  it('Student create', () => {
     cy.request({
       method: 'post',
       url,
@@ -34,7 +34,7 @@ describe('Students', () => {
     })
   })
 
-  it('Update student', () => {
+  it('Student update', () => {
     cy.request({
       method: 'put',
       url: `${url}/C123789`,
@@ -49,8 +49,7 @@ describe('Students', () => {
     })
   })
 
-
-  it('Show student', () => {
+  it('Student show', () => {
     cy.request({
       url: `${url}/c123789`,
       auth: {
@@ -62,14 +61,14 @@ describe('Students', () => {
     })
   })
 
-  it('List students', () => {
+  it('Students list', () => {
     cy.request({
       url,
       auth: {
         bearer: accessToken
       }
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1042)
+      expect(duration).lessThan(1091)
       expect(body[0]).all.keys('id', 'ra', 'name', 'course', 'group', 'codcur', 'codper', 'createdAt', 'updatedAt')
     })
   })

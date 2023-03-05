@@ -21,7 +21,7 @@ describe('Users', () => {
    cy.login().then(res =>  accessToken = res.accessToken)
   })
 
-  it('Create user', () => {
+  it('User create', () => {
     cy.request({
       method: 'post',
       url,
@@ -42,7 +42,7 @@ describe('Users', () => {
     })
   })
 
-  it('Update user', () => {
+  it('User update', () => {
     cy.request({
       method: 'put',
       url: `${url}/1`,
@@ -58,7 +58,7 @@ describe('Users', () => {
 
   })
 
-  it('Show user', () => {
+  it('User show', () => {
     cy.request({
       url: `${url}/1`,
       failOnStatusCode: false,
@@ -73,7 +73,7 @@ describe('Users', () => {
     })
   })
 
-  it('List Users', () => {
+  it('Users List', () => {
     cy.request({
       url,
       headers: {

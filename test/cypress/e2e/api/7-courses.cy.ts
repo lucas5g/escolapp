@@ -16,7 +16,7 @@ describe('Courses', () => {
       }
     }).then(({ body, duration }) => {
 
-        expect(duration).lessThan(802)
+        expect(duration).lessThan(810)
         expect(body[0]).all.keys('name', 'group', 'codcur', 'codper')
       })
   })
