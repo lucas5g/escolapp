@@ -10,11 +10,21 @@ export class Modality {
     })
   }
 
-  static async findUnique(id:number) {
+  static async findById(id:number) {
     return await prisma.modality.findUnique({
       where: { id }
     })
   }
+
+  static async findByKey(key:string, data:any){
+    return await prisma.modality.findUnique({
+      where:{
+        [key]:data
+      }
+    })
+  }
+
+
 
   static async create(data:any) {
     return await prisma.modality.create({ data })

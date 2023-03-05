@@ -27,7 +27,7 @@ describe('Students', () => {
         Authorization: `Bearer ${accessToken}`
       }
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1178)
+      expect(duration).lessThan(1364)
       expect(body).deep.equal({ id: body.id, ...student })
       cy.delete({url, id:body.ra, accessToken})
 

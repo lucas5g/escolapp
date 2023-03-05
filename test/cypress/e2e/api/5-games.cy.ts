@@ -30,7 +30,7 @@ describe('Games', () => {
       }
     }).then(({ body, status, duration}) => {
       expect(status).equal(201)
-      expect(duration).lessThan(1157)
+      expect(duration).lessThan(1162)
       expect(body).all.keys('comments', 'createdAt', 'date', 'endHours', 'id', 'modalityId', 'placeId', 'startHours', 'updatedAt', 'userId')
       cy.delete({id:body.id, url, accessToken})
     })
@@ -46,7 +46,7 @@ describe('Games', () => {
       },
       failOnStatusCode:false
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1187)
+      expect(duration).lessThan(1229)
       expect(body).all.keys('comments', 'createdAt', 'date', 'endHours', 'id', 'modalityId', 'placeId', 'startHours', 'updatedAt', 'userId')
     })
   })

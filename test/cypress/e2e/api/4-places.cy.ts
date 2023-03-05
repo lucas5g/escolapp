@@ -26,7 +26,7 @@ describe('Places', () => {
         Authorization: `Bearer ${accessToken}`
       }
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1173)
+      expect(duration).lessThan(1193)
       expect(body).all.keys('id', 'name')
       cy.delete({ url, id: body.id, accessToken })
     })

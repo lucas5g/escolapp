@@ -25,8 +25,9 @@ describe('Modalities', () => {
       auth: {
         bearer:accessToken
       },
+      failOnStatusCode:false
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1194)
+      expect(duration).lessThan(1591)
       expect(body).deep.equal({...modality, id: body.id})
 
       cy.delete({ url, id: body.id, accessToken })

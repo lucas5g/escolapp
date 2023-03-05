@@ -19,12 +19,21 @@ update(){
     start=`date +%s`
 
     cd server
-    npm run check 
-    
+    npm run check     
     status=$?
 
     if [ "$status" != 0 ]; then 
       echo -e "\n\nErro build do app\n\n"
+      exit 0
+    fi
+    cd ..
+
+    cd test 
+    npm test 
+    status=$?
+
+   if [ "$status" != 0 ]; then 
+      echo -e "\nErro nos tests :(\n"
       exit 0
     fi
     cd ..

@@ -8,11 +8,16 @@ export class ModalityController{
   }
 
   static async show(req:Request, res:Response){
-    return res.json(await Modality.findUnique(Number(req.params.id)))
+    return res.json(await Modality.findById(Number(req.params.id)))
   }
 
   static async create(req: Request, res:Response){
     const data = req.body
+
+    if(await Modality.findByKey('name', data.name)){
+      return res.status(401).json({message: `Modalidade ${data.name} já foi cadastrada!`})
+    }
+
     return res.json(await Modality.create(data))
   }
 

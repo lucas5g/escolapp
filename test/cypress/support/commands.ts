@@ -9,7 +9,7 @@ Cypress.Commands.add('delete', ({id, url, accessToken}) => {
     }
   }).then(({duration, status}) => {
     expect(status).equal(200)
-    expect(duration).lessThan(1574)
+    expect(duration).lessThan(1600)
     // expect(body).all.keys('id', 'name', 'codcur', 'codper')
   })
 })

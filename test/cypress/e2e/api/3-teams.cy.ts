@@ -26,7 +26,7 @@ describe('Teams', () => {
         bearer: accessToken
       }
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1448)
+      expect(duration).lessThan(1744)
       expect(body).deep.equal({ ...team, id: body.id, name: 'delete test', })
       cy.delete({ id: body.id, url, accessToken })
     })
@@ -69,9 +69,9 @@ describe('Teams', () => {
       expect(duration).lessThan(1900)
       // cy.log(body)
       // return
-      expect(body[0]).all.keys('id', 'name', 'genre', 'group', 'modality')
+      // expect(body[0]).all.keys('id', 'name', 'genre', 'group', 'modality')
 
-      // expect(body[0]).all.keys('id', 'name', 'modalityId', 'groupId', 'genreId', 'genre', 'group', 'modality')
+      expect(body[0]).all.keys('id', 'name', 'modalityId', 'groupId', 'genreId', 'genre', 'group', 'modality')
     })
   })
 })

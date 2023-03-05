@@ -10,9 +10,18 @@ export class Place {
     })
   }
 
-  static async findUnique(id:number) {
+  static async findById(id:number) {
     return await prisma.place.findUnique({
       where: { id }
+    })
+  }
+
+
+  static async findByKey(key:string, data:any){
+    return await prisma.place.findUnique({
+      where:{
+        [key]:data
+      }
     })
   }
 

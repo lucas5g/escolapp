@@ -8,11 +8,16 @@ export class PlaceController{
   }
 
   static async show(req:Request, res:Response){
-    return res.json(await Place.findUnique(Number(req.params.id)))
+    return res.json(await Place.findById(Number(req.params.id)))
   }
 
   static async create(req: Request, res:Response){
+
     const { body } = req
+
+    if(await Place.findByKey('name', body.name)){
+      return res.status(401).json({message: `O local ${body.name} já foi cadastrado!`})
+    }
 
     return res.json(await Place.create(body))
   }

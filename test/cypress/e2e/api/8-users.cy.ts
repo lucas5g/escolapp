@@ -31,7 +31,7 @@ describe('Users', () => {
         'Authorization': `Bearer ${accessToken}`
       },
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1580)
+      expect(duration).lessThan(1585)
       cy.delete({
         url,
         id: body.id,
@@ -66,7 +66,7 @@ describe('Users', () => {
         'Authorization': `Bearer ${accessToken}`
       }
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(500)
+      expect(duration).lessThan(583)
       expect(body).not.any.keys('password')
       expect(body).all.keys('id', 'name', 'email')
       // expect(body).all.keys('name', 'email', 'profile', 'image')

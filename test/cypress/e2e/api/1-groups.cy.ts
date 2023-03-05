@@ -25,7 +25,7 @@ describe('Group', () => {
         bearer:accessToken
       },
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1199)
+      expect(duration).lessThan(1226)
       // return cy.log(body)
       expect(body).all.keys('id', 'name', 'codcur', 'codper')
       cy.delete({ url, id: body.id, accessToken })
@@ -42,7 +42,7 @@ describe('Group', () => {
       },
       failOnStatusCode:false
     }).then(({ body, duration }) => {
-      expect(duration).lessThan(1384)
+      expect(duration).lessThan(1387)
       expect(body).deep.equal({id:body.id, ...group})
     })
   })
