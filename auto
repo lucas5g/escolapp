@@ -17,6 +17,17 @@ generateDatabase(){
 update(){
   if [ "$1" == "update" ]; then
     start=`date +%s`
+
+    cd server
+    npm run build 
+    
+    status=$?
+
+    if [ "$status" != 0 ]; then 
+      echo -e "\n\nErro build do app\n\n"
+      exit 0
+    fi
+
     git add .
     git commit -m "$2"
     git push
