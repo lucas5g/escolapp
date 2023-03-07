@@ -2,7 +2,7 @@
   "name": "express",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server.js",
+  "main": "server.js",
   "prisma": {
     "seed": "tsx prisma/seed"
   },
