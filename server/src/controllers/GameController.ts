@@ -5,10 +5,6 @@ import { z } from "zod";
 import { Game } from "../models/Game";
 import { GameBodyType } from "../utils/schemas";
 
-const GameSchemaParams = z.object({
-  id: z.coerce.number()
-})
-
 export class GameController{
 
   static async index(req:Request, res:Response){
@@ -24,7 +20,7 @@ export class GameController{
   }
 
   static async show(req:Request, res:Response){
-    const { id } = GameSchemaParams.parse(req.params)
+    const id = Number(req.params.id)
 
     return res.json(await Game.findUnique(id))
   }
@@ -38,7 +34,7 @@ export class GameController{
 
   static async update(req: Request, res:Response){
 
-    const { id } = GameSchemaParams.parse(req.params)
+    const id = Number(req.params.id)
     const data = req.body as GameBodyType
     
     return res.json(await Game.update(id, data))
@@ -46,7 +42,7 @@ export class GameController{
 
   static async delete(req:Request, res: Response){
 
-    const { id } = GameSchemaParams.parse(req.params)
+    const id = Number(req.params.id)
 
     return res.json(await Game.delete(id))
   }
