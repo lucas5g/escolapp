@@ -1,5 +1,18 @@
 import { z } from "zod";
 
+export const UserCreateSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string()
+})  
+
+export const UserUpdateSchema = z.intersection(UserCreateSchema, z.object({
+  password: z.string().optional()
+}))
+
+export type UserCreateType = z.infer<typeof UserCreateSchema>
+export type UserUpdateType = z.infer<typeof UserUpdateSchema>
+
 export const GroupBodySchema = z.object({
   name: z.string(),
   codcur: z.number(),

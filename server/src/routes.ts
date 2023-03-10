@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express'
+import { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express'
 
 import { AuthController } from './controllers/AuthController'
 import { CourseController } from './controllers/CourseController'
@@ -12,7 +12,7 @@ import { TeamController } from './controllers/TeamController'
 import { UserController } from './controllers/UserController'
 
 import { auth } from './utils/auth'
-import { AuthBodySchema, GameBodySchema, GroupBodySchema } from './utils/schemas'
+import { AuthBodySchema, GameBodySchema, GroupBodySchema, UserCreateSchema } from './utils/schemas'
 import { validation } from './utils/validation'
 
 export const routes = Router()
@@ -29,14 +29,24 @@ routes.post('/login', validation(AuthBodySchema), AuthController.login)
  */
 routes.use(auth)
 
+
 /**
  * Users
  */
 routes.get('/users', UserController.index)
 routes.get('/users/:id', UserController.show)
-routes.post('/users', UserController.create)
+routes.post('/users', validation(UserCreateSchema), UserController.create)
 routes.put('/users/:id', UserController.update)
 routes.delete('/users/:id', UserController.delete)
+
+routes.use((error:Error, req:Request, res:Response, next:NextFunction) => {
+  console.log('seria mensagem', error)
+
+  // res.status(400).json({message: error})
+  res.status(400).json({
+    message: error.message
+  })
+})
 
 /**
  * Groups
