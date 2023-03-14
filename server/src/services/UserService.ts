@@ -1,7 +1,7 @@
 import { UserRepository } from "../repositories/UserRepository";
-import { UserCreateSchema, UserCreateType } from "../utils/schemas";
 import bcrypt from 'bcrypt'
 
+import {userCreateType, userUpdateType } from '../utils/schemas'
 export class UserService{
 
   static async findMany(){
@@ -12,18 +12,25 @@ export class UserService{
     return UserRepository.show(id)
   }
   
-  static async create(data:UserCreateType){
+  static async create(data: userCreateType){
 
     if(await UserRepository.findByEmail(data.email)){
-      // throw new Error().message = `Já foi cadastrado o usuário com e-mail ${data.email}!`
       throw new Error(`Já foi cadastrado o usuário com e-mail ${data.email}!`)
-
     }
 
     data.password = await bcrypt.hash(data.password, 12)
 
-    return  UserRepository.create(data)
+    return  await UserRepository.create(data)
   }
 
-  // static async 
+  static async update(id:number, data: userUpdateType){
+    data.password = await bcrypt.hash(data.password, 12)
+
+    return await UserRepository.update(id, data)
+  }
+
+  static async delete(id:number){
+    return await  UserRepository.delete(id)
+  }
+
 }

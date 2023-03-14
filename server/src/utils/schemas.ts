@@ -1,17 +1,17 @@
 import { z } from "zod";
 
-export const UserCreateSchema = z.object({
+export const userCreateSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string()
 })  
 
-export const UserUpdateSchema = z.intersection(UserCreateSchema, z.object({
+export const userUpdateSchema = z.intersection(userCreateSchema, z.object({
   password: z.string().optional()
 }))
 
-export type UserCreateType = z.infer<typeof UserCreateSchema>
-export type UserUpdateType = z.infer<typeof UserUpdateSchema>
+export type userCreateType = z.infer<typeof userCreateSchema>
+export type userUpdateType = z.infer<typeof userUpdateSchema>
 
 export const GroupBodySchema = z.object({
   name: z.string(),
@@ -31,8 +31,8 @@ export const AuthBodySchema = z.object({
 
 export type AuthBodyType = z.infer<typeof AuthBodySchema>
 
-export const GameBodySchema = z.object({
-  date: z.string().datetime({ offset:true}),
+export const gameSchema = z.object({
+  date: z.string().datetime({ offset: true }),
   startHours: z.string(),
   endHours: z.string(),
   placeId: z.number(),
@@ -40,4 +40,3 @@ export const GameBodySchema = z.object({
   userId: z.number()
 })
 
-export type GameBodyType = z.infer<typeof GameBodySchema>

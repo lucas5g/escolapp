@@ -1,8 +1,6 @@
-import moment from "moment";
 import { prisma } from "../utils/prisma";
-import { GameBodyType } from "../utils/schemas";
 
-export class Game {
+export class GameRepository {
 
   static async findMany() {
     return await prisma.game.findMany({
@@ -17,22 +15,23 @@ export class Game {
     })
   }
 
-  static async findUnique(id: number) {
+  static async findById(id: number) {
     return await prisma.game.findUnique({
       where: { id }
     })
   }
 
-  static async create(data: GameBodyType) {
+  static async create(data: any) {
     return await prisma.game.create({
-      data: {
-        ...data,
-        date: new Date(data.date)
-      }
+      data
+      // : {
+        // ...data,
+        // date: new Date(data.date)
+      // }
     })
   }
 
-  static async update(id: number, data: GameBodyType) {
+  static async update(id: number, data: any) {
     return await prisma.game.update({
       where: { id },
       data

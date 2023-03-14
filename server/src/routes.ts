@@ -12,7 +12,7 @@ import { TeamController } from './controllers/TeamController'
 import { UserController } from './controllers/UserController'
 
 import { auth } from './utils/auth'
-import { AuthBodySchema, GameBodySchema, GroupBodySchema, UserCreateSchema } from './utils/schemas'
+import { AuthBodySchema, gameSchema, GroupBodySchema } from './utils/schemas'
 import { validation } from './utils/validation'
 
 export const routes = Router()
@@ -35,18 +35,9 @@ routes.use(auth)
  */
 routes.get('/users', UserController.index)
 routes.get('/users/:id', UserController.show)
-routes.post('/users', validation(UserCreateSchema), UserController.create)
+routes.post('/users', UserController.create)
 routes.put('/users/:id', UserController.update)
 routes.delete('/users/:id', UserController.delete)
-
-routes.use((error:Error, req:Request, res:Response, next:NextFunction) => {
-  console.log('seria mensagem', error)
-
-  // res.status(400).json({message: error})
-  res.status(400).json({
-    message: error.message
-  })
-})
 
 /**
  * Groups
@@ -89,8 +80,8 @@ routes.delete('/students/:ra',StudentController.delete)
  */
 routes.get('/games', GameController.index)
 routes.get('/games/:id', GameController.show)
-routes.post('/games', validation(GameBodySchema), GameController.create)
-routes.put('/games/:id', validation(GameBodySchema), GameController.update)
+routes.post('/games', GameController.create)
+routes.put('/games/:id', validation(gameSchema), GameController.update)
 routes.delete('/games/:id',GameController.delete)
 
 
@@ -118,4 +109,10 @@ routes.delete('/teams/:id',TeamController.delete)
  * Auth
  */
 routes.get('/me', AuthController.me)
+
+routes.use((error:Error, req:Request, res:Response, next:NextFunction) => {
+  res.status(400).json({
+    message: error.message
+  })
+})
 
