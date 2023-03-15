@@ -13,5 +13,8 @@ describe('Team', () => {
     expect(team).toHaveProperty('name')
   })
 
+  it.skip('Team find by modalityId', () => {
+    console.log('qweqwe')
+  })
   // it.only('Team Crud')
 })

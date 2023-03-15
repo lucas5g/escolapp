@@ -2,8 +2,9 @@ import { prisma } from "../utils/prisma";
 
 export class Team {
 
-  static async findMany() {
+  static async findMany(where:any) {
     return await prisma.team.findMany({
+      where,
       orderBy: {
         name: 'asc'
       },

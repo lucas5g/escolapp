@@ -33,6 +33,9 @@ interface User {
   name: string
 }
 
+interface Team{
+  name:string 
+}
 export function Game() {
 
   const [game, setGame] = useState({} as GameInterface)
@@ -40,14 +43,16 @@ export function Game() {
   const { data: places, error: errorPlaces } = swr('places')
   const { data: modalities, error: errorModalities } = swr('modalities')
   const { data: users, error: errorUsers }: { data: User[], error: any } = swr('users')
+  const { data: teams, error: errorTeams }:{data:Team[], error:any} = swr(`teams`)
 
   if (error) return <Error error={error} />
   if (!data || !places || !modalities || !users) return <Loading />
 
   const fieldsForm = [
+    { key: 'userId', value: 'Juíz', options: users },
     { key: 'placeId', value: 'Local', options: places },
     { key: 'modalityId', value: 'Modalidade', options: modalities },
-    { key: 'userId', value: 'Juíz', options: users },
+    { key: 'teamId', value:'Team', options:teams}
   ]
 
   const games = data.map(game => {
@@ -72,6 +77,7 @@ export function Game() {
           items={games}
           item={game}
           setItem={setGame}
+          positionBottom={games.length * 100}
         />
         <Form
           fields={fieldsForm}

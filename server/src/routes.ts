@@ -12,7 +12,7 @@ import { TeamController } from './controllers/TeamController'
 import { UserController } from './controllers/UserController'
 
 import { auth } from './utils/auth'
-import { AuthBodySchema, gameSchema, GroupBodySchema } from './utils/schemas'
+import { authSchema, gameSchema, groupSchema, teamQuerySchema,  } from './utils/schemas'
 import { validation } from './utils/validation'
 
 export const routes = Router()
@@ -21,7 +21,7 @@ export const routes = Router()
  * Default
  */
 routes.get('/', (req:Request, res:Response) => res.json({api: 'Api release 2023-03-05'}))
-routes.post('/login', validation(AuthBodySchema), AuthController.login)
+routes.post('/login', validation(authSchema), AuthController.login)
 
 
 /**
@@ -44,7 +44,7 @@ routes.delete('/users/:id', UserController.delete)
  */
 routes.get('/groups', GroupController.index)
 routes.get('/groups/:id', GroupController.show)
-routes.post('/groups', validation(GroupBodySchema), GroupController.create)
+routes.post('/groups', validation(groupSchema), GroupController.create)
 routes.put('/groups/:id', GroupController.update)
 routes.delete('/groups/:id',GroupController.delete)
 
@@ -98,7 +98,7 @@ routes.get('/courses', CourseController.index)
 /**
  * Teams
  */
-routes.get('/teams', TeamController.index)
+routes.get('/teams', validation(teamQuerySchema), TeamController.index)
 routes.get('/teams/:id', TeamController.show)
 routes.post('/teams', TeamController.create)
 routes.put('/teams/:id', TeamController.update)
