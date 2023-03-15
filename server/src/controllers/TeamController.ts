@@ -2,15 +2,6 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import { Team } from "../models/Team";
 import { teamQuerySchema } from "../utils/schemas";
-import { validation } from "../utils/validation";
-
-const TeamSchemaBody = z.object({
-  // id: z.number(),
-  name: z.string(),
-  modalityId: z.coerce.number(),
-  groupId: z.coerce.number(),
-  genreId: z.coerce.number()
-})
 
 
 export class TeamController{
@@ -32,7 +23,7 @@ export class TeamController{
 
   static async update(req: Request, res:Response){
 
-    const data = TeamSchemaBody.parse(req.body)
+    const data = req.body
 
     return res.json(await Team.update(Number(req.body.id), data))
   }

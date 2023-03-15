@@ -1,15 +1,21 @@
 import { TeamRepository } from "../repositories/TeamRepository"
-
+import { teamType } from "../utils/schemas"
+interface TeamFindManyInterface{
+  modalityId:number
+}
 export class TeamService {
-  static async findMany() {
-   return await TeamRepository.findMany()
+  static async findMany(where?:TeamFindManyInterface) {
+   return await TeamRepository.findMany(where)
   }
 
   static async findById(id: number) {
     return await TeamRepository.findById(id)
   }
 
-  static async create(data: any) {
+  static async create(data: teamType) {
+    if(await TeamRepository.findByColumn('name', data.name)){
+      throw new Error(`Já foi cadastrado o time com o nome ${data.name}!`)
+    }
     return await TeamRepository.create(data)
   }
 

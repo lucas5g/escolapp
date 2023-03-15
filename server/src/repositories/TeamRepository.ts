@@ -1,8 +1,9 @@
 import { prisma } from "../utils/prisma"
 
 export class TeamRepository {
-  static async findMany() {
+  static async findMany(where:any) {
     return await prisma.team.findMany({
+      where,
       orderBy: {
         name: 'asc'
       },
@@ -27,6 +28,13 @@ export class TeamRepository {
     })
   }
 
+  static async findByColumn(column:string, value:any){
+    return await prisma.team.findFirst({
+      where:{
+        [column]:value
+      }
+    })
+  }
   static async create(data: any) {
     return await prisma.team.create({ data })
   }

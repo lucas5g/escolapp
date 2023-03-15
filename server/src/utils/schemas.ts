@@ -10,6 +10,10 @@ export const userUpdateSchema = z.intersection(userCreateSchema, z.object({
   password: z.string().optional()
 }))
 
+export type userCreateType = z.infer<typeof userCreateSchema>
+export type userUpdateType = z.infer<typeof userUpdateSchema>
+
+
 export const groupSchema = z.object({
   name: z.string(),
   codcur: z.number(),
@@ -36,3 +40,11 @@ export const teamQuerySchema = z.object({
   modalityId:z.coerce.number().optional()
 })
 
+export const teamSchema = z.object({
+  name: z.string(),
+  modalityId: z.coerce.number(),
+  groupId: z.coerce.number(),
+  genreId: z.coerce.number()
+})
+
+export type teamType = z.infer<typeof teamSchema>

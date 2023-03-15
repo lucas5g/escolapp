@@ -1,4 +1,4 @@
-export function idToStringProfile(id:string){
+export function idToStringProfile(id:any){
   const profile:any = {
     '1':'manager',
     '2': 'judge',

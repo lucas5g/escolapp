@@ -8,13 +8,25 @@ import { setTimeout } from 'timers/promises'
 
 const prisma = new PrismaClient()
 
+// createModalities()
 // createGroups() 
 // createUsers()
-// createModalities()
-// createPlaces()
+createPlaces()
 // createStudents()
 // createGenres()
-createTeams()
+// createTeams()
+// createGame()
+
+async function createGame(){
+  await prisma.game.create({
+    data:{
+      date:'2023-03-15T04:29:51.961Z',
+      startHours:'08:00',
+      endHours:'09:00'
+    }
+  })
+}
+
 async function createGenres() {
   const genres = await csv().fromFile(`${__dirname}/data/genres.csv`)
 
@@ -40,25 +52,31 @@ async function createTeams() {
   const teams = await csv().fromFile(`${__dirname}/data/teams.csv`)
   teams.forEach(async (row, index) => {
     await setTimeout(index * 100)
-    await prisma.team.upsert({
-      where:{
-        id: Number(row.id_equipe)
-      },
-      update:{
-        name: row.nome_equipe,
-        modalityId: Number(row.id_modalidade),
-        groupId: Number(row.id_turma),
-        genreId: Number(row.id_genero)
-      },
-      create:{
-        id: Number(row.id_equipe),
-        name: row.nome_equipe,
-        modalityId: Number(row.id_modalidade),
-        groupId: Number(row.id_turma),
-        genreId: Number(row.id_genero)
-      }
-    })
-    console.log(`${row.nome_equipe} atualizado com sucesso!`)
+    // return console.log(row)
+    try {
+
+      await prisma.team.upsert({
+        where: {
+          id: Number(row.id_equipe)
+        },
+        update: {
+          name: row.nome_equipe,
+          modalityId: Number(row.id_modalidade),
+          groupId: Number(row.id_turma),
+          genreId: Number(row.id_genero)
+        },
+        create: {
+          id: Number(row.id_equipe),
+          name: row.nome_equipe,
+          modalityId: Number(row.id_modalidade),
+          groupId: Number(row.id_turma),
+          genreId: Number(row.id_genero)
+        }
+      })
+      console.log(`${row.nome_equipe} atualizado com sucesso!`)
+    } catch {
+      console.log('error > ', row)
+    }
   })
 
 }
@@ -89,35 +107,35 @@ async function createGroups() {
 
 }
 
-// async function createUsers() {
+async function createUsers() {
 
-//   const users = await csv().fromFile(`${__dirname}/data/users.csv`)
+  const users = await csv().fromFile(`${__dirname}/data/users.csv`)
 
-//   users.forEach(async (user, index) => {
-//     // return console.log({
-//     //   ...user,
-//     //   password: await bcrypt.hash(user.senha, 10)
-//     // })
-//     await prisma.user.upsert({
-//       where: {
-//         email: user.email || `${user.usuario.toLowerCase()}@santoagostinho.com.br`,
-//       },
-//       update: {
-//         name: user.nome,
-//         profile: idToStringProfile(user.id_perfil),
-//         password: await bcrypt.hash(user.senha, 10),
+  users.forEach(async (user, index) => {
+    // return console.log({
+    //   ...user,
+    //   password: await bcrypt.hash(user.senha, 10)
+    // })
+    await prisma.user.upsert({
+      where: {
+        email: user.email || `${user.usuario.toLowerCase()}@santoagostinho.com.br`,
+      },
+      update: {
+        name: user.nome,
+        // profile: idToStringProfile(String(user.id_perfil)),
+        password: await bcrypt.hash(user.senha, 10),
 
-//       },
-//       create: {
-//         name: user.nome,
-//         email: user.email || `${user.usuario.toLowerCase()}@santoagostinho.com.br`,
-//         password: await bcrypt.hash(user.senha, 10),
-//         profile: idToStringProfile(user.id_perfil)
-//       }
-//     })
-//     console.log(`${user.nome} atualizado com sucesso!`)
-//   })
-// }
+      },
+      create: {
+        name: user.nome,
+        email: user.email || `${user.usuario.toLowerCase()}@santoagostinho.com.br`,
+        password: await bcrypt.hash(user.senha, 10),
+        // profile: idToStringProfile(user.id_perfil)
+      }
+    })
+    console.log(`${user.nome} atualizado com sucesso!`)
+  })
+}
 
 async function createModalities() {
   const modalities = await csv().fromFile(`${__dirname}/data/modalities.csv`)
@@ -171,7 +189,7 @@ async function createStudents() {
   students.forEach(async (student, index) => {
     // return console.log(`test ${index}`)
     await setTimeout(100 * index)
-    
+
     await prisma.student.upsert({
       where: {
         ra: student.ra
@@ -190,10 +208,10 @@ async function createStudents() {
         codper: Number(student.codper),
         course: student.matriz_curricular,
         group: student.turma,
-        
+
       }
     })
-    return console.log(`${index+1} - ${student.nome_aluno} - Atualizado !`)
+    return console.log(`${index + 1} - ${student.nome_aluno} - Atualizado !`)
   })
-  
+
 }
