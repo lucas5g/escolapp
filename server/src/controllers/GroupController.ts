@@ -1,34 +1,26 @@
 import { Request, Response } from "express";
-import { Group } from "../models/Group";
-import { GroupBodyType } from "../utils/schemas";
+import { GroupRepository } from "../repositories/GroupRepository";
+import { GroupService } from "../services/GroupService";
 
 export class GroupController{
 
   static async index(req:Request, res:Response){
-
-    return res.json(await Group.findMany())
+    return res.json(await GroupService.findMany())
   }
 
   static async show(req:Request, res:Response){
-    return res.json(await Group.findUnique(Number(req.params.id)))
+    res.json(await GroupService.findById(Number(req.params.id)))
   }
 
   static async create(req: Request, res:Response){
-    
-    const data = req.body as GroupBodyType
-  
-    return res.json(await Group.create(data))
+    res.json(await GroupService.create(req.body))
   }
 
   static async update(req: Request, res:Response){
-
-    const { id } = req.params 
-    const data = req.body as GroupBodyType
-    
-    return res.json(await Group.update(Number(id), data))
+    res.json(await GroupService.update(Number(req.params.id), req.body))
   }
 
   static async delete(req:Request, res: Response){
-    return res.json(await Group.delete(Number(req.params.id)))
+    res.json(await GroupRepository.delete(Number(req.params.id)))
   }
 }

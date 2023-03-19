@@ -8,8 +8,8 @@ export class UserService{
     return UserRepository.findMany()
   }
 
-  static async show(id:number){
-    return UserRepository.show(id)
+  static async findById(id:number){
+    return UserRepository.findById(id)
   }
   
   static async create(data: userCreateType){

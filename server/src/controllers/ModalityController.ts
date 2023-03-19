@@ -1,35 +1,28 @@
-import { Request, Response } from "express";
-import { Modality } from "../models/Modality";
-
+import { NextFunction, Request, Response } from "express";
+import { ModalityService } from "../services/ModalityService";
 export class ModalityController{
 
   static async index(req:Request, res:Response){
-    return res.json(await Modality.findMany())
+    res.json(await ModalityService.findMany())
   }
 
   static async show(req:Request, res:Response){
-    return res.json(await Modality.findById(Number(req.params.id)))
+    res.json(await ModalityService.findById(Number(req.params.id)))
   }
 
-  static async create(req: Request, res:Response){
-    const data = req.body
-
-    if(await Modality.findByKey('name', data.name)){
-      return res.status(401).json({message: `Modalidade ${data.name} já foi cadastrada!`})
+  static async create(req: Request, res:Response, next:NextFunction){
+    try{
+      res.json(await ModalityService.create(req.body))
+    }catch(error){
+      next(error)
     }
-
-    return res.json(await Modality.create(data))
   }
 
   static async update(req: Request, res:Response){
-
-    const { id } = req.params 
-    const { body } = req 
-
-    return res.json(await Modality.update(Number(id), body))
+    res.json(await ModalityService.update(Number(req.params.id), req.body))
   }
 
   static async delete(req:Request, res: Response){
-    return res.json(await Modality.delete(Number(req.params.id)))
+    res.json(await ModalityService.delete(Number(req.params.id)))
   }
 }

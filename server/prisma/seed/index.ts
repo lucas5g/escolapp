@@ -12,10 +12,26 @@ const prisma = new PrismaClient()
 // createGroups() 
 // createUsers()
 createPlaces()
-// createStudents()
+createStudents()
 // createGenres()
 // createTeams()
 // createGame()
+createUser()
+async function createUser(){
+  await prisma.user.upsert({
+    where:{
+      email: 'test@mail.com',
+    },
+    update:{
+      name:'test'
+    },
+    create:{
+      email:'test@mail.com',
+      password: await bcrypt.hash('qweqwe', 12),
+      name:'test'
+    }
+  })
+}
 
 async function createGame(){
   await prisma.game.create({
@@ -188,7 +204,7 @@ async function createStudents() {
 
   students.forEach(async (student, index) => {
     // return console.log(`test ${index}`)
-    await setTimeout(100 * index)
+    // await setTimeout(100 * index)
 
     await prisma.student.upsert({
       where: {

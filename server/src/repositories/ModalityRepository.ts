@@ -1,6 +1,6 @@
 import { prisma } from "../utils/prisma";
 
-export class Modality {
+export class ModalityRepository {
 
   static async findMany(){
     return await prisma.modality.findMany({

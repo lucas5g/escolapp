@@ -1,6 +1,6 @@
 import { prisma } from "../utils/prisma";
 
-export class Student {
+export class StudentRepository {
 
   static async findMany(){
     return await prisma.student.findMany({
@@ -10,7 +10,7 @@ export class Student {
     })
   }
 
-  static async findUniqueByRa(ra:string) {
+  static async findByRa(ra:string) {
     return await prisma.student.findUnique({
       where: {ra }
     })

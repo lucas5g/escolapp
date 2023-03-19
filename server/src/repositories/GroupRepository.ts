@@ -1,17 +1,16 @@
 import { prisma } from "../utils/prisma";
 
-export class Group {
+export class GroupRepository {
 
   static async findMany(){
     return await prisma.group.findMany({
       orderBy:{
         name:'asc'
       },
-      // take: 5
     })
   }
 
-  static async findUnique(id:number) {
+  static async findById(id:number) {
     return await prisma.group.findUnique({
       where: { id }
     })
@@ -22,9 +21,6 @@ export class Group {
   }
 
   static async update(id:number, data:any){
-
-    // return {msg: 'update group', id}
-
     return await prisma.group.update({
       where: {id},
       data,

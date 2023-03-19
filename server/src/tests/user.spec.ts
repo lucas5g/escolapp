@@ -13,14 +13,14 @@ describe('User', () => {
   })
 
   it('User show', async () => {
-    const user = await UserService.show(1)
+    const user = await UserService.findById(1)
     expect(user).be
   })
 
   it('User crud', async () => {
 
     const data = {
-      email: 'test@mail.com',
+      email: 'test-delete@mail.com',
       name: `admin ${new Date().getMinutes()}`,
       password: 'qweqwe'
     }

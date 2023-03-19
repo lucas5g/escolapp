@@ -1,10 +1,8 @@
 import { TeamRepository } from "../repositories/TeamRepository"
 import { teamType } from "../utils/schemas"
-interface TeamFindManyInterface{
-  modalityId:number
-}
+
 export class TeamService {
-  static async findMany(where?:TeamFindManyInterface) {
+  static async findMany(where?:any) {
    return await TeamRepository.findMany(where)
   }
 

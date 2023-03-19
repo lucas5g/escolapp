@@ -4,23 +4,23 @@ import { UserService } from "../services/UserService";
 export class UserController {
 
   static async index(req: Request, res: Response) {
-    return res.json(await UserService.findMany())
+    res.json(await UserService.findMany())
   }
 
   static async show(req: Request, res: Response) {
-    return res.json(await UserService.show(Number(req.params.id)))
+    res.json(await UserService.findById(Number(req.params.id)))
   }
 
   static async create(req: Request, res: Response, next: NextFunction) {
     try {
-      return res.status(201).json(await UserService.create(req.body))
+      res.status(201).json(await UserService.create(req.body))
     } catch (error) {
       next(error)
     }
   }
 
   static async update(req: Request, res: Response) {
-    return res.json(await UserService.update(Number(req.params.id), req.body))
+    res.json(await UserService.update(Number(req.params.id), req.body))
   }
 
   static async delete(req: Request, res: Response) {

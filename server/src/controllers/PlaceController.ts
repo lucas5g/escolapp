@@ -1,36 +1,28 @@
-import { Request, Response } from "express";
-import { Place } from "../models/Place";
-
+import { NextFunction, Request, Response } from "express";
+import { PlaceService } from "../services/PlaceService";
 export class PlaceController{
 
   static async index(req:Request, res:Response){
-    return res.json(await Place.findMany())
+    res.json(await PlaceService.findMany())
   }
 
   static async show(req:Request, res:Response){
-    return res.json(await Place.findById(Number(req.params.id)))
+    res.json(await PlaceService.findById(Number(req.params.id)))
   }
 
-  static async create(req: Request, res:Response){
-
-    const { body } = req
-
-    if(await Place.findByKey('name', body.name)){
-      return res.status(401).json({message: `O local ${body.name} já foi cadastrado!`})
+  static async create(req: Request, res:Response, next:NextFunction){
+    try{
+      return res.json(await PlaceService.create(req.body))
+    }catch(error){
+      next(error)
     }
-
-    return res.json(await Place.create(body))
   }
 
   static async update(req: Request, res:Response){
-
-    const { id } = req.params 
-    const { body } = req 
-
-    return res.json(await Place.update(Number(id), body))
+    res.json(await PlaceService.update(Number(req.params.id), req.body))
   }
 
   static async delete(req:Request, res: Response){
-    return res.json(await Place.delete(Number(req.params.id)))
+    return res.json(await PlaceService.delete(Number(req.params.id)))
   }
 }

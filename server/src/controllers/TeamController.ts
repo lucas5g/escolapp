@@ -1,34 +1,30 @@
-import { Request, Response } from "express";
-import { z } from "zod";
-import { Team } from "../models/Team";
-import { teamQuerySchema } from "../utils/schemas";
-
+import { NextFunction, Request, Response } from "express";
+import { TeamRepository } from "../repositories/TeamRepository";
+import { TeamService } from "../services/TeamService";
 
 export class TeamController{
 
   static async index(req:Request, res:Response){
-
-    const query = teamQuerySchema.parse(req.query)
-    return res.json(await Team.findMany(query))
+    res.json(await TeamService.findMany(req.query))
   }
 
   static async show(req:Request, res:Response){
-    return res.json(await Team.findUnique(Number(req.params.id)))
+    res.json(await TeamService.findById(Number(req.params.id)))
   }
 
-  static async create(req: Request, res:Response){
-    const { body } = req
-    return res.json(await Team.create(body))
+  static async create(req: Request, res:Response, next:NextFunction){
+    try{
+      return res.json(await TeamRepository.create(req.body))
+    }catch(error){
+      next(error)
+    }
   }
 
   static async update(req: Request, res:Response){
-
-    const data = req.body
-
-    return res.json(await Team.update(Number(req.body.id), data))
+    res.json(await TeamService.update(Number(req.body.id), req.body))
   }
 
   static async delete(req:Request, res: Response){
-    return res.json(await Team.delete(Number(req.params.id)))
+    res.json(await TeamService.delete(Number(req.params.id)))
   }
 }

@@ -1,40 +1,19 @@
-import { Request, Response } from "express"
-import { User } from "../models/User"
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import { AuthBodyType } from "../utils/schemas"
+import { NextFunction, Request, Response } from "express"
+import { AuthService } from "../services/AuthService"
   
 export class AuthController{
-  static async login(req:Request, res:Response){
+  static async login(req:Request, res:Response, next:NextFunction){
+    try{
 
-    const {email, password} = req.body as AuthBodyType
-    const user = await User.showByEmail(email)
-    const isCorrectPassword = await bcrypt.compare(password, user?.password || '')
+      res.json(await AuthService.login(req.body))   
 
-    if(!user || !isCorrectPassword){
-      return res.status(401).json('E-mail ou Senha inválidos!')
+    }catch(error){
+      next(error)
     }
 
-    const accessToken = jwt.sign({
-      id: user.id,
-      name: user.name,
-    },
-      process.env.JWT_SECRET || '',
-      {
-        expiresIn: '12h'
-      }
-    )
-    
-    const data = {
-      ...user,
-      password: undefined,
-      accessToken
-    }
-
-    return res.json(data)
   }
 
   static async me(req:Request, res:Response){
-    return res.json(req.user)
+    res.json(await AuthService.me(req.user.id))
   }
 }

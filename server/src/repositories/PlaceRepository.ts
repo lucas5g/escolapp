@@ -1,6 +1,6 @@
 import { prisma } from "../utils/prisma";
 
-export class Place {
+export class PlaceRepository {
 
   static async findMany(){
     return await prisma.place.findMany({

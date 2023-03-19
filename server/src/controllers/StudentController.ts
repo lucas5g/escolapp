@@ -1,29 +1,25 @@
 import { Request, Response } from "express";
-import { Student } from "../models/Student";
+import { StudentService } from "../services/StudentService";
 
 export class StudentController{
 
   static async index(req:Request, res:Response){
-    return res.json(await Student.findMany())
+    res.json(await StudentService.findMany())
   }
 
   static async show(req:Request, res:Response){
-    return res.json(await Student.findUniqueByRa(req.params.ra))
+    res.json(await StudentService.findByRa(req.params.ra))
   }
 
   static async create(req: Request, res:Response){
-    const { body } = req
-    return res.json(await Student.create(body))
+    return res.json(await StudentService.create(req.body))
   }
 
   static async update(req: Request, res:Response){
-
-    const { ra } = req.params 
-    const { body } = req 
-    return res.json(await Student.update(ra, body))
+    return res.json(await StudentService.update(req.params.ra, req.body))
   }
 
   static async delete(req:Request, res: Response){
-    return res.json(await Student.delete(req.params.ra))
+    return res.json(await StudentService.delete(req.params.ra))
   }
 }

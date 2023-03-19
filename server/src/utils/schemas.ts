@@ -27,6 +27,8 @@ export const authSchema = z.object({
   password: z.string().min(3)
 })
 
+export type authType = z.infer<typeof authSchema>
+
 export const gameSchema = z.object({
   date: z.string().datetime({ offset: true }),
   startHours: z.string(),

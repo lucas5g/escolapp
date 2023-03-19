@@ -1,6 +1,6 @@
 import { prisma } from "../utils/prisma";
 
-export class Course {
+export class CourseRepository {
   static async findMany(){
     const data =  await prisma.student.findMany({
       distinct:['course'],
@@ -15,8 +15,9 @@ export class Course {
     const courses = data.map(course => {
       return {
         name: course.course,
-        ...course,
-        course: undefined
+        group: course.group,
+        codcur: course.codcur,
+        codper: course.codper
       }
     })
 
