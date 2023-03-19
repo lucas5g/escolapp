@@ -8,9 +8,6 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: test ls
-        run: ls
-      
-      - name: test ola mundo
-        run: |
-          echo ola povo
+      - name: test connect server
+        run:    ssh -t root@test.codificar.dev.br "\
+          ls"
