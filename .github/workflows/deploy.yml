@@ -12,9 +12,10 @@ jobs:
     steps:
       - name: Cache node_modules
         uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Install dependencies 
         run: ls -la
-        # with:
-        #   path: node_modules
-        #   key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
+  
