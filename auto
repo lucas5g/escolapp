@@ -102,7 +102,7 @@ main(){
   generateDatabase $command
   update $command "$message"
   fixMysql $command
-  commit $command
+  commit $command "$message"
   echo -e "\nComando não encontrado :(\n"
 
 }
