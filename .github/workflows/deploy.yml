@@ -5,7 +5,7 @@ on:
     branches:
      - main
 
-# jobs:
+jobs:
   # install:
   #   name: Install Packages
   #   runs-on: ubuntu-latest
