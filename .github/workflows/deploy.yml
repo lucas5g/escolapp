@@ -6,21 +6,21 @@ on:
      - main
 
 jobs:
-  # install:
-  #   name: Install Packages
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  install:
+    name: Install Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Cache node_modules
-  #       uses: actions/cache@v3
-  #       with:
-  #         path: server/node_modules
-  #         key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: server/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
-  #     - name: Install dependencies 
-  #       run: cd server && npm ci && ls -la
+      - name: Install dependencies 
+        run: cd server && npm ci && mv .env-exemple .env && ls -la
   
   tests-backend:
     name: Run test backend
@@ -31,18 +31,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: list 
-        run: cd server && mv .env-exemple .env && ls -la
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: server/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
-
-      # - name: Restore node_modules
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: server/node_modules
-      #     key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
-
-      # - name: Run unit tests 
-      #   run: cd server && npx tsc && npm test
+      - name: Run unit tests 
+        run: cd server && npx tsc && npm test
 
 
 
