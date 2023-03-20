@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies 
         run: cd server && npm ci && ls -la
   
-  testsbackend:
+  tests-backend:
     name: Run test backend
     runs-on: ubuntu-lastest
     needs: install 
@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Run unit tests 
-        run: npm test
+        run: cd server && npm test
 
 
 
