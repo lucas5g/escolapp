@@ -16,7 +16,7 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: server/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Install dependencies 
