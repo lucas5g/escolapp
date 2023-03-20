@@ -28,7 +28,7 @@ jobs:
     # needs: install 
     steps:
       - name: list 
-        uses: mkdir .env && ls -la
+        uses: touch .env && ls -la
 
       # - name: Checkout
       #   uses: actions/checkout@v3

@@ -84,6 +84,15 @@ fixMysql(){
   fi
 }
 
+commit(){
+  if [ "$1" == "commit" ]; then 
+    git add .
+    git commit -m "$2"
+    git push
+    exit 0
+  fi
+}
+
   # && cd server \
 command=$1
 message=$2
@@ -93,6 +102,7 @@ main(){
   generateDatabase $command
   update $command "$message"
   fixMysql $command
+  commit $command
   echo -e "\nComando não encontrado :(\n"
 
 }
