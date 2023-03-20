@@ -36,8 +36,8 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
-        - name: Run unit tests 
-          run: npm test
+    - name: Run unit tests 
+      run: npm test
 
 
 
