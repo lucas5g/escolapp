@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies 
         run: cd server && npm ci && ls -la
   
-  tests-backend:
+  testsbackend:
     name: Run test backend
     runs-on: ubuntu-lastest
     needs: install 
