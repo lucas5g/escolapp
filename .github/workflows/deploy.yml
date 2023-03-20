@@ -28,7 +28,7 @@ jobs:
     # needs: install 
     steps:
       - name: list 
-        run: touch .env && ls -la
+        run: cd server && mv .env-exemple  && ls -la
 
       # - name: Checkout
       #   uses: actions/checkout@v3
