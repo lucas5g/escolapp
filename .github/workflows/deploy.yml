@@ -20,7 +20,5 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Install dependencies 
-        run: cd server
-        run: npm ci 
-        run: ls -la 
+        run: cd server && npm ci && ls -la
   
