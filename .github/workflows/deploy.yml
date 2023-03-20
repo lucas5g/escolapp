@@ -1,0 +1,20 @@
+name: Deploy 
+
+on:
+  push:
+    branches:
+     - main
+
+jobs:
+  install:
+    name: Install Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache node_modules
+        uses: actions/cache@v2
+
+      - name: Install dependencies 
+        run: ls -la
+        # with:
+        #   path: node_modules
+        #   key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
