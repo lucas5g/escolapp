@@ -38,6 +38,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Run unit tests 
+        env:
+          DATABASE_URL:mysql://root:root@localhost/csa
         run:
          cd server && 
          cp .env-exemple .env && 
