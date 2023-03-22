@@ -42,7 +42,8 @@ jobs:
          cd server && 
          cp .env-exemple .env && 
          ls -la &&  
-         npx tsc 
+         npx tsc &&
+         npm test
         #&& npm test
 
 
