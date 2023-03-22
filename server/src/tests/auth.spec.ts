@@ -36,7 +36,7 @@ describe('Auth', () => {
     expect(login).not.toHaveProperty('password')
   })
 
-  it.only('me', async() => {
+  it('me', async() => {
 
 
     const me = await AuthService.me(user.id)
