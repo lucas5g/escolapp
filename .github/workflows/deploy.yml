@@ -58,6 +58,7 @@ jobs:
 
       - name: Run unit tests 
         run:
+          cd server &&
           ls -la &&  
           npx tsc &&
           npx vitest src/tests/course.spec.ts
