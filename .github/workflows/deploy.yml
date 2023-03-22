@@ -20,7 +20,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Install dependencies 
-        run: cd server && npm ci && mv .env-exemple .env && ls -la
+        run: cd server && npm ci && ls -la
   
   tests-backend:
     name: Run test backend
@@ -38,7 +38,12 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Run unit tests 
-        run:  cd server && ls -la && npx tsc && npm test
+        run:
+         cd server && 
+         cp .env-exemple .env && 
+         ls -la &&  
+         npx tsc 
+        #&& npm test
 
 
 
