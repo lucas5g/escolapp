@@ -25,8 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: 'Install dependencies'
+      - name: Install dependencies
         run: cd server && npm ci
+
+      - name: Push database
+        run: cd server && npx prisma db push
 
       - name: Run unit tests 
         run:
