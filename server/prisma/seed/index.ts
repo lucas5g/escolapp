@@ -116,35 +116,6 @@ async function createGroups() {
 
 }
 
-async function createUsers() {
-
-  const users = await csv().fromFile(`${__dirname}/data/users.csv`)
-
-  users.forEach(async (user, index) => {
-    // return console.log({
-    //   ...user,
-    //   password: await bcrypt.hash(user.senha, 10)
-    // })
-    await prisma.user.upsert({
-      where: {
-        email: user.email || `${user.usuario.toLowerCase()}@santoagostinho.com.br`,
-      },
-      update: {
-        name: user.nome,
-        // profile: idToStringProfile(String(user.id_perfil)),
-        password: await bcrypt.hash(user.senha, 10),
-
-      },
-      create: {
-        name: user.nome,
-        email: user.email || `${user.usuario.toLowerCase()}@santoagostinho.com.br`,
-        password: await bcrypt.hash(user.senha, 10),
-        // profile: idToStringProfile(user.id_perfil)
-      }
-    })
-    console.log(`${user.nome} atualizado com sucesso!`)
-  })
-}
 
 async function createModalities() {
   const modalities = [
