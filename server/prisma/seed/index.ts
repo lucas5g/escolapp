@@ -63,39 +63,6 @@ async function createGenres() {
   })
 }
 
-async function createTeams() {
-
-  const teams = await csv().fromFile(`${__dirname}/data/teams.csv`)
-  teams.forEach(async (row, index) => {
-    await setTimeout(index * 100)
-    // return console.log(row)
-    try {
-
-      await prisma.team.upsert({
-        where: {
-          id: Number(row.id_equipe)
-        },
-        update: {
-          name: row.nome_equipe,
-          modalityId: Number(row.id_modalidade),
-          groupId: Number(row.id_turma),
-          genreId: Number(row.id_genero)
-        },
-        create: {
-          id: Number(row.id_equipe),
-          name: row.nome_equipe,
-          modalityId: Number(row.id_modalidade),
-          groupId: Number(row.id_turma),
-          genreId: Number(row.id_genero)
-        }
-      })
-      console.log(`${row.nome_equipe} atualizado com sucesso!`)
-    } catch {
-      console.log('error > ', row)
-    }
-  })
-
-}
 
 async function createGroups() {
 
