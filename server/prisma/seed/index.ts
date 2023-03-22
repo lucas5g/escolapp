@@ -1,8 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
-import csv from 'csvtojson'
 import bcrypt from 'bcrypt'
-import { idToStringProfile } from '../../src/utils/id-to-string-profile'
 import { setTimeout } from 'timers/promises'
 
 
@@ -47,22 +45,21 @@ async function createGame(){
 }
 
 async function createGenres() {
-  const genres = await csv().fromFile(`${__dirname}/data/genres.csv`)
+  const genres = [
+    {id:2, name:'FEM'},
+    {id:1, name:'MAS'},
+    {id:3, name:'MISTO'}
+  ]
 
   genres.forEach(async (row) => {
     await prisma.genre.upsert({
       where: {
-        id: Number(row.id_genero)
+        id: row.id
       },
-      update: {
-        name: row.nome_genero,
-      },
-      create: {
-        id: Number(row.id_genero),
-        name: row.nome_genero,
-      }
+      update: row,
+      create:row
     })
-    console.log(`${row.nome_genero} atualizado com sucesso!`)
+    console.log(`${row.name} atualizado com sucesso!`)
   })
 }
 
