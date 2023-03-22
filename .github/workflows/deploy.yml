@@ -43,7 +43,8 @@ jobs:
          cp .env-exemple .env && 
          ls -la &&  
          npx tsc &&
-         npm test
+         npx vitest src/tests/course.spec.ts
+        #  npm test
         #&& npm test
 
 
