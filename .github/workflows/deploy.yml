@@ -5,22 +5,22 @@ on:
     branches:
      - main
 
-jobs:
-  install:
-    name: Install Packages
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+# jobs:
+#   install:
+#     name: Install Packages
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
 
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: server/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
+#       - name: Cache node_modules
+#         uses: actions/cache@v3
+#         with:
+#           path: server/node_modules
+#           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
-      - name: Install dependencies 
-        run: cd server && npm ci && ls -la
+#       - name: Install dependencies 
+#         run: cd server && npm ci && ls -la
   
   tests-backend:
     name: Run test backend
@@ -36,7 +36,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: csa
     env:
-      DATABASE_URL: mysql://root:root@127.0.0.1/csa
+      DATABASE_URL: mysql://root:root@mysql/csa
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -53,11 +53,11 @@ jobs:
       #     mysql database: csa 
       #     mysql user: root 
       #     mysql password: root
-
+      - name: 'Install dependencies'
+        run: cd server && npm ci
 
       - name: Run unit tests 
         run:
-          cd server && 
           ls -la &&  
           npx tsc &&
           npx vitest src/tests/course.spec.ts
