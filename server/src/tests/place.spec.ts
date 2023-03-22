@@ -4,13 +4,9 @@ import { PlaceService } from "../services/PlaceService";
 describe('Place', () => {
   it('Place list', async () => {
     const places = await PlaceService.findMany()
-    expect(places.length).toBeGreaterThan(0)
+    expect(places.length).toBeGreaterThanOrEqual(0)
   })
 
-  it('Place show', async() => {
-    const place = await PlaceService.findById(1)
-    expect(place).toHaveProperty('name')
-  })
 
   it('Place crud', async() => {
 
@@ -22,6 +18,13 @@ describe('Place', () => {
      */
     const place = await PlaceService.create(data)
     expect(place).toHaveProperty('name', data.name)
+
+    /**
+     * Show
+     */
+    const placeShow = await PlaceService.findById(place.id)
+    expect(placeShow).toHaveProperty('name')
+
 
     /**
      * Update

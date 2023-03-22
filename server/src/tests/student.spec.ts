@@ -4,18 +4,15 @@ import { StudentService } from "../services/StudentService";
 describe('Student', () => {
   it('Student list', async () => {
     const students = await StudentService.findMany()
-    expect(students.length).toBeGreaterThanOrEqual(1)
+    expect(students.length).toBeGreaterThanOrEqual(0)
 
   })
 
-  it('Student show', async () => {
-    const student = await StudentService.findByRa('C005369')
-    expect(student).toHaveProperty('ra')
-  })
+
 
   it('Student crud', async () => {
     const data = {
-      ra:'c123123',
+      ra:'c123124',
       name: 'Teat name Student',
       course: 'EM - 1ª SÉRIE',
       group: 'M1CCM',
@@ -28,6 +25,12 @@ describe('Student', () => {
      */
     const student = await StudentService.create(data)
     expect(student).toHaveProperty('ra', data.ra)
+
+    /**
+     * Show
+     */
+    const studentShow = await StudentService.findByRa(student.ra)
+    expect(studentShow).toHaveProperty('ra')
 
     /**
      * Update

@@ -39,8 +39,7 @@ jobs:
           cd server &&
           ls -la &&  
           npx tsc &&
-          npx vitest src/tests/course.spec.ts
-        #  npm test
+          npm test
         #&& npm test
 
 

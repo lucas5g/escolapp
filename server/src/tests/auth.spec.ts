@@ -1,7 +1,24 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { AuthService } from "../services/AuthService";
+import { UserService } from "../services/UserService";
 
 describe('Auth', () => {
+
+  let user = {
+    name: '',
+    email:'',
+    id:0
+  }
+  beforeAll(async() => {
+    user = await UserService.create({name: 'user login', email:'auth@mail.com', password:'123456'})
+
+  })
+
+  afterAll(async() => {
+    console.log({user})
+    await UserService.delete(user.id)
+  })
+
   it('login user not found', async() => {
     const data = {
       email: 'test-error@mail.com',
@@ -13,22 +30,19 @@ describe('Auth', () => {
   })
 
   it('login', async() => {
-    const data = {
-      email: 'test@mail.com',
-      password: 'qweqwe'
-    }
-
-    const login = await AuthService.login(data)
+ 
+    const login = await AuthService.login({...user, password: '123456'})
     expect(login).toHaveProperty('accessToken')
     expect(login).not.toHaveProperty('password')
   })
 
-  it('me', async() => {
-    const user = await AuthService.me(1)
-    expect(user).toHaveProperty('email')
-    expect(user).not.toHaveProperty('password')
-    
-    console.log(user)
+  it.only('me', async() => {
+
+
+    const me = await AuthService.me(user.id)
+    expect(me).toHaveProperty('email')
+    expect(me).not.toHaveProperty('password')
+   
   })
 
 

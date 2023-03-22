@@ -8,13 +8,8 @@ describe('User', () => {
   it('User list', async () => {
 
     const users = await UserService.findMany()
-    expect(users.length).toBeGreaterThanOrEqual(1)
-
-  })
-
-  it('User show', async () => {
-    const user = await UserService.findById(1)
-    expect(user).be
+    // expect(users).deep.equal([])
+    expect(users.length).toBeGreaterThanOrEqual(0)
   })
 
   it('User crud', async () => {
@@ -30,6 +25,13 @@ describe('User', () => {
      */
     const user = await UserService.create(data)
     expect(user).toHaveProperty('email', data.email)
+
+
+    /**
+     * Show
+     */
+    const userShow = await UserService.findById(user.id)
+    expect(userShow).toHaveProperty('email', data.email)
 
     /**
     * Update

@@ -8,10 +8,10 @@ import { setTimeout } from 'timers/promises'
 
 const prisma = new PrismaClient()
 
-createModalities()
+// createModalities()
 createGroups() 
 // createUsers()
-createPlaces()
+// createPlaces()
 createStudents()
 createGenres()
 // createTeams()
@@ -102,8 +102,8 @@ async function createTeams() {
 
 async function createGroups() {
 
-  const groups = [{id: 1, name: 'turma test', codcur:20, codper:1 }]
-  // const groups = await csv().fromFile(`${__dirname}/data/groups-custom.csv`)
+  // const groups = [{id: 1, name: 'turma test', codcur:20, codper:1 }]
+  const groups = await csv().fromFile(`${__dirname}/data/groups-custom.csv`)
 
   groups.forEach(async (row, index) => {
     await prisma.group.upsert({
@@ -111,10 +111,19 @@ async function createGroups() {
         id: row.id
         // id: Number(row.id_turma)
       },
-      update: row, 
-      create: row
+      update: {
+        name: row.nome_turma,
+        codcur: Number(row.codcur),
+        codper: Number(row.codper)
+      },
+      create: {
+        id: Number(row.id_turma),
+        name: row.nome_turma,
+        codcur: Number(row.codcur),
+        codper: Number(row.codper)
+      }
     })
-    console.log(`${index + 1} - ${row.name} atualizado com sucesso!`)
+    console.log(`${row.nome_turma} atualizado com sucesso!`)
   })
 
 }
@@ -150,20 +159,27 @@ async function createUsers() {
 }
 
 async function createModalities() {
-  const modalities = [
-    {id: 1, name: 'modalidade test', membersQuantity: 10, teamsQuantity: 2}
-  ]
+  const modalities = await csv().fromFile(`${__dirname}/data/modalities.csv`)
+
   modalities.forEach((async (modality, index) => {
     try {
 
       await prisma.modality.upsert({
         where: {
-          id: modality.id
+          id: Number(modality.id_modalidade)
         },
-        update: modality,
-        create: modality
+        update: {
+          name: modality.nome_modalidade,
+          membersQuantity: Number(modality.qtd_integrantes),
+          teamsQuantity: Number(modality.qtd_equipes)
+        },
+        create: {
+          id: Number(modality.id_modalidade),
+          name: modality.nome_modalidade,
+          membersQuantity: Number(modality.qtd_integrantes),
+          teamsQuantity: Number(modality.qtd_equipes)
+        }
       })
-      console.log(`${index + 1} ${modality.name} - Atualizado!`)
     } catch {
       console.log(`Erro no cadastro`, modality)
     }
@@ -171,17 +187,19 @@ async function createModalities() {
 }
 
 async function createPlaces() {
-  const places = [
-    {id:1, name:'place test'}
-  ]
+  const places = await csv().fromFile(`${__dirname}/data/places.csv`)
 
   places.forEach((async (place) => {
     await prisma.place.upsert({
-      where:{
-        id: place.id
+      where: {
+        name: place.nome_local
       },
-      update: place,
-      create: place
+      update: {
+        name: place.nome_local
+      },
+      create: {
+        name: place.nome_local,
+      }
     })
   }))
 }

@@ -1,17 +1,12 @@
 import exp from "constants";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { TeamService } from "../services/TeamService";
 
 describe('Team', () => {
+
   it('Team list', async () => {
     const teams = await TeamService.findMany()
-    expect(teams.length).toBeGreaterThanOrEqual(1)
-
-  })
-
-  it('Team show', async () => {
-    const team = await TeamService.findById(3)
-    expect(team).toHaveProperty('name')
+    expect(teams).deep.equal([])
   })
 
   it('Team find by modalityId', async () => {
@@ -25,6 +20,7 @@ describe('Team', () => {
   })
 
   it('Team crud', async () => {
+
     const data = {
       name: 'Teat name team',
       modalityId: 1,
@@ -37,6 +33,13 @@ describe('Team', () => {
      */
     const team = await TeamService.create(data)
     expect(team).toHaveProperty('name', data.name)
+
+    /**
+     * Show
+     */
+    const teamShow = await TeamService.findById(team.id)
+    expect(teamShow).toHaveProperty('name')
+
 
     /**
      * Try create same name exist
