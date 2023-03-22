@@ -28,8 +28,11 @@ jobs:
       - name: Install dependencies
         run: cd server && npm ci
 
-      - name: Push database
+      - name: Database run push
         run: cd server && npx prisma db push
+      
+      - name: Database run seed 
+        run: cd server && npx prisma db seed
 
       - name: Run unit tests 
         run:

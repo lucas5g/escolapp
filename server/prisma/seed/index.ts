@@ -11,12 +11,15 @@ const prisma = new PrismaClient()
 // createModalities()
 // createGroups() 
 // createUsers()
-createPlaces()
+// createPlaces()
 createStudents()
 // createGenres()
 // createTeams()
 // createGame()
-createUser()
+// createUser()
+// async function createStudents(){
+
+// }
 async function createUser(){
   await prisma.user.upsert({
     where:{
@@ -200,7 +203,17 @@ async function createPlaces() {
 }
 
 async function createStudents() {
-  const students = await csv().fromFile(`${__dirname}/data/students.csv`)
+  // const students = await csv().fromFile(`${__dirname}/data/students.csv`)
+  const students = [
+    {
+      ra: 'c123123',
+      name: 'aluno name',
+      codcur:20,
+      codper: 5,
+      course: 'MT- Materanal',
+      group: 'IMCAM'
+    }
+  ]
 
   students.forEach(async (student, index) => {
     // return console.log(`test ${index}`)
@@ -210,24 +223,46 @@ async function createStudents() {
       where: {
         ra: student.ra
       },
-      update: {
-        name: student.nome_aluno,
-        codcur: Number(student.codcur),
-        codper: Number(student.codper),
-        course: student.matriz_curricular,
-        group: student.turma,
-      },
-      create: {
-        ra: student.ra,
-        name: student.nome_aluno,
-        codcur: Number(student.codcur),
-        codper: Number(student.codper),
-        course: student.matriz_curricular,
-        group: student.turma,
-
-      }
+      update: student,
+      create: student
     })
-    return console.log(`${index + 1} - ${student.nome_aluno} - Atualizado !`)
+    return console.log(`${index + 1} - ${student.name} - Atualizado !`)
   })
 
 }
+
+// async function createStudents() {
+//   // const students = await csv().fromFile(`${__dirname}/data/students.csv`)
+//   const students = [
+//     {}
+//   ]
+
+//   students.forEach(async (student, index) => {
+//     // return console.log(`test ${index}`)
+//     // await setTimeout(100 * index)
+
+//     await prisma.student.upsert({
+//       where: {
+//         ra: student.ra
+//       },
+//       update: {
+//         name: student.nome_aluno,
+//         codcur: Number(student.codcur),
+//         codper: Number(student.codper),
+//         course: student.matriz_curricular,
+//         group: student.turma,
+//       },
+//       create: {
+//         ra: student.ra,
+//         name: student.nome_aluno,
+//         codcur: Number(student.codcur),
+//         codper: Number(student.codper),
+//         course: student.matriz_curricular,
+//         group: student.turma,
+
+//       }
+//     })
+//     return console.log(`${index + 1} - ${student.nome_aluno} - Atualizado !`)
+//   })
+
+// }
