@@ -38,7 +38,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Run unit tests 
-        run: cd server && npx tsc && npm test
+        run: ls -la && cd server && npx tsc && npm test
 
 
 
