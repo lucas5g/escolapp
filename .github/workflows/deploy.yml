@@ -28,7 +28,7 @@ jobs:
     needs: install 
   
     env:
-      DATABASE_URL: mysql://root:root@localhost/csa
+      DATABASE_URL: mysql://root:root@mysql/csa
     steps:
       - name: Checkout
         uses: actions/checkout@v3
