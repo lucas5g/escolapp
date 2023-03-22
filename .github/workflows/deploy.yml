@@ -37,13 +37,13 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
 
       - name: Run unit tests 
-          env:
-            DATABASE_URL:mysql://root:root@localhost/csa
-          run:
-            cd server && 
-            ls -la &&  
-            npx tsc &&
-            npx vitest src/tests/course.spec.ts
+        env:
+          DATABASE_URL:mysql://root:root@localhost/csa
+        run:
+          cd server && 
+          ls -la &&  
+          npx tsc &&
+          npx vitest src/tests/course.spec.ts
         #  npm test
         #&& npm test
 
