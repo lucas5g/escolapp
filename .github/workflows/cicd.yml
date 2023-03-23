@@ -42,7 +42,7 @@ jobs:
   update: 
     name: Deploy
     runs-on: ubuntu-latest
-    need: tests-backend
+    needs: tests-backend
     steps: 
       - name: Install ssh keys 
         run: |
