@@ -16,10 +16,10 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: connect and pull
         run: 
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd projects/csa && \
-            git pull && \
-            ls -la
+          ssh -t ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd projects/csa \
+            && git pull \
+            && ls -la
           "
   
 
