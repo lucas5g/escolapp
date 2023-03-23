@@ -18,7 +18,7 @@ jobs:
       - name: Run unit tests 
         run:
           cd web &&
-          npm build 
+          npm run build 
 
   tests-backend:
     name: Tests backend
