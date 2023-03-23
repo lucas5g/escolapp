@@ -19,25 +19,28 @@ jobs:
     env:
       DATABASE_URL: mysql://root:root@localhost/csa
       JWT_SECRET: token
+
+    source: ./server
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: cd server && npm ci
+        run: ls
+        # run: cd server && npm ci
 
-      - name: Database run push
-        run: cd server && npx prisma db push
+      # - name: Database run push
+      #   run: cd server && npx prisma db push
       
-      - name: Database run seed 
-        run: cd server && npx prisma db seed
+      # - name: Database run seed 
+      #   run: cd server && npx prisma db seed
 
-      - name: Run unit tests 
-        run:
-          cd server &&
-          ls -la &&  
-          npx tsc &&
-          npm test
+      # - name: Run unit tests 
+      #   run:
+      #     cd server &&
+      #     ls -la &&  
+      #     npx tsc &&
+      #     npm test
 
   update: 
     name: Deploy

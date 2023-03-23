@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import { UserRepository } from "../repositories/UserRepository";
-// import { authType } from "../utils/schemas";
+import { authType } from "../utils/schemas";
 
 export class AuthService{
 
