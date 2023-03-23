@@ -16,7 +16,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: connect and pull
         run: 
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd projects/csa && git pull && ls -la"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd projects/csa && git pull && source ~/.nvm/nvm.sh && cd server && npm i && npm run build && pm2 restart csa --update-env"
   
 
       # - name: Checkout do Repositorio
