@@ -6,42 +6,54 @@ on:
      - main
 
 jobs:
-  tests-backend:
-    name: Tests backend
+  build: 
     runs-on: ubuntu-latest
-    # needs: install 
-
-    services:
-      mysql:
-        image: mysql 
-        ports: 
-          - '3306:3306'
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: csa
-    env:
-      DATABASE_URL: mysql://root:root@localhost/csa
-      JWT_SECRET: token
-    steps:
-      - name: Checkout
+    steps: 
+      - name: Checkout do Repositorio
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: cd server && npm ci
+      - name: Deploy 
+        uses: easingthemes/ssh-deploy@main
+        env: 
+          SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+  # tests-backend:
+  #   name: Tests backend
+  #   runs-on: ubuntu-latest
+  #   # needs: install 
 
-      - name: Database run push
-        run: cd server && npx prisma db push
+  #   services:
+  #     mysql:
+  #       image: mysql 
+  #       ports: 
+  #         - '3306:3306'
+  #       env:
+  #         MYSQL_ROOT_PASSWORD: root
+  #         MYSQL_DATABASE: csa
+  #   env:
+  #     DATABASE_URL: mysql://root:root@localhost/csa
+  #     JWT_SECRET: token
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Install dependencies
+  #       run: cd server && npm ci
+
+  #     - name: Database run push
+  #       run: cd server && npx prisma db push
       
-      - name: Database run seed 
-        run: cd server && npx prisma db seed
+  #     - name: Database run seed 
+  #       run: cd server && npx prisma db seed
 
-      - name: Run unit tests 
-        run:
-          cd server &&
-          ls -la &&  
-          npx tsc &&
-          npm test
-        #&& npm test
+  #     - name: Run unit tests 
+  #       run:
+  #         cd server &&
+  #         ls -la &&  
+  #         npx tsc &&
+  #         npm test
+  #       #&& npm test
 
 
 
