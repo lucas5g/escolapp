@@ -1,0 +1,74 @@
+name: CICD
+on:
+  push:
+    branches:
+     - main
+
+jobs:
+  tests-backend:
+    name: Tests backend
+    runs-on: ubuntu-latest 
+      services:
+        mysql:
+          image: mysql 
+          ports: 
+            - '3306:3306'
+          env:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: csa
+        env:
+          DATABASE_URL: mysql://root:root@localhost/csa
+          JWT_SECRET: token
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: Install dependencies
+          run: cd server && npm ci
+
+        - name: Database run push
+          run: cd server && npx prisma db push
+        
+        - name: Database run seed 
+          run: cd server && npx prisma db seed
+
+        - name: Run unit tests 
+          run:
+            cd server &&
+            ls -la &&  
+            npx tsc &&
+            npm test
+  
+  update: 
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Install ssh keys 
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    
+      - name: Git pull and build application
+        run: 
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd projects/csa && git pull && source ~/.nvm/nvm.sh && cd server && npm i && npm run build && pm2 restart csa --update-env"
+  
+
+  # - name: Restore node_modules
+  #   uses: actions/cache@v3
+  #   with:
+  #     path: server/node_modules
+  #     key: ${{ runner.os }}-${{ hashFiles('**/packege-lock') }}
+
+  # - name: Create mysql
+  #   uses: mirromutth/mysql-action@v1.1
+  #   with: 
+  #     mysql database: csa 
+  #     mysql user: root 
+  #     mysql password: root
+
+
+
+
+
+
