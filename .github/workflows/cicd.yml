@@ -5,6 +5,21 @@ on:
      - main
 
 jobs:
+  tests-frontend:
+    name: Tests frondtend
+    runs-on: ubuntu-lastest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: cd web && npm ci
+
+      - name: Run unit tests 
+        run:
+          cd web &&
+          npm build 
+
   tests-backend:
     name: Tests backend
     runs-on: ubuntu-latest 
@@ -16,31 +31,29 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: csa
-    env:
+    env: 
       DATABASE_URL: mysql://root:root@localhost/csa
       JWT_SECRET: token
-      SOURCE: server/
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: ls
-        # run: cd server && npm ci
+        run: cd server && npm ci
 
-      # - name: Database run push
-      #   run: cd server && npx prisma db push
+      - name: Database run push
+        run: cd server && npx prisma db push
       
-      # - name: Database run seed 
-      #   run: cd server && npx prisma db seed
+      - name: Database run seed 
+        run: cd server && npx prisma db seed
 
-      # - name: Run unit tests 
-      #   run:
-      #     cd server &&
-      #     ls -la &&  
-      #     npx tsc &&
-      #     npm test
+      - name: Run unit tests 
+        run:
+          cd server &&
+          ls -la &&  
+          npx tsc &&
+          npm test
 
   update: 
     name: Deploy
