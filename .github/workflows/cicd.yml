@@ -5,30 +5,34 @@ on:
      - main
 
 jobs:
-  install-dependences:
-    name: Install Dependences
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # install-dependences:
+  #   name: Install Dependences
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Cache node_modules
-        uses: actions/cache@v3 
-        with:
-          path: |
-            server/node_modules
-            web/node_modules
-            test/node_modules
-          key: ${{ runner.os }}-node_modules
+  #     - name: Cache node_modules
+  #       uses: actions/cache@v3 
+  #       id: cache_node_modules
+  #       with:
+  #         path: |
+  #           server/node_modules
+  #           web/node_modules
+  #           test/node_modules
+  #         key: ${{ runner.os }}-node_modules
 
-      - name: Install Pacotes Server
-        run : cd server && npm ci 
+  #     - name: Install Pacotes Server
+  #       if: steps.cache_node_modules.outputs.cache-hit != 'true'
+  #       run : cd server && npm ci 
 
-      - name: Install Pacotes Web
-        run : cd web && npm ci 
+  #     - name: Install Pacotes Web
+  #       if: steps.cache_node_modules.outputs.cache-hit != 'true'
+  #       run : cd web && npm ci 
 
-      - name: Install Pacotes test
-        run : cd test && npm ci
+  #     - name: Install Pacotes test
+  #       if: steps.cache_node_modules.outputs.cache-hit != 'true'
+  #       run : cd test && npm ci
 
   tests-frontend:
     name: Tests frontend
@@ -38,7 +42,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Cache node_modules
+        uses: actions/cache@v3 
+        id: cache-web
+        with:
+          path: |
+            server/node_modules
+            web/node_modules
+            test/node_modules
+          key: ${{ runner.os }}-node_modules-web
+          restore-key: ${{ runner.os }}-node_modules-web
+
       - name: Install dependencies
+        if: steps.cache_node_modules.outputs.cache-hit != 'true'
         run: cd web && npm ci
 
       - name: Check typescript
