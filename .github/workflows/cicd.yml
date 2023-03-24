@@ -21,11 +21,14 @@ jobs:
             test/node_modules
           key: ${{ runner.os }}-node_modules
 
-      - name: Install Pacotes
-        run : |
-          cd server && npm ci 
-          cd web && npm ci 
-          cd test && npm ci
+      - name: Install Pacotes Server
+        run : cd server && npm ci 
+
+      - name: Install Pacotes Web
+        run : cd web && npm ci 
+
+      - name: Install Pacotes test
+        run : cd test && npm ci
 
   tests-frontend:
     name: Tests frontend
