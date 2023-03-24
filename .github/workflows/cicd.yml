@@ -41,7 +41,7 @@ jobs:
   tests-backend:
     name: Tests backend
     runs-on: ubuntu-latest 
-    seeds: install-dependences     
+    needs: install-dependences     
     services:
       mysql:
         image: mysql 
