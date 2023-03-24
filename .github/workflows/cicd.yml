@@ -5,34 +5,6 @@ on:
      - main
 
 jobs:
-  # install-dependences:
-  #   name: Install Dependences
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Cache node_modules
-  #       uses: actions/cache@v3 
-  #       id: cache_node_modules
-  #       with:
-  #         path: |
-  #           server/node_modules
-  #           web/node_modules
-  #           test/node_modules
-  #         key: ${{ runner.os }}-node_modules
-
-  #     - name: Install Pacotes Server
-  #       if: steps.cache_node_modules.outputs.cache-hit != 'true'
-  #       run : cd server && npm ci 
-
-  #     - name: Install Pacotes Web
-  #       if: steps.cache_node_modules.outputs.cache-hit != 'true'
-  #       run : cd web && npm ci 
-
-  #     - name: Install Pacotes test
-  #       if: steps.cache_node_modules.outputs.cache-hit != 'true'
-  #       run : cd test && npm ci
 
   tests-frontend:
     name: Tests frontend
@@ -46,12 +18,9 @@ jobs:
         uses: actions/cache@v3 
         id: cache-web
         with:
-          path: |
-            server/node_modules
-            web/node_modules
-            test/node_modules
+          path: web/node_modules
           key: ${{ runner.os }}-node_modules-web
-          restore-key: ${{ runner.os }}-node_modules-web
+          # restore-key: ${{ runner.os }}-cache-web
 
       - name: Install dependencies
         if: steps.cache-web.outputs.cache-hit != 'true'
@@ -85,11 +54,13 @@ jobs:
       
       - name: Cache node_modules
         uses: actions/cache@v3 
+        id: cache-server
         with:
           path: server/node_modules
-          key: ${{ runner.os }}-node_modules
+          key: ${{ runner.os }}-cache-server
 
       - name: Install dependencies
+        if: steps.cache-server.outputs.cache-hit != 'true'
         run : cd server && npm ci
 
       - name: Database run push
@@ -126,8 +97,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
+      - name: Cache node_modules
+        uses: actions/cache@v3 
+        id: cache-test
+        with:
+          path: test/node_modules
+          key: ${{ runner.os }}-cache-test  
+            
       - name: Install dependencias
+        if: steps.cache-test.outputs.cache-hit != 'true'
         run : cd test && npm ci
 
       - name: Run tests e2e
