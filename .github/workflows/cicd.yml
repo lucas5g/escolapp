@@ -24,7 +24,7 @@ jobs:
   tests-frontend:
     name: Tests frontend
     runs-on: ubuntu-latest
-    seeds: install-dependences 
+    needs: install-dependences 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
