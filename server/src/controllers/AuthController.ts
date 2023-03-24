@@ -4,10 +4,9 @@ import { AuthService } from "../services/AuthService"
 export class AuthController{
   static async login(req:Request, res:Response, next:NextFunction){
     try{
-
       res.json(await AuthService.login(req.body))   
-
     }catch(error){
+      // console.log(error)
       next(error)
     }
 

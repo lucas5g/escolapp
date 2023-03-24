@@ -29,10 +29,12 @@ export function Login() {
       localStorage.setItem('accessToken', data.accessToken)
       location.href = '/'
     } catch (error: any) {
+      const { message } = error?.response.data
+      if(message.includes('Please make sure your database server')){
+        return alert('Erro no Banco de Dados :(')
+      }
 
-      const { data } = error?.response
-
-      alert(data)
+      alert(message)
     } finally {
       setLoading(false)
     }
@@ -65,6 +67,7 @@ export function Login() {
           />
           <footer className="flex justify-end">
             <Button
+              id="button-login"
               disabled={loading}
               value={'Acessar'}
             />

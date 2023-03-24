@@ -12,7 +12,7 @@ import { TeamController } from './controllers/TeamController'
 import { UserController } from './controllers/UserController'
 
 import { auth } from './utils/auth'
-import { authSchema, gameSchema, groupSchema, teamQuerySchema,  } from './utils/schemas'
+import { errors } from './utils/erros'
 import { validation } from './utils/validation'
 
 export const routes = Router()
@@ -21,13 +21,14 @@ export const routes = Router()
  * Default
  */
 routes.get('/', (req:Request, res:Response) => res.json({api: 'Api release 2023-03-22'}))
-routes.post('/login', validation(authSchema), AuthController.login)
+routes.post('/login', AuthController.login)
 
 
 /**
- * Auth routes
+ * Middleawares
  */
 routes.use(auth)
+routes.use(errors)
 
 
 /**
@@ -44,7 +45,7 @@ routes.delete('/users/:id', UserController.delete)
  */
 routes.get('/groups', GroupController.index)
 routes.get('/groups/:id', GroupController.show)
-routes.post('/groups', validation(groupSchema), GroupController.create)
+routes.post('/groups', GroupController.create)
 routes.put('/groups/:id', GroupController.update)
 routes.delete('/groups/:id',GroupController.delete)
 
@@ -81,7 +82,7 @@ routes.delete('/students/:ra',StudentController.delete)
 routes.get('/games', GameController.index)
 routes.get('/games/:id', GameController.show)
 routes.post('/games', GameController.create)
-routes.put('/games/:id', validation(gameSchema), GameController.update)
+routes.put('/games/:id', GameController.update)
 routes.delete('/games/:id',GameController.delete)
 
 
@@ -98,7 +99,7 @@ routes.get('/courses', CourseController.index)
 /**
  * Teams
  */
-routes.get('/teams', validation(teamQuerySchema), TeamController.index)
+routes.get('/teams', TeamController.index)
 routes.get('/teams/:id', TeamController.show)
 routes.post('/teams', TeamController.create)
 routes.put('/teams/:id', TeamController.update)
@@ -110,9 +111,13 @@ routes.delete('/teams/:id',TeamController.delete)
  */
 routes.get('/me', AuthController.me)
 
-routes.use((error:Error, req:Request, res:Response, next:NextFunction) => {
-  res.status(400).json({
-    message: error.message
-  })
-})
+
+// routes.use((error:Error, req:Request, res:Response, next:NextFunction) => {
+
+//   console.log(error.errors)
+
+//   res.status(400).json({
+//     message: error.message
+//   })
+// })
 

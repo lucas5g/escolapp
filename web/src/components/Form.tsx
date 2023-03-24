@@ -69,6 +69,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               key={field.key}
               type={field.type || 'text'}
               name={field.key}
+              id={field.key}
               label={field.value}
               select={field?.options?.length > 0}
               value={value}

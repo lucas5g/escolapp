@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import { UserRepository } from "../repositories/UserRepository";
-import { authType } from "../utils/schemas";
+import { authSchema, authType } from "../utils/schemas";
 
 export class AuthService{
 
-  static async login(data:authType){
-    const {email, password } = data
+  static async login(data:any){
+    const {email, password } = authSchema.parse(data)
 
     const user = await UserRepository.findByEmail(email)
     const isCorrectPassword = await bcrypt.compare(password, user?.password || '')

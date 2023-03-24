@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Card } from "../components/Card";
 import { Error } from "../components/Error";
 import { Form } from "../components/Form";
 import { Layout } from "../components/Layout";

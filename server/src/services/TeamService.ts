@@ -1,6 +1,12 @@
+import { z } from "zod"
 import { TeamRepository } from "../repositories/TeamRepository"
-import { teamType } from "../utils/schemas"
 
+export const teamSchema = z.object({
+  name: z.string(),
+  modalityId: z.coerce.number(),
+  groupId: z.coerce.number(),
+  genreId: z.coerce.number()
+})
 export class TeamService {
   static async findMany(where?:any) {
    return await TeamRepository.findMany(where)
@@ -10,15 +16,18 @@ export class TeamService {
     return await TeamRepository.findById(id)
   }
 
-  static async create(data: teamType) {
-    if(await TeamRepository.findByColumn('name', data.name)){
-      throw new Error(`Já foi cadastrado o time com o nome ${data.name}!`)
+  static async create(data: any) {
+    const team = teamSchema.parse(data)
+
+    if(await TeamRepository.findByColumn('name', team.name)){
+      throw new Error(`Já foi cadastrado o time com o nome ${team.name}!`)
     }
-    return await TeamRepository.create(data)
+    return await TeamRepository.create(team)
   }
 
   static async update(id: number, data: any) {
-    return await TeamRepository.update(id, data)
+    const team = teamSchema.parse(data)
+    return await TeamRepository.update(id, team)
   }
 
   static async delete(id: number) {

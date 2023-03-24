@@ -42,11 +42,3 @@ export const teamQuerySchema = z.object({
   modalityId:z.coerce.number().optional()
 })
 
-export const teamSchema = z.object({
-  name: z.string(),
-  modalityId: z.coerce.number(),
-  groupId: z.coerce.number(),
-  genreId: z.coerce.number()
-})
-
-export type teamType = z.infer<typeof teamSchema>
