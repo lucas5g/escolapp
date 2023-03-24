@@ -2,34 +2,13 @@ name: CICD
 on:
   push:
     branches:
-     - test
+     - old
 
 jobs:
-  tests-frontend:
-    name: Tests frontend
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Cache node_modules
-        uses: actions/cache@v3 
-        with:
-          path: server/node_modules
-          key : ${{ runner.os }}-node_modules-web
-
-      - name: Install dependencies
-        run: cd web && npm ci
-
-      - name: Check typescript
-        run: cd web && npx tsc
-
-      - name: Run unit tests 
-        run : cd web && npm run build 
-
-  tests-backend:
-    name: Tests backend
-    runs-on: ubuntu-latest 
+    
     services:
       mysql:
         image: mysql 
@@ -41,36 +20,33 @@ jobs:
     env: 
       DATABASE_URL: mysql://root:root@localhost/csa
       JWT_SECRET: token
-
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
-      - name: Cache node_modules
-        uses: actions/cache@v3 
-        with:
-          path: server/node_modules
-          key: ${{ runner.os }}-node_modules-backend
 
-      - name: Install dependencies
+      - name: Install dependencies server
         run : cd server && npm ci
 
       - name: Database run push
-        run: cd server && npx prisma db push
-      
+        run : cd server && npx prisma db push
+
       - name: Database run seed 
-        run: cd server && npx prisma db seed
+        run : cd server && npx prisma db seed 
 
-      - name: Check Typescript
-        run : cd server && npx tsc
+      - name: Run unit tests server 
+        run : cd server && npx tsc && npm test
 
-      - name: Run unit tests 
-        run : cd server && npm test
+      - name: Install dependencies web
+        run : cd web && npm ci
+
+      - name: Tests units web
+        run : cd web && npx tsc && npm run build 
 
   update: 
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [tests-frontend, tests-backend ]
+    needs: [tests]
     steps: 
       - name: Install ssh keys 
         run: |
