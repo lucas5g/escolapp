@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cypress open",
-    "test": "cypress run --config video=false"
+    "test": "CYPRESS_EMAIL=$npm_config_email CYPRESS_PASSWORD=$npm_config_password cypress run --config video=false baseUrl=https://csa-app.vercel.app/login"
   },
   "keywords": [],
   "author": "",

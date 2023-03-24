@@ -10,6 +10,8 @@ export default defineConfig({
       server: 'https://jisa.up.railway.app/',
       api: 'http://localhost:8000'
     },
-    viewportWidth: 1200
+    viewportWidth: 1200,
+    baseUrl:'http://localhost:5173'
+  
   },
 });
