@@ -5,8 +5,8 @@ on:
      - main
 
 jobs:
-  tests-frontend:
-    name: Tests frontend
+  install-dependences:
+    name: Install Dependences
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,8 +15,19 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v3 
         with:
-          path: server/node_modules
-          key : ${{ runner.os }}-node_modules
+          path: |
+            server/node_modules
+            web/node_modules
+            test/node_modules
+          key: ${{ runner.os }}-node_modules
+
+  tests-frontend:
+    name: Tests frontend
+    runs-on: ubuntu-latest
+    seeds: install-dependences 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: cd web && npm ci
@@ -30,6 +41,7 @@ jobs:
   tests-backend:
     name: Tests backend
     runs-on: ubuntu-latest 
+    seeds: install-dependences     
     services:
       mysql:
         image: mysql 
@@ -89,13 +101,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
-      - name: Cache node_modules
-        uses: actions/cache@v3 
-        with:
-          path: server/node_modules
-          key: ${{ runner.os }}-node_modules
-
+        
       - name: Install dependencias
         run : cd test && npm ci
 
