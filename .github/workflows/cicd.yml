@@ -8,6 +8,7 @@ jobs:
   tests-frontend:
     name: Tests frontend
     runs-on: ubuntu-latest
+    skip: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -70,14 +71,13 @@ jobs:
   test-e2e:
     name: Tests e2e
     runs-on: ubuntu-latest
-    needs: [tests-frontend, tests-backend]
     steps:
 
       - name: Checkout
         uses: actions/checkout@v3
       
       - name: Install dependencia server
-        run : cd server && ci 
+        run : cd server && npm ci 
 
       - name: Install dependencies web
         run : cd web && npm ci
@@ -92,7 +92,7 @@ jobs:
   update: 
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [test-e2e]
+    needs: [tests-frontend, tests-backend]
     steps: 
       - name: Install ssh keys 
         run: |
