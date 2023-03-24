@@ -67,10 +67,32 @@ jobs:
       - name: Run unit tests 
         run : cd server && npm test
 
+  test-e2e:
+    name: Tests e2e
+    runs-on: ubuntu-latest
+    needs: [tests-frontend, tests-backend]
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Install dependencia server
+        run : cd server && ci 
+
+      - name: Install dependencies web
+        run : cd web && npm ci
+
+      - name: Run server
+        run : cd server && npm run dev
+
+      - name: Curl
+        run : curl http://localhost:8000
+
+
   update: 
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [tests-frontend, tests-backend ]
+    needs: [test-e2e]
     steps: 
       - name: Install ssh keys 
         run: |
