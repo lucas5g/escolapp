@@ -17,9 +17,9 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: csa
-      env: 
-        DATABASE_URL: mysql://root:root@localhost/csa
-        JWT_SECRET: token
+    env: 
+      DATABASE_URL: mysql://root:root@localhost/csa
+      JWT_SECRET: token
     
     steps:
       - name: Checkout
