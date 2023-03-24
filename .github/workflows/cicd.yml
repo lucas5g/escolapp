@@ -8,7 +8,6 @@ jobs:
   tests-frontend:
     name: Tests frontend
     runs-on: ubuntu-latest
-    skip: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
