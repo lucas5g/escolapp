@@ -11,6 +11,7 @@ export default defineConfig({
       api: 'http://localhost:8000'
     },
     viewportWidth: 1200,
+    video:false
     // baseUrl:'http://localhost:5173'
   
   },

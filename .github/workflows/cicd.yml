@@ -16,7 +16,7 @@ jobs:
         uses: actions/cache@v3 
         with:
           path: server/node_modules
-          key : ${{ runner.os }}-node_modules-web
+          key : ${{ runner.os }}-node_modules
 
       - name: Install dependencies
         run: cd web && npm ci
@@ -50,7 +50,7 @@ jobs:
         uses: actions/cache@v3 
         with:
           path: server/node_modules
-          key: ${{ runner.os }}-node_modules-backend
+          key: ${{ runner.os }}-node_modules
 
       - name: Install dependencies
         run : cd server && npm ci
@@ -94,13 +94,13 @@ jobs:
         uses: actions/cache@v3 
         with:
           path: server/node_modules
-          key: ${{ runner.os }}-node_modules-test
+          key: ${{ runner.os }}-node_modules
 
       - name: Install dependencias
         run : cd test && npm ci
 
       - name: Run tests e2e
-        run : cd test && npm test --email=admin@mail.com --password=qweqwe
+        run : cd test && npm test --email=lucas@mail.com --password=qweqwe
 
 
 
