@@ -54,7 +54,7 @@ jobs:
           restore-key: ${{ runner.os }}-node_modules-web
 
       - name: Install dependencies
-        if: steps.cache_node_modules.outputs.cache-hit != 'true'
+        if: steps.cache-web.outputs.cache-hit != 'true'
         run: cd web && npm ci
 
       - name: Check typescript
