@@ -6,7 +6,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   options?:{
     id:number,
-    name:number
+    name:string
   }[]
 }
 export function Input(props: Props) {
