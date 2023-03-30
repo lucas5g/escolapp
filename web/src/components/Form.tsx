@@ -9,7 +9,7 @@ import { Card, Width } from "./Card";
 interface Props {
   item: any,
   setItem: Function
-  fields: any[]
+  fields?: any[]
   uri: string,
   width?: Width
   children?: ReactNode
@@ -59,11 +59,10 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
         {children}
 
-        {fields.map(field => {
+        {fields?.map(field => {
           // console.log(item, field)
           const value = item[field.key] || ''
-          // const inputLabelProps = {}
-          // return 
+
           return (
             <TextField
               key={field.key}
@@ -74,8 +73,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               select={field?.options?.length > 0}
               value={value}
               onChange={event =>  setItem({ ...item, [field.key]: event.target.value })}
-            // size='small'                 
-            // props
+         
             >
               {field?.options?.map((option: any) => {
                 // console.log(option)

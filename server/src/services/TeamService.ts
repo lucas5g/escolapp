@@ -1,25 +1,34 @@
 import { z } from "zod"
 import { TeamRepository } from "../repositories/TeamRepository"
 
-export const teamSchema = z.object({
+const teamSchema = z.object({
   name: z.string(),
   modalityId: z.coerce.number(),
   groupId: z.coerce.number(),
   genreId: z.coerce.number()
 })
+
+const teamQuerySchema = z.object({
+  modalityId: z.coerce.number().optional()
+})
+
+export type teamType = z.infer<typeof teamSchema>
+type teamQuerySchema = z.infer<typeof teamQuerySchema>
+
 export class TeamService {
-  static async findMany(where?:any) {
-   return await TeamRepository.findMany(where)
+  static async findMany(data?: teamQuerySchema) {
+    return await TeamRepository.findMany(data ? teamQuerySchema.parse(data) : {})
   }
 
   static async findById(id: number) {
     return await TeamRepository.findById(id)
   }
 
-  static async create(data: any) {
+  static async create(data: teamType) {
     const team = teamSchema.parse(data)
+    console.log('team ', team)
 
-    if(await TeamRepository.findByColumn('name', team.name)){
+    if (await TeamRepository.findByColumn('name', team.name)) {
       throw new Error(`Já foi cadastrado o time com o nome ${team.name}!`)
     }
     return await TeamRepository.create(team)

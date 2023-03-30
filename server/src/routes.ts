@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express'
+import { Request, Response, Router } from 'express'
 
 import { AuthController } from './controllers/AuthController'
 import { CourseController } from './controllers/CourseController'
@@ -12,8 +12,7 @@ import { TeamController } from './controllers/TeamController'
 import { UserController } from './controllers/UserController'
 
 import { auth } from './utils/auth'
-import { errors } from './utils/erros'
-import { validation } from './utils/validation'
+import { errors } from './utils/errors'
 
 export const routes = Router()
 
@@ -28,7 +27,6 @@ routes.post('/login', AuthController.login)
  * Middleawares
  */
 routes.use(auth)
-routes.use(errors)
 
 
 /**
@@ -111,13 +109,6 @@ routes.delete('/teams/:id',TeamController.delete)
  */
 routes.get('/me', AuthController.me)
 
+routes.use(errors)
 
-// routes.use((error:Error, req:Request, res:Response, next:NextFunction) => {
-
-//   console.log(error.errors)
-
-//   res.status(400).json({
-//     message: error.message
-//   })
-// })
 

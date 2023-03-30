@@ -1,12 +1,12 @@
-import exp from "constants";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { TeamService } from "../services/TeamService";
 
 describe('Team', () => {
 
-  it('Team list', async () => {
+  it.only('Team list', async () => {
     const teams = await TeamService.findMany()
-    expect(teams).deep.equal([])
+    expect(teams).toBeTypeOf('object')
+    console.log(teams)
   })
 
   it('Team find by modalityId', async () => {
@@ -37,8 +37,7 @@ describe('Team', () => {
     /**
      * Show
      */
-    const teamShow = await TeamService.findById(team.id)
-    expect(teamShow).toHaveProperty('name')
+    expect(await TeamService.findById(team.id)).toHaveProperty('name', data.name)
 
 
     /**

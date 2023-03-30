@@ -1,11 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import { TeamRepository } from "../repositories/TeamRepository";
 import { TeamService } from "../services/TeamService";
 
 export class TeamController{
 
-  static async index(req:Request, res:Response){
-    res.json(await TeamService.findMany(req.query))
+  static async index(req:Request, res:Response, next:NextFunction){
+    try{
+      res.json(await TeamService.findMany(req.query))
+    }catch(error){
+      next(error)
+    }
   }
 
   static async show(req:Request, res:Response){
@@ -14,7 +17,7 @@ export class TeamController{
 
   static async create(req: Request, res:Response, next:NextFunction){
     try{
-      return res.json(await TeamRepository.create(req.body))
+      return res.json(await TeamService.create(req.body))
     }catch(error){
       next(error)
     }

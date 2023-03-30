@@ -2,6 +2,7 @@ import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Error } from "../components/Error";
 import { Form } from "../components/Form";
+import { Input } from "../components/Input";
 import { Layout } from "../components/Layout";
 import { Loading } from "../components/Loading";
 import { Main } from "../components/Main";
@@ -21,7 +22,7 @@ const genres = [
   { id: 3, name: 'MISTO' },
 ]
 
-interface Team {
+interface TeamInterface {
   id: number
   name: string
   groupId: number
@@ -31,7 +32,7 @@ interface Team {
 
 export function Team() {
 
-  const [team, setTeam] = useState({} as Team)
+  const [team, setTeam] = useState({} as TeamInterface)
 
   const { data, error } = swr('teams')
   const { data: groups, error: errorGroups } = swr('groups')
@@ -41,12 +42,12 @@ export function Team() {
    * Create name team by options
    */
   useEffect(() => {
-    if(!groups || !modalities ) return
-    const group = groups.find((group: any) => group.id === team.groupId) 
+    if (!groups || !modalities) return
+    const group = groups.find((group: any) => group.id === team.groupId)
     const modality = modalities.find((modality: any) => modality.id === team.modalityId)
     const genre = genres.find((genre: any) => genre.id === team.genreId)
     const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`.trim()
-    setTeam({...team, name:teamName})
+    setTeam({ ...team, name: teamName })
 
   }, [team.groupId, team.modalityId, team.genreId])
 
@@ -59,7 +60,7 @@ export function Team() {
     { key: 'genreId', value: 'Gênero', options: genres },
     // { key: 'name', value: 'Nome da Equipe' },
   ]
-
+  console.log(team)
   const teams = data
 
   return (
@@ -73,11 +74,32 @@ export function Team() {
           positionBottom={teams.length * 100}
         />
         <Form
-          fields={fieldsForm}
           item={team}
           setItem={setTeam}
           uri='teams'
+          width={90}
         >
+          <Input
+            name='groupId'
+            label='Turma'
+            options={groups}
+            value={team.groupId ?? ''}
+            onChange={event => setTeam({ ...team, groupId: Number(event.target.value) })}
+          />
+          <Input
+            name='modalityId'
+            label='Modalidade'
+            options={modalities}
+            value={team.modalityId ?? ''}
+            onChange={event => setTeam({ ...team, modalityId: Number(event.target.value) })}
+          />
+          <Input
+            name='genreId'
+            label='Gênero'
+            options={genres}
+            value={team.genreId ?? ''}
+            onChange={event => setTeam({ ...team, genreId: Number(event.target.value) })}
+          />
           <TextField
             id="name"
             name="name"

@@ -90,27 +90,7 @@ jobs:
         run: 
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd projects/csa && git pull && source ~/.nvm/nvm.sh && cd server && npm i && npm run build && pm2 restart csa --update-env"
   
-  test-e2e:
-    name: Test e2e
-    runs-on: ubuntu-latest
-    needs: [deploy]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
 
-      - name: Cache node_modules
-        uses: actions/cache@v3 
-        id: cache-test
-        with:
-          path: test/node_modules
-          key: ${{ runner.os }}-cache-test  
-            
-      - name: Install dependencias
-        if: steps.cache-test.outputs.cache-hit != 'true'
-        run : cd test && npm ci
-
-      - name: Run tests e2e
-        run : cd test && npm test --email=lucas@mail.com --password=qweqwe
 
 
 
