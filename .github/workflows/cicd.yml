@@ -52,12 +52,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: Cache node_modules
-        uses: actions/cache@v3 
-        id: cache-server
-        with:
-          path: server/node_modules
-          key: ${{ runner.os }}-cache-server
+      # - name: Cache node_modules
+      #   uses: actions/cache@v3 
+      #   id: cache-server
+      #   with:
+      #     path: server/node_modules
+      #     key: ${{ runner.os }}-cache-server
 
       - name: Install dependencies
         if: steps.cache-server.outputs.cache-hit != 'true'
