@@ -43,9 +43,9 @@ jobs:
           - '3306:3306'
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: csa
+          MYSQL_DATABASE: escolapp
     env: 
-      DATABASE_URL: mysql://root:root@localhost/csa
+      DATABASE_URL: mysql://root:root@localhost/escolapp
       JWT_SECRET: token
 
     steps:

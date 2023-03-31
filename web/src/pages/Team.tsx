@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Error } from "../components/Error";
 import { Form } from "../components/Form";
@@ -30,20 +30,40 @@ interface TeamInterface {
   genreId: number
 }
 
+interface GroupInterface {
+  id: number
+  name: string
+  codcur: number
+  codper: number
+}
+
+interface StudentInterface {
+  id: number
+  name: string
+}
+
 export function Team() {
 
   const [team, setTeam] = useState({} as TeamInterface)
-
+  const [group, setGroup] = useState({
+    codcur: 22,
+    codper: 1
+  } as GroupInterface)
   const { data, error } = swr('teams')
-  const { data: groups, error: errorGroups } = swr('groups')
+  const { data: groups, error: errorGroups }: { data: GroupInterface[], error: any } = swr('groups')
   const { data: modalities, error: errorModalities } = swr('modalities')
 
+  const { data: students, error: errorStudents } = swr(`students?codcur=${group.codcur}&codper=${group.codper}`) as { data: StudentInterface[], error: any }
   /**
    * Create name team by options
    */
   useEffect(() => {
     if (!groups || !modalities) return
-    const group = groups.find((group: any) => group.id === team.groupId)
+    const group = groups.find(group => group.id === team.groupId)
+    if (group?.id) {
+      setGroup(group)
+    }
+
     const modality = modalities.find((modality: any) => modality.id === team.modalityId)
     const genre = genres.find((genre: any) => genre.id === team.genreId)
     const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`.trim()
@@ -54,12 +74,6 @@ export function Team() {
   if (error || errorGroups) return <Error error={error} />
   if (!data || !groups || !groups || !modalities) return <Loading />
 
-  const fieldsForm = [
-    { key: 'groupId', value: 'Turma', options: groups },
-    { key: 'modalityId', value: 'Modalidade', options: modalities },
-    { key: 'genreId', value: 'Gênero', options: genres },
-    // { key: 'name', value: 'Nome da Equipe' },
-  ]
   console.log(team)
   const teams = data
 
@@ -107,6 +121,20 @@ export function Team() {
             value={team.name ?? ''}
             onChange={event => setTeam({ ...team, name: event.target.value })}
           />
+          {students && students?.length > 0 &&
+            <Autocomplete
+              multiple
+              id='students'
+              options={students?.map(student => student?.name)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label='Alunos'
+                  placeholder="Adicionar Aluno"
+                />
+              )}
+            />
+          }
         </Form>
       </Main>
     </Layout>

@@ -127,8 +127,8 @@ async function createStudents() {
     {
       ra: 'c123123',
       name: 'aluno name',
-      codcur:20,
-      codper: 5,
+      codcur:23,
+      codper: 1,
       course: 'MT- Materanal',
       group: 'IMCAM'
     }

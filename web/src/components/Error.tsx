@@ -8,7 +8,7 @@ interface Props {
 
 export function Error({ error }: Props) {
 
-  console.log('error fetch', error.response)
+  // console.log('error fetch', error.response)
 
   if (error?.response?.data?.message === 'Without permission') {
     return (

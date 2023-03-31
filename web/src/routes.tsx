@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Game } from './pages/Game'
 import { Group } from './pages/Group'
 import { Home } from './pages/Home'
@@ -37,10 +37,6 @@ export function Routes() {
 
   const accessToken = localStorage.getItem('accessToken')
 
-  // if(!accessToken) return redirect('/login')
-
   return <RouterProvider router={ accessToken ? routesPrivate : routesPublic} />
-
-
 
 }

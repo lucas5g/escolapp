@@ -1,6 +1,4 @@
-import clsx from "clsx";
-import { CircleNotch, Spinner } from "phosphor-react";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { api } from "../utils/axios";
@@ -30,7 +28,9 @@ export function Login() {
       location.href = '/'
     } catch (error: any) {
       const { message } = error?.response.data
-      if(message.includes('Please make sure your database server')){
+      if (
+        message.includes('Please make sure your database server') || message.includes('Environment variable not found:')
+      ) {
         return alert('Erro no Banco de Dados :(')
       }
 
@@ -52,7 +52,7 @@ export function Login() {
           <Input
             type='email'
             name="email-login"
-            placeholder="Email"
+            label="E-mail"
             value={email}
             onChange={event => setEmail(event.target.value)}
             required
@@ -60,7 +60,7 @@ export function Login() {
           <Input
             type='password'
             name="password-login"
-            placeholder="Senha"
+            label="Password"
             value={password}
             onChange={event => setPassword(event.target.value)}
             required

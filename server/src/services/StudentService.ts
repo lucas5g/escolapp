@@ -1,8 +1,19 @@
+import { z } from "zod"
 import { StudentRepository } from "../repositories/StudentRepository"
 
 export class StudentService{
 
-  static async findMany(){
+  static schemaQuery = z.object({
+    codcur:z.coerce.number(),
+    codper:z.coerce.number()
+  })
+
+  static async findMany(query?:z.infer<typeof this.schemaQuery> ){
+    if(query?.codcur || query?.codper){
+      const where = this.schemaQuery.parse(query)
+      return await StudentRepository.findMany(where)
+    }
+
     return await StudentRepository.findMany()
   }
 

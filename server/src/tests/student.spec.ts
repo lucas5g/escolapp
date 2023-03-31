@@ -4,11 +4,16 @@ import { StudentService } from "../services/StudentService";
 describe('Student', () => {
   it('Student list', async () => {
     const students = await StudentService.findMany()
-    expect(students.length).toBeGreaterThanOrEqual(0)
-
+    expect(students).toBeTypeOf('object')
   })
 
-
+  it('Student filter by codcur and codper', async() => {
+    const students = await StudentService.findMany({codcur:23, codper:1})
+    students.forEach(student => {
+      expect(student.codcur).toBe(23)
+      expect(student.codper).toBe(1)
+    })
+  })
 
   it('Student crud', async () => {
     const data = {

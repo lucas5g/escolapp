@@ -2,8 +2,9 @@ import { prisma } from "../utils/prisma";
 
 export class StudentRepository {
 
-  static async findMany(){
+  static async findMany(where?:any){
     return await prisma.student.findMany({
+      where,
       orderBy:{
         name:'asc'
       }
@@ -12,7 +13,7 @@ export class StudentRepository {
 
   static async findByRa(ra:string) {
     return await prisma.student.findUnique({
-      where: {ra }
+      where: {ra}
     })
   }
 
