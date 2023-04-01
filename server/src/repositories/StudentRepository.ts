@@ -11,9 +11,9 @@ export class StudentRepository {
     })
   }
 
-  static async findByRa(ra:string) {
+  static async findById(id:string) {
     return await prisma.student.findUnique({
-      where: {ra}
+      where: {id}
     })
   }
 
@@ -21,16 +21,16 @@ export class StudentRepository {
     return await prisma.student.create({ data })
   }
 
-  static async update(ra:string, data:any){
+  static async update(id:string, data:any){
     return await prisma.student.update({
-      where: {ra},
+      where: {id},
       data,
     })
   }
 
-  static async delete(ra:string){
+  static async delete(id:string){
     return await prisma.student.delete({
-      where: {ra}
+      where: {id}
     })
   }
 }

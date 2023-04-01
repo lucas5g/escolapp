@@ -17,8 +17,8 @@ export class StudentService{
     return await StudentRepository.findMany()
   }
 
-  static async findByRa(ra:string){
-    return await StudentRepository.findByRa(ra)
+  static async findById(id:string){
+    return await StudentRepository.findById(id)
   }
 
   static async create(data:any){

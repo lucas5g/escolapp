@@ -1,42 +1,88 @@
+import { teamType } from "../services/TeamService"
 import { prisma } from "../utils/prisma"
 
 export class TeamRepository {
-  static async findMany(where:any) {
+  static async findMany(where: any) {
     return await prisma.team.findMany({
       where,
       orderBy: {
         name: 'asc'
       },
-      select: {
-        id: true,
-        name: true,
-        modalityId: true,
-        groupId: true,
-        genreId: true,
-        modality: true,
+      include: {
+        genre: true,
         group: true,
-        genre: true
-      },
+        modality: true,
+        TeamStudent: {
+          select: {
+            student:{
+              select:{
+                id:true,
+                name:true
+              }
+            }
+          }
+        }
+      }
 
-      // take: 5
     })
   }
 
   static async findById(id: number) {
     return await prisma.team.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        TeamStudent: {
+          include: {
+            student: true
+          }
+        }
+      }
+
     })
   }
 
-  static async findByColumn(column:string, value:any){
+  static async findByColumn(column: string, value: any) {
     return await prisma.team.findFirst({
-      where:{
-        [column]:value
+      where: {
+        [column]: value
       }
     })
   }
-  static async create(data: any) {
-    return await prisma.team.create({ data })
+  static async create(data: teamType) {
+    const students = data.studentsSelected?.map(id => {
+      return { studentId: id }
+    })
+
+    return await prisma.team.create({
+      data: {
+        name: data.name,
+        modalityId: data.modalityId,
+        groupId: data.groupId,
+        genreId: data.genreId,
+        TeamStudent: {
+          createMany: {
+            data: students || []
+          }
+        }
+      },
+      // select:{
+      //   id:true,
+      //   name: true,
+      //   modalityId:true,
+      //   groupId:true, 
+      //   genreId:true,
+      //   TeamStudent:{
+      //     select:{
+      //       student:{
+      //         select:{
+      //           id:true,
+      //           name:true,
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
+    })
   }
 
   static async update(id: number, data: any) {

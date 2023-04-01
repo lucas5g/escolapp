@@ -101,7 +101,6 @@ export function Form({ team, setTeam }: Props) {
             id='students'
             options={students?.map(student => student?.name)}
             onChange={(event, names) => { 
-              let groupActual = 
               setTeam({ ...team, studentsSelected: names })
             }}
 
@@ -111,7 +110,7 @@ export function Form({ team, setTeam }: Props) {
               <TextField
                 {...params}
                 label='Alunos'
-                placeholder="Clique aqui adicionar"
+                placeholder="Clique para adicionar"
               />
             )}
           />

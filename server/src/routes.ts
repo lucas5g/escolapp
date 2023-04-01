@@ -69,10 +69,10 @@ routes.delete('/places/:id',PlaceController.delete)
  * Students
  */
 routes.get('/students', StudentController.index)
-routes.get('/students/:ra', StudentController.show)
+routes.get('/students/:id', StudentController.show)
 routes.post('/students', StudentController.create)
-routes.put('/students/:ra', StudentController.update)
-routes.delete('/students/:ra',StudentController.delete)
+routes.put('/students/:id', StudentController.update)
+routes.delete('/students/:id',StudentController.delete)
 
 /**
  * Games

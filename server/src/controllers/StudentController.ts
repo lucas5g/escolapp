@@ -12,7 +12,7 @@ export class StudentController {
   }
 
   static async show(req: Request, res: Response) {
-    res.json(await StudentService.findByRa(req.params.ra))
+    res.json(await StudentService.findById(req.params.id))
   }
 
   static async create(req: Request, res: Response) {

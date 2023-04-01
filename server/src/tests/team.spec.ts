@@ -6,7 +6,8 @@ describe('Team', () => {
   it('Team list', async () => {
     const teams = await TeamService.findMany()
     expect(teams).toBeTypeOf('object')
-    console.log(teams)
+    expect(teams[0].TeamStudent[0]).toHaveProperty('student')
+    // console.log(teams[0].TeamStudent)
   })
 
   it('Team find by modalityId', async () => {
@@ -19,17 +20,21 @@ describe('Team', () => {
 
   })
 
-  it.only('Team crud', async () => {
+  // it.only('Test delete', async() => {
+  //   await TeamService.delete(1)
+
+  // })
+
+  it('Team crud', async () => {
 
     const data = {
       name: 'Teat name team',
       modalityId: 1,
       groupId: 1,
       genreId: 3,
-      studentsRaSelected: [
-        "C150133",
-        "C130265",
-        "C120264"
+      studentsSelected: [
+        'C123123',
+        'C111222' 
       ]
     }
     
@@ -42,13 +47,15 @@ describe('Team', () => {
     /**
      * Show
      */
-    // expect(await TeamService.findById(team.id)).toHaveProperty('name', data.name)
+    const teamShow = await TeamService.findById(team.id)
+    expect(teamShow).toHaveProperty('name', data.name)
+    console.log(teamShow?.TeamStudent)
 
 
     /**
      * Try create same name exist
      */
-    // await expect(() => TeamService.create(data)).rejects.toThrow('cadastrado')
+    await expect(() => TeamService.create(data)).rejects.toThrow('cadastrado')
 
     /**
      * Delete

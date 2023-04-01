@@ -1,71 +1,77 @@
 import { PrismaClient } from '@prisma/client'
 import csvtojson from 'csvtojson'
 import bcrypt from 'bcrypt'
-import { setTimeout } from 'timers/promises'
+import fs from 'fs'
 
 
 const prisma = new PrismaClient()
 
-createModalities()
-createGroups() 
 createUsers()
+createGroups()
+createModalities()
+createGenres()
 createPlaces()
 createStudents()
-createGenres()
-// createTeams()
+createTeams()
 createGame()
-createUser()
-// async function createStudents(){
 
-// }
-async function createUser(){
-  await prisma.user.upsert({
-    where:{
-      email: 'test@mail.com',
-    },
-    update:{
-      name:'test'
-    },
-    create:{
-      email:'test@mail.com',
-      password: await bcrypt.hash('qweqwe', 12),
-      name:'test'
+
+
+async function createUsers() {
+  const usersFile = `${__dirname}/data/users.csv`
+  let users = []
+  if (fs.existsSync(usersFile)) {
+    users = await csvtojson().fromFile(usersFile)
+  } else {
+    users = [
+      {
+        email: 'test@mail.com',
+        name: 'test',
+        password: 'qweqwe'
+      }
+    ]
+  }
+
+  users.forEach(async (user) => {
+    try {
+
+      await prisma.user.upsert({
+        where: {
+          email: user.email || `${user.user}@santoagostinho.com.br`,
+        },
+        update: {
+          email: user.email || `${user.user}@santoagostinho.com.br`,
+          name: user.name,
+          password: await bcrypt.hash(user.password, 12),
+        },
+        create: {
+          email: user.email || `${user.user}@santoagostinho.com.br`,
+          name: user.name,
+          password: await bcrypt.hash(user.password, 12),
+        }
+      })
+      console.log(`${user.name} atualizado com sucesso!`)
+    } catch (error) {
+      console.log(`${error} ${user.name} - ${user.email}`)
     }
   })
 }
 
-async function createUsers(){
-  const users = await csvtojson().fromFile(`${__dirname}/data/users.csv`)
-  await prisma.user.upsert({
-    where:{
-      email: 'test@mail.com',
-    },
-    update:{
-      name:'test'
-    },
-    create:{
-      email:'test@mail.com',
-      password: await bcrypt.hash('qweqwe', 12),
-      name:'test'
-    }
-  })
-}
-
-async function createGame(){
+async function createGame() {
   await prisma.game.create({
-    data:{
-      date:'2023-03-15T04:29:51.961Z',
-      startHours:'08:00',
-      endHours:'09:00'
+    data: {
+      date: '2023-03-15T04:29:51.961Z',
+      startHours: '08:00',
+      endHours: '09:00'
     }
   })
 }
 
 async function createGenres() {
   const genres = [
-    {id:2, name:'FEM'},
-    {id:1, name:'MAS'},
-    {id:3, name:'MISTO'}
+    { id: 2, name: 'FEM' },
+    { id: 1, name: 'MAS' },
+    { id: 3, name: 'MISTO' }
   ]
 
   genres.forEach(async (row) => {
@@ -74,62 +80,126 @@ async function createGenres() {
         id: row.id
       },
       update: row,
-      create:row
+      create: row
     })
     console.log(`${row.name} atualizado com sucesso!`)
   })
 }
 
+async function createTeams() {
+  const teams = await csvtojson().fromFile(`${__dirname}/data/teams.csv`)
 
-async function createGroups() {
+  teams.forEach(async (team, index) => {
+    try {
 
-  const groups = [{id: 1, name: 'turma test', codcur:20, codper:1 }]
-  // const groups = await csv().fromFile(`${__dirname}/data/groups-custom.csv`)
-
-  groups.forEach(async (row, index) => {
-    await prisma.group.upsert({
-      where: {
-        id: row.id
-        // id: Number(row.id_turma)
-      },
-      update: row, 
-      create: row
-    })
-    console.log(`${index + 1} - ${row.name} atualizado com sucesso!`)
+      await prisma.team.upsert({
+        where: {
+          id: Number(team.id)
+        },
+        update: {
+          name: team.name,
+          modalityId: Number(team.modalityId),
+          groupId: Number(team.groupId),
+          genreId: Number(team.genreId),
+          TeamStudent: {
+            create: [
+              { studentId: 'C123123' },
+              { studentId: 'C111222' }
+            ]
+          }
+        },
+        create: {
+          id: Number(team.id),
+          name: team.name,
+          modalityId: Number(team.modalityId),
+          groupId: Number(team.groupId),
+          genreId: Number(team.genreId),
+          TeamStudent: {
+            create: [
+              { studentId: 'C123123' },
+              { studentId: 'C111222' }
+            ]
+          }
+        }
+      })
+      console.log(`${team.name} atualizado com sucesso!`)
+    } catch (error) {
+      console.log(error + team.name)
+    }
   })
 
 }
 
+async function createGroups() {
+
+  // const groups = [{ id: 1, name: 'turma test', codcur: 20, codper: 1 }]
+  const groups = await csvtojson().fromFile(`${__dirname}/data/groups.csv`)
+  console.log('Create groups')
+  groups.forEach(async (group, index) => {
+    try {
+
+      await prisma.group.upsert({
+        where: {
+          id: Number(group.id)
+        },
+        update: {
+          name: group.name,
+          codcur: Number(group.codcur),
+          codper: Number(group.codper)
+        },
+        create: {
+          id: Number(group.id),
+          name: group.name,
+          codcur: Number(group.codcur),
+          codper: Number(group.codper)
+        }
+      })
+      console.log(`${index + 1} - ${group.name} atualizado com sucesso!`)
+    } catch (error) {
+      console.log(group)
+    }
+  })
+
+}
 
 async function createModalities() {
-  const modalities = [
-    {id: 1, name: 'modalidade test', membersQuantity: 10, teamsQuantity: 2}
-  ]
+  const modalities = await csvtojson().fromFile(`${__dirname}/data/modalities.csv`)
+  console.log('Create modalities')
   modalities.forEach((async (modality, index) => {
     try {
 
       await prisma.modality.upsert({
         where: {
-          id: modality.id
+          id: Number(modality.id)
         },
-        update: modality,
-        create: modality
+        update: {
+          name: modality.name,
+          membersQuantity: Number(modality.membersQuantity),
+          teamsQuantity: Number(modality.teamsQuantity)
+        },
+        create: {
+          id: Number(modality.id),
+          name: modality.name,
+          membersQuantity: Number(modality.membersQuantity),
+          teamsQuantity: Number(modality.teamsQuantity)
+        }
       })
       console.log(`${index + 1} ${modality.name} - Atualizado!`)
-    } catch {
-      console.log(`Erro no cadastro`, modality)
+    } catch (error) {
+      console.log(error)
+      // console.log(`Erro no cadastro`, modality)
     }
   }))
 }
 
 async function createPlaces() {
   const places = [
-    {id:1, name:'place test'}
+    { id: 1, name: 'place test' }
   ]
 
   places.forEach((async (place) => {
     await prisma.place.upsert({
-      where:{
+      where: {
         id: place.id
       },
       update: place,
@@ -138,67 +208,58 @@ async function createPlaces() {
   }))
 }
 
+
 async function createStudents() {
-  // const students = await csv().fromFile(`${__dirname}/data/students.csv`)
-  const students = [
-    {
-      ra: 'c123123',
-      name: 'aluno name',
-      codcur:23,
-      codper: 1,
-      course: 'MT- Materanal',
-      group: 'IMCAM'
-    }
-  ]
+
+  const fileStudents = `${__dirname}/data/students.csv`
+  let students = []
+  if (fs.existsSync(fileStudents)) {
+    students = await csvtojson().fromFile(fileStudents)
+  } else {
+    students = [
+      {
+        id: 'C123123',
+        name: 'aaluno name',
+        codcur: 23,
+        codper: 1,
+        course: 'MT- Materanal',
+        group: 'IMCAM'
+      },
+      {
+        id: 'C111222',
+        name: 'aaluno name2',
+        codcur: 23,
+        codper: 1,
+        course: 'MT- Materanal',
+        group: 'IMCAM'
+      }
+    ]
+  }
 
   students.forEach(async (student, index) => {
-    // return console.log(`test ${index}`)
-    // await setTimeout(100 * index)
 
     await prisma.student.upsert({
       where: {
-        ra: student.ra
+        id: student.ra
       },
-      update: student,
-      create: student
+      update: {
+        name: student.name,
+        codcur: Number(student.codcur),
+        codper: Number(student.codper),
+        course: student.course,
+        group: student.group,
+      },
+      create: {
+        id: student.ra,
+        name: student.name,
+        codcur: Number(student.codcur),
+        codper: Number(student.codper),
+        course: student.course,
+        group: student.group,
+
+      }
     })
-    return console.log(`${index + 1} - ${student.name} - Atualizado !`)
+    console.log(`${index + 1} - ${student.name} - Atualizado !`)
   })
 
 }
-
-// async function createStudents() {
-//   // const students = await csv().fromFile(`${__dirname}/data/students.csv`)
-//   const students = [
-//     {}
-//   ]
-
-//   students.forEach(async (student, index) => {
-//     // return console.log(`test ${index}`)
-//     // await setTimeout(100 * index)
-
-//     await prisma.student.upsert({
-//       where: {
-//         ra: student.ra
-//       },
-//       update: {
-//         name: student.nome_aluno,
-//         codcur: Number(student.codcur),
-//         codper: Number(student.codper),
-//         course: student.matriz_curricular,
-//         group: student.turma,
-//       },
-//       create: {
-//         ra: student.ra,
-//         name: student.nome_aluno,
-//         codcur: Number(student.codcur),
-//         codper: Number(student.codper),
-//         course: student.matriz_curricular,
-//         group: student.turma,
-
-//       }
-//     })
-//     return console.log(`${index + 1} - ${student.nome_aluno} - Atualizado !`)
-//   })
-
-// }

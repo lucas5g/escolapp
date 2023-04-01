@@ -47,8 +47,7 @@ model Place {
 }
 
 model Student {
-  id          Int           @id @default(autoincrement())
-  ra          String        @unique
+  id          String        @unique
   name        String
   course      String
   group       String
@@ -86,10 +85,12 @@ model Team {
 model TeamStudent {
   id        Int    @id @default(autoincrement())
   teamId    Int
-  studentRa String
+  studentId String
 
-  student Student @relation(fields: [studentRa], references: [ra])
-  team    Team    @relation(fields: [teamId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+  team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, studentId])
 }
 
 model Game {
