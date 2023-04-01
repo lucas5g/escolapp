@@ -47,15 +47,16 @@ model Place {
 }
 
 model Student {
-  id        Int      @id @default(autoincrement())
-  ra        String   @unique
-  name      String
-  course    String
-  group     String
-  codcur    Int
-  codper    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id          Int           @id @default(autoincrement())
+  ra          String        @unique
+  name        String
+  course      String
+  group       String
+  codcur      Int
+  codper      Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+  TeamStudent TeamStudent[]
 }
 
 model Genre {
@@ -71,14 +72,24 @@ model Team {
   groupId    Int?
   genreId    Int?
 
-  genre    Genre?     @relation(fields: [genreId], references: [id])
-  group    Group?     @relation(fields: [groupId], references: [id])
-  modality Modality?  @relation(fields: [modalityId], references: [id])
-  GameTeam GameTeam[]
+  genre       Genre?        @relation(fields: [genreId], references: [id])
+  group       Group?        @relation(fields: [groupId], references: [id])
+  modality    Modality?     @relation(fields: [modalityId], references: [id])
+  GameTeam    GameTeam[]
+  TeamStudent TeamStudent[]
 
   @@index([genreId], map: "Team_genreId_fkey")
   @@index([groupId], map: "Team_groupId_fkey")
   @@index([modalityId], map: "Team_modalityId_fkey")
+}
+
+model TeamStudent {
+  id        Int    @id @default(autoincrement())
+  teamId    Int
+  studentRa String
+
+  student Student @relation(fields: [studentRa], references: [ra])
+  team    Team    @relation(fields: [teamId], references: [id])
 }
 
 model Game {

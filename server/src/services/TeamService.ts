@@ -5,7 +5,8 @@ const teamSchema = z.object({
   name: z.string(),
   modalityId: z.coerce.number(),
   groupId: z.coerce.number(),
-  genreId: z.coerce.number()
+  genreId: z.coerce.number(),
+  studentsRaSelected: z.array(z.string()).optional()
 })
 
 const teamQuerySchema = z.object({
@@ -31,7 +32,8 @@ export class TeamService {
     if (await TeamRepository.findByColumn('name', team.name)) {
       throw new Error(`Já foi cadastrado o time com o nome ${team.name}!`)
     }
-    return await TeamRepository.create(team)
+
+    return await TeamRepository.create({...team, studentsRaSelected:undefined})
   }
 
   static async update(id: number, data: any) {

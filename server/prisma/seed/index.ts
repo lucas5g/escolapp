@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-
+import csvtojson from 'csvtojson'
 import bcrypt from 'bcrypt'
 import { setTimeout } from 'timers/promises'
 
@@ -8,17 +8,34 @@ const prisma = new PrismaClient()
 
 createModalities()
 createGroups() 
-// createUsers()
+createUsers()
 createPlaces()
 createStudents()
 createGenres()
 // createTeams()
-// createGame()
+createGame()
 createUser()
 // async function createStudents(){
 
 // }
 async function createUser(){
+  await prisma.user.upsert({
+    where:{
+      email: 'test@mail.com',
+    },
+    update:{
+      name:'test'
+    },
+    create:{
+      email:'test@mail.com',
+      password: await bcrypt.hash('qweqwe', 12),
+      name:'test'
+    }
+  })
+}
+
+async function createUsers(){
+  const users = await csvtojson().fromFile(`${__dirname}/data/users.csv`)
   await prisma.user.upsert({
     where:{
       email: 'test@mail.com',
