@@ -14,10 +14,10 @@ export class TeamRepository {
         modality: true,
         TeamStudent: {
           select: {
-            student:{
-              select:{
-                id:true,
-                name:true
+            student: {
+              select: {
+                id: true,
+                name: true
               }
             }
           }
@@ -65,30 +65,30 @@ export class TeamRepository {
           }
         }
       },
-      // select:{
-      //   id:true,
-      //   name: true,
-      //   modalityId:true,
-      //   groupId:true, 
-      //   genreId:true,
-      //   TeamStudent:{
-      //     select:{
-      //       student:{
-      //         select:{
-      //           id:true,
-      //           name:true,
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
     })
   }
 
-  static async update(id: number, data: any) {
+  static async update(id: number, data: teamType) {
+    const students = data.studentsSelected.map(id => {
+      return { studentId: id }
+    })
     return await prisma.team.update({
       where: { id },
-      data,
+      data: {
+        name: data.name,
+        modalityId: data.modalityId,
+        groupId: data.groupId,
+        genreId: data.genreId,
+        TeamStudent: {
+          deleteMany:{ teamId: id},
+          createMany:{
+            data: students || []
+          }
+        },
+      },
+      include:{
+        TeamStudent:true
+      }
     })
   }
 

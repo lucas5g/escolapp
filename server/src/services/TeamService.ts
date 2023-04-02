@@ -20,7 +20,23 @@ type teamQuerySchema = z.infer<typeof teamQuerySchema>
 export class TeamService {
   static async findMany(data?: teamQuerySchema) {
     
-    return await TeamRepository.findMany(data ? teamQuerySchema.parse(data): {})
+    const teams = await TeamRepository.findMany(data ? teamQuerySchema.parse(data): {})
+
+    const teamsWithStudents = teams.map( team => {
+      return {
+        ...team,
+        TeamStudent:undefined,
+        // students: team.TeamStudent.map(teamStudent => {
+        //   return {
+        //     id: teamStudent.student.id,
+        //     name: teamStudent.student.name
+        //   }
+        // })
+        students: team.TeamStudent.map( teamStudent =>  teamStudent.student.name)
+      }
+    })
+    
+    return teamsWithStudents
   }
 
   static async findById(id: number) {

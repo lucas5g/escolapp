@@ -6,8 +6,7 @@ describe('Team', () => {
   it('Team list', async () => {
     const teams = await TeamService.findMany()
     expect(teams).toBeTypeOf('object')
-    expect(teams[0].TeamStudent[0]).toHaveProperty('student')
-    // console.log(teams[0].TeamStudent)
+    expect(teams[0]).toHaveProperty('students')
   })
 
   it('Team find by modalityId', async () => {
@@ -44,12 +43,13 @@ describe('Team', () => {
     const team = await TeamService.create(data)
     expect(team).toHaveProperty('name', data.name)
 
+    expect(await TeamService.update(team.id, data))
+
     /**
      * Show
      */
     const teamShow = await TeamService.findById(team.id)
     expect(teamShow).toHaveProperty('name', data.name)
-    console.log(teamShow?.TeamStudent)
 
 
     /**

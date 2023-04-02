@@ -22,7 +22,13 @@ export interface TeamInterface {
   groupId: number
   modalityId: number
   genreId: number
-  studentsSelected: string[]
+  students: string[]
+  group:{
+    id:number,
+    name:string,
+    codcur:number,
+    codper:number
+  }
 }
 
 export function Team() {

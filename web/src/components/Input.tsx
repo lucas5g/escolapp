@@ -30,6 +30,7 @@ export function Input(props: Props) {
       select={props?.options && true}
       value={props.value}
       onChange={props.onChange}
+      required={props.required}
       >
         {/* <MenuItem value={0}>
           Selecione

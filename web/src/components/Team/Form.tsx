@@ -1,6 +1,9 @@
 import { Autocomplete, TextField } from "@mui/material";
+import { Student } from "phosphor-react";
 import { FormEvent, useEffect, useState } from "react";
+import { mutate } from "swr";
 import { TeamInterface } from "../../pages/Team";
+import { api } from "../../utils/axios";
 import { swr } from "../../utils/swr";
 import { Button } from "../Button";
 import { Card } from "../Card";
@@ -11,16 +14,19 @@ interface GroupInterface {
   name: string
   codcur: number
   codper: number
+ 
 }
 interface StudentInterface {
   id: number
   name: string
   ra: string
+  codcur: number
+  codper: number
 }
 
 interface Props {
   team: TeamInterface
-  setTeam:(team:TeamInterface) => void
+  setTeam: (team: TeamInterface) => void
 }
 
 const genres = [
@@ -31,29 +37,20 @@ const genres = [
 
 export function Form({ team, setTeam }: Props) {
 
-  const [group, setGroup] = useState({
-    codcur: 22,
-    codper: 1
-  } as GroupInterface)
+
+  const [loading, setLoading] = useState(false)
 
   const { data: groups, error: errorGroups }: { data: GroupInterface[], error: any } = swr('groups')
   const { data: modalities, error: errorModalities } = swr('modalities')
-
-  const { data: students, error: errorStudents } = swr(`students?codcur=${group.codcur}&codper=${group.codper}`) as { data: StudentInterface[], error: any }
-  
-  useEffect(() => {
-    setTeam({...team, studentsSelected:[]})
-    // console.log('muda')
-  }, [team.groupId])
-
-  // console.log(team)
+  const { data: students, error: errorStudents } = swr(`students`) as { data: StudentInterface[], error: any }
 
   useEffect(() => {
     if (!groups || !modalities) return
+    if (team.id) return
     const group = groups.find(group => group.id === team.groupId)
-    if (group?.id) {
-      setGroup(group)
-    }
+    // if (group?.id) {
+    //   setGroup(group)
+    // }
 
     const modality = modalities.find((modality: any) => modality.id === team.modalityId)
     const genre = genres.find((genre: any) => genre.id === team.genreId)
@@ -65,14 +62,16 @@ export function Form({ team, setTeam }: Props) {
   return (
     <Card>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={team.id ? handleSubmitUpdate : handleSubmitCreate}
         className="flex flex-col gap-5"
       >
+        {/* {team.id} */}
         <Input
           name='groupId'
           label='Turma'
           options={groups}
           value={team.groupId ?? ''}
+          required
           onChange={event => setTeam({ ...team, groupId: Number(event.target.value) })}
         />
         <Input
@@ -95,16 +94,22 @@ export function Form({ team, setTeam }: Props) {
           value={team.name || ''}
           onChange={event => setTeam({ ...team, name: event.target.value })}
         />
-        {students && students?.length > 0 &&
+        {/* {console.log(team, groups)} */}
+        {students?.length > 0 && team.groupId  &&
           <Autocomplete
             multiple
             id='students'
-            options={students?.map(student => student?.name)}
-            onChange={(event, names) => { 
-              setTeam({ ...team, studentsSelected: names })
+            options={
+              students
+                .filter(student => student.codcur === groups.find(group => group.id === team.groupId)?.codcur)
+                .filter(student => student.codper === groups.find(group => group.id === team.groupId)?.codper)
+                .map(student => student?.name)
+            }
+            onChange={(event, names) => {
+              console.log({ names })
+              setTeam({ ...team, students: names })
             }}
-
-            value={team.studentsSelected ?? []}
+            value={team.students ?? []}
             filterSelectedOptions
             renderInput={(params) => (
               <TextField
@@ -116,14 +121,17 @@ export function Form({ team, setTeam }: Props) {
           />
         }
         <div className="flex gap-3 justify-end">
-          <Button value='Cadastrar' />
+          <Button
+            value={team.id ? 'Atualizar' : 'Cadastrar'}
+            disabled={loading}
+          />
           <Button
             value='Cancelar'
             type='reset'
             secondary
             onClick={() => {
               setTeam({} as TeamInterface)
-              // window.scrollTo({ top: 0, behavior: 'smooth' })
+              window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
 
           />
@@ -132,11 +140,59 @@ export function Form({ team, setTeam }: Props) {
     </Card>
   )
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleSubmitCreate(event: FormEvent) {
     event.preventDefault()
-    const studentsRaSelected = team.studentsSelected.map( name => {
-      return students.find(student => student.name === name)?.ra || ''
+    setLoading(true)
+    const studentsSelected = team?.students?.map(name => {
+      return students.find(student => student.name === name)?.id || ''
     })
-    console.log({...team, studentsRaSelected})
+    const data = {
+      name: team.name,
+      groupId: team.groupId,
+      modalityId: team.modalityId,
+      genreId: team.genreId,
+      studentsSelected
+    }
+
+    
+    try {
+      await api.post(`teams`, data)
+      mutate('teams')
+    } catch (error:any) {
+      console.log(error)
+      const {data} = error.response
+      if(data){
+        alert(data.message)
+        return 
+      }
+      alert('Erro ao cadastrar')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleSubmitUpdate(event: FormEvent) {
+    event.preventDefault()
+    setLoading(true)
+    const studentsSelected = team.students.map(name => {
+      return students.find(student => student.name === name)?.id || ''
+    })
+    const data = {
+      name: team.name,
+      groupId: team.groupId,
+      modalityId: team.modalityId,
+      genreId: team.genreId,
+      studentsSelected
+    }
+
+    try {
+      await api.put(`teams/${team.id}`, data)
+      mutate('teams')
+    } catch (error) {
+      console.log(error)
+      alert('Erro ao atualizar')
+    } finally {
+      setLoading(false)
+    }
   }
 }

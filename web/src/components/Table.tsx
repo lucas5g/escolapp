@@ -14,6 +14,7 @@ interface Props {
   positionBottom?: number
 }
 
+
 export function Table({
   fields,
   items,
@@ -22,7 +23,9 @@ export function Table({
   width = 100,
   positionBottom = 500
 }: Props) {
+  // console.log(item)
   return (
+
     <Card width={width}>
       {items.length === 0 &&
         <p className="text-gray-500" >Sem registros.</p>

@@ -24,7 +24,7 @@ export class TeamController{
   }
 
   static async update(req: Request, res:Response){
-    res.json(await TeamService.update(Number(req.body.id), req.body))
+    res.json(await TeamService.update(Number(req.params.id), req.body))
   }
 
   static async delete(req:Request, res: Response){
