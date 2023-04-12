@@ -55,7 +55,7 @@ export function Login() {
             label="E-mail"
             value={email}
             onChange={event => setEmail(event.target.value)}
-            required
+            
           />
           <Input
             type='password'
@@ -63,7 +63,7 @@ export function Login() {
             label="Password"
             value={password}
             onChange={event => setPassword(event.target.value)}
-            required
+            
           />
           <footer className="flex justify-end">
             <Button

@@ -7,10 +7,12 @@ export class GameRepository {
       orderBy: [
         {date:'asc'},
         {startHours:'asc'}
-      ]
-      // include:{
-      //   Place:true
-      // }
+      ],
+      include:{
+       place:true,
+       modality:true ,
+       user:true
+      }
       // take: 5
     })
   }

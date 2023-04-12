@@ -14,7 +14,7 @@ interface GroupInterface {
   name: string
   codcur: number
   codper: number
- 
+
 }
 interface StudentInterface {
   id: number
@@ -71,7 +71,6 @@ export function Form({ team, setTeam }: Props) {
           label='Turma'
           options={groups}
           value={team.groupId ?? ''}
-          required
           onChange={event => setTeam({ ...team, groupId: Number(event.target.value) })}
         />
         <Input
@@ -95,7 +94,7 @@ export function Form({ team, setTeam }: Props) {
           onChange={event => setTeam({ ...team, name: event.target.value })}
         />
         {/* {console.log(team, groups)} */}
-        {students?.length > 0 && team.groupId  &&
+        {students?.length > 0 && team.groupId &&
           <Autocomplete
             multiple
             id='students'
@@ -154,16 +153,16 @@ export function Form({ team, setTeam }: Props) {
       studentsSelected
     }
 
-    
+
     try {
       await api.post(`teams`, data)
       mutate('teams')
-    } catch (error:any) {
+    } catch (error: any) {
       console.log(error)
-      const {data} = error.response
-      if(data){
+      const { data } = error.response
+      if (data) {
         alert(data.message)
-        return 
+        return
       }
       alert('Erro ao cadastrar')
     } finally {

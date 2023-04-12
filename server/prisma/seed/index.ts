@@ -62,7 +62,10 @@ async function createGame() {
     data: {
       date: '2023-03-15T04:29:51.961Z',
       startHours: '08:00',
-      endHours: '09:00'
+      endHours: '09:00',
+      placeId:1,
+      modalityId:1,
+      userId:1
     }
   })
 }
@@ -88,6 +91,10 @@ async function createGenres() {
 
 async function createTeams() {
   const teams = await csvtojson().fromFile(`${__dirname}/data/teams.csv`)
+
+  if(await prisma.team.count() > 2){
+    return
+  }
 
   teams.forEach(async (team, index) => {
     try {
@@ -193,17 +200,21 @@ async function createModalities() {
 }
 
 async function createPlaces() {
-  const places = [
-    { id: 1, name: 'place test' }
-  ]
-
+  
+  const places = await csvtojson().fromFile(`${__dirname}/data/places.csv`)
+  
   places.forEach((async (place) => {
     await prisma.place.upsert({
       where: {
-        id: place.id
+        id: Number(place.id)
       },
-      update: place,
-      create: place
+      update: {
+        name: place.name
+      },
+      create: {
+        id:Number(place.id),
+        name: place.name
+      }
     })
   }))
 }
