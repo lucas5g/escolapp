@@ -1,29 +1,45 @@
-import { GameInterface } from "../../pages/Game";
+import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod'
+
 import { swr } from "../../utils/swr";
 import { Card } from "../Card";
 import { FormHandle } from "../FormHandle";
 import { Input } from "../Input";
+import { GameType, gameSchema } from "../../pages/Game";
 
 interface Props {
-  game: GameInterface
-  setGame: (game: GameInterface) => void
+  game: GameType
+  setGame: (game: GameType) => void
 }
 
-export function FormGame({ game, setGame }: Props) {
+
+
+export function Form({ game, setGame }: Props) {
 
   const { data: places, error: errorPlaces } = swr('places')
   const { data: modalities, error: errorModalities } = swr('modalities')
   const { data: users, error: errorUsers } = swr('users')
 
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm<GameType>({
+    resolver:zodResolver(gameSchema)
+  })
+
   return (
     <Card>
-      <FormHandle>
+      <FormHandle handleSubmit={handleSubmit}>
         <Input
           type="date"
-          name="data"
+          name="date"
           label="Data"
-          onChange={event => setGame({ ...game, date: event.target.value })}
+          value=''
+          // onChange={event => setGame({ ...game, date: event.target.value })}
           inputLabelOpen
+          register={register}
+          error={errors.date?.message === 'Invalid date' ? 'Data é obrigatória.' : errors.date?.message}
         />
         <Input
           type="time"
@@ -31,8 +47,11 @@ export function FormGame({ game, setGame }: Props) {
           label="Início"
           onChange={event => setGame({ ...game, startHours: event.target.value })}
           inputLabelOpen
+          register={register}
+          error={errors.startHours?.message}
+
         />
-        <Input
+        {/* <Input
           type="time"
           name="endHours"
           label="Fim"
@@ -66,7 +85,7 @@ export function FormGame({ game, setGame }: Props) {
             value={game.userId ?? ''}
             onChange={event => setGame({ ...game, userId: event.target.value })}
           />
-        }
+        } */}
 
 
       </FormHandle>

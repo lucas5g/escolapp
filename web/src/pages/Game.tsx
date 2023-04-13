@@ -7,7 +7,8 @@ import { Loading } from "../components/Loading";
 import { Main } from "../components/Main";
 import { Table } from "../components/Table";
 import { swr } from "../utils/swr";
-import { FormGame } from "../components/Game/FormGame";
+import { z } from "zod";
+import { Form } from "../components/Game/Form";
 
 const fields = [
   { key: 'date', value: 'Data' },
@@ -18,16 +19,28 @@ const fields = [
   { key: 'user', value: 'Juíz' }
 ]
 
-export interface GameInterface {
-  id: number
-  date: Date,
-  startHours: string
-  endHours: string
-  placeId: number
-  modalityId: number
-  userId: number
-}
+export const gameSchema = z.object({
+  startHours: z.string({})
+    .nonempty('Início é obrigatório.'),    
+  date: z.string().refine(string => new Date(string))
+  
+    
+  
 
+    // z.string().datetime()
+  //   .date
+    //   offset:true,
+    
+    // })
+    
+    
+  // endHours: z.string(),
+  // placeId: z.number(),
+  // modalityId: z.number(),
+  // userId: z.number()
+})
+
+export type GameType = z.infer<typeof gameSchema>
 interface User {
   name: string
 }
@@ -37,15 +50,11 @@ interface Team{
 }
 export function Game() {
 
-  const [game, setGame] = useState({} as GameInterface)
-  const { data, error }: { data: GameInterface[], error: any } = swr('games')
-  const { data: modalities, error: errorModalities } = swr('modalities')
-  const { data: teams, error: errorTeams }:{data:Team[], error:any} = swr(`teams`)
-
+  const [game, setGame] = useState({} as GameType)
+  const { data: games, error }: { data: GameType[], error: any } = swr('games')
+ 
   if (error) return <Error error={error} />
-  if (!data ) return <Loading />
-
-  const games = data
+  if (!games ) return <Loading />
 
   return (
     <Layout>
@@ -57,7 +66,7 @@ export function Game() {
           setItem={setGame}
           positionBottom={games.length * 100}
         />
-        <FormGame
+        <Form
           game={game}
           setGame={setGame}
           />

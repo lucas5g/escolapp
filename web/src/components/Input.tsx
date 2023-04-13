@@ -5,49 +5,57 @@ interface Props {
   label: string
   name: string
   value?: string | number
-  onChange: (event: any) => any
+  onChange?: (event: any) => any
   required?: boolean
   type?: 'text' | 'email' | 'number' | 'password' | 'date' | 'time'
   inputLabelOpen?: boolean
+  register?: any
+  error?:string
   options?: {
     id: number,
     name: string
   }[]
 }
-export function Input({ inputLabelOpen = false, options, ...props }: Props) {
+export function Input(props : Props) {
 
-  function getType(key: string) {
-    const type: any = {
-      codcur: 'number',
-      codper: 'number',
-      teamsQuantity: 'number',
-      membersQuantity: 'number'
-    }
-    return type[key]
+  if (props.register) {
+    return (
+      <TextField
+        type={props.type ?? 'text'}
+        id={props.name}
+        label={props.label}
+        InputLabelProps={props.inputLabelOpen ? { shrink: true } : {}}
+        {...props.register(props.name)}
+        error={props.error ? true : false}
+        helperText={props.error}
+
+        />
+    )
   }
-  // console.log(options)
+
   return (
     <TextField
       type={props.type ?? 'text'}
       name={props.name}
       id={props.name}
       label={props.label}
-      select={options?.length !== undefined && options.length > 0}
+      select={props.options !== undefined}
       value={props.value}
       onChange={props.onChange}
       required={props.required}
-      InputLabelProps={inputLabelOpen ? { shrink: true } : {}}
+      InputLabelProps={props.inputLabelOpen ? { shrink: true } : {}}
       fullWidth
+      error={props.error ? true : false}
+      helperText={props.error}
     >
       {/* <MenuItem value='0'>
         Selecione
       </MenuItem> */}
-      {options?.map(option => {
+      {props.options?.map(option => {
         return (
           <MenuItem
             key={option.id}
             value={option.id ?? ''}
-
           >
             {option.name}
           </MenuItem>
