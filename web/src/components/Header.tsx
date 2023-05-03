@@ -12,6 +12,7 @@ export const menus = [
   'Equipes',
   'Locais',
   'Jogos',
+  'Pontos', 
   'Usuários'
 ]
 

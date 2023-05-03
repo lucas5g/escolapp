@@ -1,15 +1,13 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from '@hookform/resolvers/zod'
 
+import { GameInterface } from "../../pages/Game";
 import { swr } from "../../utils/swr";
 import { Card } from "../Card";
 import { FormHandle } from "../FormHandle";
 import { Input } from "../Input";
-import { GameType, gameSchema } from "../../pages/Game";
 
 interface Props {
-  game: GameType
-  setGame: (game: GameType) => void
+  game: GameInterface
+  setGame: (game: GameInterface) => void
 }
 
 
@@ -20,26 +18,17 @@ export function Form({ game, setGame }: Props) {
   const { data: modalities, error: errorModalities } = swr('modalities')
   const { data: users, error: errorUsers } = swr('users')
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors }
-  } = useForm<GameType>({
-    resolver:zodResolver(gameSchema)
-  })
-
   return (
     <Card>
-      <FormHandle handleSubmit={handleSubmit}>
+      <form className="form">
         <Input
           type="date"
           name="date"
           label="Data"
           value=''
-          // onChange={event => setGame({ ...game, date: event.target.value })}
+          onChange={event => setGame({ ...game, date: event.target.value })}
           inputLabelOpen
-          register={register}
-          error={errors.date?.message === 'Invalid date' ? 'Data é obrigatória.' : errors.date?.message}
+          error={game.errors?.date}
         />
         <Input
           type="time"
@@ -47,8 +36,7 @@ export function Form({ game, setGame }: Props) {
           label="Início"
           onChange={event => setGame({ ...game, startHours: event.target.value })}
           inputLabelOpen
-          register={register}
-          error={errors.startHours?.message}
+          error={game.errors?.startHours}
 
         />
         {/* <Input
@@ -88,7 +76,7 @@ export function Form({ game, setGame }: Props) {
         } */}
 
 
-      </FormHandle>
+      </form>
     </Card>
   )
 }

@@ -7,13 +7,14 @@ export function Aside() {
   return (
     <aside className={'hidden lg:flex fixed hover:flex  w-[10em]  flex-col pb-10' }>
       {menus.map(menu => {
+        const menuActual = menu.toLowerCase().replace('á', 'a')
         return (
           <Link
             key={menu}
             onClick={() => scrollTo({top:0, behavior:'smooth'})}
-            to={`/${menu.toLowerCase()}`}
+            to={`/${menuActual}`}
             className={clsx('py-3 pl-5 text-gray-900 hover:text-gray-800 hover:bg-blue-100 transition-colors rounded ', {
-              'text-gray-800 font-bold border-b-4 border-b-blue-300 rounded-none transition-colors': menu.toLocaleLowerCase() === location.pathname.replace('/', '') || menu === 'Home' && location.pathname === '/',
+              'text-gray-800 font-bold border-b-4 border-b-blue-300 rounded-none transition-colors': menuActual === location.pathname.replace('/', '') || menu === 'Home' && location.pathname === '/',
  
             })}>
             {menu}
