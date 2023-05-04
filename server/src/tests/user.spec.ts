@@ -12,6 +12,10 @@ describe('User', () => {
     expect(users.length).toBeGreaterThanOrEqual(0)
   })
 
+  it.skip('User update', async() => {
+    
+  })
+
   it('User crud', async () => {
 
     const data = {

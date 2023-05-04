@@ -5,10 +5,20 @@ import { api } from "../utils/axios";
 import { Button } from "./Button";
 import { Card, Width } from "./Card";
 
+enum Type{
+  date ='date',
+  time = 'time'
+}
 interface Props {
   item: any,
   setItem: Function
-  fields?: any[]
+  fields?:{
+    key:string 
+    value:string
+    type?:string
+    // type?: 'text' | 'date' | 'time'
+    options?:any[]
+  }[]
   uri: string,
   width?: Width
   children?: ReactNode
@@ -16,9 +26,7 @@ interface Props {
 
 
 export function Form({ item, setItem, fields, uri, width, children }: Props) {
-
   const [loading, setLoading] = useState(false)
-
   async function handleSubmitUpdate(event: FormEvent) {
     event.preventDefault()
     // return console.log(item)
@@ -61,7 +69,6 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
         {fields?.map(field => {
           // console.log(item, field)
           const value = item[field.key] || ''
-
           return (
             <TextField
               key={field.key}
@@ -69,9 +76,10 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               name={field.key}
               id={field.key}
               label={field.value}
-              select={field?.options?.length > 0}
+              select={field?.options && true}
               value={value}
               onChange={event =>  setItem({ ...item, [field.key]: event.target.value })}
+              InputLabelProps={field.type === 'date' || field.type === 'time' ? {shrink:true}:{}}
          
             >
               {field?.options?.map((option: any) => {

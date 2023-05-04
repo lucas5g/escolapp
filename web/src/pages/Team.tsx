@@ -14,8 +14,6 @@ const fields = [
   { key: 'genreId', value: 'Gênero' }
 ]
 
-
-
 export interface TeamInterface {
   id: number
   name: string
@@ -55,6 +53,7 @@ export function Team() {
         <Form
           team={team}
           setTeam={setTeam}
+
         />
       </Main>
     </Layout>

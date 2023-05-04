@@ -33,10 +33,12 @@ export function Table({
       {items.length > 0 &&
         <table className="w-full mt-2">
           <thead>
-            <tr className="border-b font-semibold">
+            <tr className="border-b font-semibold ">
+              {/* <td className="pb-3 pr-1">N°</td> */}
+              <td className="pb-3">N°</td>
               {fields.map(head => {
                 return (
-                  <td key={head.key} className="pb-3 pr-1 text-end first:text-start">
+                  <td key={head.key} className="pb-3">
                     {head.value}
                   </td>
                 )
@@ -44,7 +46,7 @@ export function Table({
             </tr>
           </thead>
           <tbody className="">
-            {items.map((row) => {
+            {items.map((row, index) => {
               return (
                 <tr
                   key={row.id}
@@ -54,9 +56,9 @@ export function Table({
                   })}
                   title="Clique para Editar"
                   onClick={() => {
-                    if('date' in row){
-                      setItem({...row, date: moment(row.date).toDate()})
-                    }else{
+                    if ('date' in row) {
+                      setItem({ ...row, date: moment(row.date).toDate() })
+                    } else {
                       setItem(row)
                     }
                     const width = document.querySelector('body')?.offsetWidth
@@ -68,6 +70,9 @@ export function Table({
                     }
                   }}
                 >
+                  <td className="h-10">
+                    {index + 1}
+                  </td>
                   {fields.map(field => {
                     const keyName = field.key.replace('Id', '')
                     if (field.key === 'date') {
@@ -79,7 +84,7 @@ export function Table({
                     }
                     return (
                       <td
-                        className="h-14 text-end first:text-start"
+                        className="h-10"
                         key={field.key}>
                         {row[keyName]?.['name'] ?? row[field.key]}
                       </td>
