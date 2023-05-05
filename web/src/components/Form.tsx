@@ -4,11 +4,10 @@ import { mutate } from "swr";
 import { api } from "../utils/axios";
 import { Button } from "./Button";
 import { Card, Width } from "./Card";
+import { translate } from "../utils/translate";
+import moment from "moment";
 
-enum Type{
-  date ='date',
-  time = 'time'
-}
+
 interface Props {
   item: any,
   setItem: Function
@@ -27,6 +26,8 @@ interface Props {
 
 export function Form({ item, setItem, fields, uri, width, children }: Props) {
   const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState<any>()
+
   async function handleSubmitUpdate(event: FormEvent) {
     event.preventDefault()
     // return console.log(item)
@@ -35,8 +36,14 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
       await api.put(`${uri}/${item.id}`, item)
       mutate(uri)
     } catch (error: any) {
-      const { message } = error.response.data
-      alert(message)
+      const { status } = error.response
+      if(status === 400){
+        const { errors } = error.response.data
+        setErrors(errors)
+        return 
+      }
+      alert('Error no servidor')
+      return
     } finally {
       setLoading(false)
     }
@@ -51,8 +58,13 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
       setItem(data)
       mutate(uri)
     } catch (error: any) {
-      const { message } = error.response.data
-      alert(message)
+      const { status } = error.response
+      if(status === 400){
+        const { errors } = error.response.data
+        setErrors(errors)
+        return 
+      }
+      alert('Error no servidor')
     } finally {
       setLoading(false)
     }
@@ -63,12 +75,14 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     <Card width={width} >
       <form onSubmit={item?.id ? handleSubmitUpdate : handleSubmitCreate}
         className='flex flex-col gap-5'>
+          {/* erro */}
+        {/* {JSON.stringify(errors)} */}
 
         {children}
 
         {fields?.map(field => {
-          // console.log(item, field)
           const value = item[field.key] || ''
+          console.log({value})
           return (
             <TextField
               key={field.key}
@@ -77,11 +91,11 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               id={field.key}
               label={field.value}
               select={field?.options && true}
-              value={value}
+              value={field.type === 'date' ?  moment(value).format('YYYY-MM-DD') : value}
               onChange={event =>  setItem({ ...item, [field.key]: event.target.value })}
               InputLabelProps={field.type === 'date' || field.type === 'time' ? {shrink:true}:{}}
-         
-            >
+              error={errors && true}
+              helperText={translate(errors?.[field.key])}>
               {field?.options?.map((option: any) => {
                 // console.log(option)
                 return (

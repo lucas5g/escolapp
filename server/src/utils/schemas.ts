@@ -30,13 +30,15 @@ export const authSchema = z.object({
 export type authType = z.infer<typeof authSchema>
 
 export const gameSchema = z.object({
-  date: z.string().datetime({ offset: true }),
+  date: z.string().datetime(),
   startHours: z.string(),
   endHours: z.string(),
   placeId: z.number(),
   modalityId: z.number(),
   userId: z.number()
 })
+
+export type GameType = z.infer<typeof gameSchema>
 
 export const teamQuerySchema = z.object({
   modalityId:z.coerce.number().optional()

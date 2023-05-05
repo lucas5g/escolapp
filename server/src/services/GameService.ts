@@ -1,6 +1,6 @@
 import { GameRepository } from "../repositories/GameRepository";
 import { errorsMessages } from "../utils/errors-messages";
-import { gameSchema } from "../utils/schemas";
+import { GameType, gameSchema } from "../utils/schemas";
 
 
 export class GameService {
@@ -13,8 +13,9 @@ export class GameService {
     return await GameRepository.findById(id)
   }
 
-  static async create(data: any) {
-    return await GameRepository.create(data)
+  static async create(data: GameType) {
+    const body = gameSchema.parse(data)
+    return await GameRepository.create(body)
   }
 
   static async update(id: number, data: any) {
