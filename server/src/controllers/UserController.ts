@@ -19,8 +19,12 @@ export class UserController {
     }
   }
 
-  static async update(req: Request, res: Response) {
-    res.json(await UserService.update(Number(req.params.id), req.body))
+  static async update(req: Request, res: Response, next:NextFunction) {
+    try{
+      res.json(await UserService.update(Number(req.params.id), req.body))
+    }catch(error){
+      next(error)
+    }
   }
 
   static async delete(req: Request, res: Response) {

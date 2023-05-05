@@ -1,7 +1,7 @@
 import { UserRepository } from "../repositories/UserRepository";
 import bcrypt from 'bcrypt'
 
-import {userCreateType, userUpdateType } from '../utils/schemas'
+import {UserUpdateType, userCreateType, userUpdateSchema } from '../utils/schemas'
 export class UserService{
 
   static async findMany(){
@@ -23,8 +23,13 @@ export class UserService{
     return  await UserRepository.create(data)
   }
 
-  static async update(id:number, data: userUpdateType){
-    data.password = await bcrypt.hash(data.password, 12)
+  static async update(id:number, body: UserUpdateType){
+
+    const data = userUpdateSchema.parse(body)
+
+    if(data.password){
+      data.password = await bcrypt.hash(data.password, 12)
+    }
 
     return await UserRepository.update(id, data)
   }

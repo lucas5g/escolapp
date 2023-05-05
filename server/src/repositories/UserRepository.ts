@@ -1,60 +1,51 @@
 import { prisma } from "../utils/prisma";
 
+const select = {
+  id: true,
+  email: true,
+  name: true,
+  profile: true
+}
 export class UserRepository {
 
-  static async findMany(){
+
+  static async findMany() {
     return await prisma.user.findMany({
-      select:{
-        id: true,
-        email: true,
-        name: true
-      }
+      select
     })
   }
 
-  static async findById(id:number) {
+  static async findById(id: number) {
     return await prisma.user.findUnique({
       where: { id },
-      select: {
-        id: true,
-        email: true,
-        name: true
-      }
+      select
     })
   }
 
-  static async findByEmail(email:string) {
+  static async findByEmail(email: string) {
     return await prisma.user.findUnique({
-      where: { email }      
+      where: { email }
     })
   }
 
-  static async create(data:any) {
-    return await prisma.user.create({ 
+  static async create(data: any) {
+    return await prisma.user.create({
       data,
-      select:{
-        id: true,
-        email: true,
-        name: true
-      }
+      select
     })
   }
 
-  static async update(id:number, data:any){
+  static async update(id: number, data: any) {
     return await prisma.user.update({
-      where: {id},
+      where: { id },
       data,
-      select: {
-        id: true,
-        email: true,
-        name: true
-      }
+      select
     })
   }
 
-  static async delete(id:number){
+  static async delete(id: number) {
     return await prisma.user.delete({
-      where: {id}
+      where: { id }
     })
   }
 }

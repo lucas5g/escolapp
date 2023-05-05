@@ -6,12 +6,12 @@ export const userCreateSchema = z.object({
   password: z.string()
 })  
 
-export const userUpdateSchema = z.intersection(userCreateSchema, z.object({
+export const userUpdateSchema = userCreateSchema.extend({
   password: z.string().optional()
-}))
+})
 
 export type userCreateType = z.infer<typeof userCreateSchema>
-export type userUpdateType = z.infer<typeof userUpdateSchema>
+export type UserUpdateType = z.infer<typeof userUpdateSchema>
 
 
 export const groupSchema = z.object({

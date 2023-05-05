@@ -7,13 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Profile {
+  manager
+  judge
+  coordinator
+  representative
+}
+
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   password String
   name     String
-
-  games Game[]
+  profile  Profile?
+  games    Game[]
 }
 
 model Project {

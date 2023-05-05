@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client'
 import csvtojson from 'csvtojson'
 import bcrypt from 'bcrypt'
 import fs from 'fs'
+import { idToStringProfile } from '../../src/utils/id-to-string-profile'
+import { setTimeout } from 'timers/promises'
 
 
 const prisma = new PrismaClient()
@@ -27,7 +29,8 @@ async function createUsers() {
       {
         email: 'test@mail.com',
         name: 'test',
-        password: 'qweqwe'
+        password: 'qweqwe',
+        profile:'manager'
       }
     ]
   }
@@ -43,11 +46,14 @@ async function createUsers() {
           email: user.email || `${user.user}@santoagostinho.com.br`,
           name: user.name,
           password: await bcrypt.hash(user.password, 12),
+          profile:idToStringProfile(user.id_perfil)
         },
         create: {
           email: user.email || `${user.user}@santoagostinho.com.br`,
           name: user.name,
           password: await bcrypt.hash(user.password, 12),
+          profile:idToStringProfile(user.id_perfil)
+
         }
       })
       console.log(`${user.name} atualizado com sucesso!`)
@@ -58,6 +64,7 @@ async function createUsers() {
 }
 
 async function createGame() {
+  await setTimeout(5000)
   await prisma.game.create({
     data: {
       date: '2023-03-15T04:29:51.961Z',

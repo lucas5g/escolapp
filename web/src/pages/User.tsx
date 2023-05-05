@@ -9,10 +9,13 @@ import { Form } from "../components/Form";
 
 const fields = [
   { key: 'name', value: 'Nome' },
+  { key: 'email', value: 'E-mail' },
+  
 ]
 
 const fieldsForm = [
   {key:'name', value:'Nome'},
+  {key:'email', value:'E-mail'},
   {key:'password', value:'Senha'}
 ]
 interface UserInterface{
@@ -36,6 +39,7 @@ export function User(){
           items={users}
           item={user}
           setItem={setUser}
+          positionBottom={users.length * 100}
 
           />
           <Form 
