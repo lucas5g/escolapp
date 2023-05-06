@@ -8,11 +8,11 @@ export class GameRepository {
         {date:'asc'},
         {startHours:'asc'}
       ],
-      include:{
-       place:true,
-       modality:true ,
-       user:true
-      }
+      // include:{
+      //  place:true,
+      //  modality:true ,
+      //  user:true
+      // }
       // take: 5
     })
   }

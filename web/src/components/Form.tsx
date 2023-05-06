@@ -11,12 +11,12 @@ import moment from "moment";
 interface Props {
   item: any,
   setItem: Function
-  fields?:{
-    key:string 
-    value:string
-    type?:string
+  fields?: {
+    key: string
+    value: string
+    type?: string
     // type?: 'text' | 'date' | 'time'
-    options?:any[]
+    options?: any[]
   }[]
   uri: string,
   width?: Width
@@ -33,14 +33,18 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     // return console.log(item)
     setLoading(true)
     try {
+      if(item?.date){
+        item.date = new Date(item.date).toISOString()
+      }
+      
       await api.put(`${uri}/${item.id}`, item)
       mutate(uri)
     } catch (error: any) {
       const { status } = error.response
-      if(status === 400){
+      if (status === 400) {
         const { errors } = error.response.data
         setErrors(errors)
-        return 
+        return
       }
       alert('Error no servidor')
       return
@@ -51,18 +55,23 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   async function handleSubmitCreate(event: FormEvent) {
     event.preventDefault()
-    // return console.log(item)
     setLoading(true)
     try {
+      if(item?.date){
+        item.date = new Date(item.date).toISOString()
+      }
+      // console.log(item)
+      // return
       const { data } = await api.post(uri, item)
       setItem(data)
+      setErrors('')
       mutate(uri)
     } catch (error: any) {
       const { status } = error.response
-      if(status === 400){
+      if (status === 400) {
         const { errors } = error.response.data
         setErrors(errors)
-        return 
+        return
       }
       alert('Error no servidor')
     } finally {
@@ -75,13 +84,16 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     <Card width={width} >
       <form onSubmit={item?.id ? handleSubmitUpdate : handleSubmitCreate}
         className='flex flex-col gap-5'>
-          {/* erro */}
-        {/* {JSON.stringify(errors)} */}
-
+   
         {children}
-
         {fields?.map(field => {
           const value = item[field.key] || ''
+          // if (field.type === 'date') {
+          //   console.log({
+          //     moment: moment(value).format('YYYY-MM-DD'),
+          //     value
+          //   })
+          // }
           return (
             <TextField
               key={field.key}
@@ -90,18 +102,16 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               id={field.key}
               label={field.value}
               select={field?.options && true}
-              value={field.type === 'date' ?  moment(value).format('YYYY-MM-DD') : value}
-              onChange={event =>  setItem({ ...item, [field.key]: event.target.value })}
-              InputLabelProps={field.type === 'date' || field.type === 'time' ? {shrink:true}:{}}
+              value={field.type === 'date' && value ? moment(value).format('YYYY-MM-DD') : value}
+              onChange={event => setItem({ ...item, [field.key]: event.target.value })}
+              InputLabelProps={field.type === 'date' || field.type === 'time' ? { shrink: true } : {}}
               error={errors && true}
               helperText={translate(errors?.[field.key])}>
               {field?.options?.map((option: any) => {
-                // console.log(option)
                 return (
                   <MenuItem
                     key={option.id}
                     value={option.id}
-
                   >
                     {option.name}
                   </MenuItem>
@@ -119,6 +129,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
             secondary
             onClick={() => {
               setItem({})
+              setErrors('')
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
             value='Cancelar'

@@ -14,12 +14,13 @@ export class GameService {
   }
 
   static async create(data: GameType) {
-    const body = gameSchema.parse(data)
-    return await GameRepository.create(body)
+    const game = gameSchema.parse(data)
+    return await GameRepository.create(game)
   }
 
   static async update(id: number, data: any) {
-    return await GameRepository.update(id, data)
+    const game =  gameSchema.parse(data)
+    return await GameRepository.update(id, game)
   }
 
   static async delete(id: number) {
