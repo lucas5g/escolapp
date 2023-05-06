@@ -10,13 +10,26 @@ import { Form } from "../components/Form";
 const fields = [
   { key: 'name', value: 'Nome' },
   { key: 'email', value: 'E-mail' },
+  { key: 'profile', value: 'Perfil' }
   
 ]
 
 const fieldsForm = [
   {key:'name', value:'Nome'},
   {key:'email', value:'E-mail'},
-  {key:'password', value:'Senha'}
+  {key:'password', value:'Senha'},
+  {
+    key:'profile', 
+    value:'Perfil',
+    options:[
+      {id:'', name:''},
+      {id:'manager', name:'Admin'},
+      {id:'judge', name:'Juíz'},
+      {id:'coordinator', name:'Coordenador'},
+      {id:'representative', name:'Representante'},
+      
+    ]
+  }
 ]
 interface UserInterface{
   id:number 
@@ -30,7 +43,7 @@ export function User(){
   const {data:users, error}:{data:UserInterface[], error:any} = swr(uri)
   if (error) return <Error error={error} />
   if (!users) return <Loading />
-
+  // console.log(users)
   return(
     <Layout>
       <Main>
@@ -47,7 +60,7 @@ export function User(){
             item={user}
             setItem={setUser}
             uri={uri}
-
+            width={80}
             />
       </Main>
     </Layout>

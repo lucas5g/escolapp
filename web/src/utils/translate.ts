@@ -1,7 +1,10 @@
 export function translate(text:string){
   const optional:any = {
-    Required:'É obrigatório.'
+    Required:'É obrigatório.',
+    manager: 'Admin',
+    judge: 'Juíz',
+    coordinator: 'Coordenador'
   }
 
-  return optional[text]
+  return optional[text] ?? text
 }

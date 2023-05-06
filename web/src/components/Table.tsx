@@ -2,9 +2,8 @@ import clsx from "clsx";
 import moment from "moment";
 moment.locale('pt-br');
 
-// import 'moment/locale/pt-br'
-
 import { Card, Width } from "./Card";
+import { translate } from "../utils/translate";
 interface Props {
   fields: any[]
   items: any[]
@@ -35,10 +34,10 @@ export function Table({
           <thead>
             <tr className="border-b font-semibold ">
               {/* <td className="pb-3 pr-1">N°</td> */}
-              <td className="pb-3">N°</td>
+              <td className="pb-2">N°</td>
               {fields.map(head => {
                 return (
-                  <td key={head.key} className="pb-3">
+                  <td key={head.key} className="pb-2 px-2">
                     {head.value}
                   </td>
                 )
@@ -84,9 +83,10 @@ export function Table({
                     }
                     return (
                       <td
-                        className="h-10"
+                        className="h-10 px-1"
                         key={field.key}>
-                        {row[keyName]?.['name'] ?? row[field.key]}
+
+                        {translate(row[keyName]?.['name']) ?? translate(row[field.key])}
                       </td>
                     )
                   })}

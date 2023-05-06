@@ -82,7 +82,6 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
         {fields?.map(field => {
           const value = item[field.key] || ''
-          console.log({value})
           return (
             <TextField
               key={field.key}

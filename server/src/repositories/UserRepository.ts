@@ -11,7 +11,10 @@ export class UserRepository {
 
   static async findMany() {
     return await prisma.user.findMany({
-      select
+      select,
+      orderBy:{
+        name:'asc'
+      }
     })
   }
 
