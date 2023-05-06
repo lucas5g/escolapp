@@ -1,7 +1,7 @@
 import { UserRepository } from "../repositories/UserRepository";
 import bcrypt from 'bcrypt'
 
-import {UserUpdateType, userCreateType, userUpdateSchema } from '../utils/schemas'
+import {UserUpdateType, UserCreateType, userUpdateSchema, userCreateSchema } from '../utils/schemas'
 export class UserService{
 
   static async findMany(){
@@ -12,26 +12,28 @@ export class UserService{
     return UserRepository.findById(id)
   }
   
-  static async create(data: userCreateType){
+  static async create(data: UserCreateType){    
 
-    if(await UserRepository.findByEmail(data.email)){
-      throw new Error(`Já foi cadastrado o usuário com e-mail ${data.email}!`)
+    const user = userCreateSchema.parse(data)
+
+    if(await UserRepository.findByEmail(user.email)){
+      throw new Error(`Já foi cadastrado o usuário com e-mail ${user.email}!`)
     }
 
-    data.password = await bcrypt.hash(data.password, 12)
+    user.password = await bcrypt.hash(user.password, 12)
 
-    return  await UserRepository.create(data)
+    return  await UserRepository.create(user)
   }
 
-  static async update(id:number, body: UserUpdateType){
+  static async update(id:number, data: UserUpdateType){
 
-    const data = userUpdateSchema.parse(body)
+    const user = userUpdateSchema.parse(data)
 
-    if(data.password){
-      data.password = await bcrypt.hash(data.password, 12)
+    if(user.password){
+      user.password = await bcrypt.hash(user.password, 12)
     }
 
-    return await UserRepository.update(id, data)
+    return await UserRepository.update(id, user)
   }
 
   static async delete(id:number){

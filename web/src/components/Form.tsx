@@ -1,5 +1,5 @@
 import { MenuItem, TextField } from "@mui/material";
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { api } from "../utils/axios";
 import { Button } from "./Button";
@@ -27,6 +27,12 @@ interface Props {
 export function Form({ item, setItem, fields, uri, width, children }: Props) {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<any>()
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErrors(false)
+    }, 1500)  
+  }, [item])
 
   async function handleSubmitUpdate(event: FormEvent) {
     event.preventDefault()
@@ -68,10 +74,15 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
       mutate(uri)
     } catch (error: any) {
       const { status } = error.response
-      if (status === 400) {
+      const { data } = error.response
+      if (status === 400 && data?.errors) {
         const { errors } = error.response.data
         setErrors(errors)
         return
+      }
+      if(data.message){
+        alert(data.message)
+        return 
       }
       alert('Error no servidor')
     } finally {
@@ -88,12 +99,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
         {children}
         {fields?.map(field => {
           const value = item[field.key] || ''
-          // if (field.type === 'date') {
-          //   console.log({
-          //     moment: moment(value).format('YYYY-MM-DD'),
-          //     value
-          //   })
-          // }
+
           return (
             <TextField
               key={field.key}
@@ -105,7 +111,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               value={field.type === 'date' && value ? moment(value).format('YYYY-MM-DD') : value}
               onChange={event => setItem({ ...item, [field.key]: event.target.value })}
               InputLabelProps={field.type === 'date' || field.type === 'time' ? { shrink: true } : {}}
-              error={errors && true}
+              error={errors?.[field.key] && true}
               helperText={translate(errors?.[field.key])}>
               {field?.options?.map((option: any) => {
                 return (
@@ -129,7 +135,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
             secondary
             onClick={() => {
               setItem({})
-              setErrors('')
+              setErrors(false)
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
             value='Cancelar'

@@ -3,14 +3,22 @@ import { z } from "zod";
 export const userCreateSchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  password: z.string()
+  password: z.string(),
+  profile: z.enum([
+    'coordinator', 
+    'judge',
+    'manager', 
+    'representative'
+  ])
 })  
+
+
 
 export const userUpdateSchema = userCreateSchema.extend({
   password: z.string().optional()
 })
 
-export type userCreateType = z.infer<typeof userCreateSchema>
+export type UserCreateType = z.infer<typeof userCreateSchema>
 export type UserUpdateType = z.infer<typeof userUpdateSchema>
 
 

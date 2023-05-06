@@ -16,8 +16,8 @@ const fields = [
 
 const fieldsForm = [
   {key:'name', value:'Nome'},
-  {key:'email', value:'E-mail'},
-  {key:'password', value:'Senha'},
+  {key:'email', value:'E-mail', type:'email'},
+  {key:'password', value:'Senha', type:'password'},
   {
     key:'profile', 
     value:'Perfil',
@@ -43,7 +43,6 @@ export function User(){
   const {data:users, error}:{data:UserInterface[], error:any} = swr(uri)
   if (error) return <Error error={error} />
   if (!users) return <Loading />
-  // console.log(users)
   return(
     <Layout>
       <Main>
