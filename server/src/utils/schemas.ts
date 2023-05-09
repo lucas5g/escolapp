@@ -29,10 +29,8 @@ export const groupSchema = z.object({
 })
 
 export const authSchema = z.object({
-  email: z.string().email({
-    message: 'E-mail inválido!'
-  }),
-  password: z.string().min(3)
+  email: z.string().email(),
+  password: z.string()
 })
 
 export type authType = z.infer<typeof authSchema>
