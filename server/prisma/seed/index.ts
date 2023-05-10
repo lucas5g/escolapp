@@ -56,7 +56,7 @@ async function createUsers() {
 
         }
       })
-      console.log(`${user.name} atualizado com sucesso!`)
+      // console.log(`${user.name} atualizado com sucesso!`)
     } catch (error) {
       console.log(`${error} ${user.name} - ${user.email}`)
     }
@@ -64,7 +64,7 @@ async function createUsers() {
 }
 
 async function createGame() {
-  await setTimeout(5000)
+  await setTimeout(9000)
   await prisma.game.create({
     data: {
       date: '2023-03-15T04:29:51.961Z',
@@ -92,7 +92,7 @@ async function createGenres() {
       update: row,
       create: row
     })
-    console.log(`${row.name} atualizado com sucesso!`)
+    // console.log(`${row.name} atualizado com sucesso!`)
   })
 }
 
@@ -115,7 +115,7 @@ async function createTeams() {
           modalityId: Number(team.modalityId),
           groupId: Number(team.groupId),
           genreId: Number(team.genreId),
-          TeamStudent: {
+          students: {
             create: [
               { studentId: 'C123123' },
               { studentId: 'C111222' }
@@ -148,7 +148,6 @@ async function createGroups() {
 
   // const groups = [{ id: 1, name: 'turma test', codcur: 20, codper: 1 }]
   const groups = await csvtojson().fromFile(`${__dirname}/data/groups.csv`)
-  console.log('Create groups')
   groups.forEach(async (group, index) => {
     try {
 
@@ -168,7 +167,7 @@ async function createGroups() {
           codper: Number(group.codper)
         }
       })
-      console.log(`${index + 1} - ${group.name} atualizado com sucesso!`)
+      // console.log(`${index + 1} - ${group.name} atualizado com sucesso!`)
     } catch (error) {
       console.log(group)
     }
@@ -178,7 +177,6 @@ async function createGroups() {
 
 async function createModalities() {
   const modalities = await csvtojson().fromFile(`${__dirname}/data/modalities.csv`)
-  console.log('Create modalities')
   modalities.forEach((async (modality, index) => {
     try {
 
@@ -198,7 +196,7 @@ async function createModalities() {
           teamsQuantity: Number(modality.teamsQuantity)
         }
       })
-      console.log(`${index + 1} ${modality.name} - Atualizado!`)
+      // console.log(`${index + 1} ${modality.name} - Atualizado!`)
     } catch (error) {
       console.log(error)
       // console.log(`Erro no cadastro`, modality)
@@ -277,7 +275,7 @@ async function createStudents() {
 
       }
     })
-    console.log(`${index + 1} - ${student.name} - Atualizado !`)
+    // console.log(`${index + 1} - ${student.name} - Atualizado !`)
   })
 
 }
