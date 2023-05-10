@@ -128,7 +128,7 @@ async function createTeams() {
           modalityId: Number(team.modalityId),
           groupId: Number(team.groupId),
           genreId: Number(team.genreId),
-          TeamStudent: {
+          students: {
             create: [
               { studentId: 'C123123' },
               { studentId: 'C111222' }
