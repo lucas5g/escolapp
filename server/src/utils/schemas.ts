@@ -1,15 +1,17 @@
 import { z } from "zod";
 
+const profiles = [
+  'coordinator', 
+  'judge',
+  'manager', 
+  'representative'
+] as const 
+
 export const userCreateSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string(),
-  profile: z.enum([
-    'coordinator', 
-    'judge',
-    'manager', 
-    'representative'
-  ])
+  profile: z.enum(profiles).optional()
 })  
 
 

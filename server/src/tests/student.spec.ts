@@ -34,18 +34,18 @@ describe('Student', () => {
     /**
      * Show
      */
-    const studentShow = await StudentService.findByRa(student.ra)
-    expect(studentShow).toHaveProperty('ra')
+    const studentShow = await StudentService.findById(student.id)
+    expect(studentShow).toHaveProperty('id')
 
     /**
      * Update
      */
-    const studentUpdate = await StudentService.update(student.ra, {...data, codper:5})
+    const studentUpdate = await StudentService.update(student.id, {...data, codper:5})
     expect(studentUpdate).toHaveProperty('codcur', studentUpdate.codcur)
   
     /**
      * Delete
      */
-    await StudentService.delete(student.ra)
+    await StudentService.delete(student.id)
   })
 })
