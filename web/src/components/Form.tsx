@@ -1,4 +1,4 @@
-import { MenuItem, TextField } from "@mui/material";
+import { Autocomplete, MenuItem, TextField } from "@mui/material";
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { api } from "../utils/axios";
@@ -17,6 +17,7 @@ interface Props {
     type?: string
     // type?: 'text' | 'date' | 'time'
     options?: any[]
+    multiple?: any
   }[]
   uri: string,
   width?: Width
@@ -31,7 +32,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
   useEffect(() => {
     setTimeout(() => {
       setErrors(false)
-    }, 1500)  
+    }, 1500)
   }, [item])
 
   async function handleSubmitUpdate(event: FormEvent) {
@@ -39,10 +40,10 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     // return console.log(item)
     setLoading(true)
     try {
-      if(item?.date){
+      if (item?.date) {
         item.date = new Date(item.date).toISOString()
       }
-      
+
       await api.put(`${uri}/${item.id}`, item)
       mutate(uri)
     } catch (error: any) {
@@ -63,11 +64,11 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     event.preventDefault()
     setLoading(true)
     try {
-      if(item?.date){
+      if (item?.date) {
         item.date = new Date(item.date).toISOString()
       }
-      // console.log(item)
-      // return
+      return console.log(item)
+    
       const { data } = await api.post(uri, item)
       setItem(data)
       setErrors('')
@@ -80,9 +81,9 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
         setErrors(errors)
         return
       }
-      if(data.message){
+      if (data.message) {
         alert(data.message)
-        return 
+        return
       }
       alert('Error no servidor')
     } finally {
@@ -95,10 +96,35 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
     <Card width={width} >
       <form onSubmit={item?.id ? handleSubmitUpdate : handleSubmitCreate}
         className='flex flex-col gap-5'>
-   
+
         {children}
         {fields?.map(field => {
+
           const value = item[field.key] || ''
+
+          if (field?.multiple) {
+            return (
+              <Autocomplete
+                key={field.key}
+                multiple={true}
+                options={field.options || []}
+                noOptionsText='Preencha todos os campos anteriores.'
+                filterSelectedOptions
+                onChange={(event, names) => {
+                  setItem({...item, [field.key]:names})
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label='Equipes'
+                    placeholder="Clique para adicionar"
+                  />
+                )}
+
+              />
+
+            )
+          }
 
           return (
             <TextField
@@ -112,7 +138,8 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
               onChange={event => setItem({ ...item, [field.key]: event.target.value })}
               InputLabelProps={field.type === 'date' || field.type === 'time' ? { shrink: true } : {}}
               error={errors?.[field.key] && true}
-              helperText={translate(errors?.[field.key])}>
+              helperText={translate(errors?.[field.key])}
+            >
               {field?.options?.map((option: any) => {
                 return (
                   <MenuItem

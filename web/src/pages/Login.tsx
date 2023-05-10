@@ -26,15 +26,16 @@ export function Login() {
       localStorage.setItem('accessToken', data.accessToken)
       location.href = '/'
     } catch (error: any) {
-      const { message } = error?.response.data
+      const { message, errors } = error?.response.data
       if (
         message.includes('Please make sure your database server') || message.includes('Environment variable not found:')
       ) {
         return alert('Erro no Banco de Dados :(')
       }
-
-      const { errors } = error?.response.data
-      setErrors(errors)
+      if(errors){
+        return setErrors(errors)
+      }
+      return alert(message)
     } finally {
       setLoading(false)
     }

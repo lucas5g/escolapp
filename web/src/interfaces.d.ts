@@ -24,3 +24,12 @@ export interface UserInterface{
   name:string 
   profile: 'coordinator' | 'manager' | 'judge'
 }
+
+export interface TeamInterface{
+  id:number 
+  name: string 
+  modalityId: number 
+  groupId: number 
+  genreId: number 
+  
+}

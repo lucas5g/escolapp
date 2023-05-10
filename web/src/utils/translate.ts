@@ -5,6 +5,5 @@ export function translate(text:string){
     judge: 'Juíz',
     coordinator: 'Coordenador'
   }
-  console.log(text)
   return optional[text] ?? text
 }

@@ -9,21 +9,12 @@ export class TeamRepository {
         name: 'asc'
       },
       include: {
-        genre: true,
-        group: true,
-        modality: true,
-        TeamStudent: {
-          select: {
-            student: {
-              select: {
-                id: true,
-                name: true
-              }
-            }
+        students: {
+          include:{
+            student:true
           }
         }
       }
-
     })
   }
 
@@ -31,7 +22,7 @@ export class TeamRepository {
     return await prisma.team.findUnique({
       where: { id },
       include: {
-        TeamStudent: {
+        students: {
           include: {
             student: true
           }
@@ -59,7 +50,7 @@ export class TeamRepository {
         modalityId: data.modalityId,
         groupId: data.groupId,
         genreId: data.genreId,
-        TeamStudent: {
+        students: {
           createMany: {
             data: students || []
           }
@@ -79,15 +70,15 @@ export class TeamRepository {
         modalityId: data.modalityId,
         groupId: data.groupId,
         genreId: data.genreId,
-        TeamStudent: {
-          deleteMany:{ teamId: id},
-          createMany:{
+        students: {
+          deleteMany: { teamId: id },
+          createMany: {
             data: students || []
           }
         },
       },
-      include:{
-        TeamStudent:true
+      include: {
+        students: true
       }
     })
   }

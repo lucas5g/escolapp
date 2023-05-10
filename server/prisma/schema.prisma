@@ -78,11 +78,12 @@ model Team {
   groupId    Int?
   genreId    Int?
 
-  genre       Genre?        @relation(fields: [genreId], references: [id])
-  group       Group?        @relation(fields: [groupId], references: [id])
-  modality    Modality?     @relation(fields: [modalityId], references: [id])
-  GameTeam    GameTeam[]
-  TeamStudent TeamStudent[]
+  genre    Genre?        @relation(fields: [genreId], references: [id])
+  group    Group?        @relation(fields: [groupId], references: [id])
+  modality Modality?     @relation(fields: [modalityId], references: [id])
+  GameTeam GameTeam[]
+  // TeamStudent TeamStudent[]
+  students TeamStudent[]
 
   @@index([genreId], map: "Team_genreId_fkey")
   @@index([groupId], map: "Team_groupId_fkey")
