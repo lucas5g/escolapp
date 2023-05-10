@@ -8,14 +8,14 @@ import { setTimeout } from 'timers/promises'
 
 const prisma = new PrismaClient()
 
-createUsers()
-createGroups()
-createModalities()
-createGenres()
-createPlaces()
+// createUsers()
+// createGroups()
+// createModalities()
+// createGenres()
+// createPlaces()
 createStudents()
-createTeams()
-createGame()
+// createTeams()
+// createGame()
 
 
 
@@ -30,7 +30,7 @@ async function createUsers() {
         email: 'test@mail.com',
         name: 'test',
         password: 'qweqwe',
-        profile:'manager'
+        profile: 'manager'
       }
     ]
   }
@@ -46,13 +46,13 @@ async function createUsers() {
           email: user.email || `${user.user}@santoagostinho.com.br`,
           name: user.name,
           password: await bcrypt.hash(user.password, 12),
-          profile:idToStringProfile(user.id_perfil)
+          profile: idToStringProfile(user.id_perfil)
         },
         create: {
           email: user.email || `${user.user}@santoagostinho.com.br`,
           name: user.name,
           password: await bcrypt.hash(user.password, 12),
-          profile:idToStringProfile(user.id_perfil)
+          profile: idToStringProfile(user.id_perfil)
 
         }
       })
@@ -70,9 +70,9 @@ async function createGame() {
       date: '2023-03-15T04:29:51.961Z',
       startHours: '08:00',
       endHours: '09:00',
-      placeId:1,
-      modalityId:1,
-      userId:1
+      placeId: 1,
+      modalityId: 1,
+      userId: 1
     }
   })
 }
@@ -99,7 +99,7 @@ async function createGenres() {
 async function createTeams() {
   const teams = await csvtojson().fromFile(`${__dirname}/data/teams.csv`)
 
-  if(await prisma.team.count() > 2){
+  if (await prisma.team.count() > 2) {
     return
   }
 
@@ -205,9 +205,9 @@ async function createModalities() {
 }
 
 async function createPlaces() {
-  
+
   const places = await csvtojson().fromFile(`${__dirname}/data/places.csv`)
-  
+
   places.forEach((async (place) => {
     await prisma.place.upsert({
       where: {
@@ -217,7 +217,7 @@ async function createPlaces() {
         name: place.name
       },
       create: {
-        id:Number(place.id),
+        id: Number(place.id),
         name: place.name
       }
     })
@@ -229,12 +229,12 @@ async function createStudents() {
 
   const fileStudents = `${__dirname}/data/students.csv`
   let students = []
-  if (fs.existsSync(fileStudents)) {
+  if (!fs.existsSync(fileStudents)) {
     students = await csvtojson().fromFile(fileStudents)
   } else {
     students = [
       {
-        id: 'C123123',
+        ra: 'C123123',
         name: 'aaluno name',
         codcur: 23,
         codper: 1,
@@ -242,7 +242,7 @@ async function createStudents() {
         group: 'IMCAM'
       },
       {
-        id: 'C111222',
+        ra: 'C111222',
         name: 'aaluno name2',
         codcur: 23,
         codper: 1,
@@ -254,27 +254,32 @@ async function createStudents() {
 
   students.forEach(async (student, index) => {
 
-    await prisma.student.upsert({
-      where: {
-        id: student.ra
-      },
-      update: {
-        name: student.name,
-        codcur: Number(student.codcur),
-        codper: Number(student.codper),
-        course: student.course,
-        group: student.group,
-      },
-      create: {
-        id: student.ra,
-        name: student.name,
-        codcur: Number(student.codcur),
-        codper: Number(student.codper),
-        course: student.course,
-        group: student.group,
+    try {
 
-      }
-    })
+      await prisma.student.upsert({
+        where: {
+          id: student.ra
+        },
+        update: {
+          name: student.name,
+          codcur: Number(student.codcur),
+          codper: Number(student.codper),
+          course: student.course,
+          group: student.group,
+        },
+        create: {
+          id: student.ra,
+          name: student.name,
+          codcur: Number(student.codcur),
+          codper: Number(student.codper),
+          course: student.course,
+          group: student.group,
+
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
     // console.log(`${index + 1} - ${student.name} - Atualizado !`)
   })
 
