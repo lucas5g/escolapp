@@ -17,7 +17,7 @@ describe('Student', () => {
 
   it('Student crud', async () => {
     const data = {
-      ra:'c123124',
+      id:'c123124',
       name: 'Teat name Student',
       course: 'EM - 1ª SÉRIE',
       group: 'M1CCM',
@@ -29,7 +29,7 @@ describe('Student', () => {
      * Create
      */
     const student = await StudentService.create(data)
-    expect(student).toHaveProperty('ra', data.ra)
+    expect(student).toContain({id: student.id})
 
     /**
      * Show

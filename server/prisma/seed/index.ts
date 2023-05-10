@@ -8,14 +8,14 @@ import { setTimeout } from 'timers/promises'
 
 const prisma = new PrismaClient()
 
-// createUsers()
-// createGroups()
-// createModalities()
-// createGenres()
-// createPlaces()
+createUsers()
+createGroups()
+createModalities()
+createGenres()
+createPlaces()
 createStudents()
-// createTeams()
-// createGame()
+createTeams()
+createGame()
 
 
 
@@ -27,7 +27,7 @@ async function createUsers() {
   } else {
     users = [
       {
-        email: 'test@mail.com',
+        email: 'admin@mail.com',
         name: 'test',
         password: 'qweqwe',
         profile: 'manager'
@@ -64,7 +64,7 @@ async function createUsers() {
 }
 
 async function createGame() {
-  await setTimeout(9000)
+  await setTimeout(10000)
   await prisma.game.create({
     data: {
       date: '2023-03-15T04:29:51.961Z',

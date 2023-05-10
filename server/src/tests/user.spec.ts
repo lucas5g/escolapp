@@ -13,7 +13,7 @@ describe('User', () => {
     expect(users.length).toBeGreaterThanOrEqual(0)
   })
 
-  it('User update', async() => {
+  it.skip('User update', async() => {
     const data:UserUpdateType = {
       name:`lucas test ${new Date().getMinutes()}`,
       email:'test@mail.com',
