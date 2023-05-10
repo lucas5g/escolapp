@@ -229,7 +229,7 @@ async function createStudents() {
 
   const fileStudents = `${__dirname}/data/students.csv`
   let students = []
-  if (!fs.existsSync(fileStudents)) {
+  if (fs.existsSync(fileStudents)) {
     students = await csvtojson().fromFile(fileStudents)
   } else {
     students = [
