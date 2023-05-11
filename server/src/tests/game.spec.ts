@@ -8,9 +8,8 @@ describe('Game', () => {
   it('Game list', async () => {
     const games = await GameService.findMany()
     expect(games.length).toBeGreaterThanOrEqual(0)
-    expect(games[0]).toHaveProperty('modality')
-    expect(games[0]).toHaveProperty('user')
-    // console.log(games)
+    expect(games[0]).toHaveProperty('modalityId')
+    expect(games[0]).toHaveProperty('userId')
   })
 
   it('Game crud', async() => {
