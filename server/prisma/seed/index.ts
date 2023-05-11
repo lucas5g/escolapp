@@ -138,7 +138,7 @@ async function createTeams() {
           }
         }
       })
-      console.log(`${team.name} atualizado com sucesso!`)
+      // console.log(`${team.name} atualizado com sucesso!`)
     } catch (error) {
       console.log(error + team.name)
     }
