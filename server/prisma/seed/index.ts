@@ -67,7 +67,7 @@ async function createUsers() {
 }
 
 async function createGame() {
-  await setTimeout(1000)
+  await setTimeout(2000)
   await prisma.game.create({
     data: {
       date: '2023-03-15T04:29:51.961Z',
