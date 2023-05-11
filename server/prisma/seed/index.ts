@@ -6,16 +6,19 @@ import { idToStringProfile } from '../../src/utils/id-to-string-profile'
 import { setTimeout } from 'timers/promises'
 
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-createUsers()
-createGroups()
-createModalities()
-createGenres()
-createPlaces()
-createStudents()
-createTeams()
-createGame()
+(async() => {
+
+  await createUsers()
+  await createGroups()
+  await createModalities()
+  await createGenres()
+  await createPlaces()
+  await createStudents()
+  await createTeams()
+  await createGame()
+})()
 
 
 
@@ -64,7 +67,6 @@ async function createUsers() {
 }
 
 async function createGame() {
-  await setTimeout(10000)
   await prisma.game.create({
     data: {
       date: '2023-03-15T04:29:51.961Z',
