@@ -1,21 +1,83 @@
-export function Test(){
+import { Autocomplete, TextField } from "@mui/material";
+import { Card } from "../components/Card";
+import { Layout } from "../components/Layout";
+import { useEffect, useState } from "react";
+
+export function Test() {
+  const [data, setData] = useState([] as any[])
+  const [teams, setTeams] = useState([] as {id:number, name:string, modalityId:number}[])
+  const [modality, setModality] = useState(0)
+  useEffect(() => {
+    setData([])
+  }, [modality])
+
+  useEffect(() => {
+    setTeams([
+      {
+        "id": 253,
+        "name": "6º ANO 2022 BASQUETE  FEM - TESTE",
+        "modalityId": 1
+      },
+      {
+        "id": 248,
+        "name": "F1AZUL QUEIMADA_TODOS  MISTO",
+        "modalityId": 1
+
+      },
+      {
+        "id": 249,
+        "name": "F1LARANJA QUEIMADA_TODOS  MISTO",
+        "modalityId": 2
+      },
+      {
+        "id": 250,
+        "name": "F1LILÁS QUEIMADA_TODOS  MISTO",
+        "modalityId": 2
+      },
+      {
+        "id": 252,
+        "name": "F1VERDE QUEIMADA_TODOS  MISTO",
+        "modalityId": 2
+      }
+    ].filter(team => team.modalityId == modality))
+  }, [modality])
+
+
   return (
-    <div className="h-screen flex justify-center items-center">
-      <label htmlFor="" className="relative w-1/3 text-gray-800">
-        <select
-          className="w-full px-4 py-3  outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer focus:border-blue-600 focus:bg-white bg-white open:bg-green-500"
-          name=""
-          id=""
-          value=""
-          >
-          {/* <option value="">Selecione</option> */}
+    <Layout>
+      <Card>
+        {JSON.stringify(data ?? '')}
+        {/* {JSON.stringify(teams)} */}
+        {modality}
+        <select name="" id="" onChange={event => setModality(event.target.value)}>
+          <option value={0}>Selecione</option>
+          <option value={1}>Mod 1</option>
+          <option value={2}>Mod 2</option>
         </select>
-        <span
-          className="absolute left-0 top-[.9em] px-1  tracking-wide peer-focus:text-blue-600 pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-6 bg-white ml-2 peer-valid:text-sm peer-valid:-translate-y-6 peer-focus:bg-white text-gray-500"
-          >
-          Turma
-        </span>
-      </label>
-    </div>
+        <Autocomplete
+          multiple
+          options={teams}
+          getOptionLabel={(option) => option.name}
+          filterSelectedOptions
+          isOptionEqualToValue={(option, data) =>
+            option.name === data.name
+          }
+          onChange={(event, option) => {
+            setData(option)
+            // console.log(option[0])
+          }}
+          value={data}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="standard"
+              label='Equipes'
+              placeholder="Selecione a equipe"
+            />
+          )}
+        />
+      </Card>
+      {JSON.stringify(teams)}
+    </Layout>
   )
 }

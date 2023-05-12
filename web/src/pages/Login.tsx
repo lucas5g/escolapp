@@ -28,7 +28,8 @@ export function Login() {
     } catch (error: any) {
       const { message, errors } = error?.response.data
       if (
-        message.includes('Please make sure your database server') || message.includes('Environment variable not found:')
+        message.includes('Please make sure your database server') || message.includes('Environment variable not found:') ||
+        message.includes('Invalid `prisma.user.findUnique()`')
       ) {
         return alert('Erro no Banco de Dados :(')
       }

@@ -102,10 +102,6 @@ async function createGenres() {
 async function createTeams() {
   const teams = await csvtojson().fromFile(`${__dirname}/data/teams.csv`)
 
-  if (await prisma.team.count() > 2) {
-    return
-  }
-
   teams.forEach(async (team, index) => {
     try {
 

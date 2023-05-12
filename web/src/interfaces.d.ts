@@ -7,6 +7,7 @@ export interface GameInterface{
   placeId: number 
   modalityId: number 
   userId: number 
+  teams:[]
   errors:{
     
   }

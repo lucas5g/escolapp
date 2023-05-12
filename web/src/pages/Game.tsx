@@ -32,6 +32,12 @@ export function Game() {
   const { data: users }: { data: UserInterface[] } = swr('users')
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
 
+  useEffect(() => {
+    setGame({...game, teams:[]})
+    console.log('limpar teams')
+  },[game.modalityId])
+
+
   if (error) return <Error error={error} />
   if (!data || !places || !modalities || !users || !teams) return <Loading />
 
@@ -41,7 +47,13 @@ export function Game() {
     { key: 'endHours', value: 'Final', type: 'time' },
     { key: 'placeId', value: 'Lugar', options: places },
     { key: 'modalityId', value: 'Modalidade', options: modalities },
-    { key: 'teams', value: 'Equipes', options: teams.filter(team => team.modalityId === game.modalityId).map(team => team.name), multiple:true },
+    { key: 'teams', value: 'Equipes', 
+      options: teams
+        .filter(team => team.modalityId === game.modalityId || !game.modalityId && true)
+        .map(({id, name}) => {
+          return {id, name}
+        }),
+         multiple:true },
     { key: 'userId', value: 'Juíz', options: users.filter(user => user.profile === 'judge') },
   ]
 

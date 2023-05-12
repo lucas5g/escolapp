@@ -30,10 +30,17 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
   const [errors, setErrors] = useState<any>()
 
   useEffect(() => {
+   
+    if(item.teams){
+
+    }
+
     setTimeout(() => {
       setErrors(false)
     }, 1500)
   }, [item])
+
+
 
   async function handleSubmitUpdate(event: FormEvent) {
     event.preventDefault()
@@ -68,7 +75,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
         item.date = new Date(item.date).toISOString()
       }
       return console.log(item)
-    
+
       const { data } = await api.post(uri, item)
       setItem(data)
       setErrors('')
@@ -102,17 +109,23 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
           const value = item[field.key] || ''
 
-          if (field?.multiple) {
+          if (field?.multiple ) {
             return (
               <Autocomplete
                 key={field.key}
-                multiple={true}
+                multiple
                 options={field.options || []}
+                getOptionLabel={(option) => option.name}
                 noOptionsText='Preencha todos os campos anteriores.'
                 filterSelectedOptions
+                isOptionEqualToValue={(option, item) => 
+                  option.name === item.name
+                }
                 onChange={(event, names) => {
-                  setItem({...item, [field.key]:names})
+                  console.log(names)
+                  setItem({ ...item, [field.key]: names })
                 }}
+                value={item[field.key] ?? []}
                 renderInput={(params) => (
                   <TextField
                     {...params}
