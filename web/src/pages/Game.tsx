@@ -5,9 +5,8 @@ import { Loading } from "../components/Loading";
 import { Main } from "../components/Main";
 import { Table } from "../components/Table";
 import { swr } from "../utils/swr";
-import { Form } from "../components/Form";
 import { GameInterface, ModalityInterface, PlaceInterface, TeamInterface, UserInterface } from "../interfaces";
-import { Autocomplete } from "@mui/material";
+import { Form } from "../components/Game/Form";
 
 const fields = [
   { key: 'date', value: 'Data', type: 'date' },
@@ -18,8 +17,6 @@ const fields = [
   { key: 'user', value: 'Juíz' },
 
 ]
-
-
 
 export function Game() {
 
@@ -40,22 +37,14 @@ export function Game() {
 
   if (error) return <Error error={error} />
   if (!data || !places || !modalities || !users || !teams) return <Loading />
-
-  const fieldsForm = [
-    { key: 'date', value: 'Data', type: 'date' },
-    { key: 'startHours', value: 'Início', type: 'time' },
-    { key: 'endHours', value: 'Final', type: 'time' },
-    { key: 'placeId', value: 'Lugar', options: places },
-    { key: 'modalityId', value: 'Modalidade', options: modalities },
-    { key: 'teams', value: 'Equipes', 
-      options: teams
-        .filter(team => team.modalityId === game.modalityId || !game.modalityId && true)
-        .map(({id, name}) => {
-          return {id, name}
-        }),
-         multiple:true },
-    { key: 'userId', value: 'Juíz', options: users.filter(user => user.profile === 'judge') },
-  ]
+  //     options: teams
+  //       .filter(team => team.modalityId === game.modalityId || !game.modalityId && true)
+  //       .map(({id, name}) => {
+  //         return {id, name}
+  //       }),
+  //        multiple:true },
+  //   { key: 'userId', value: 'Juíz', options: users.filter(user => user.profile === 'judge') },
+  // ]
 
   const games = data.map(game => {
     return {
@@ -77,11 +66,17 @@ export function Game() {
           positionBottom={games.length * 100}
         />
         <Form
+          game={game}
+          setGame={setGame}
+          places={places}
+          />
+
+        {/* <Form
           fields={fieldsForm}
           item={game}
           setItem={setGame}
           uri={uri}
-        />
+        /> */}
       </Main>
     </Layout>
   )
