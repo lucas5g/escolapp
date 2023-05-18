@@ -43,7 +43,8 @@ export const gameSchema = z.object({
   endHours: z.string(),
   placeId: z.number(),
   modalityId: z.number(),
-  userId: z.number()
+  userId: z.number(),
+  teams: z.number().array()
 })
 
 export type GameType = z.infer<typeof gameSchema>

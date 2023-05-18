@@ -23,29 +23,19 @@ export function Game() {
   const [game, setGame] = useState({} as GameInterface)
   const uri = 'games'
 
+  // useEffect(() => {
+
+  // },[game])
+
   const { data, error }: { data: GameInterface[], error: any } = swr(uri)
   const { data: places }: { data: PlaceInterface[] } = swr('places')
   const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
   const { data: users }: { data: UserInterface[] } = swr('users')
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
 
-  useEffect(() => {
-    setGame({...game, teams:[]})
-    console.log('limpar teams')
-  },[game.modalityId])
-
-
   if (error) return <Error error={error} />
   if (!data || !places || !modalities || !users || !teams) return <Loading />
-  //     options: teams
-  //       .filter(team => team.modalityId === game.modalityId || !game.modalityId && true)
-  //       .map(({id, name}) => {
-  //         return {id, name}
-  //       }),
-  //        multiple:true },
-  //   { key: 'userId', value: 'Juíz', options: users.filter(user => user.profile === 'judge') },
-  // ]
-
+  
   const games = data.map(game => {
     return {
       ...game,
@@ -54,7 +44,7 @@ export function Game() {
       user: users.find(user => user.id === game.userId)?.name
     }
   })
-
+  console.log(games[0 ])
   return (
     <Layout>
       <Main>
@@ -69,14 +59,10 @@ export function Game() {
           game={game}
           setGame={setGame}
           places={places}
+          modalities={modalities}
+          users={users}
+          teams={teams}
           />
-
-        {/* <Form
-          fields={fieldsForm}
-          item={game}
-          setItem={setGame}
-          uri={uri}
-        /> */}
       </Main>
     </Layout>
   )

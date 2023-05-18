@@ -153,7 +153,6 @@ export function Form({ team, setTeam }: Props) {
       studentsSelected
     }
 
-
     try {
       await api.post(`teams`, data)
       mutate('teams')

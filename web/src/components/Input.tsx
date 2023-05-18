@@ -1,5 +1,6 @@
 import { MenuItem, TextField } from "@mui/material";
 import clsx from "clsx";
+import { translate } from "../utils/translate";
 
 interface Props {
   label: string
@@ -27,7 +28,7 @@ export function Input(props : Props) {
         InputLabelProps={props.inputLabelOpen ? { shrink: true } : {}}
         {...props.register(props.name)}
         error={props.error ? true : false}
-        helperText={props.error}
+        helperText={translate(props.error || '')}
 
         />
     )
@@ -46,7 +47,7 @@ export function Input(props : Props) {
       InputLabelProps={props.inputLabelOpen ? { shrink: true } : {}}
       fullWidth
       error={props.error ? true : false}
-      helperText={props.error}
+      helperText={translate(props.error ?? '')}
     >
       {/* <MenuItem value='0'>
         Selecione

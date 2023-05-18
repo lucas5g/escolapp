@@ -15,7 +15,6 @@ describe('Auth', () => {
   })
 
   afterAll(async() => {
-    console.log({user})
     await UserService.delete(user.id)
   })
 

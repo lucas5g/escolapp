@@ -122,12 +122,12 @@ model Game {
 }
 
 model GameTeam {
-  id            Int @id @default(autoincrement())
+  id            Int  @id @default(autoincrement())
   gameId        Int
   teamId        Int
-  fairPlayPoint Int
-  goals         Int
-  points        Int
+  fairPlayPoint Int?
+  goals         Int?
+  points        Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

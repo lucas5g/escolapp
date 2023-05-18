@@ -3,13 +3,21 @@ export interface GameInterface{
   date: string
   startHours: string
   endHours: string
-  comments: null
+  comments?: string
   placeId: number 
   modalityId: number 
   userId: number 
-  teams:[]
+  teams: TeamInterface[]
   errors:{
-    
+    id?:string
+    date?: string
+    startHours?: string
+    endHours?: string
+    comments?: string
+    placeId?: string 
+    modalityId?: string
+    userId?:string
+    teams?:string 
   }
 }
 

@@ -5,11 +5,14 @@ import { PlaceService } from "../services/PlaceService";
 import { UserService } from "../services/UserService";
 
 describe('Game', () => {
-  it('Game list', async () => {
+  it.only('Game list', async () => {
     const games = await GameService.findMany()
+    const game = games[0]
+    console.log(game)
     expect(games.length).toBeGreaterThanOrEqual(0)
-    expect(games[0]).toHaveProperty('modalityId')
-    expect(games[0]).toHaveProperty('userId')
+    expect(game).toHaveProperty('modalityId')
+    expect(game).toHaveProperty('userId')
+    expect(game).toHaveProperty('teams')
   })
 
   it('Game crud', async() => {
@@ -23,14 +26,16 @@ describe('Game', () => {
       endHours: '08:00',
       placeId: places[0].id,
       modalityId: 1,
-      userId: users[0].id
+      userId: users[0].id,
+      teams:[53,40]
     }
     /**
      * Create
      */
     const game = await GameService.create(data)
     expect(game).toHaveProperty('startHours', data.startHours)
-
+    expect(game).toHaveProperty('gameTeam')
+    
     /**
      * Show
      */

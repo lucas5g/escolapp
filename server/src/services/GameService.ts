@@ -1,12 +1,23 @@
 import { GameRepository } from "../repositories/GameRepository";
-import { errorsMessages } from "../utils/errors-messages";
 import { GameType, gameSchema } from "../utils/schemas";
 
 
 export class GameService {
 
   static async findMany() {
-    return await GameRepository.findMany()
+    const games = await GameRepository.findMany()
+    return games.map( game => {
+      return {
+        ...game, 
+        teams: game.gameTeam.map( gameTeam => {
+          return {
+            id: gameTeam.teamId,
+            name: gameTeam.team.name
+          }
+        }),
+        gameTeam:undefined
+      }
+    })
   }
 
   static async findById(id: number) {
@@ -19,7 +30,7 @@ export class GameService {
   }
 
   static async update(id: number, data: any) {
-    const game =  gameSchema.parse(data)
+    const game = gameSchema.parse(data)
     return await GameRepository.update(id, game)
   }
 
