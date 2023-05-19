@@ -5,19 +5,41 @@ import { PlaceService } from "../services/PlaceService";
 import { UserService } from "../services/UserService";
 
 describe('Game', () => {
-  it.only('Game list', async () => {
+  it('Game list', async () => {
     const games = await GameService.findMany()
     const game = games[0]
-    console.log(game)
+    // console.log(game)
     expect(games.length).toBeGreaterThanOrEqual(0)
     expect(game).toHaveProperty('modalityId')
     expect(game).toHaveProperty('userId')
     expect(game).toHaveProperty('teams')
   })
 
-  it('Game crud', async() => {
+  // it.skip('Game update', async () => {
 
-    const users = await UserService.findMany()
+  //   const data = {
+  //     "date": "2023-11-09T00:00:00.000Z",
+  //     "startHours": "08:00",
+  //     "endHours": "09:00",
+  //     "userId": 21,
+  //     "placeId": 16,
+  //     "modalityId": 22,
+  //     "teams": [
+  //       34,
+  //       47,
+  //       90,
+  //       73
+  //     ]
+  //   }
+
+  //   const game = await GameService.update(15, data)
+  //   expect(game.teams).deep.equal(data.teams)
+    
+  // })
+
+  it('Game crud', async () => {
+
+    const users = await UserService.findMany({})
     const places = await PlaceService.findMany()
 
     const data = {
@@ -27,7 +49,7 @@ describe('Game', () => {
       placeId: places[0].id,
       modalityId: 1,
       userId: users[0].id,
-      teams:[53,40]
+      teams: [53, 40]
     }
     /**
      * Create
@@ -35,7 +57,7 @@ describe('Game', () => {
     const game = await GameService.create(data)
     expect(game).toHaveProperty('startHours', data.startHours)
     expect(game).toHaveProperty('gameTeam')
-    
+
     /**
      * Show
      */
@@ -45,8 +67,9 @@ describe('Game', () => {
     /**
      * Update
      */
-    const gameUpdate = await GameService.update(game.id, {...data, startHours: moment().format('HH:MM')})
+    const gameUpdate = await GameService.update(game.id, { ...data, startHours: moment().format('HH:MM') })
     expect(gameUpdate).toHaveProperty('startHours', moment().format('HH:MM'))
+    expect(gameUpdate.teams).deep.equal(data.teams)
 
     /**
      * Delete

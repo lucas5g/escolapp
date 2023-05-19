@@ -1,11 +1,12 @@
 import { UserRepository } from "../repositories/UserRepository";
 import bcrypt from 'bcrypt'
 
-import {UserUpdateType, UserCreateType, userUpdateSchema, userCreateSchema } from '../utils/schemas'
+import {UserUpdateType, UserCreateType, userUpdateSchema, userCreateSchema, userFilterSchema,  } from '../utils/schemas'
 export class UserService{
 
-  static async findMany(){
-    return UserRepository.findMany()
+  static async findMany(data:any){
+    const where = userFilterSchema.parse(data)
+    return UserRepository.findMany(where)
   }
 
   static async findById(id:number){

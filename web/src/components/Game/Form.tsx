@@ -148,7 +148,8 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
       if(game.id){
         await api.put(`games/${game.id}`, body)
       }else{
-        await api.post('games', body)
+        const { data } = await api.post('games', body)
+        setGame({...game, id: data.id})
       }
       mutate('games')
 

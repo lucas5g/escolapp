@@ -3,8 +3,12 @@ import { UserService } from "../services/UserService";
 
 export class UserController {
 
-  static async index(req: Request, res: Response) {
-    res.json(await UserService.findMany())
+  static async index(req: Request, res: Response, next:NextFunction) {
+    try{
+      res.json(await UserService.findMany(req.query))
+    }catch(error){
+      next(error)
+    }
   }
 
   static async show(req: Request, res: Response) {

@@ -8,9 +8,9 @@ const select = {
 }
 export class UserRepository {
 
-
-  static async findMany() {
+  static async findMany(where:any) {
     return await prisma.user.findMany({
+      where,
       select,
       orderBy:{
         name:'asc'
@@ -40,7 +40,7 @@ export class UserRepository {
 
   static async update(id: number, data: any) {
     return await prisma.user.update({
-      where: { id },
+      where: { id },     
       data,
       select
     })

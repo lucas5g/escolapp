@@ -29,7 +29,7 @@ export class GameService {
     return await GameRepository.create(game)
   }
 
-  static async update(id: number, data: any) {
+  static async update(id: number, data: GameType) {
     const game = gameSchema.parse(data)
     return await GameRepository.update(id, game)
   }

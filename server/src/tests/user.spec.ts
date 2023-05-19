@@ -1,27 +1,31 @@
 import { describe, expect, it } from 'vitest'
 import { UserService } from '../services/UserService'
-import { UserUpdateType } from '../utils/schemas'
-
-
 
 describe('User', () => {
 
   it('User list', async () => {
 
-    const users = await UserService.findMany()
-    // expect(users).deep.equal([])
+    const users = await UserService.findMany({})
     expect(users.length).toBeGreaterThanOrEqual(0)
   })
 
-  it.skip('User update', async() => {
-    const data:UserUpdateType = {
-      name:`lucas test ${new Date().getMinutes()}`,
-      email:'test@mail.com',
-    }
-    const user = await UserService.update(1, data)
-    expect(user).toContain(data)
-    console.log(user)
+  it('User find by profile', async() => {
+    const users = await UserService.findMany({profile:'judge'})
+    users.forEach(user => {
+      expect(user).toContain({profile:'judge'})
+    })
   })
+
+
+  // it.skip('User update', async() => {
+  //   const data:UserUpdateType = {
+  //     name:`lucas test ${new Date().getMinutes()}`,
+  //     email:'test@mail.com',
+  //   }
+  //   const user = await UserService.update(1, data)
+  //   expect(user).toContain(data)
+  //   console.log(user)
+  // })
 
   it('User crud', async () => {
 

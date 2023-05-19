@@ -14,6 +14,9 @@ export const userCreateSchema = z.object({
   profile: z.enum(profiles).optional()
 })  
 
+export const userFilterSchema = z.object({
+  profile: z.enum(profiles).optional()
+})
 
 
 export const userUpdateSchema = userCreateSchema.extend({

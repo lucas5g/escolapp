@@ -23,14 +23,10 @@ export function Game() {
   const [game, setGame] = useState({} as GameInterface)
   const uri = 'games'
 
-  // useEffect(() => {
-
-  // },[game])
-
   const { data, error }: { data: GameInterface[], error: any } = swr(uri)
   const { data: places }: { data: PlaceInterface[] } = swr('places')
   const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
-  const { data: users }: { data: UserInterface[] } = swr('users')
+  const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
 
   if (error) return <Error error={error} />

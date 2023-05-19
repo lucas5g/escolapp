@@ -19,8 +19,12 @@ export class GameController{
     }
   }
 
-  static async update(req: Request, res:Response){
-    return res.json(await GameService.update(Number(req.params.id), req.body))
+  static async update(req: Request, res:Response, next:NextFunction){
+    try{
+      return res.json(await GameService.update(Number(req.params.id), req.body))
+    }catch(error){
+      next(error)
+    }
   }
 
   static async delete(req:Request, res: Response){
