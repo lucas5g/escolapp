@@ -23,11 +23,11 @@ deploy(){
       && cd server \
       && npm i \
       && npm run build \
-      && pm2 restart csa --update-env \
+      && pm2 restart escolapp --update-env \
       && cd ../../laradock \
-      && docker-compose up -d mysql phpmyadmin 
     "
     exit 0
+    #&& docker-compose up -d mysql phpmyadmin 
   fi
 }
 
