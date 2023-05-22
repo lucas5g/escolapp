@@ -17,7 +17,7 @@ generateDatabase(){
 deploy(){
   if [ "$1" == "deploy" ]; then
     ssh -t root@test.codificar.dev.br "\
-      cd projects/csa \
+      cd projects/escolapp \
       && git pull \
       && source ~/.nvm/nvm.sh \
       && cd server \

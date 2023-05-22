@@ -74,8 +74,6 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
       if (item?.date) {
         item.date = new Date(item.date).toISOString()
       }
-      return console.log(item)
-
       const { data } = await api.post(uri, item)
       setItem(data)
       setErrors('')
