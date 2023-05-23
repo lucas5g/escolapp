@@ -1,6 +1,8 @@
-import { MenuItem, TextField } from "@mui/material";
+import { InputAdornment, MenuItem, TextField } from "@mui/material";
 import clsx from "clsx";
 import { translate } from "../utils/translate";
+import { Search } from "@mui/icons-material";
+import { X } from "phosphor-react";
 
 interface Props {
   label: string
@@ -11,13 +13,15 @@ interface Props {
   type?: 'text' | 'email' | 'number' | 'password' | 'date' | 'time'
   inputLabelOpen?: boolean
   register?: any
-  error?:string
+  error?: string
+  setSearch?: (text:string) => any
+  placeholder?:string
   options?: {
     id: number,
     name: string
   }[]
 }
-export function Input(props : Props) {
+export function Input(props: Props) {
 
   if (props.register) {
     return (
@@ -30,7 +34,7 @@ export function Input(props : Props) {
         error={props.error ? true : false}
         helperText={translate(props.error || '')}
 
-        />
+      />
     )
   }
 
@@ -48,6 +52,19 @@ export function Input(props : Props) {
       fullWidth
       error={props.error ? true : false}
       helperText={translate(props.error ?? '')}
+      placeholder={props?.placeholder}
+      InputProps={props.setSearch && {
+        endAdornment: (
+          <InputAdornment 
+            position="end" 
+            className="cursor-pointer"
+            onClick={() => props.setSearch && props.setSearch('')}
+            
+            >
+            <X size={20}  weight="bold"/>
+          </InputAdornment>
+        )
+      }}
     >
       {/* <MenuItem value='0'>
         Selecione

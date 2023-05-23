@@ -18,7 +18,7 @@ interface Props {
 
 export function Table({
   fields,
-  items,
+  items: itemsWithoutFilter,
   item,
   setItem,
   width = 100,
@@ -26,23 +26,28 @@ export function Table({
 }: Props) {
   const [search, setSearch] = useState('')
 
-  // const test = items?.filter( item => item.name.includes(search))
-  // console.log(test)
-
+  const items = itemsWithoutFilter
+    .filter(item => item.name?.toLowerCase().includes(search.toLowerCase().trim()))
   return (
 
-
     <Card width={width}>
+      <div className="mb-3">
+        <Input
+          label="Pesquisar"
+          placeholder='Pesquisa por nome.'
+          name="search"
+          onChange={event => setSearch(event.target.value)}
+          value={search}
+          setSearch={setSearch}
+        />
+      </div>
       {items.length === 0 &&
-        <p className="text-gray-500" >Sem registros.</p>
+        <p className="text-gray-500 ml-1" >Sem registros.</p>
       }
+
       {items.length > 0 &&
         <div className="flex flex-col gap-3">
-          {/* <Input
-            label="Pesquisar"
-            name="search"
-            onChange={event => console.log(event.target.value)}
-          /> */}
+
           <table className="w-full mt-2">
             <thead>
               <tr className="border-b font-semibold ">

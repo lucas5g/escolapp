@@ -32,6 +32,7 @@ export function Modality() {
           items={modalities}
           item={modality}
           setItem={setModality}
+          positionBottom={modalities.length * 100}
         />
         <Form
           fields={fields}

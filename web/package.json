@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.10.5",
     "@heroicons/react": "^2.0.13",
     "@hookform/resolvers": "^3.0.1",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.6",
     "axios": "^1.2.3",
     "clsx": "^1.2.1",
