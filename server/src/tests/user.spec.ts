@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { UserService } from '../services/UserService'
+import { AuthService } from '../services/AuthService'
 
 describe('User', () => {
 
@@ -17,14 +18,17 @@ describe('User', () => {
   })
 
 
-  // it.skip('User update', async() => {
-  //   const data:UserUpdateType = {
+  // it.only('User update', async() => {
+  //   const data = {
   //     name:`lucas test ${new Date().getMinutes()}`,
   //     email:'test@mail.com',
+  //     password: 'login123'
   //   }
   //   const user = await UserService.update(1, data)
-  //   expect(user).toContain(data)
-  //   console.log(user)
+  //   expect(user).toContain({name: data.name})
+
+  //   const auth = await AuthService.login(data)
+  //   console.log('auth ', auth)
   // })
 
   it('User crud', async () => {

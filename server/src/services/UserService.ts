@@ -33,7 +33,6 @@ export class UserService{
     if(user.password){
       user.password = await bcrypt.hash(user.password, 12)
     }
-
     return await UserRepository.update(id, user)
   }
 
