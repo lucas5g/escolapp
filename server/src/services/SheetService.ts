@@ -3,6 +3,8 @@ import { googleSheets } from '../utils/googleSheets'
 export class SheetService {
   
   static async findMany() {  
-    return await googleSheets()
+    const guests = await googleSheets() 
+    return guests
+    // return guests.filter((guest:any) => guest.unity === 'contagem')
   }
 }

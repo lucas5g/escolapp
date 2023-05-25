@@ -1,33 +1,43 @@
 import { google } from "googleapis";
 import path from "path";
+import { cache } from "./cache";
 
 export async function googleSheets() {
+
+  if(cache.has('googleSheets')){
+    const guests:any = cache.get('googleSheets')
+    return guests
+  }
+
   const auth = new google.auth.GoogleAuth({
-    keyFile: path.resolve('google.json'), 
+    keyFile: path.resolve('google.json'),
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
   })
 
-  const { spreadsheets } = google.sheets({version:'v4', auth})
+  const { spreadsheets } = google.sheets({ version: 'v4', auth })
 
   const { data } = await spreadsheets.values.get({
-    spreadsheetId: '17mMrsxHf5WnmFRHToxrCJgmTqvRTB1Fb-c9nV5qzFPQ',
-    range: 'ALUNOS BH 2023'
+    spreadsheetId: '1bGJaKQ-6Dns9jHXerVCX8Wcwtse4mborStESrZzW35w',
+    range: 'all'
   })
 
-  return sheetsToArrayObjects(data.values)
-  
+  const guests = sheetsToArrayObjects(data.values)
+
+  cache.set('googleSheets', guests)
+
+  return guests
 }
 
 
-export function sheetsToArrayObjects(data: any[][] | undefined | null ) {
-  
-  if(!data)return []
-  const headers:string[] = data[0]
+export function sheetsToArrayObjects(data: any[][] | undefined | null) {
+
+  if (!data) return []
+  const headers: string[] = data[0]
 
   const array = data
     .filter((_, i) => i > 0)
     .map(row => {
-      const object:any = {}
+      const object: any = {}
 
       headers.forEach((header, i) => {
         object[header] = row[i]
@@ -35,6 +45,5 @@ export function sheetsToArrayObjects(data: any[][] | undefined | null ) {
 
       return object
     })
-
   return array
 }
