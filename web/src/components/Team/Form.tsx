@@ -1,5 +1,3 @@
-import { Autocomplete, TextField } from "@mui/material";
-import { Student } from "phosphor-react";
 import { FormEvent, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { TeamInterface } from "../../pages/Team";
@@ -8,21 +6,10 @@ import { swr } from "../../utils/swr";
 import { Button } from "../Button";
 import { Card } from "../Card";
 import { Input } from "../Input";
+import { renameLowerCase } from "../../utils/rename-lowercase";
+import { GroupInterface, StudentInterface } from "../../interfaces";
+import clsx from "clsx";
 
-interface GroupInterface {
-  id: number
-  name: string
-  codcur: number
-  codper: number
-
-}
-interface StudentInterface {
-  id: number
-  name: string
-  ra: string
-  codcur: number
-  codper: number
-}
 
 interface Props {
   team: TeamInterface
@@ -39,6 +26,7 @@ export function Form({ team, setTeam }: Props) {
 
 
   const [loading, setLoading] = useState(false)
+  const [studentsSelected, setStudentsSelected] = useState([] as string[])
 
   const { data: groups, error: errorGroups }: { data: GroupInterface[], error: any } = swr('groups')
   const { data: modalities, error: errorModalities } = swr('modalities')
@@ -57,7 +45,9 @@ export function Form({ team, setTeam }: Props) {
     const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`.trim()
     setTeam({ ...team, name: teamName })
 
-  }, [team.id, team.modalityId, team.genreId])
+  }, [team.id, team.modalityId, team.genreId, team.groupId])
+
+  console.log(studentsSelected)
 
   return (
     <Card>
@@ -65,7 +55,6 @@ export function Form({ team, setTeam }: Props) {
         onSubmit={team.id ? handleSubmitUpdate : handleSubmitCreate}
         className="flex flex-col gap-5"
       >
-        {/* {team.id} */}
         <Input
           name='groupId'
           label='Turma'
@@ -73,7 +62,7 @@ export function Form({ team, setTeam }: Props) {
           value={team.groupId ?? ''}
           onChange={event => setTeam({ ...team, groupId: Number(event.target.value) })}
         />
-        <Input
+        {/* <Input
           name='modalityId'
           label='Modalidade'
           options={modalities}
@@ -86,38 +75,54 @@ export function Form({ team, setTeam }: Props) {
           options={genres}
           value={team.genreId ?? ''}
           onChange={event => setTeam({ ...team, genreId: Number(event.target.value) })}
-        />
-        <Input
+        /> */}
+        {/* <Input
           name="name"
           label="Nome da Equipe"
           value={team.name || ''}
           onChange={event => setTeam({ ...team, name: event.target.value })}
-        />
-        {/* {console.log(team, groups)} */}
-        {students?.length > 0 && team.groupId &&
-          <Autocomplete
-            multiple
-            id='students'
-            options={
-              students
-                .filter(student => student.codcur === groups.find(group => group.id === team.groupId)?.codcur)
-                .filter(student => student.codper === groups.find(group => group.id === team.groupId)?.codper)
-                .map(student => student?.name)
-            }
-            onChange={(event, names) => {
-              console.log({ names })
-              setTeam({ ...team, students: names })
-            }}
-            value={team.students ?? []}
-            filterSelectedOptions
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label='Alunos'
-                placeholder="Clique para adicionar"
-              />
-            )}
-          />
+        /> */}
+        {students && team.groupId &&
+
+          <div className="flex flex-col">
+            <label className="pl-1 py-2 border-b w-full text-sm">
+              Clique nos Alunos
+            </label>
+            <ul className="text-sm grid grid-cols-3">
+              {students.filter(student => {
+                const group = groups.find(group => group.id === team.groupId)
+
+                return (
+                  student.codcur === group?.codcur &&
+                  student.codper === group.codper
+                )
+              })
+                .map(student => {
+                  const studentExist = studentsSelected.find(res => res === student.ra)
+                  return (
+                    <li
+                      key={student.ra}
+                      className={clsx('border-b py-2 pl-4 cursor-pointer hover:bg-zinc-100 hover:rounded', {
+                        'bg-blue-200 hover:bg-blue-200': studentExist
+                      })} 
+                  
+                      onClick={() => {
+                        if (!studentExist) {
+                          return setStudentsSelected([...studentsSelected, student.ra])
+                        }
+                        const studentsFilter = studentsSelected.filter(res => res !== student.ra)
+                        return setStudentsSelected(studentsFilter)
+
+                      }}
+                      title={student.name}
+                    >
+
+                      {renameLowerCase(student.name)}
+                    </li>
+                  )
+                })}
+            </ul>
+          </div>
         }
         <div className="flex gap-3 justify-end">
           <Button
@@ -143,7 +148,7 @@ export function Form({ team, setTeam }: Props) {
     event.preventDefault()
     setLoading(true)
     const studentsSelected = team?.students?.map(name => {
-      return students.find(student => student.name === name)?.id || ''
+      return students.find(student => student.name === name)?.ra || ''
     })
     const data = {
       name: team.name,
@@ -172,15 +177,13 @@ export function Form({ team, setTeam }: Props) {
   async function handleSubmitUpdate(event: FormEvent) {
     event.preventDefault()
     setLoading(true)
-    const studentsSelected = team.students.map(name => {
-      return students.find(student => student.name === name)?.id || ''
-    })
+ 
     const data = {
       name: team.name,
       groupId: team.groupId,
       modalityId: team.modalityId,
       genreId: team.genreId,
-      studentsSelected
+      students:studentsSelected
     }
 
     try {

@@ -1,14 +1,40 @@
+import { googleSheets } from "../utils/google-sheets";
 import { prisma } from "../utils/prisma";
+import { StudentQueryType } from "../utils/schemas";
+
+interface StudentInterface{
+  ra:string 
+  name:string 
+  group:string 
+  course:string 
+  codcur:number 
+  codper:number  
+
+}
 
 export class StudentRepository {
 
-  static async findMany(where?:any){
-    return await prisma.student.findMany({
-      where,
-      orderBy:{
-        name:'asc'
-      }
+  static async findMany(where?:StudentQueryType){
+
+    const students = await googleSheets() as any[]
+
+    if(!where?.codcur && !where?.codper){
+      return students
+    }
+
+    return students.filter((student:StudentInterface) => {
+      return (
+        student.codper === where?.codper &&
+        student.codcur === where?.codcur
+      ) 
     })
+
+    // return await prisma.student.findMany({
+    //   where,
+    //   orderBy:{
+    //     name:'asc'
+    //   }
+    // })
   }
 
   static async findById(id:string) {

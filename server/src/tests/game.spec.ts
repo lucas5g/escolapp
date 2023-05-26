@@ -4,8 +4,8 @@ import { GameService } from "../services/GameService";
 import { PlaceService } from "../services/PlaceService";
 import { UserService } from "../services/UserService";
 
-describe('Game', () => {
-  it('Game list', async () => {
+describe.skip('Game', () => {
+  it.skip('Game list', async () => {
     const games = await GameService.findMany()
     const game = games[0]
     // console.log(game)

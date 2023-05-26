@@ -45,3 +45,17 @@ export interface TeamInterface{
   genreId: number 
   
 }
+
+export interface GroupInterface {
+  id: number
+  name: string
+  codcur: number
+  codper: number
+
+}
+export interface StudentInterface {
+  name: string
+  ra: string
+  codcur: number
+  codper: number
+}

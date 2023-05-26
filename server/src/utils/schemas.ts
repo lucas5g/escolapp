@@ -56,3 +56,9 @@ export const teamQuerySchema = z.object({
   modalityId:z.coerce.number().optional()
 })
 
+export const studentQuerySchema = z.object({
+  codcur:z.coerce.number().optional(),
+  codper:z.coerce.number().optional()
+})
+
+export type StudentQueryType = z.infer<typeof studentQuerySchema>

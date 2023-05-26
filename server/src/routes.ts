@@ -13,7 +13,6 @@ import { UserController } from './controllers/UserController'
 
 import { auth } from './utils/auth'
 import { errors } from './utils/errors'
-import { TestController } from './controllers/TestController'
 
 export const routes = Router()
 
@@ -22,7 +21,6 @@ export const routes = Router()
  */
 routes.get('/', (req:Request, res:Response) => res.json({api: 'Api release 2023-03-22'}))
 routes.post('/login', AuthController.login)
-routes.get('/test', TestController.index)
 
 /**
  * Middleawares

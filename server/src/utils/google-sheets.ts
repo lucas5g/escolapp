@@ -1,31 +1,36 @@
 import { google } from "googleapis";
 import path from "path";
 import { cache } from "./cache";
+import { env } from "./env";
+
 
 export async function googleSheets() {
 
-  if(cache.has('googleSheets')){
-    const guests:any = cache.get('googleSheets')
-    return guests
+  if (cache.has('googleSheets')) {
+    return cache.get('googleSheets')
   }
-
   const auth = new google.auth.GoogleAuth({
     keyFile: path.resolve('google.json'),
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
   })
 
-  const { spreadsheets } = google.sheets({ version: 'v4', auth })
+  try {
 
-  const { data } = await spreadsheets.values.get({
-    spreadsheetId: '1bGJaKQ-6Dns9jHXerVCX8Wcwtse4mborStESrZzW35w',
-    range: 'all'
-  })
+    const { spreadsheets } = google.sheets({ version: 'v4', auth })
 
-  const guests = sheetsToArrayObjects(data.values)
+    const { data } = await spreadsheets.values.get({
+      spreadsheetId: env.spreadSheetId,
+      range: 'all!a:g'
+    })
 
-  cache.set('googleSheets', guests)
+    const values = sheetsToArrayObjects(data.values)
 
-  return guests
+    cache.set('googleSheets', values)
+
+    return values
+  }catch(error){
+    console.log(error)
+  }
 }
 
 
@@ -40,7 +45,8 @@ export function sheetsToArrayObjects(data: any[][] | undefined | null) {
       const object: any = {}
 
       headers.forEach((header, i) => {
-        object[header] = row[i]
+        const cell = isNaN(row[i]) ? row[i] : Number(row[i])
+        object[header] = cell 
       })
 
       return object

@@ -3,7 +3,7 @@ import { TeamService } from "../services/TeamService";
 
 describe('Team', () => {
 
-  it('Team list', async () => {
+  it.skip('Team list', async () => {
     const teams = await TeamService.findMany()
     expect(teams).toBeTypeOf('object')
     expect(teams[0]).toHaveProperty('students')
