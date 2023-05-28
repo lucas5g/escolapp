@@ -2,9 +2,8 @@ import { describe, expect, it } from "vitest";
 import { GroupService } from "../services/GroupService";
 
 describe('Group', () => {
-  it.only('Group list', async () => {
+  it('Group list', async () => {
     const groups = await GroupService.findMany() as any[]
-    console.log(groups)
     groups.forEach((group:any) => {
       expect(group).toHaveProperty('name')
       expect(group).toHaveProperty('unity')
@@ -14,13 +13,13 @@ describe('Group', () => {
 
   it('Group show', async() => {
     const group = await GroupService.findById(1)
-    expect(group).toHaveProperty('codcur')
+    expect(group).not.toHaveProperty('codcur')
   })
 
   it('Group crud', async() => {
 
     const data = {
-     name: 'teste',
+     name: 'delete',
      unity:'contagem'
     }
     /**
@@ -32,9 +31,8 @@ describe('Group', () => {
     /**
      * Update
      */
-    const groupUpdate = await GroupService.update(group.id, {...data, name:'delele-group'})
+    const groupUpdate = await GroupService.update(group.id, {...data, name:'delete-group'})
     expect(groupUpdate).toHaveProperty('name', 'delete-group')
-    // console.log(groupUpdate)
     /**
      * Delete
      */

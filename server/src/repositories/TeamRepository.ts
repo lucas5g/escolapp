@@ -13,14 +13,6 @@ export class TeamRepository {
   static async findById(id: number) {
     return await prisma.team.findUnique({
       where: { id },
-      include: {
-        students: {
-          include: {
-            student: true
-          }
-        }
-      }
-
     })
   }
 
@@ -38,7 +30,7 @@ export class TeamRepository {
   }
 
   static async update(id: number, data: any) {
-   
+
     return await prisma.team.update({
       where: { id },
       data

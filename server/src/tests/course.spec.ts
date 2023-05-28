@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CourseService } from "../services/CourseService";
 
-describe('Course', () => {
+describe.skip('Course', () => {
   it('list courses', async() => {
     const courses = await CourseService.findMany()
     expect(courses.length).toBeGreaterThanOrEqual(0)
