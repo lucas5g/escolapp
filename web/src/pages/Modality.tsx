@@ -12,8 +12,8 @@ export function Modality() {
 
   const fields = [
     { key: 'name', value: 'Nome da Modalidade', },
-    { key: 'membersQuantity', value: 'Qtd. Membros' },
-    { key: 'teamsQuantity', value: 'Qtd. Equipes' }
+    { key: 'membersQuantity', value: 'Qtd. Membros', type:'number' },
+    { key: 'teamsQuantity', value: 'Qtd. Equipes', type:'number' }
   ]
 
   const [modality, setModality] = useState({})

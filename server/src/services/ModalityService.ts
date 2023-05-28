@@ -1,4 +1,5 @@
 import { ModalityRepository } from "../repositories/ModalityRepository"
+import { modalitySchema } from "../utils/schemas"
 
 export class ModalityService{
 
@@ -12,15 +13,20 @@ export class ModalityService{
 
   static async create(data:any){
 
+    const modality = modalitySchema.parse(data)
+
     if(await ModalityRepository.findByKey('name', data.name)){
       throw new Error(`Modalidade ${data.name} já foi cadastrada!`)
     }
 
-    return ModalityRepository.create(data)
+    return ModalityRepository.create(modality)
   }
 
   static async update(id:number, data:any){
-    return await ModalityRepository.update(id, data)
+
+    const modality = modalitySchema.parse(data)
+
+    return await ModalityRepository.update(id, modality)
   }
 
   static async delete(id:number){
