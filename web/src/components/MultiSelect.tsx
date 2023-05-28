@@ -1,14 +1,15 @@
 import clsx from "clsx"
 import { renameLowerCase } from "../utils/rename-lowercase"
 
-interface Props{
-  selected:string[] 
+interface Props {
+  selected: string[]
   setSelected: Function
-  label:string
+  label: string
   items: any[]
+  limit?: number
 }
 
-export function MultiSelect({selected, setSelected, label, items}:Props) {
+export function MultiSelect({ selected, setSelected, label, items, limit }: Props) {
   return (
     <div className="flex flex-col">
       <label
@@ -28,11 +29,17 @@ export function MultiSelect({selected, setSelected, label, items}:Props) {
               })}
 
               onClick={() => {
-                if (!itemExist) {
-                  return setSelected([...selected, item.id])
+
+                if (itemExist) {
+                  const itemsFilter = selected.filter(res => res !== item.id)
+                  return setSelected(itemsFilter)
                 }
-                const itemsFilter = selected.filter(res => res !== item.id)
-                return setSelected(itemsFilter)
+
+                if (limit && selected.length === limit) {
+                  return alert(`Você so pode selecionar ${limit}`)
+                }
+
+                return setSelected([...selected, item.id])
 
               }}
               title={item.name}

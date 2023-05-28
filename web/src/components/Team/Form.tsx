@@ -12,7 +12,7 @@ import { renameLowerCase } from "../../utils/rename-lowercase";
 
 interface Props {
   team: TeamInterface
-  setTeam: (team: TeamInterface) => void 
+  setTeam: (team: TeamInterface) => void
   modalities: ModalityInterface[]
   groups: GroupInterface[]
   students: StudentInterface[]
@@ -36,27 +36,31 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
     const group = groups.find(group => group.id === team.groupId)
 
     const modality = modalities.find((modality: any) => modality.id === team.modalityId)
+    console.log({ modality })
     const genre = genres.find((genre: any) => genre.id === team.genreId)
     const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`.trim()
     setTeam({ ...team, name: teamName })
 
   }, [team.id, team.modalityId, team.genreId, team.groupId])
 
-  console.log(team)
+  // console.log(mo)
   useEffect(() => {
-    if(!team.students){
+    if (!team.students) {
       return setStudentsSelected([])
     }
+
     setStudentsSelected(team.students)
 
   }, [team.id])
 
+  const modality = modalities.find(modality => modality.id === team.modalityId)
+  
   const students = studentsWithoutFilter.filter(student => {
     const group = groups.find(group => group.id === team.groupId)
     return student.group === group?.name
   }).map(student => {
     return {
-      id: student.ra, 
+      id: student.ra,
       name: renameLowerCase(student.name)
     }
   })
@@ -99,12 +103,13 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
           onChange={event => setTeam({ ...team, name: event.target.value })}
         />
         {students && team.groupId &&
-          <MultiSelect 
+          <MultiSelect
             label="Alunos"
-            selected={studentsSelected} 
+            selected={studentsSelected}
             setSelected={setStudentsSelected}
             items={students}
-            />        
+            limit={modality?.membersQuantity}
+          />
         }
         <div className="flex gap-3 justify-end">
           <Button
@@ -141,10 +146,10 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
 
     try {
       if (team.id) {
-         await api.put(`teams/${team.id}`, body)
-        } else {
-          const { data } =await api.post(`teams`, body)
-          setTeam(data)
+        await api.put(`teams/${team.id}`, body)
+      } else {
+        const { data } = await api.post(`teams`, body)
+        setTeam(data)
       }
       mutate('teams')
     } catch (error: any) {

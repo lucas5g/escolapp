@@ -24,6 +24,8 @@ export interface GameInterface{
 export interface ModalityInterface{
   id: number 
   name: string 
+  membersQuantity: number 
+  teamsQuantity: number
 }
 
 export interface PlaceInterface{
