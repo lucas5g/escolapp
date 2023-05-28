@@ -1,20 +1,21 @@
 import { FormEvent, useEffect, useState } from "react";
 import { mutate } from "swr";
-import { TeamInterface } from "../../pages/Team";
 import { api } from "../../utils/axios";
-import { swr } from "../../utils/swr";
 import { Button } from "../Button";
 import { Card } from "../Card";
 import { Input } from "../Input";
-import { renameLowerCase } from "../../utils/rename-lowercase";
-import { GroupInterface, StudentInterface } from "../../interfaces";
-import clsx from "clsx";
+import { GroupInterface, ModalityInterface, StudentInterface, TeamInterface } from "../../interfaces";
 import { Row } from "../Row";
+import { MultiSelect } from "../MultiSelect";
+import { renameLowerCase } from "../../utils/rename-lowercase";
 
 
 interface Props {
   team: TeamInterface
-  setTeam: (team: TeamInterface) => void
+  setTeam: (team: TeamInterface) => void 
+  modalities: ModalityInterface[]
+  groups: GroupInterface[]
+  students: StudentInterface[]
 }
 
 const genres = [
@@ -23,18 +24,14 @@ const genres = [
   { id: 3, name: 'MISTO' },
 ]
 
-export function Form({ team, setTeam }: Props) {
+export function Form({ team, setTeam, groups, modalities, students: studentsWithoutFilter }: Props) {
 
 
   const [loading, setLoading] = useState(false)
   const [studentsSelected, setStudentsSelected] = useState([] as string[])
 
-  const { data: groups, error: errorGroups }: { data: GroupInterface[], error: any } = swr('groups')
-  const { data: modalities, error: errorModalities } = swr('modalities')
-  const { data: students, error: errorStudents } = swr(`students`) as { data: StudentInterface[], error: any }
 
   useEffect(() => {
-    if (!groups || !modalities) return
     if (team.id) return
     const group = groups.find(group => group.id === team.groupId)
 
@@ -53,6 +50,17 @@ export function Form({ team, setTeam }: Props) {
     setStudentsSelected(team.students)
 
   }, [team.id])
+
+  const students = studentsWithoutFilter.filter(student => {
+    const group = groups.find(group => group.id === team.groupId)
+    return student.group === group?.name
+  }).map(student => {
+    return {
+      id: student.ra, 
+      name: renameLowerCase(student.name)
+    }
+  })
+
 
   return (
     <Card>
@@ -91,41 +99,12 @@ export function Form({ team, setTeam }: Props) {
           onChange={event => setTeam({ ...team, name: event.target.value })}
         />
         {students && team.groupId &&
-
-          <div className="flex flex-col">
-            <label className="pl-1 py-2 border-b w-full text-zinc-600 text-xs">
-              Selecione os Alunos ({studentsSelected.length})
-            </label>
-            <ul className="text-sm grid grid-cols-4">
-              {students.filter(student => {
-                const group = groups.find(group => group.id === team.groupId)
-                return student.group === group?.name
-              }).map(student => {
-                const studentExist = studentsSelected?.find(res => res === student.ra)
-                return (
-                  <li
-                    key={student.ra}
-                    className={clsx('border-b py-2 pl-4 cursor-pointer hover:bg-zinc-100 hover:rounded', {
-                      'bg-blue-200 hover:bg-blue-200': studentExist
-                    })}
-
-                    onClick={() => {
-                      if (!studentExist) {
-                        return setStudentsSelected([...studentsSelected, student.ra])
-                      }
-                      const studentsFilter = studentsSelected.filter(res => res !== student.ra)
-                      return setStudentsSelected(studentsFilter)
-
-                    }}
-                    title={student.name}
-                  >
-
-                    {renameLowerCase(student.name)}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
+          <MultiSelect 
+            label="Alunos"
+            selected={studentsSelected} 
+            setSelected={setStudentsSelected}
+            items={students}
+            />        
         }
         <div className="flex gap-3 justify-end">
           <Button
@@ -152,7 +131,7 @@ export function Form({ team, setTeam }: Props) {
     event.preventDefault()
     setLoading(true)
 
-    const data = {
+    const body = {
       name: team.name,
       groupId: team.groupId,
       modalityId: team.modalityId,
@@ -162,9 +141,10 @@ export function Form({ team, setTeam }: Props) {
 
     try {
       if (team.id) {
-        await api.put(`teams/${team.id}`, data)
-      } else {
-        await api.post(`teams`, data)
+         await api.put(`teams/${team.id}`, body)
+        } else {
+          const { data } =await api.post(`teams`, body)
+          setTeam(data)
       }
       mutate('teams')
     } catch (error: any) {

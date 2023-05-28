@@ -5,19 +5,7 @@ import { GameType, gameSchema } from "../utils/schemas";
 export class GameService {
 
   static async findMany() {
-    const games = await GameRepository.findMany()
-    return games.map( game => {
-      return {
-        ...game, 
-        teams: game.gameTeam.map( gameTeam => {
-          return {
-            id: gameTeam.teamId,
-            name: gameTeam.team.name
-          }
-        }),
-        gameTeam:undefined
-      }
-    })
+    return await GameRepository.findMany()
   }
 
   static async findById(id: number) {

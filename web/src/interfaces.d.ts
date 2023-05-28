@@ -37,14 +37,15 @@ export interface UserInterface{
   profile: 'coordinator' | 'manager' | 'judge'
 }
 
-export interface TeamInterface{
-  id:number 
-  name: string 
-  modalityId: number 
-  groupId: number 
-  genreId: number 
-  
+export interface TeamInterface {
+  id: number
+  name: string
+  groupId: number
+  modalityId: number
+  genreId: number
+  students: string[] 
 }
+
 
 export interface GroupInterface {
   id: number

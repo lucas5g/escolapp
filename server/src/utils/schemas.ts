@@ -69,7 +69,7 @@ export const teamSchema = z.object({
   modalityId: z.coerce.number(),
   groupId: z.coerce.number(),
   genreId: z.coerce.number(),
-  students: z.array(z.string())
+  students:z.string().array()
 })
 
 export const teamQuerySchema = z.object({

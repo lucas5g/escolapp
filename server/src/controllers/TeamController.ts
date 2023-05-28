@@ -17,14 +17,18 @@ export class TeamController{
 
   static async create(req: Request, res:Response, next:NextFunction){
     try{
-      return res.json(await TeamService.create(req.body))
+      res.json(await TeamService.create(req.body))
     }catch(error){
       next(error)
     }
   }
 
-  static async update(req: Request, res:Response){
-    res.json(await TeamService.update(Number(req.params.id), req.body))
+  static async update(req: Request, res:Response, next:NextFunction){
+    try{
+      res.json(await TeamService.update(Number(req.params.id), req.body))
+    }catch(error){
+      next(error)
+    }
   }
 
   static async delete(req:Request, res: Response){

@@ -6,39 +6,35 @@ import { Main } from "../components/Main";
 import { Table } from "../components/Table";
 import { Form } from "../components/Team/Form";
 import { swr } from "../utils/swr";
+import { GroupInterface, ModalityInterface, StudentInterface, TeamInterface } from "../interfaces";
 
 const fields = [
   { key: 'name', value: 'Nome da Equipe', },
-  { key: 'modalityId', value: 'Modalidade' },
-  { key: 'groupId', value: 'Turma' },
-  // { key: 'genreId', value: 'Gênero' }
+  { key: 'modality', value: 'Modalidade' },
+  { key: 'group', value: 'Turma' },
 ]
-
-export interface TeamInterface {
-  id: number
-  name: string
-  groupId: number
-  modalityId: number
-  genreId: number
-  students: string[]
-  group:{
-    id:number,
-    name:string,
-    codcur:number,
-    codper:number
-  }
-}
 
 export function Team() {
 
   const [team, setTeam] = useState({} as TeamInterface)
 
-  const { data, error } = swr('teams')
+  const { data, error }:{data:TeamInterface[], error:any} = swr('teams')
+  const { data: groups, error: errorGroups }: { data: GroupInterface[], error: any } = swr('groups')
+  const { data: modalities, error: errorModalities }:{data:ModalityInterface[], error:any} = swr('modalities')
+  const { data: students, error: errorStudents } = swr(`students`) as { data: StudentInterface[], error: any }
+
 
   if (error) return <Error error={error} />
-  if (!data) return <Loading />
+  if (!data || !groups || !modalities || !students) return <Loading />
 
-  const teams = data
+  const teams = data.map(team => {
+    return {
+      ...team,
+      modality: modalities.find(modality => modality.id === team.modalityId)?.name,
+      group: groups.find(group => group.id === team.groupId)?.name
+    }
+  })  
+
 
   return (
     <Layout>
@@ -53,7 +49,9 @@ export function Team() {
         <Form
           team={team}
           setTeam={setTeam}
-
+          groups={groups}
+          modalities={modalities}
+          students={students}
         />
       </Main>
     </Layout>
