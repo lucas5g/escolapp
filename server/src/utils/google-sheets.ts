@@ -4,11 +4,8 @@ import { cache } from "./cache";
 import { env } from "./env";
 
 
-export async function googleSheets() {
+export async function googleSheets({range}:{range:string}) {
 
-  if (cache.has('googleSheets')) {
-    return cache.get('googleSheets')
-  }
   const auth = new google.auth.GoogleAuth({
     keyFile: path.resolve('google.json'),
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
@@ -20,12 +17,10 @@ export async function googleSheets() {
 
     const { data } = await spreadsheets.values.get({
       spreadsheetId: env.spreadSheetId,
-      range: 'all!a:g'
+      range
     })
 
     const values = sheetsToArrayObjects(data.values)
-
-    cache.set('googleSheets', values)
 
     return values
   }catch(error){

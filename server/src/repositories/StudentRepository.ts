@@ -1,3 +1,4 @@
+import { cache } from "../utils/cache";
 import { googleSheets } from "../utils/google-sheets";
 import { prisma } from "../utils/prisma";
 import { StudentQueryType } from "../utils/schemas";
@@ -6,35 +7,25 @@ interface StudentInterface{
   ra:string 
   name:string 
   group:string 
-  course:string 
-  codcur:number 
-  codper:number  
+  // course:string 
+  // codcur:number 
+  // codper:number  
 
 }
 
 export class StudentRepository {
 
-  static async findMany(where?:StudentQueryType){
+  static async findMany(){
 
-    const students = await googleSheets() as any[]
-
-    if(!where?.codcur && !where?.codper){
-      return students
+    if(cache.has('students')){
+      return cache.get('students') as StudentInterface[]
     }
 
-    return students.filter((student:StudentInterface) => {
-      return (
-        student.codper === where?.codper &&
-        student.codcur === where?.codcur
-      ) 
-    })
+    const students = await googleSheets({range:'all!a:g'}) as StudentInterface[]
 
-    // return await prisma.student.findMany({
-    //   where,
-    //   orderBy:{
-    //     name:'asc'
-    //   }
-    // })
+    cache.set('students', students)
+    return students
+
   }
 
   static async findById(id:string) {

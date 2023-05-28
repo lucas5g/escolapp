@@ -16,6 +16,7 @@ interface Props {
   error?: string
   setSearch?: (text:string) => any
   placeholder?:string
+  className?:string
   options?: {
     id: number,
     name: string
@@ -53,6 +54,7 @@ export function Input(props: Props) {
       error={props.error ? true : false}
       helperText={translate(props.error ?? '')}
       placeholder={props?.placeholder}
+      // className={props.className}
       InputProps={props.setSearch && {
         endAdornment: (
           <InputAdornment 

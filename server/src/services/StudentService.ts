@@ -1,11 +1,24 @@
 import { StudentRepository } from "../repositories/StudentRepository"
 import { StudentQueryType, studentQuerySchema } from "../utils/schemas"
+
+interface StudentInterface{
+  ra: string 
+  name: string 
+  group: string 
+}
 export class StudentService {
 
   static async findMany(query?: StudentQueryType) {
 
-    const where = studentQuerySchema.parse(query)
-    return await StudentRepository.findMany(where)
+    const { group } = studentQuerySchema.parse(query)
+    const students = await StudentRepository.findMany() as StudentInterface[]
+
+    if(group){
+      return students.filter( student => student.group === group)
+    }
+    
+    return students
+    
   }
 
   // static async findById(id: string) {

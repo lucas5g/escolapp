@@ -11,7 +11,7 @@ const fields = [
   { key: 'name', value: 'Nome da Equipe', },
   { key: 'modalityId', value: 'Modalidade' },
   { key: 'groupId', value: 'Turma' },
-  { key: 'genreId', value: 'Gênero' }
+  // { key: 'genreId', value: 'Gênero' }
 ]
 
 export interface TeamInterface {

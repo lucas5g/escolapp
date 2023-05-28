@@ -9,6 +9,7 @@ import { Input } from "../Input";
 import { renameLowerCase } from "../../utils/rename-lowercase";
 import { GroupInterface, StudentInterface } from "../../interfaces";
 import clsx from "clsx";
+import { Row } from "../Row";
 
 
 interface Props {
@@ -36,9 +37,6 @@ export function Form({ team, setTeam }: Props) {
     if (!groups || !modalities) return
     if (team.id) return
     const group = groups.find(group => group.id === team.groupId)
-    // if (group?.id) {
-    //   setGroup(group)
-    // }
 
     const modality = modalities.find((modality: any) => modality.id === team.modalityId)
     const genre = genres.find((genre: any) => genre.id === team.genreId)
@@ -47,12 +45,19 @@ export function Form({ team, setTeam }: Props) {
 
   }, [team.id, team.modalityId, team.genreId, team.groupId])
 
-  console.log(studentsSelected)
+  console.log(team)
+  useEffect(() => {
+    if(!team.students){
+      return setStudentsSelected([])
+    }
+    setStudentsSelected(team.students)
+
+  }, [team.id])
 
   return (
     <Card>
       <form
-        onSubmit={team.id ? handleSubmitUpdate : handleSubmitCreate}
+        onSubmit={handleSubmit}
         className="flex flex-col gap-5"
       >
         <Input
@@ -62,65 +67,63 @@ export function Form({ team, setTeam }: Props) {
           value={team.groupId ?? ''}
           onChange={event => setTeam({ ...team, groupId: Number(event.target.value) })}
         />
-        {/* <Input
-          name='modalityId'
-          label='Modalidade'
-          options={modalities}
-          value={team.modalityId ?? ''}
-          onChange={event => setTeam({ ...team, modalityId: Number(event.target.value) })}
-        />
+        <Row>
+          <Input
+            name='modalityId'
+            label='Modalidade'
+            options={modalities}
+            value={team.modalityId ?? ''}
+            onChange={event => setTeam({ ...team, modalityId: Number(event.target.value) })}
+          />
+          <Input
+            name='genreId'
+            label='Gênero'
+            options={genres}
+            value={team.genreId ?? ''}
+            onChange={event => setTeam({ ...team, genreId: Number(event.target.value) })}
+            className="w-1/2"
+          />
+        </Row>
         <Input
-          name='genreId'
-          label='Gênero'
-          options={genres}
-          value={team.genreId ?? ''}
-          onChange={event => setTeam({ ...team, genreId: Number(event.target.value) })}
-        /> */}
-        {/* <Input
           name="name"
           label="Nome da Equipe"
           value={team.name || ''}
           onChange={event => setTeam({ ...team, name: event.target.value })}
-        /> */}
+        />
         {students && team.groupId &&
 
           <div className="flex flex-col">
-            <label className="pl-1 py-2 border-b w-full text-sm">
-              Clique nos Alunos
+            <label className="pl-1 py-2 border-b w-full text-zinc-600 text-xs">
+              Selecione os Alunos ({studentsSelected.length})
             </label>
-            <ul className="text-sm grid grid-cols-3">
+            <ul className="text-sm grid grid-cols-4">
               {students.filter(student => {
                 const group = groups.find(group => group.id === team.groupId)
-
+                return student.group === group?.name
+              }).map(student => {
+                const studentExist = studentsSelected?.find(res => res === student.ra)
                 return (
-                  student.codcur === group?.codcur &&
-                  student.codper === group.codper
+                  <li
+                    key={student.ra}
+                    className={clsx('border-b py-2 pl-4 cursor-pointer hover:bg-zinc-100 hover:rounded', {
+                      'bg-blue-200 hover:bg-blue-200': studentExist
+                    })}
+
+                    onClick={() => {
+                      if (!studentExist) {
+                        return setStudentsSelected([...studentsSelected, student.ra])
+                      }
+                      const studentsFilter = studentsSelected.filter(res => res !== student.ra)
+                      return setStudentsSelected(studentsFilter)
+
+                    }}
+                    title={student.name}
+                  >
+
+                    {renameLowerCase(student.name)}
+                  </li>
                 )
-              })
-                .map(student => {
-                  const studentExist = studentsSelected.find(res => res === student.ra)
-                  return (
-                    <li
-                      key={student.ra}
-                      className={clsx('border-b py-2 pl-4 cursor-pointer hover:bg-zinc-100 hover:rounded', {
-                        'bg-blue-200 hover:bg-blue-200': studentExist
-                      })} 
-                  
-                      onClick={() => {
-                        if (!studentExist) {
-                          return setStudentsSelected([...studentsSelected, student.ra])
-                        }
-                        const studentsFilter = studentsSelected.filter(res => res !== student.ra)
-                        return setStudentsSelected(studentsFilter)
-
-                      }}
-                      title={student.name}
-                    >
-
-                      {renameLowerCase(student.name)}
-                    </li>
-                  )
-                })}
+              })}
             </ul>
           </div>
         }
@@ -135,6 +138,7 @@ export function Form({ team, setTeam }: Props) {
             secondary
             onClick={() => {
               setTeam({} as TeamInterface)
+
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
 
@@ -144,22 +148,24 @@ export function Form({ team, setTeam }: Props) {
     </Card>
   )
 
-  async function handleSubmitCreate(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setLoading(true)
-    const studentsSelected = team?.students?.map(name => {
-      return students.find(student => student.name === name)?.ra || ''
-    })
+
     const data = {
       name: team.name,
       groupId: team.groupId,
       modalityId: team.modalityId,
       genreId: team.genreId,
-      studentsSelected
+      students: studentsSelected
     }
 
     try {
-      await api.post(`teams`, data)
+      if (team.id) {
+        await api.put(`teams/${team.id}`, data)
+      } else {
+        await api.post(`teams`, data)
+      }
       mutate('teams')
     } catch (error: any) {
       console.log(error)
@@ -174,26 +180,4 @@ export function Form({ team, setTeam }: Props) {
     }
   }
 
-  async function handleSubmitUpdate(event: FormEvent) {
-    event.preventDefault()
-    setLoading(true)
- 
-    const data = {
-      name: team.name,
-      groupId: team.groupId,
-      modalityId: team.modalityId,
-      genreId: team.genreId,
-      students:studentsSelected
-    }
-
-    try {
-      await api.put(`teams/${team.id}`, data)
-      mutate('teams')
-    } catch (error) {
-      console.log(error)
-      alert('Erro ao atualizar')
-    } finally {
-      setLoading(false)
-    }
-  }
 }

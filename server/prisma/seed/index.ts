@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import fs from 'fs'
 import { idToStringProfile } from '../../src/utils/id-to-string-profile'
 import { setTimeout } from 'timers/promises'
-
+import groups from './data/groups.json'
 
 const prisma = new PrismaClient();
 
@@ -146,27 +146,22 @@ async function createTeams() {
 async function createGroups() {
 
   // const groups = [{ id: 1, name: 'turma test', codcur: 20, codper: 1 }]
-  const groups = await csvtojson().fromFile(`${__dirname}/data/groups.csv`)
   groups.forEach(async (group, index) => {
     try {
 
       await prisma.group.upsert({
         where: {
-          id: Number(group.id)
+          id: group.id
         },
         update: {
-          name: group.name,
-          codcur: Number(group.codcur),
-          codper: Number(group.codper)
+          ...group,
+          unity:'contagem'
         },
         create: {
-          id: Number(group.id),
-          name: group.name,
-          codcur: Number(group.codcur),
-          codper: Number(group.codper)
+          ...group,
+          unity: 'contagem'
         }
       })
-      // console.log(`${index + 1} - ${group.name} atualizado com sucesso!`)
     } catch (error) {
       console.log(group)
     }

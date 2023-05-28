@@ -56,6 +56,7 @@ export interface GroupInterface {
 export interface StudentInterface {
   name: string
   ra: string
-  codcur: number
-  codper: number
+  group:string
+  // codcur: number
+  // codper: number
 }

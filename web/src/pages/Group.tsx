@@ -1,33 +1,41 @@
 import { useState } from "react";
 import { Error } from "../components/Error";
-import { Form } from "../components/Form";
 import { Layout } from "../components/Layout";
 import { Loading } from "../components/Loading";
 import { Main } from "../components/Main";
 import { Table } from "../components/Table";
 import { swr } from "../utils/swr";
+import { Form } from "../components/Form";
+// import { Form } from "../components/Form";
 
+// const fields = [
+//   { key: 'name', value: 'Nome da Turma', },
+//   { key: 'codcur', value: 'Código do Curso' },
+//   { key: 'codper', value: 'Código do Período' }
+// ]
 const fields = [
-  { key: 'name', value: 'Nome da Turma', },
-  { key: 'codcur', value: 'Código do Curso' },
-  { key: 'codper', value: 'Código do Período' }
+  { key: 'name', value: 'Nome', },
+  { key: 'unity', value: 'Unidade' },
+  { key: 'quantity', value: 'Quantidade' }
+]
+
+const fieldsForm = [
+  { key: 'name', value: 'Nome', },
+  { key: 'unity', value: 'Unidade' },
 ]
 interface Group {
   id: number
   name: string
-  codcur: number
-  codper: number
+  unity: 'bh' | 'contagem' 
 }
 
 export function Group() {
 
   const [group, setGroup] = useState({} as Group)
-  const { data, error } = swr('groups')
+  const { data: groups, error } = swr('groups')
 
   if (error) return <Error error={error} />
-  if (!data) return <Loading />
-
-  const groups: Group[] = data
+  if (!groups) return <Loading />
 
   return (
     <Layout>
@@ -40,7 +48,7 @@ export function Group() {
           positionBottom={groups.length * 100}
         />
         <Form
-          fields={fields}
+          fields={fieldsForm}
           item={group}
           setItem={setGroup}
           uri='groups'

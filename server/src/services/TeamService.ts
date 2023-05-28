@@ -1,21 +1,7 @@
 import { z } from "zod"
 import { StudentRepository } from "../repositories/StudentRepository"
 import { TeamRepository } from "../repositories/TeamRepository"
-
-const teamSchema = z.object({
-  name: z.string(),
-  modalityId: z.coerce.number(),
-  groupId: z.coerce.number(),
-  genreId: z.coerce.number(),
-  studentsSelected: z.array(z.string())
-})
-
-const teamQuerySchema = z.object({
-  modalityId: z.coerce.number().optional()
-})
-
-export type teamType = z.infer<typeof teamSchema>
-type teamQuerySchema = z.infer<typeof teamQuerySchema>
+import { TeamType, teamQuerySchema, teamSchema } from "../utils/schemas"
 
 export class TeamService {
   static async findMany(data?: teamQuerySchema) {
@@ -27,7 +13,7 @@ export class TeamService {
     return await TeamRepository.findById(id)
   }
 
-  static async create(data: teamType) {
+  static async create(data: TeamType) {
     const team = teamSchema.parse(data)
 
     if (await TeamRepository.findByColumn('name', team.name)) {

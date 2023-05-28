@@ -29,12 +29,21 @@ model Project {
   permission String
 }
 
+enum Unity {
+  bh
+  contagem
+  gutierrez
+  novalima
+}
+
 model Group {
-  id     Int    @id @default(autoincrement())
-  name   String @unique
-  codcur Int
-  codper Int
-  teams  Team[]
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  unity Unity
+
+  // codcur Int
+  // codper Int
+  teams Team[]
 }
 
 model Modality {
@@ -53,17 +62,17 @@ model Place {
   games Game[]
 }
 
-model Student {
-  id          String        @unique
-  name        String
-  course      String
-  group       String
-  codcur      Int
-  codper      Int
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @default(now()) @updatedAt
-  TeamStudent TeamStudent[]
-}
+// model Student {
+//   id          String        @unique
+//   name        String
+//   course      String
+//   group       String
+//   codcur      Int
+//   codper      Int
+//   createdAt   DateTime      @default(now())
+//   updatedAt   DateTime      @default(now()) @updatedAt
+//   TeamStudent TeamStudent[]
+// }
 
 model Genre {
   id    Int    @id @default(autoincrement())
@@ -77,29 +86,27 @@ model Team {
   modalityId Int?
   groupId    Int?
   genreId    Int?
+  students   Json
 
-  genre    Genre?        @relation(fields: [genreId], references: [id])
-  group    Group?        @relation(fields: [groupId], references: [id])
-  modality Modality?     @relation(fields: [modalityId], references: [id])
-  GameTeam GameTeam[]
-  // TeamStudent TeamStudent[]
-  students TeamStudent[]
+  genre    Genre?    @relation(fields: [genreId], references: [id])
+  group    Group?    @relation(fields: [groupId], references: [id])
+  modality Modality? @relation(fields: [modalityId], references: [id])
 
   @@index([genreId], map: "Team_genreId_fkey")
   @@index([groupId], map: "Team_groupId_fkey")
   @@index([modalityId], map: "Team_modalityId_fkey")
 }
 
-model TeamStudent {
-  id        Int    @id @default(autoincrement())
-  teamId    Int
-  studentId String
+// model TeamStudent {
+//   id        Int    @id @default(autoincrement())
+//   teamId    Int
+//   studentId String
 
-  student Student @relation(fields: [studentId], references: [id])
-  team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+//   student Student @relation(fields: [studentId], references: [id])
+//   team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
-  @@unique([teamId, studentId])
-}
+//   @@unique([teamId, studentId])
+// }
 
 model Game {
   id         Int      @id @default(autoincrement())
@@ -115,23 +122,23 @@ model Game {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  place    Place?     @relation(fields: [placeId], references: [id])
-  modality Modality?  @relation(fields: [modalityId], references: [id])
-  user     User?      @relation(fields: [userId], references: [id])
-  gameTeam GameTeam[]
+  place    Place?    @relation(fields: [placeId], references: [id])
+  modality Modality? @relation(fields: [modalityId], references: [id])
+  user     User?     @relation(fields: [userId], references: [id])
+  // gameTeam GameTeam[]
 }
 
-model GameTeam {
-  id            Int  @id @default(autoincrement())
-  gameId        Int
-  teamId        Int
-  fairPlayPoint Int?
-  goals         Int?
-  points        Int?
+// model GameTeam {
+//   id            Int  @id @default(autoincrement())
+//   gameId        Int
+//   teamId        Int
+//   fairPlayPoint Int?
+//   goals         Int?
+//   points        Int?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now()) @updatedAt
 
-  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  team Team @relation(fields: [teamId], references: [id])
-}
+//   game Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   team Team @relation(fields: [teamId], references: [id])
+// }

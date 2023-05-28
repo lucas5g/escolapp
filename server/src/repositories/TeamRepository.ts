@@ -1,4 +1,3 @@
-import { teamType } from "../services/TeamService"
 import { prisma } from "../utils/prisma"
 
 export class TeamRepository {
@@ -8,13 +7,6 @@ export class TeamRepository {
       orderBy: {
         name: 'asc'
       },
-      include: {
-        students: {
-          include:{
-            student:true
-          }
-        }
-      }
     })
   }
 
@@ -39,47 +31,17 @@ export class TeamRepository {
       }
     })
   }
-  static async create(data: teamType) {
-    const students = data.studentsSelected?.map(id => {
-      return { studentId: id }
-    })
+  static async create(data: any) {
 
-    return await prisma.team.create({
-      data: {
-        name: data.name,
-        modalityId: data.modalityId,
-        groupId: data.groupId,
-        genreId: data.genreId,
-        students: {
-          createMany: {
-            data: students || []
-          }
-        }
-      },
-    })
+    return await prisma.team.create({ data })
+
   }
 
-  static async update(id: number, data: teamType) {
-    const students = data.studentsSelected.map(id => {
-      return { studentId: id }
-    })
+  static async update(id: number, data: any) {
+   
     return await prisma.team.update({
       where: { id },
-      data: {
-        name: data.name,
-        modalityId: data.modalityId,
-        groupId: data.groupId,
-        genreId: data.genreId,
-        students: {
-          deleteMany: { teamId: id },
-          createMany: {
-            data: students || []
-          }
-        },
-      },
-      include: {
-        students: true
-      }
+      data
     })
   }
 

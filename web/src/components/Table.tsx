@@ -68,7 +68,7 @@ export function Table({
                   <tr
                     key={row.id}
                     className={clsx("border-b hover:bg-blue-50 hover:cursor-pointer transition-colors rounded text-sm", {
-                      'border-b-blue-300 bg-blue-100': row.id === item.id,
+                      // 'border-b-blue-300 bg-blue-100': row.id === item.id,
                       // 'text-sm': item.id
                     })}
                     title="Clique para Editar"

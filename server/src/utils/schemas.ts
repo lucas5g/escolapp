@@ -29,8 +29,9 @@ export type UserUpdateType = z.infer<typeof userUpdateSchema>
 
 export const groupSchema = z.object({
   name: z.string(),
-  codcur: z.number(),
-  codper: z.number()
+  unity: z.enum(['bh', 'contagem', 'gutierrez', 'novalima'])
+  // codcur: z.number(),
+  // codper: z.number()
 })
 
 export const authSchema = z.object({
@@ -52,13 +53,28 @@ export const gameSchema = z.object({
 
 export type GameType = z.infer<typeof gameSchema>
 
-export const teamQuerySchema = z.object({
-  modalityId:z.coerce.number().optional()
-})
+
 
 export const studentQuerySchema = z.object({
-  codcur:z.coerce.number().optional(),
-  codper:z.coerce.number().optional()
+  group: z.string().optional(),
+  unity: z.string().optional()
+  // codcur:z.coerce.number().optional(),
+  // codper:z.coerce.number().optional()
 })
 
 export type StudentQueryType = z.infer<typeof studentQuerySchema>
+
+export const teamSchema = z.object({
+  name: z.string(),
+  modalityId: z.coerce.number(),
+  groupId: z.coerce.number(),
+  genreId: z.coerce.number(),
+  students: z.array(z.string())
+})
+
+export const teamQuerySchema = z.object({
+  modalityId: z.coerce.number().optional()
+})
+
+export type TeamType = z.infer<typeof teamSchema>
+export type teamQuerySchema = z.infer<typeof teamQuerySchema>
