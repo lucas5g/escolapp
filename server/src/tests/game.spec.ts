@@ -7,32 +7,15 @@ import { UserService } from "../services/UserService";
 describe('Game', () => {
   it('Game list', async () => {
     const games = await GameService.findMany()
-    const game = games[0]
-    // console.log(game)
     expect(games.length).toBeGreaterThanOrEqual(0)
-    expect(game).toHaveProperty('modalityId')
-    expect(game).toHaveProperty('userId')
-    expect(game).toHaveProperty('teams')
+
+    games.forEach(game => {
+
+      expect(game).toHaveProperty('modalityId')
+      expect(game).toHaveProperty('userId')
+      expect(game).toHaveProperty('teams')
+    })
   })
-
-  // it.only('Game update', async () => {
-
-  //   const data = {
-  //     "modalityId": 22,
-  //     "date": "2022-09-05T00:00:00.000Z",
-  //     "startHours": "09:00",
-  //     "endHours": "10:00",
-  //     "userId": 6,
-  //     "placeId": 16,
-  //     "teams": [1,2]
-  //   }
-
-
-  //   const game = await GameService.create(data)
-  //   // console.log(game)
-  //   // expect(game.teams).deep.equal(data.teams)
-
-  // })
 
   it('Game crud', async () => {
 
