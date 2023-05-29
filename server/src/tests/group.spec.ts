@@ -4,6 +4,7 @@ import { GroupService } from "../services/GroupService";
 describe('Group', () => {
   it('Group list', async () => {
     const groups = await GroupService.findMany() as any[]
+    // expect(groups).deep.equal(groups.sort((a, b) => a.name.localeCompare(b)))
     groups.forEach((group:any) => {
       expect(group).toHaveProperty('name')
       expect(group).toHaveProperty('unity')
