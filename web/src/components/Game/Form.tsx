@@ -44,7 +44,7 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
         <Input
           type="date"
           name="date"
-          label="Date"
+          label="Data"
           value={game.date ? moment(game.date).format('YYYY-MM-DD') : ''}
           onChange={event => setGame({ ...game, date: event.target.value })}
           inputLabelOpen
