@@ -4,10 +4,15 @@ import { cache } from "./cache";
 import { env } from "./env";
 
 
-export async function googleSheets({range}:{range:string}) {
+export async function googleSheets({ range }: { range: string }) {
 
   const auth = new google.auth.GoogleAuth({
-    keyFile: path.resolve('google.json'),
+
+    credentials: {
+      client_email: env.googleClientEmail,
+      client_id: env.googleClientId,
+      private_key: env.googlePrivateKey
+    },
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
   })
 
@@ -23,7 +28,7 @@ export async function googleSheets({range}:{range:string}) {
     const values = sheetsToArrayObjects(data.values)
 
     return values
-  }catch(error){
+  } catch (error) {
     console.log(error)
   }
 }
@@ -41,7 +46,7 @@ export function sheetsToArrayObjects(data: any[][] | undefined | null) {
 
       headers.forEach((header, i) => {
         const cell = isNaN(row[i]) ? row[i] : Number(row[i])
-        object[header] = cell 
+        object[header] = cell
       })
 
       return object

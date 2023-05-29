@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { GroupService } from "../services/GroupService";
+import { env } from "../utils/env";
 
 describe('Group', () => {
   it('Group list', async () => {
+
+    // return console.log(env.googleFile)
     const groups = await GroupService.findMany() as any[]
     // expect(groups).deep.equal(groups.sort((a, b) => a.name.localeCompare(b)))
     groups.forEach((group:any) => {
