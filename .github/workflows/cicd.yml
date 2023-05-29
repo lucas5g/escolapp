@@ -27,7 +27,7 @@ jobs:
         run: cd web && npm ci
 
       - name: Check typescript
-        run: cd web && npx tsc
+        run: cd web && npm i && npx tsc
 
       - name: Run unit tests 
         run : cd web && npm run build 

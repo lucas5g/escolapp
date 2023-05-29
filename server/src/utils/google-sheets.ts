@@ -9,8 +9,8 @@ export async function googleSheets({ range }: { range: string }) {
   const auth = new google.auth.GoogleAuth({
 
     credentials: {
-      client_email: env.googleClientEmail,
       client_id: env.googleClientId,
+      client_email: env.googleClientEmail,
       private_key: env.googlePrivateKey
     },
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
