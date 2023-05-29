@@ -49,7 +49,7 @@ jobs:
       JWT_SECRET: token
       SPREAD_SHEET_ID: ${{ secrets.SPREAD_SHEET_ID }}
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIEN_EMAIL }}
+      GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
       GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
         
     steps:
