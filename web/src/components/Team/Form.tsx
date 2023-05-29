@@ -32,11 +32,11 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
 
 
   useEffect(() => {
-    if (team.id) return
+    // if (team.id) return
     const group = groups.find(group => group.id === team.groupId)
 
     const modality = modalities.find((modality: any) => modality.id === team.modalityId)
-    console.log({ modality })
+
     const genre = genres.find((genre: any) => genre.id === team.genreId)
     const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`.trim()
     setTeam({ ...team, name: teamName })
@@ -49,6 +49,7 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
       return setStudentsSelected([])
     }
 
+    // setStudentsSelected([])
     setStudentsSelected(team.students)
 
   }, [team.id])
