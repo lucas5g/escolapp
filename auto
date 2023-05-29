@@ -14,6 +14,19 @@ generateDatabase(){
   fi
 }
 
+updateEnv(){
+  if [ "$1" == "updateEnv" ]; then
+    scp server/.env.prod root@146.190.144.75:/root/projects/escolapp/server
+    ssh -t root@test.codificar.dev.br "\
+      cd projects/escolapp/server \
+      && cp .env.prod .env \
+      && source ~/.nvm/nvm.sh \
+      && pm2 restart escolapp --update-env
+    "
+    exit 0
+  fi
+}
+
 deploy(){
   if [ "$1" == "deploy" ]; then
     ssh -t root@test.codificar.dev.br "\
@@ -121,6 +134,7 @@ main(){
   fixMysql $command
   commit $command "$message"
   deploy $command
+  updateEnv $command
   echo -e "\nComando não encontrado :(\n"
 
 }
