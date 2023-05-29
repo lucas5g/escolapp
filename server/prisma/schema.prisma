@@ -62,18 +62,6 @@ model Place {
   games Game[]
 }
 
-// model Student {
-//   id          String        @unique
-//   name        String
-//   course      String
-//   group       String
-//   codcur      Int
-//   codper      Int
-//   createdAt   DateTime      @default(now())
-//   updatedAt   DateTime      @default(now()) @updatedAt
-//   TeamStudent TeamStudent[]
-// }
-
 model Genre {
   id    Int    @id @default(autoincrement())
   name  String @unique
@@ -97,23 +85,13 @@ model Team {
   @@index([modalityId], map: "Team_modalityId_fkey")
 }
 
-// model TeamStudent {
-//   id        Int    @id @default(autoincrement())
-//   teamId    Int
-//   studentId String
-
-//   student Student @relation(fields: [studentId], references: [id])
-//   team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
-
-//   @@unique([teamId, studentId])
-// }
-
 model Game {
   id         Int      @id @default(autoincrement())
   date       DateTime
   startHours String
   endHours   String
   comments   String?
+  teams      Json
 
   placeId    Int?
   modalityId Int?
@@ -125,20 +103,4 @@ model Game {
   place    Place?    @relation(fields: [placeId], references: [id])
   modality Modality? @relation(fields: [modalityId], references: [id])
   user     User?     @relation(fields: [userId], references: [id])
-  // gameTeam GameTeam[]
 }
-
-// model GameTeam {
-//   id            Int  @id @default(autoincrement())
-//   gameId        Int
-//   teamId        Int
-//   fairPlayPoint Int?
-//   goals         Int?
-//   points        Int?
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now()) @updatedAt
-
-//   game Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   team Team @relation(fields: [teamId], references: [id])
-// }

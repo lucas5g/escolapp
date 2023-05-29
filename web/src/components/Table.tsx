@@ -27,7 +27,14 @@ export function Table({
   const [search, setSearch] = useState('')
 
   const items = itemsWithoutFilter
-    .filter(item => item.name?.toLowerCase().includes(search.toLowerCase().trim()))
+    .filter(item => {
+      return (
+        item.name?.toLowerCase().includes(search.toLowerCase().trim()) ||
+        moment(item.date).format('DD/MM').includes(search)
+      )
+
+    })
+
   return (
 
     <Card width={width}>

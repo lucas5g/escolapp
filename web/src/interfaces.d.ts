@@ -7,7 +7,7 @@ export interface GameInterface{
   placeId: number 
   modalityId: number 
   userId: number 
-  teams: TeamInterface[]
+  teams: number[]
   errors:{
     id?:string
     date?: string

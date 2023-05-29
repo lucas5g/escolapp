@@ -4,7 +4,7 @@ import { GameService } from "../services/GameService";
 import { PlaceService } from "../services/PlaceService";
 import { UserService } from "../services/UserService";
 
-describe.skip('Game', () => {
+describe('Game', () => {
   it('Game list', async () => {
     const games = await GameService.findMany()
     const game = games[0]
@@ -15,26 +15,23 @@ describe.skip('Game', () => {
     expect(game).toHaveProperty('teams')
   })
 
-  // it.skip('Game update', async () => {
+  // it.only('Game update', async () => {
 
   //   const data = {
-  //     "date": "2023-11-09T00:00:00.000Z",
-  //     "startHours": "08:00",
-  //     "endHours": "09:00",
-  //     "userId": 21,
-  //     "placeId": 16,
   //     "modalityId": 22,
-  //     "teams": [
-  //       34,
-  //       47,
-  //       90,
-  //       73
-  //     ]
+  //     "date": "2022-09-05T00:00:00.000Z",
+  //     "startHours": "09:00",
+  //     "endHours": "10:00",
+  //     "userId": 6,
+  //     "placeId": 16,
+  //     "teams": [1,2]
   //   }
 
-  //   const game = await GameService.update(15, data)
-  //   expect(game.teams).deep.equal(data.teams)
-    
+
+  //   const game = await GameService.create(data)
+  //   // console.log(game)
+  //   // expect(game.teams).deep.equal(data.teams)
+
   // })
 
   it('Game crud', async () => {
@@ -56,7 +53,7 @@ describe.skip('Game', () => {
      */
     const game = await GameService.create(data)
     expect(game).toHaveProperty('startHours', data.startHours)
-    expect(game).toHaveProperty('gameTeam')
+    expect(game).toHaveProperty('teams')
 
     /**
      * Show

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Error } from "../components/Error";
 import { Layout } from "../components/Layout";
 import { Loading } from "../components/Loading";
@@ -40,7 +40,7 @@ export function Game() {
       user: users.find(user => user.id === game.userId)?.name
     }
   })
-  console.log(games[0 ])
+
   return (
     <Layout>
       <Main>

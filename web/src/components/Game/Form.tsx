@@ -7,7 +7,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import { Button } from "../Button";
 import { api } from "../../utils/axios";
 import { mutate } from "swr";
-import { sleep } from "../../utils/sleep";
+import { MultiSelect } from "../MultiSelect";
 
 interface Props {
   places: PlaceInterface[]
@@ -21,16 +21,21 @@ interface Props {
 export function Form({ places, modalities, users, teams: teamsWithoutFilter, game, setGame }: Props) {
 
   const [loading, setLoading] = useState(false)
-  const [teams, setTeams] = useState([] as TeamInterface[])
+  // const [teams, setTeams] = useState([] as TeamInterface[])
+  const [selectedTeams, setSelectedTeams] = useState([] as number[])
 
   useEffect(() => {
-    // setGame({ ...game, teams: [] })
-    const teamsFilter = teamsWithoutFilter.filter(team => team.modalityId === game.modalityId)
-    setTeams(teamsFilter)
-  }, [game.modalityId])
+    if(!game.teams) {
+      setSelectedTeams([])
+      return 
+    }
+    setSelectedTeams(game.teams)
+  },[game.id])
+
+  const teams = teamsWithoutFilter.filter(team => team.modalityId === game.modalityId)
 
   return (
-    <Card>
+    <Card width={80}>
       <form
         className="flex flex-col gap-5"
         onSubmit={handleSubmit}
@@ -51,7 +56,7 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
             type='time'
             name="startHours"
             label='Início'
-            onChange={ event => setGame({...game, startHours: event.target.value})}
+            onChange={event => setGame({ ...game, startHours: event.target.value })}
             value={game.startHours ?? ''}
             inputLabelOpen
             error={game.errors?.startHours}
@@ -61,7 +66,7 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
             type='time'
             name="endHours"
             label='Fim'
-            onChange={ event => setGame({...game, endHours: event.target.value})}
+            onChange={event => setGame({ ...game, endHours: event.target.value })}
             value={game.endHours ?? ''}
             inputLabelOpen
             error={game.errors?.endHours}
@@ -96,29 +101,15 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
 
         />
 
-        {teams.length > 0 &&
-          <Autocomplete
-            multiple
-            id="teams"
-            options={teams}
-            getOptionLabel={(option) => option.name}
-            filterSelectedOptions
-            onChange={(event, value) => setGame({ ...game, teams: value })}
-            value={game.teams ?? []}
-            isOptionEqualToValue={(option, data) =>
-              option.name === data.name
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Equipes"
-                placeholder="Clique para adicionar"
-                error={game.errors?.teams ? true : false}
-                helperText={game.errors?.teams ?? ''}
-              />
-            )}
-          />
-        }
+        <MultiSelect
+          label="Equipes"
+          items={teams}
+          selected={selectedTeams}
+          setSelected={setSelectedTeams}
+          columns={2}
+          limit={modalities.find(modality => modality.id === game.modalityId)?.teamsQuantity}
+        />
+
         <div className="flex justify-end gap-3 ">
           <Button
             value={game.id ? 'Atualizar' : 'Cadastrar'}
@@ -137,29 +128,30 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
+    // return console.log(selectedTeams)
     setLoading(true)
     try {
       const body = {
         ...game,
         date: game.date ? new Date(game.date).toISOString() : undefined,
-        teams: game.teams.map(team => team.id)
+        teams: selectedTeams
+        // teams: 
       }
-      // await sleep(200)
-      if(game.id){
+
+      if (game.id) {
         await api.put(`games/${game.id}`, body)
-      }else{
+      } else {
         const { data } = await api.post('games', body)
-        setGame({...game, id: data.id})
+        setGame(data)
       }
       mutate('games')
 
     } catch (error: any) {
-      if(error.response.status === 400){
-        // console.log(error.response.data)
-        return setGame({...game, errors:error.response.data.errors})
+ 
+      if (error.response.data.errors === 400) {
+        return setGame({ ...game, errors: error.response.data.errors })
       }
-      alert(error)
-      console.log(error)
+      alert('Erro no servidor.')
     } finally {
       setLoading(false)
     }

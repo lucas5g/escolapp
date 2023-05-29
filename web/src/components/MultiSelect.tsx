@@ -2,23 +2,26 @@ import clsx from "clsx"
 // import { renameLowerCase } from "../utils/rename-lowercase"
 
 interface Props {
-  selected: string[]
+  selected: any[]
   setSelected: Function
   label: string
   items: any[]
   limit?: number
+  columns?: number
 }
 
-export function MultiSelect({ selected, setSelected, label, items, limit }: Props) {
+export function MultiSelect({ selected, setSelected, label, items, limit, columns }: Props) {
 
-  function itemsQuantity(){
+  function itemsQuantity() {
     const itemsExistInSelected = items.filter(item => {
       // return  selected.filter(row => item.id === row)
       return selected.some(row => item.id === row)
     })
-      
+    // console.log('itemsExistInSelected => ', itemsExistInSelected)
+    // console.log('selected => ', selected)
+    // console.log('items => ', items)
     return itemsExistInSelected.length
-    
+
   }
 
   return (
@@ -29,7 +32,9 @@ export function MultiSelect({ selected, setSelected, label, items, limit }: Prop
       >
         {label} ({itemsQuantity()})
       </label>
-      <ul className="text-sm grid grid-cols-4">
+      <ul className={clsx("text-sm grid grid-cols-4", {
+        'grid-cols-2': columns
+      })}>
         {items.map(item => {
           const itemExist = selected?.find(res => res === item.id)
           return (
@@ -49,7 +54,6 @@ export function MultiSelect({ selected, setSelected, label, items, limit }: Prop
                 if (limit && itemsQuantity() === limit) {
                   return alert(`Selecione somente ${limit}.`)
                 }
-
                 return setSelected([...selected, item.id])
 
               }}

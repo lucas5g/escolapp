@@ -5,7 +5,7 @@ import { menus } from "./Header"
 
 export function Aside() {
   return (
-    <aside className={'hidden lg:flex fixed hover:flex  w-[10em]  flex-col pb-10' }>
+    <aside className={'hidden lg:flex fixed hover:flex  w-[9em]  flex-col pb-10' }>
       {menus.map(menu => {
         const menuActual = menu.toLowerCase().replace('á', 'a')
         return (

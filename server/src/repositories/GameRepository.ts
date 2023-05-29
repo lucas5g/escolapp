@@ -19,7 +19,6 @@ export class GameRepository {
   }
 
   static async create(data: GameType) {
-   
     return await prisma.game.create({
       data
     })
