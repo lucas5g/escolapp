@@ -35,7 +35,7 @@ export function MultiSelect({ selected, setSelected, label, items, limit }: Prop
           return (
             <li
               key={item.id}
-              className={clsx('border-b py-2 pl-4 cursor-pointer hover:bg-zinc-100 hover:rounded transition', {
+              className={clsx('border-b py-2 text-center cursor-pointer hover:bg-zinc-100 hover:rounded transition', {
                 'bg-blue-200 hover:bg-blue-200 hover:underline': itemExist
               })}
 

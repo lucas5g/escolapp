@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Error } from "../components/Error";
 import { Layout } from "../components/Layout";
 import { Loading } from "../components/Loading";
