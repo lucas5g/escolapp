@@ -15,7 +15,6 @@ const prisma = new PrismaClient();
   await createModalities()
   await createGenres()
   await createPlaces()
-  await createStudents()
   await createTeams()
   await createGame()
 })()
@@ -219,62 +218,3 @@ async function createPlaces() {
 }
 
 
-async function createStudents() {
-
-  const fileStudents = `${__dirname}/data/students.csv`
-  let students = []
-  if (fs.existsSync(fileStudents)) {
-    students = await csvtojson().fromFile(fileStudents)
-  } else {
-    students = [
-      {
-        ra: 'C123123',
-        name: 'aaluno name',
-        codcur: 23,
-        codper: 1,
-        course: 'MT- Materanal',
-        group: 'IMCAM'
-      },
-      {
-        ra: 'C111222',
-        name: 'aaluno name2',
-        codcur: 23,
-        codper: 1,
-        course: 'MT- Materanal',
-        group: 'IMCAM'
-      }
-    ]
-  }
-
-  students.forEach(async (student, index) => {
-
-    try {
-
-      await prisma.student.upsert({
-        where: {
-          id: student.ra
-        },
-        update: {
-          name: student.name,
-          codcur: Number(student.codcur),
-          codper: Number(student.codper),
-          course: student.course,
-          group: student.group,
-        },
-        create: {
-          id: student.ra,
-          name: student.name,
-          codcur: Number(student.codcur),
-          codper: Number(student.codper),
-          course: student.course,
-          group: student.group,
-
-        }
-      })
-    } catch (error) {
-      console.log(error)
-    }
-    // console.log(`${index + 1} - ${student.name} - Atualizado !`)
-  })
-
-}

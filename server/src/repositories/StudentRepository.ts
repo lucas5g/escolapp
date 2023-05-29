@@ -28,26 +28,26 @@ export class StudentRepository {
 
   }
 
-  static async findById(id:string) {
-    return await prisma.student.findUnique({
-      where: {id}
-    })
-  }
+  // static async findById(id:string) {
+  //   return await prisma.student.findUnique({
+  //     where: {id}
+  //   })
+  // }
 
-  static async create(data:any) {
-    return await prisma.student.create({ data })
-  }
+  // static async create(data:any) {
+  //   return await prisma.student.create({ data })
+  // }
 
-  static async update(id:string, data:any){
-    return await prisma.student.update({
-      where: {id},
-      data,
-    })
-  }
+  // static async update(id:string, data:any){
+  //   return await prisma.student.update({
+  //     where: {id},
+  //     data,
+  //   })
+  // }
 
-  static async delete(id:string){
-    return await prisma.student.delete({
-      where: {id}
-    })
-  }
+  // static async delete(id:string){
+  //   return await prisma.student.delete({
+  //     where: {id}
+  //   })
+  // }
 }

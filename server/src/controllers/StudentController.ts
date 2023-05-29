@@ -11,19 +11,19 @@ export class StudentController {
     }
   }
 
-  static async show(req: Request, res: Response) {
-    res.json(await StudentService.findById(req.params.id))
-  }
+  // static async show(req: Request, res: Response) {
+  //   res.json(await StudentService.findById(req.params.id))
+  // }
 
-  static async create(req: Request, res: Response) {
-    return res.json(await StudentService.create(req.body))
-  }
+  // static async create(req: Request, res: Response) {
+  //   return res.json(await StudentService.create(req.body))
+  // }
 
-  static async update(req: Request, res: Response) {
-    return res.json(await StudentService.update(req.params.ra, req.body))
-  }
+  // static async update(req: Request, res: Response) {
+  //   return res.json(await StudentService.update(req.params.ra, req.body))
+  // }
 
-  static async delete(req: Request, res: Response) {
-    return res.json(await StudentService.delete(req.params.ra))
-  }
+  // static async delete(req: Request, res: Response) {
+  //   return res.json(await StudentService.delete(req.params.ra))
+  // }
 }

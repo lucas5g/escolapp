@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express'
 
 import { AuthController } from './controllers/AuthController'
-import { CourseController } from './controllers/CourseController'
 import { GameController } from './controllers/GameController'
 import { GroupController } from './controllers/GroupController'
 import { ModalityController } from './controllers/ModalityController'
@@ -70,10 +69,10 @@ routes.delete('/places/:id',PlaceController.delete)
  * Students
  */
 routes.get('/students', StudentController.index)
-routes.get('/students/:id', StudentController.show)
-routes.post('/students', StudentController.create)
-routes.put('/students/:id', StudentController.update)
-routes.delete('/students/:id',StudentController.delete)
+// routes.get('/students/:id', StudentController.show)
+// routes.post('/students', StudentController.create)
+// routes.put('/students/:id', StudentController.update)
+// routes.delete('/students/:id',StudentController.delete)
 
 /**
  * Games
@@ -90,10 +89,6 @@ routes.delete('/games/:id',GameController.delete)
  */
 routes.get('/projects', ProjectController.index)
 
-/**
- * Courses
- */
-routes.get('/courses', CourseController.index)
 
 /**
  * Teams
