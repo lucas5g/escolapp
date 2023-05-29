@@ -6,7 +6,6 @@ import { Login } from './pages/Login'
 import { Modality } from './pages/Modality'
 import { Place } from './pages/Place'
 import { Team } from './pages/Team'
-import { Test } from './pages/Test'
 import { User } from './pages/User'
 import { Point } from './pages/Point'
 
@@ -20,7 +19,6 @@ const routesPrivate = createBrowserRouter([
   { path: '/locais', element: <Place /> },
   { path: '/jogos', element: <Game /> },
   { path: '/pontos', element:<Point />},
-  { path: '/test', element: <Test /> },
   { path: '/usuarios', element: <User /> },
   { path: '*', element: <Home /> }, 
   {
