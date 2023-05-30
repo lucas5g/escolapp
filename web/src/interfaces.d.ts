@@ -1,6 +1,7 @@
 export interface GameInterface{
   id:number
   date: string
+  hours: string
   startHours: string
   endHours: string
   comments?: string
@@ -8,6 +9,7 @@ export interface GameInterface{
   modalityId: number 
   userId: number 
   teams: number[]
+  place: string
   errors:{
     id?:string
     date?: string

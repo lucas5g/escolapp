@@ -7,13 +7,16 @@ import { UserService } from "../services/UserService";
 describe('Game', () => {
   it('Game list', async () => {
     const games = await GameService.findMany()
+    console.log(games[0])
     expect(games.length).toBeGreaterThanOrEqual(0)
+
 
     games.forEach(game => {
 
       expect(game).toHaveProperty('modalityId')
       expect(game).toHaveProperty('userId')
       expect(game).toHaveProperty('teams')
+      expect(game).toHaveProperty('hours')
     })
   })
 

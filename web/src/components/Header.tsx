@@ -6,11 +6,11 @@ import logo from '../assets/logo.png'
 
 
 export const menus = [
-  // 'Home', 
   'Turmas',
   'Modalidades',
   'Equipes',
   'Locais',
+  'Agendas',    
   'Jogos',
   'Pontos', 
   'Usuários'

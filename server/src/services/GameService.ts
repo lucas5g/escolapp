@@ -5,7 +5,14 @@ import { GameType, gameSchema } from "../utils/schemas";
 export class GameService {
 
   static async findMany() {
-    return await GameRepository.findMany()
+    const games = await GameRepository.findMany()
+
+    return games.map(game => {
+      return {
+        ...game,
+        hours: `${game.startHours} - ${game.endHours}`
+      }
+    })
   }
 
   static async findById(id: number) {
