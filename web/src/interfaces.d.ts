@@ -36,9 +36,11 @@ export interface PlaceInterface{
 }
 
 export interface UserInterface{
+  name: string
   id:number 
   name:string 
   profile: 'coordinator' | 'manager' | 'judge'
+  email: string 
 }
 
 export interface TeamInterface {

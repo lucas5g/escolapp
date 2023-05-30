@@ -1,8 +1,9 @@
 import clsx from "clsx"
 import { List, X } from "phosphor-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import logo from '../assets/logo.png'
+import { UserInterface } from "../interfaces"
 
 
 export const menus = [
@@ -10,9 +11,9 @@ export const menus = [
   'Modalidades',
   'Equipes',
   'Locais',
-  'Agendas',    
+  'Agendas',
   'Jogos',
-  'Pontos', 
+  'Pontos',
   'Usuários'
 ]
 
@@ -22,6 +23,18 @@ export const menus = [
 export function Header() {
 
   const [showMenu, setShowMenu] = useState(false)
+  const [user, setUser] = useState<UserInterface>()
+  useEffect(() => {
+    const userExist = localStorage.getItem('user')
+    if (!userExist) {
+      return setUser({} as UserInterface)
+    }
+    const userJson = JSON.parse(userExist)
+    setUser({
+      ...userJson,
+      name: userJson.name.slice(0, 2)
+    })
+  }, [])
 
   return (
     <header className="z-10">
@@ -40,9 +53,13 @@ export function Header() {
           {showMenu && <X size={40} />}
 
         </button>
-        <button title="Mostrar meu nome" className="hidden lg:block text-white bg-blue-300 rounded-full px-3 py-[.54em]">
-          LA
-        </button>
+        {user?.name &&
+          <button
+            title={user.email}
+            className="hidden lg:block text-white bg-blue-300 rounded-full px-3 py-[.54em]">
+            {user.name}
+          </button>
+        }
       </nav>
 
       <nav className={clsx("lg:hidden md:mt-[5em] mt-[4em] fixed w-full flex flex-col bg-blue-50  text-gray-800 text-xl transition-all duration-500 ", {
@@ -52,7 +69,7 @@ export function Header() {
           return (
             <Link
               key={menu}
-              to={`/${menu.toLowerCase().replace('á','a')}`}
+              to={`/${menu.toLowerCase().replace('á', 'a')}`}
               className={clsx('py-3 pl-5 text-gray-900 hover:text-gray-800 hover:bg-blue-100 transition-colors rounded ', {
                 'text-gray-800 font-bold border-b-4 border-b-blue-300 rounded-none transition-colors': menu.toLocaleLowerCase() === location.pathname.replace('/', '') || menu === 'Home' && location.pathname === '/',
               })}>

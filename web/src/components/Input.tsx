@@ -18,6 +18,7 @@ interface Props {
   placeholder?:string
   className?:string
   disabled?: boolean
+  autoComplete?: 'no'
   options?: {
     id: number,
     name: string
@@ -56,6 +57,7 @@ export function Input(props: Props) {
       helperText={translate(props.error ?? '')}
       placeholder={props?.placeholder}
       disabled={props?.disabled}
+      autoComplete={props.autoComplete}
       // className={props.className}
       InputProps={props.setSearch && {
         endAdornment: (

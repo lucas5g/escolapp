@@ -3,11 +3,12 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { api } from "../utils/axios";
 import { translate } from "../utils/translate";
+import { sleep } from "../utils/sleep";
 
 export function Login() {
 
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState<string>()
+  const [password, setPassword] = useState<string>()
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<any>()
 
@@ -21,10 +22,12 @@ export function Login() {
     try {
       const { data } = await api.post('login', {
         email,
-         password
+        password
       })
       localStorage.setItem('accessToken', data.accessToken)
+      localStorage.setItem('user', JSON.stringify(data))
       location.href = '/'
+      await sleep(200)
     } catch (error: any) {
       const { message, errors } = error?.response.data
       if (
@@ -33,7 +36,7 @@ export function Login() {
       ) {
         return alert('Erro no Banco de Dados :(')
       }
-      if(errors){
+      if (errors) {
         return setErrors(errors)
       }
       return alert(message)
@@ -55,7 +58,7 @@ export function Login() {
             type='email'
             name="email-login"
             label="E-mail"
-            value={email}
+            value={email ?? ''}
             onChange={event => setEmail(event.target.value)}
             error={translate(errors?.email)}
           />
@@ -63,9 +66,10 @@ export function Login() {
             type='password'
             name="password-login"
             label="Password"
-            value={password}
+            value={password ?? ''}
             onChange={event => setPassword(event.target.value)}
             error={translate(errors?.password)}
+            autoComplete="no"
 
           />
           <footer className="flex justify-end">

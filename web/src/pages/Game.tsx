@@ -7,6 +7,8 @@ import { Table } from "../components/Table";
 import { swr } from "../utils/swr";
 import { Error } from "../components/Error";
 import { Loading } from "../components/Loading";
+import { Card } from "../components/Card";
+import moment from "moment";
 
 const fields = [
   { key: 'date', value: 'Data', },
@@ -36,7 +38,7 @@ export function Game() {
       place: places.find(place => place.id === game.placeId)?.name,
       modality: modalities.find(modality => modality.id === game.modalityId)?.name,
       user: users.find(user => user.id === game.userId)?.name,
-      
+
     }
   })
   console.log(games[0])
@@ -52,11 +54,16 @@ export function Game() {
         // game={game}
         // setGame={setGame}
         />
-        <FormGame
+        <Card>
+          {moment(game.date).format('DD/MM')}
+          {game.hours}
+          {game.userId}
+        </Card>
+        {/* <FormGame
           game={game}
           setGame={setGame}
           teams={teams}
-        />
+        /> */}
       </Main>
 
     </Layout>
