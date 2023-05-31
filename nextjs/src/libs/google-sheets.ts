@@ -4,7 +4,6 @@ import { google } from "googleapis";
 
 export async function googleSheets({ range }: { range: string }) {
 
-  console.log(env)
   const auth = new google.auth.GoogleAuth({
     credentials: {
       client_id: env.googleClientId,
