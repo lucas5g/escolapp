@@ -14,7 +14,8 @@ export const menus = [
   'Agendas',
   'Jogos',
   'Pontos',
-  'Usuários'
+  'Usuários',
+  'Configurações'
 ]
 
 // const menus = ['Home', 'Turmas']

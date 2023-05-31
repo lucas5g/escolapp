@@ -10,6 +10,7 @@ import { User } from './pages/User'
 import { Point } from './pages/Point'
 import { Schedule } from './pages/Schedule'
 import { Game } from './pages/Game'
+import { Configuration } from './pages/Configuration'
 
 
 const routesPrivate = createBrowserRouter([
@@ -23,10 +24,9 @@ const routesPrivate = createBrowserRouter([
   { path: '/jogos', element: <Game /> },
   { path: '/pontos', element:<Point />},
   { path: '/usuarios', element: <User /> },
+  { path: '/configuracoes', element: <Configuration />},
   { path: '*', element: <Home /> }, 
-  {
-  
-  }
+
 ])
 
 const routesPublic = createBrowserRouter([
@@ -40,6 +40,6 @@ export function Routes() {
 
   const accessToken = localStorage.getItem('accessToken')
 
-  return <RouterProvider router={ accessToken ? routesPrivate : routesPublic} />
+  return <RouterProvider router={ accessToken ? routesPrivate : routesPublic   } />
 
 }

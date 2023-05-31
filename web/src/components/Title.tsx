@@ -3,8 +3,11 @@ import { menus } from "./Header";
 
 export function Title() {
   const titleHeader = menus
-    .find(menu => menu.toLowerCase().replace('á','a') === location.pathname.replace('/', '')) || 'Home'
-  
+    .find(menu => menu
+      .normalize("NFD") // Normaliza a string em forma de decomposição
+      .replace(/[\u0300-\u036f]/g, "") // Remove os caracteres acentuados
+      .toLowerCase() === location.pathname.replace('/', '')) || 'Home'
+
   document.title = `${titleHeader} | JISA`
   return (
     <Card >
