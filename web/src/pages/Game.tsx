@@ -54,16 +54,19 @@ export function Game() {
         // game={game}
         // setGame={setGame}
         />
-        <Card>
-          {moment(game.date).format('DD/MM')}
-          {game.hours}
-          {game.userId}
-        </Card>
-        {/* <FormGame
-          game={game}
-          setGame={setGame}
-          teams={teams}
-        /> */}
+        <Main position="col">
+
+          <Card>
+            {moment(game.date).format('DD/MM')}
+            {game.hours}
+            {game.userId}
+          </Card>
+          <FormGame
+            game={game}
+            setGame={setGame}
+          
+          />
+        </Main >
       </Main>
 
     </Layout>

@@ -70,7 +70,7 @@ export function Table({
               </tr>
             </thead>
             <tbody className="">
-              {items.map((row, index) => {
+              {items.map((row, i) => {
                 return (
                   <tr
                     key={row.id}
@@ -95,7 +95,7 @@ export function Table({
                     }}
                   >
                     <td className="h-10">
-                      {index + 1}
+                      {i + 1}
                     </td>
                     {fields.map(field => {
                       const keyName = field.key.replace('Id', '')

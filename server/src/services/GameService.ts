@@ -1,4 +1,6 @@
+import { Prisma } from "@prisma/client";
 import { GameRepository } from "../repositories/GameRepository";
+import { TeamRepository } from "../repositories/TeamRepository";
 import { GameType, gameSchema } from "../utils/schemas";
 
 
@@ -10,7 +12,7 @@ export class GameService {
     return games.map(game => {
       return {
         ...game,
-        hours: `${game.startHours} - ${game.endHours}`
+        hours: `${game.startHours} - ${game.endHours}`,
       }
     })
   }

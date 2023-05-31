@@ -22,24 +22,15 @@ export function Schedule() {
   const [game, setGame] = useState({} as GameInterface)
   const uri = 'games'
 
-  const { data, error }: { data: GameInterface[], error: any } = swr(uri)
+  const { data:games, error }: { data: GameInterface[], error: any } = swr(uri)
   const { data: places }: { data: PlaceInterface[] } = swr('places')
   const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
   const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
 
   if (error) return <Error error={error} />
-  if (!data || !places || !modalities || !users || !teams) return <Loading />
+  if (!games || !places || !modalities || !users || !teams) return <Loading />
   
-  const games = data.map(game => {
-    return {
-      ...game,
-      place: places.find(place => place.id === game.placeId)?.name,
-      modality: modalities.find(modality => modality.id === game.modalityId)?.name,
-      user: users.find(user => user.id === game.userId)?.name
-    }
-  })
-
   return (
     <Layout>
       <Main>

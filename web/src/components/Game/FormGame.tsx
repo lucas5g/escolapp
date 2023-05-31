@@ -9,16 +9,11 @@ import { mutate } from "swr";
 import { MultiSelect } from "../MultiSelect";
 
 interface Props {
-  // places: PlaceInterface[]
-  // modalities: ModalityInterface[]
-  // users: UserInterface[]
-  students: StudentInterface[]
-  teams: TeamInterface[]
   game: GameInterface
   setGame: (game: GameInterface) => void
 }
 
-export function FormGame({ game, setGame, teams }: Props) {
+export function FormGame({ game, setGame }: Props) {
 
   const [loading, setLoading] = useState(false)
   // const [teams, setTeams] = useState([] as TeamInterface[])
@@ -34,32 +29,12 @@ export function FormGame({ game, setGame, teams }: Props) {
   // const teams = teamsWithoutFilter.filter(team => team.modalityId === game.modalityId)
 
   return (
-    <Card width={80}>
+    <Card >
       <form
         className="flex flex-col gap-5"
         onSubmit={handleSubmit}
       >
-        <div className="text-sm">
-          <strong>Horas</strong>: {game.hours} <br />
-          <strong>Local</strong>: {game.place}
-
-          <div>
-            Equipes
-            <ul>
-              {game.teams?.map(team => {
-                return (
-                  <li>
-                    {teams.find(row => row.id === team )?.name}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-
-        </div>
-
-
-        Dados dos jogos
+        Mostra os times com os alunos
         {/* <Input
           name='modalityId'
           label="Modalidade"
@@ -103,7 +78,6 @@ export function FormGame({ game, setGame, teams }: Props) {
       const body = {
         ...game,
         date: game.date ? new Date(game.date).toISOString() : undefined,
-        teams: selectedTeams
         // teams: 
       }
 

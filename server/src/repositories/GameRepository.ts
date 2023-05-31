@@ -9,7 +9,19 @@ export class GameRepository {
         { date: 'asc' },
         { startHours: 'asc' }
       ],
+      include: {
+        modality: true,
+        place: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true
+          }
+        },
+      }
     })
+
   }
 
   static async findById(id: number) {
