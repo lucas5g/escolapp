@@ -23,25 +23,25 @@ export function Game() {
   const [game, setGame] = useState({} as GameInterface)
 
   const { data, error }: { data: GameInterface[], error: any } = swr('games')
-  const { data: places }: { data: PlaceInterface[] } = swr('places')
-  const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
-  const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
   const { data: students }: { data: StudentInterface[] } = swr('students')
 
   if (error) return <Error error={error} />
-  if (!data || !places || !modalities || !users || !teams) return <Loading />
+  if (!data || !teams || !students) return <Loading />
 
-  const games = data.map(game => {
+  const games = data.map( game => {
     return {
       ...game,
-      place: places.find(place => place.id === game.placeId)?.name,
-      modality: modalities.find(modality => modality.id === game.modalityId)?.name,
-      user: users.find(user => user.id === game.userId)?.name,
-
+      teams: game.teams.map(team => {
+        const gameTeams =  teams.find(row => row.id === team)
+        return {
+          ...gameTeams,
+          // students: students.filter(student => gameTeams.)
+        }
+      })
     }
   })
-  console.log(games[0])
+
   return (
     <Layout>
       <Main>
@@ -51,8 +51,6 @@ export function Game() {
           item={game}
           setItem={setGame}
 
-        // game={game}
-        // setGame={setGame}
         />
         <Main position="col">
 
@@ -60,11 +58,14 @@ export function Game() {
             {moment(game.date).format('DD/MM')}
             {game.hours}
             {game.userId}
+            <pre>
+              {JSON.stringify(game, null, 2)}
+            </pre>
           </Card>
           <FormGame
             game={game}
             setGame={setGame}
-          
+
           />
         </Main >
       </Main>
