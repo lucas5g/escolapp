@@ -20,6 +20,7 @@ export const userFilterSchema = z.object({
 
 
 export const userUpdateSchema = userCreateSchema.extend({
+  id: z.number().optional(),
   password: z.string().optional()
 })
 

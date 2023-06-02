@@ -30,52 +30,24 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
   const [errors, setErrors] = useState<any>()
 
   useEffect(() => {
-   
-    if(item.teams){
-
-    }
-
-    setTimeout(() => {
+       setTimeout(() => {
       setErrors(false)
     }, 1500)
   }, [item])
 
-
-
-  async function handleSubmitUpdate(event: FormEvent) {
-    event.preventDefault()
-    // return console.log(item)
-    setLoading(true)
-    try {
-      if (item?.date) {
-        item.date = new Date(item.date).toISOString()
-      }
-
-      await api.put(`${uri}/${item.id}`, item)
-      mutate(uri)
-    } catch (error: any) {
-      const { status } = error.response
-      if (status === 400) {
-        const { errors } = error.response.data
-        setErrors(errors)
-        return
-      }
-      alert('Error no servidor')
-      return
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  async function handleSubmitCreate(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setLoading(true)
     try {
       if (item?.date) {
         item.date = new Date(item.date).toISOString()
       }
-      const { data } = await api.post(uri, item)
-      setItem(data)
+      if(item.id){
+        await api.put(`${uri}/${item.id}`, item)
+      }else{
+        const { data } = await api.post(uri, item)
+        setItem(data)
+      }
       setErrors('')
       mutate(uri)
     } catch (error: any) {
@@ -99,7 +71,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
   return (
     <Card width={width} >
-      <form onSubmit={item?.id ? handleSubmitUpdate : handleSubmitCreate}
+      <form onSubmit={handleSubmit}
         className='flex flex-col gap-5'>
 
         {children}

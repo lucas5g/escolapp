@@ -6,12 +6,13 @@ import { Layout } from "../components/Layout";
 import { Loading } from "../components/Loading";
 import { UserInterface } from "../interfaces";
 import { swr } from "../utils/swr";
+import { Main } from "../components/Main";
 
 const fields = [
-  {key:'name', value:'Nome'},
-  {key: 'email',  value:'E-mail'},
-  {key: 'password',  value:'Senha'},
-  
+  { key: 'name', value: 'Nome' },
+  { key: 'email', value: 'E-mail' },
+  { key: 'password', value: 'Senha' },
+
 ]
 export function Configuration() {
 
@@ -28,16 +29,18 @@ export function Configuration() {
 
   return (
     <Layout>
-      <Card>
-        {JSON.stringify(me)}
-      </Card>
-      <Form
-        item={me || data}
-        setItem={setMe}
-        fields={fields} 
-        uri="me"
+      <Main>
+        <Card>
+          {JSON.stringify(me)}
+        </Card>
+        <Form
+          item={me || data}
+          setItem={setMe}
+          fields={fields}
+          uri="users"
 
-      />
+        />
+      </Main>
     </Layout>
   )
 }

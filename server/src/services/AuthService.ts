@@ -41,4 +41,5 @@ export class AuthService{
   static async me(userId:number){
     return await UserRepository.findById(userId)
   }
+  
 }
