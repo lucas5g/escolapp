@@ -34,16 +34,30 @@ export function FormGame({ game, setGame }: Props) {
         className="flex flex-col gap-5"
         onSubmit={handleSubmit}
       >
-        Mostra os times com os alunos
-        {/* <Input
+        <Input
           name='modalityId'
-          label="Modalidade"
+          label="Pontos"
           value={game.modalityId ?? ''}
           onChange={event => setGame({ ...game, modalityId: event.target.value })}
-          options={modalities}
           error={game.errors?.modalityId}
 
-        /> */}
+        />
+         <Input
+          name='modalityId'
+          label="Pontos"
+          value={game.modalityId ?? ''}
+          onChange={event => setGame({ ...game, modalityId: event.target.value })}
+          error={game.errors?.modalityId}
+
+        />
+         <Input
+          name='modalityId'
+          label="Pontos"
+          value={game.modalityId ?? ''}
+          onChange={event => setGame({ ...game, modalityId: event.target.value })}
+          error={game.errors?.modalityId}
+
+        />
 
         {/* <MultiSelect
           label="Equipes"

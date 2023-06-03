@@ -9,7 +9,14 @@ export interface GameInterface{
   modalityId: number 
   userId: number 
   teams: number[]
+  teamsStudents: {
+    name:string
+    students:StudentInterface[]
+  }[]
   place: string
+  user:{
+    name:string
+  }
   errors:{
     id?:string
     date?: string

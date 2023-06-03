@@ -8,9 +8,9 @@ import { UserInterface } from "../interfaces"
 
 export const menus = [
   'Turmas',
+  'Locais',
   'Modalidades',
   'Equipes',
-  'Locais',
   'Agendas',
   'Jogos',
   'Pontos',

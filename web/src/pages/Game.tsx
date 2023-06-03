@@ -9,12 +9,15 @@ import { Error } from "../components/Error";
 import { Loading } from "../components/Loading";
 import { Card } from "../components/Card";
 import moment from "moment";
+import clsx from "clsx";
+import { renameLowerCase } from "../utils/rename-lowercase";
+import { Form } from "../components/Form";
 
 const fields = [
   { key: 'date', value: 'Data', },
   { key: 'hours', value: 'Horas', },
   { key: 'place', value: 'Local' },
-  { key: 'modality', value: 'Modalidade' },
+  // { key: 'modality', value: 'Modalidade' },
   { key: 'user', value: 'Juíz' },
 
 ]
@@ -29,14 +32,17 @@ export function Game() {
   if (error) return <Error error={error} />
   if (!data || !teams || !students) return <Loading />
 
-  const games = data.map( game => {
+  // console.log(students)
+  const games = data.map(game => {
     return {
       ...game,
-      teams: game.teams.map(team => {
-        const gameTeams =  teams.find(row => row.id === team)
+      teamsStudents: game.teams.map(team => {
+        const gameTeam = teams.find(row => row.id === team)
         return {
-          ...gameTeams,
-          // students: students.filter(student => gameTeams.)
+          ...gameTeam,
+          students: gameTeam?.students
+            .map(ra => students.find(student => student.ra === ra))
+
         }
       })
     }
@@ -55,18 +61,56 @@ export function Game() {
         <Main position="col">
 
           <Card>
-            {moment(game.date).format('DD/MM')}
-            {game.hours}
-            {game.userId}
-            <pre>
-              {JSON.stringify(game, null, 2)}
-            </pre>
+            <div className="flex justify-between">
+              <span>
+                <strong>Data:</strong> {moment(game.date).format('DD/MM')} - {game.hours}
+              </span>
+              <span>
+                <strong>Juíz:</strong> {game.user?.name}
+              </span>
+              <span className="italic">
+                <strong>{game.teams?.length}</strong> Equipes
+              </span>
+            </div>
+            <div className="grid grid-cols-2 ml-auto text-sm gap-2">
+
+              {game.teamsStudents?.map((team, i) => {
+                return (
+                  <div
+                    key={team.name}
+                    className={clsx('mt-3', {
+                      // 'text-end': (i + 1) % 2 === 0
+                    })}
+                  >
+                    <strong className="text-zinc-700">
+                      {team.name}
+                    </strong>
+                    <ul className="flex flex-col gap-1">
+                      {team.students
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map(student => {
+                          return (
+                            <li className="border rounded pl-1 py-1">
+                              {renameLowerCase(student.name, 33)}
+                            </li>
+                          )
+                        })}
+
+                    </ul>
+                  </div>
+                )
+              })}
+
+            </div>
+
+
           </Card>
+        
           <FormGame
             game={game}
             setGame={setGame}
 
-          />
+          /> 
         </Main >
       </Main>
 

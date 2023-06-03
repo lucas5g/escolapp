@@ -35,7 +35,7 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
   const teams = teamsWithoutFilter.filter(team => team.modalityId === game.modalityId)
 
   return (
-    <Card width={80}>
+    <Card width={75}>
       <form
         className="flex flex-col gap-5"
         onSubmit={handleSubmit}

@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import { ReactNode } from "react"
 
-export type Width = 0 | 10 | 20 | 30 | 40 | 45 | 55 | 60 | 70 | 80 | 90 | 100
+export type Width = 0 | 10 | 20 | 30 | 40 | 45 | 55 | 60 | 70 | 75 | 80 | 90 | 100
 interface Props {
   children: ReactNode,
   fixed?: boolean
@@ -17,6 +17,7 @@ export function Card({ children, fixed = false, width = 100 }: Props) {
       'lg:w-[55%]': width === 55,
       'lg:w-[60%]': width === 60,      
       'lg:w-[70%]': width === 70,      
+      'lg:w-[75%]': width === 75,      
       'lg:w-[80%]': width === 80,      
       'lg:w-[90%]': width === 90,      
       
