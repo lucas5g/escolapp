@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card } from "../components/Card";
 import { Error } from "../components/Error";
 import { Form } from "../components/Form";
@@ -7,6 +7,9 @@ import { Loading } from "../components/Loading";
 import { UserInterface } from "../interfaces";
 import { swr } from "../utils/swr";
 import { Main } from "../components/Main";
+import { Button } from "../components/Button";
+import { api } from "../utils/axios";
+import { sleep } from "../utils/sleep";
 
 const fields = [
   { key: 'name', value: 'Nome' },
@@ -14,14 +17,11 @@ const fields = [
   { key: 'password', value: 'Senha' },
 
 ]
-export function Configuration() {
+export function Account() {
 
   const [me, setMe] = useState<UserInterface>()
+  const [loading, setLoading] = useState<boolean>()
   const { data, error }: { data: UserInterface, error: any } = swr('me')
-
-  // useEffect(() => {
-  //   setMe(data)
-  // }, [data])
 
   if (error) return <Error error={error} />
   if (!data) return <Loading />
@@ -31,7 +31,16 @@ export function Configuration() {
     <Layout>
       <Main>
         <Card>
-          {JSON.stringify(me)}
+          <Button 
+            value="Limpar Cache" 
+            disabled={loading}
+            onClick={async() => {
+              setLoading(true)
+              await api.get('clear-caches')
+              await sleep(1000)
+              setLoading(false)
+            }}
+            />
         </Card>
         <Form
           item={me || data}

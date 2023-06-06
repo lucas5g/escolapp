@@ -10,7 +10,7 @@ import { User } from './pages/User'
 import { Point } from './pages/Point'
 import { Schedule } from './pages/Schedule'
 import { Game } from './pages/Game'
-import { Configuration } from './pages/Configuration'
+import { Account } from './pages/Account'
 
 
 const routesPrivate = createBrowserRouter([
@@ -24,7 +24,7 @@ const routesPrivate = createBrowserRouter([
   { path: '/jogos', element: <Game /> },
   { path: '/pontos', element:<Point />},
   { path: '/usuarios', element: <User /> },
-  { path: '/configuracoes', element: <Configuration />},
+  { path: '/conta', element: <Account />},
   { path: '*', element: <Home /> }, 
 
 ])
