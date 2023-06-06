@@ -14,7 +14,7 @@ import { sleep } from "../utils/sleep";
 const fields = [
   { key: 'name', value: 'Nome' },
   { key: 'email', value: 'E-mail' },
-  { key: 'password', value: 'Senha' },
+  { key: 'password', value: 'Senha', type:'password' },
 
 ]
 export function Account() {
@@ -37,7 +37,7 @@ export function Account() {
             onClick={async() => {
               setLoading(true)
               await api.get('clear-caches')
-              await sleep(1000)
+              await sleep(800)
               setLoading(false)
             }}
             />
@@ -46,8 +46,8 @@ export function Account() {
           item={me || data}
           setItem={setMe}
           fields={fields}
-          uri="users"
-
+          uri="update-me"
+          hasButtonCancel={false}          
         />
       </Main>
     </Layout>

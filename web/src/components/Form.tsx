@@ -22,15 +22,16 @@ interface Props {
   uri: string,
   width?: Width
   children?: ReactNode
+  hasButtonCancel?: boolean
 }
 
 
-export function Form({ item, setItem, fields, uri, width, children }: Props) {
+export function Form({ item, setItem, fields, uri, width, children, hasButtonCancel = true }: Props) {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<any>()
 
   useEffect(() => {
-       setTimeout(() => {
+    setTimeout(() => {
       setErrors(false)
     }, 1500)
   }, [item])
@@ -42,9 +43,12 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
       if (item?.date) {
         item.date = new Date(item.date).toISOString()
       }
-      if(item.id){
+
+      if(uri === 'update-me'){
+        await api.put('update-me', item)
+      }else if (item.id) {
         await api.put(`${uri}/${item.id}`, item)
-      }else{
+      } else {
         const { data } = await api.post(uri, item)
         setItem(data)
       }
@@ -79,7 +83,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
           const value = item[field.key] || ''
 
-          if (field?.multiple ) {
+          if (field?.multiple) {
             return (
               <Autocomplete
                 key={field.key}
@@ -88,7 +92,7 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
                 getOptionLabel={(option) => option.name}
                 noOptionsText='Preencha todos os campos anteriores.'
                 filterSelectedOptions
-                isOptionEqualToValue={(option, item) => 
+                isOptionEqualToValue={(option, item) =>
                   option.name === item.name
                 }
                 onChange={(event, names) => {
@@ -140,16 +144,18 @@ export function Form({ item, setItem, fields, uri, width, children }: Props) {
 
         <footer className="flex justify-end gap-3">
           <Button value={item?.id ? 'Atualizar' : 'Cadastrar'} disabled={loading} />
-          <Button
-            type='reset'
-            secondary
-            onClick={() => {
-              setItem({})
-              setErrors(false)
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
-            value='Cancelar'
-          />
+          {hasButtonCancel &&
+            <Button
+              type='reset'
+              secondary
+              onClick={() => {
+                setItem({})
+                setErrors(false)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+              value='Cancelar'
+            />
+          }
         </footer>
       </form>
     </Card >

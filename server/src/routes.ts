@@ -104,7 +104,7 @@ routes.delete('/teams/:id',TeamController.delete)
  * Auth
  */
 routes.get('/me', AuthController.me)
-
+routes.put('/update-me', AuthController.updateMe)
 
 routes.use(errors)
 
