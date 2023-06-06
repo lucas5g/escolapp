@@ -57,7 +57,7 @@ export function Game() {
           items={games}
           item={game}
           setItem={setGame}
-
+          placeholderInputFilter="Pesquisar por Data"
         />
         <Main position="col">
           <Info
