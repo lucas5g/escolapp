@@ -13,6 +13,7 @@ interface Props {
   setItem: Function
   width?: Width
   positionBottom?: number
+  placeholderInputFilter?: string 
 }
 
 
@@ -22,15 +23,18 @@ export function Table({
   item,
   setItem,
   width = 100,
-  positionBottom = 500
+  positionBottom = 500,
+  placeholderInputFilter = 'Pesquisar por nome.'
 }: Props) {
   const [search, setSearch] = useState('')
 
   const items = itemsWithoutFilter
     .filter(item => {
+      const searchFilter = search.toLowerCase().trim()
       return (
-        item.name?.toLowerCase().includes(search.toLowerCase().trim()) ||
-        moment(item.date).format('DD/MM').includes(search)
+        item.name?.toLowerCase().includes(searchFilter) ||
+        moment(item.date).format('DD/MM').includes(search) || 
+        item.modality?.name.toLowerCase().includes(searchFilter)
       )
 
     })
@@ -41,7 +45,7 @@ export function Table({
       <div className="mb-3">
         <Input
           label="Pesquisar"
-          placeholder='Pesquisa por nome.'
+          placeholder={placeholderInputFilter}
           name="search"
           onChange={event => setSearch(event.target.value)}
           value={search}

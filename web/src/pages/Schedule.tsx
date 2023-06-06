@@ -40,6 +40,7 @@ export function Schedule() {
           item={game}
           setItem={setGame}
           positionBottom={games.length * 100}
+          placeholderInputFilter="Pesquisar por Data ou Modalida"
         />
         <Form
           game={game}
