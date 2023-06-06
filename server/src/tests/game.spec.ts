@@ -20,6 +20,24 @@ describe('Game', () => {
     })
   })
 
+
+  it('Game create', async () => {
+    const data = {
+      date: new Date().toISOString(),
+      startHours: '07:00',
+      endHours: '08:00',
+      placeId: 1,
+      modalityId: 1,
+      userId: 1,
+      teams: [53, 40]
+    }
+
+    const game = await GameService.create(data)
+    console.log(game)
+
+  })
+
+
   it('Game crud', async () => {
 
     const users = await UserService.findMany({})

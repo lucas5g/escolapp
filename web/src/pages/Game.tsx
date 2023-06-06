@@ -12,6 +12,7 @@ import moment from "moment";
 import clsx from "clsx";
 import { renameLowerCase } from "../utils/rename-lowercase";
 import { Form } from "../components/Form";
+import { Info } from "../components/Game/Info";
 
 const fields = [
   { key: 'date', value: 'Data', },
@@ -59,58 +60,14 @@ export function Game() {
 
         />
         <Main position="col">
-
-          <Card>
-            <div className="flex justify-between">
-              <span>
-                <strong>Data:</strong> {moment(game.date).format('DD/MM')} - {game.hours}
-              </span>
-              <span>
-                <strong>Juíz:</strong> {game.user?.name}
-              </span>
-              <span className="italic">
-                <strong>{game.teams?.length}</strong> Equipes
-              </span>
-            </div>
-            <div className="grid grid-cols-2 ml-auto text-sm gap-2">
-
-              {game.teamsStudents?.map((team, i) => {
-                return (
-                  <div
-                    key={team.name}
-                    className={clsx('mt-3', {
-                      // 'text-end': (i + 1) % 2 === 0
-                    })}
-                  >
-                    <strong className="text-zinc-700">
-                      {team.name}
-                    </strong>
-                    <ul className="flex flex-col gap-1">
-                      {team.students
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map(student => {
-                          return (
-                            <li className="border rounded pl-1 py-1">
-                              {renameLowerCase(student.name, 33)}
-                            </li>
-                          )
-                        })}
-
-                    </ul>
-                  </div>
-                )
-              })}
-
-            </div>
-
-
-          </Card>
-        
+          <Info
+            game={game}
+          />
           <FormGame
             game={game}
             setGame={setGame}
 
-          /> 
+          />
         </Main >
       </Main>
 

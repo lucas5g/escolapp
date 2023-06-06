@@ -28,6 +28,8 @@ export function FormGame({ game, setGame }: Props) {
 
   // const teams = teamsWithoutFilter.filter(team => team.modalityId === game.modalityId)
 
+  if(!game.id) return <></>
+
   return (
     <Card >
       <form
