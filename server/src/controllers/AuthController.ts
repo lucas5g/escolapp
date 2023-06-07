@@ -19,7 +19,7 @@ export class AuthController{
 
   static async updateMe(req:Request, res:Response, next:NextFunction){
     try{
-      res.json(await UserService.update(req.user.id, {...req.user, password: req.body.password }))
+      res.json(await AuthService.updateMe(req.user.id, req.body))
     }catch(error){
       next(error)
     }

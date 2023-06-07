@@ -18,6 +18,7 @@ interface Props {
     // type?: 'text' | 'date' | 'time'
     options?: any[]
     multiple?: any
+    disabled?:boolean
   }[]
   uri: string,
   width?: Width
@@ -45,6 +46,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
       }
 
       if(uri === 'update-me'){
+        console.log(item)
         await api.put('update-me', item)
       }else if (item.id) {
         await api.put(`${uri}/${item.id}`, item)
@@ -126,6 +128,8 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
               InputLabelProps={field.type === 'date' || field.type === 'time' ? { shrink: true } : {}}
               error={errors?.[field.key] && true}
               helperText={translate(errors?.[field.key])}
+              autoComplete="on"
+              disabled={field.disabled}
             >
               {field?.options?.map((option: any) => {
                 return (

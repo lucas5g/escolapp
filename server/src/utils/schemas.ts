@@ -40,6 +40,11 @@ export const authSchema = z.object({
   password: z.string()
 })
 
+export const authUpdateMeSchema = z.object({
+  name: z.string(),
+  password: z.string().optional()
+})
+
 export type authType = z.infer<typeof authSchema>
 
 export const gameSchema = z.object({

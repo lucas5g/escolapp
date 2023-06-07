@@ -13,7 +13,7 @@ import { sleep } from "../utils/sleep";
 
 const fields = [
   { key: 'name', value: 'Nome' },
-  { key: 'email', value: 'E-mail' },
+  { key: 'email', value: 'E-mail', disabled:true },
   { key: 'password', value: 'Senha', type:'password' },
 
 ]

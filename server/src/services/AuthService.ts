@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import { UserRepository } from "../repositories/UserRepository";
-import { authSchema, authType } from "../utils/schemas";
+import { authSchema, authType, authUpdateMeSchema } from "../utils/schemas";
 
 export class AuthService{
 
@@ -41,6 +41,11 @@ export class AuthService{
 
   static async me(userId:number){
     return await UserRepository.findById(userId)
+  }
+
+  static async updateMe(userId:number,  data:any){
+    const user = authUpdateMeSchema.parse(data)
+    return await UserRepository.update(userId, user)
   }
   
 }

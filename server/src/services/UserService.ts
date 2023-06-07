@@ -13,7 +13,7 @@ export class UserService{
     return UserRepository.findById(id)
   }
   
-  static async create(data: UserCreateType){    
+  static async create(data: any){    
 
     const user = userCreateSchema.parse(data)
 
