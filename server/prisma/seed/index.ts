@@ -74,7 +74,8 @@ async function createGame() {
       endHours: '09:00',
       placeId: 1,
       modalityId: 1,
-      userId: 1
+      userId: 1,
+      teams:[1,2]
     }
   })
 }
