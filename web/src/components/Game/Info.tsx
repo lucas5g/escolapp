@@ -10,7 +10,7 @@ interface Props {
 
 export function Info({ game }: Props) {
 
-  if(!game.id){
+  if (!game.id) {
     return (
       <Card>
         Selecione o jogo para visualizar as informações.
@@ -19,16 +19,23 @@ export function Info({ game }: Props) {
   }
   return (
     <Card>
-      <div className="flex justify-between">
+      <div className="text-sm border-b pb-2 flex gap-3">
         <span>
-          <strong>Data:</strong> {moment(game.date).format('DD/MM')} - {game.hours}
+          <strong>
+            {moment(game.date).format('DD/MM')}
+          </strong>
+          {' '}
+          - {game.hours}
         </span>
+        <span>|</span>
         <span>
-          <strong>Juíz:</strong> {game.user?.name}
-        </span>
-        <span className="italic">
           <strong>{game.teams?.length}</strong> Equipes
         </span>
+        <span>|</span>
+        <span>
+          {game.user?.name}
+        </span>
+
       </div>
       <div className="grid grid-cols-2 ml-auto text-sm gap-2">
 
@@ -36,7 +43,7 @@ export function Info({ game }: Props) {
           return (
             <div
               key={team.name}
-              className={clsx('mt-3', {
+              className={clsx('mt-5', {
                 // 'text-end': (i + 1) % 2 === 0
               })}
             >
@@ -48,17 +55,15 @@ export function Info({ game }: Props) {
                   .sort((a, b) => a.name.localeCompare(b.name))
                   .map(student => {
                     return (
-                      <li className="border rounded pl-1 py-1">
+                      <li key={student.ra}  className="border rounded pl-1 py-1">
                         {renameLowerCase(student.name, 33)}
                       </li>
                     )
                   })}
-
               </ul>
             </div>
           )
         })}
-
       </div>
     </Card>
   )

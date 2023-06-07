@@ -79,6 +79,7 @@ model Team {
   genre    Genre?    @relation(fields: [genreId], references: [id])
   group    Group?    @relation(fields: [groupId], references: [id])
   modality Modality? @relation(fields: [modalityId], references: [id])
+  points   Point[]
 
   @@index([genreId], map: "Team_genreId_fkey")
   @@index([groupId], map: "Team_groupId_fkey")
@@ -103,4 +104,16 @@ model Game {
   place    Place?    @relation(fields: [placeId], references: [id])
   modality Modality? @relation(fields: [modalityId], references: [id])
   user     User?     @relation(fields: [userId], references: [id])
+  points   Point[]
+}
+
+model Point {
+  id     Int  @id @default(autoincrement())
+  gameId Int?
+  teamId Int?
+  goals  Int
+  points Int
+
+  Game Game? @relation(fields: [gameId], references: [id])
+  Team Team? @relation(fields: [teamId], references: [id])
 }

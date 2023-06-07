@@ -16,19 +16,9 @@ interface Props {
 export function FormGame({ game, setGame }: Props) {
 
   const [loading, setLoading] = useState(false)
-  // const [teams, setTeams] = useState([] as TeamInterface[])
+  console.log(game)
 
-  // useEffect(() => {
-  //   if (!game.teams) {
-  //     setSelectedTeams([])
-  //     return
-  //   }
-  //   setSelectedTeams(game.teams)
-  // }, [game.id])
-
-  // const teams = teamsWithoutFilter.filter(team => team.modalityId === game.modalityId)
-
-  if(!game.id) return <></>
+  if (!game.id) return <></>
 
   return (
     <Card >
@@ -36,7 +26,19 @@ export function FormGame({ game, setGame }: Props) {
         className="flex flex-col gap-5"
         onSubmit={handleSubmit}
       >
-        <Input
+        <div className="flex gap-3">
+          {game.teamsStudents.map((team, i) => {
+            return (
+              <Input
+                key={i}
+                name='test'
+                label={`GOLS ${team.name}`}
+                type="number"
+              />
+            )
+          })}
+        </div>
+        {/* <Input
           name='modalityId'
           label="Pontos"
           value={game.modalityId ?? ''}
@@ -59,7 +61,7 @@ export function FormGame({ game, setGame }: Props) {
           onChange={event => setGame({ ...game, modalityId: event.target.value })}
           error={game.errors?.modalityId}
 
-        />
+        /> */}
 
         {/* <MultiSelect
           label="Equipes"
