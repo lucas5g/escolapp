@@ -7,7 +7,6 @@ import { swr } from "../utils/swr";
 export function Home() {
 
   const { data, error } = swr('me')
-  console.log('Relase ', import.meta.env.VITE_API_URL, '2023-05-22')
   if(error) return <Error error={error} />
   if(!data) return <Loading />
 

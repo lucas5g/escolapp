@@ -1,16 +1,23 @@
-import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { ReactNode, useEffect } from "react";
 import { Aside } from "./Aside";
-import { Card } from "./Card";
-import { Footer } from "./Footer";
-import { Header, menus } from "./Header";
+import { Header } from "./Header";
 import { Title } from "./Title";
+import { swr } from "../utils/swr";
+import { Loading } from "./Loading";
 
 interface Props {
   children: ReactNode
 }
 export function Layout({ children }: Props) {
 
+  const { data } = swr('/')
+  if(localStorage.getItem('release') !== data?.api && data){
+    localStorage.setItem('release', data.api)
+    window.location.reload()
+  }
+
+  // console.log(data && data.api)
+  // if(!data) return <Loading />
 
   return (
     <div className="h-screen flex flex-col justify-between bg-blue-50">

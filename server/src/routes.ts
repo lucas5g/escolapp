@@ -19,7 +19,7 @@ export const routes = Router()
 /**
  * Default
  */
-routes.get('/', (req:Request, res:Response) => res.json({api: 'Api release 2023-03-22'}))
+routes.get('/', (req:Request, res:Response) => res.json({api: 'Release api 2023-06-07 00:11'}))
 routes.post('/login', AuthController.login)
 routes.get('/clear-caches', ConfigController.clearCaches)
 
