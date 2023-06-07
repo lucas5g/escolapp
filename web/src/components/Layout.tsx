@@ -1,9 +1,8 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode} from "react";
 import { Aside } from "./Aside";
 import { Header } from "./Header";
 import { Title } from "./Title";
 import { swr } from "../utils/swr";
-import { Loading } from "./Loading";
 
 interface Props {
   children: ReactNode
@@ -15,9 +14,6 @@ export function Layout({ children }: Props) {
     localStorage.setItem('release', data.api)
     window.location.reload()
   }
-
-  // console.log(data && data.api)
-  // if(!data) return <Loading />
 
   return (
     <div className="h-screen flex flex-col justify-between bg-blue-50">
