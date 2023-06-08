@@ -3,24 +3,21 @@ import { Layout } from "../components/Layout";
 import { Main } from "../components/Main";
 import { GameInterface, ModalityInterface, PlaceInterface, StudentInterface, TeamInterface, UserInterface } from "../interfaces";
 import { FormGame } from "../components/Game/FormGame";
-import { Table } from "../components/Table";
 import { swr } from "../utils/swr";
 import { Error } from "../components/Error";
 import { Loading } from "../components/Loading";
-import { Card } from "../components/Card";
-import moment from "moment";
-import clsx from "clsx";
-import { renameLowerCase } from "../utils/rename-lowercase";
 import { Form } from "../components/Form";
 import { Info } from "../components/Game/Info";
+import { Table } from "../components/Game/Table";
 
 const fields = [
   { key: 'date', value: 'Data', },
   { key: 'hours', value: 'Horas', },
   { key: 'place', value: 'Local' },
+
   // { key: 'modality', value: 'Modalidade' },
   { key: 'user', value: 'Juíz' },
-
+  { key: 'action', value: 'Ação' }
 ]
 
 export function Game() {
@@ -53,12 +50,16 @@ export function Game() {
     <Layout>
       <Main>
         <Table
+          
+
+        />
+        {/* <Table
           fields={fields}
           items={games}
           item={game}
           setItem={setGame}
           placeholderInputFilter="Pesquisar por Data"
-        />
+        /> */}
         <Main position="col">
           <Info
             game={game}

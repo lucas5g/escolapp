@@ -38,40 +38,18 @@ export function FormGame({ game, setGame }: Props) {
             )
           })}
         </div>
-        {/* <Input
-          name='modalityId'
-          label="Pontos"
-          value={game.modalityId ?? ''}
-          onChange={event => setGame({ ...game, modalityId: event.target.value })}
-          error={game.errors?.modalityId}
-
-        />
-         <Input
-          name='modalityId'
-          label="Pontos"
-          value={game.modalityId ?? ''}
-          onChange={event => setGame({ ...game, modalityId: event.target.value })}
-          error={game.errors?.modalityId}
-
-        />
-         <Input
-          name='modalityId'
-          label="Pontos"
-          value={game.modalityId ?? ''}
-          onChange={event => setGame({ ...game, modalityId: event.target.value })}
-          error={game.errors?.modalityId}
-
-        /> */}
-
-        {/* <MultiSelect
-          label="Equipes"
-          items={teams}
-          selected={selectedTeams}
-          setSelected={setSelectedTeams}
-          columns={2}
-          limit={modalities.find(modality => modality.id === game.modalityId)?.teamsQuantity}
-        /> */}
-
+        <div className="grid grid-cols-2 gap-3">
+          {game.teamsStudents.map((team, i) => {
+            return (
+              <Input
+                key={i}
+                name="test2"
+                label={`PONTOS ${team.name}`}
+                type="number"
+              />
+            )
+          })}
+        </div>
         <div className="flex justify-end gap-3 ">
           <Button
             value='Atualizar'
