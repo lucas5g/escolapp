@@ -1,6 +1,7 @@
 export interface GameInterface{
   id:number
   date: string
+  datetime:string
   hours: string
   startHours: string
   endHours: string
@@ -9,15 +10,22 @@ export interface GameInterface{
   modalityId: number 
   userId: number 
   teams: number[]
-  teamsStudents: {
-    name:string
+  teamsStudents?:{
+    id: number 
+    name:string 
     students:StudentInterface[]
   }[]
-  place: string
+  place: {
+    id:number 
+    name:string
+  }
   user:{
     name:string
   }
-  errors:{
+  modality:{
+    name:string
+  }
+  errors?:{
     id?:string
     date?: string
     startHours?: string

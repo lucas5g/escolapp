@@ -7,7 +7,6 @@ import { UserService } from "../services/UserService";
 describe('Game', () => {
   it('Game list', async () => {
     const games = await GameService.findMany()
-    expect(games.length).toBeGreaterThanOrEqual(0)
 
     games.forEach(game => {
 
@@ -15,7 +14,7 @@ describe('Game', () => {
       expect(game).toHaveProperty('user')
       expect(game).toHaveProperty('place')
       // expect(game).toHaveProperty('teams')
-      expect(game).toHaveProperty('hours')
+      expect(game).toHaveProperty('datetime')
       // expect(game.teams[0]).toHaveProperty('name')
     })
   })
@@ -33,7 +32,6 @@ describe('Game', () => {
     }
 
     const game = await GameService.create(data)
-    console.log(game)
 
   })
 

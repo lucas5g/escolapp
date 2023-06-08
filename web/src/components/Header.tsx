@@ -11,7 +11,7 @@ export const menus = [
   'Locais',
   'Modalidades',
   'Equipes',
-  'Agendas',
+  // 'Agendas',
   'Jogos',
   'Pontos',
   'Usuários',

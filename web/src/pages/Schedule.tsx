@@ -6,7 +6,6 @@ import { Main } from "../components/Main";
 import { Table } from "../components/Table";
 import { swr } from "../utils/swr";
 import { GameInterface, ModalityInterface, PlaceInterface, TeamInterface, UserInterface } from "../interfaces";
-import { Form } from "../components/Game/Form";
 
 const fields = [
   { key: 'date', value: 'Data', },
@@ -23,14 +22,13 @@ export function Schedule() {
   const uri = 'games'
 
   const { data:games, error }: { data: GameInterface[], error: any } = swr(uri)
-  const { data: places }: { data: PlaceInterface[] } = swr('places')
-  const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
-  const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
 
   if (error) return <Error error={error} />
   if (!games || !places || !modalities || !users || !teams) return <Loading />
   
+  return <></>
+
   return (
     <Layout>
       <Main>

@@ -3,7 +3,6 @@ import { GameInterface, ModalityInterface, PlaceInterface, TeamInterface, UserIn
 import { Card } from "../Card";
 import { Input } from "../Input";
 import { FormEvent, useEffect, useState } from "react";
-import { Autocomplete, TextField } from "@mui/material";
 import { Button } from "../Button";
 import { api } from "../../utils/axios";
 import { mutate } from "swr";
@@ -16,26 +15,28 @@ interface Props {
   teams: TeamInterface[]
   game: GameInterface
   setGame: (game: GameInterface) => void
+  openForm: boolean | undefined
 }
 
-export function Form({ places, modalities, users, teams: teamsWithoutFilter, game, setGame }: Props) {
+export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter, game, setGame, openForm }: Props) {
 
   const [loading, setLoading] = useState(false)
   // const [teams, setTeams] = useState([] as TeamInterface[])
   const [selectedTeams, setSelectedTeams] = useState([] as number[])
 
   useEffect(() => {
-    if(!game.teams) {
+    if (!game.teams) {
       setSelectedTeams([])
-      return 
+      return
     }
     setSelectedTeams(game.teams)
-  },[game.id])
+  }, [game?.id])
 
-  const teams = teamsWithoutFilter.filter(team => team.modalityId === game.modalityId)
+  if (!openForm) return <></>
 
+  const teams = teamsWithoutFilter.filter(team => team.modalityId === game?.modalityId)
   return (
-    <Card width={75}>
+    <Card>
       <form
         className="flex flex-col gap-5"
         onSubmit={handleSubmit}
@@ -45,10 +46,10 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
           type="date"
           name="date"
           label="Data"
-          value={game.date ? moment(game.date).format('YYYY-MM-DD') : ''}
+          value={game?.date ? moment(game.date).format('YYYY-MM-DD') : ''}
           onChange={event => setGame({ ...game, date: event.target.value })}
           inputLabelOpen
-          error={game.errors?.date}
+          error={game?.errors?.date}
         />
 
         <div className="flex gap-3">
@@ -57,19 +58,20 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
             name="startHours"
             label='Início'
             onChange={event => setGame({ ...game, startHours: event.target.value })}
-            value={game.startHours ?? ''}
+            value={game?.startHours ?? ''}
             inputLabelOpen
-            error={game.errors?.startHours}
+            error={game?.errors?.startHours}
 
           />
+
           <Input
             type='time'
             name="endHours"
             label='Fim'
             onChange={event => setGame({ ...game, endHours: event.target.value })}
-            value={game.endHours ?? ''}
+            value={game?.endHours ?? ''}
             inputLabelOpen
-            error={game.errors?.endHours}
+            error={game?.errors?.endHours}
 
           />
         </div>
@@ -100,16 +102,16 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
           error={game.errors?.modalityId}
 
         />
-
-        <MultiSelect
-          label="Equipes"
-          items={teams}
-          selected={selectedTeams}
-          setSelected={setSelectedTeams}
-          columns={2}
-          limit={modalities.find(modality => modality.id === game.modalityId)?.teamsQuantity}
-        />
-
+        {game.modalityId &&
+          <MultiSelect
+            label="Equipes"
+            items={teams}
+            selected={selectedTeams}
+            setSelected={setSelectedTeams}
+            columns={2}
+            limit={modalities.find(modality => modality.id === game.modalityId)?.teamsQuantity}
+          />
+        }
         <div className="flex justify-end gap-3 ">
           <Button
             value={game.id ? 'Atualizar' : 'Cadastrar'}
@@ -119,7 +121,10 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
             value={'Cancelar'}
             secondary
             type="reset"
-            onClick={() => setGame({} as GameInterface)}
+            onClick={() => {
+              setGame({} as GameInterface)
+              window.scrollTo({top:0, behavior:'smooth'})
+            }}
           />
         </div>
       </form>
@@ -133,11 +138,9 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
     try {
       const body = {
         ...game,
-        date: game.date ? new Date(game.date).toISOString() : undefined,
+        date: game.date ? moment(game.date).toDate() : undefined,
         teams: selectedTeams
-        // teams: 
       }
-
       if (game.id) {
         await api.put(`games/${game.id}`, body)
       } else {
@@ -147,7 +150,7 @@ export function Form({ places, modalities, users, teams: teamsWithoutFilter, gam
       mutate('games')
 
     } catch (error: any) {
- 
+
       if (error.response.data.errors === 400) {
         return setGame({ ...game, errors: error.response.data.errors })
       }
