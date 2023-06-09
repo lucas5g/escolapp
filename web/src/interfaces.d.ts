@@ -1,61 +1,54 @@
-export interface GameInterface{
-  id:number
+export interface GameInterface {
+  id: number
   date: string
-  datetime:string
+  datetime: string
   hours: string
   startHours: string
   endHours: string
   comments?: string
-  placeId: number 
-  modalityId: number 
-  userId: number 
-  teams: number[]
-  teamsStudents?:{
-    id: number 
-    name:string 
-    students:StudentInterface[]
-  }[]
+  placeId: number
+  modalityId: number
+  userId: number
+  teams: TeamInterface[]
   place: {
-    id:number 
-    name:string
+    id: number
+    name: string
   }
-  user:{
-    name:string
+  user: {
+    name: string
   }
-  modality:{
-    name:string
+  modality: {
+    name: string
   }
-  errors?:{
-    id?:string
+  errors?: {
+    id?: string
     date?: string
     startHours?: string
     endHours?: string
     comments?: string
-    placeId?: string 
+    placeId?: string
     modalityId?: string
-    userId?:string
-    teams?:string 
+    userId?: string
+    teams?: string
   }
 }
 
-export interface ModalityInterface{
-  id: number 
-  name: string 
-  membersQuantity: number 
+export interface ModalityInterface {
+  id: number
+  name: string
+  membersQuantity: number
   teamsQuantity: number
 }
-
-export interface PlaceInterface{
-  id:number 
-  name: string 
-}
-
-export interface UserInterface{
+export interface PlaceInterface {
+  id: number
   name: string
-  id:number 
-  name:string 
+}
+export interface UserInterface {
+  name: string
+  id: number
+  name: string
   profile: 'coordinator' | 'manager' | 'judge'
-  email: string 
+  email: string
 }
 
 export interface TeamInterface {
@@ -64,7 +57,12 @@ export interface TeamInterface {
   groupId: number
   modalityId: number
   genreId: number
-  students: string[] 
+  goals:number 
+  points:number
+  students: {
+    ra: string,
+    name: string
+  }[]
 }
 
 
@@ -78,7 +76,7 @@ export interface GroupInterface {
 export interface StudentInterface {
   name: string
   ra: string
-  group:string
+  group: string
   // codcur: number
   // codper: number
 }

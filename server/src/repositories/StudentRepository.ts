@@ -1,16 +1,11 @@
 import { cache } from "../utils/cache";
 import { googleSheets } from "../utils/google-sheets";
-import { prisma } from "../utils/prisma";
-import { StudentQueryType } from "../utils/schemas";
 
 interface StudentInterface{
   ra:string 
   name:string 
   group:string 
-  // course:string 
-  // codcur:number 
-  // codper:number  
-
+  groupOld:string
 }
 
 export class StudentRepository {
@@ -21,7 +16,14 @@ export class StudentRepository {
       return cache.get('students') as StudentInterface[]
     }
 
-    const students = await googleSheets({range:'all!a:g'}) as StudentInterface[]
+    const studentsAllFields = await googleSheets({range:'all!a:g'}) as StudentInterface[]
+    const students= studentsAllFields.map(student => {
+      return {
+        ra: student.ra,
+        name: student.name,
+        group: student.group
+      }
+    })
 
     cache.set('students', students)
     return students

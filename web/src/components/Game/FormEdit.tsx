@@ -7,6 +7,7 @@ import { Button } from "../Button";
 import { api } from "../../utils/axios";
 import { mutate } from "swr";
 import { MultiSelect } from "../MultiSelect";
+import { TextareaAutosize } from "@mui/material";
 
 interface Props {
   places: PlaceInterface[]
@@ -21,7 +22,6 @@ interface Props {
 export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter, game, setGame, openForm }: Props) {
 
   const [loading, setLoading] = useState(false)
-  // const [teams, setTeams] = useState([] as TeamInterface[])
   const [selectedTeams, setSelectedTeams] = useState([] as number[])
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
       setSelectedTeams([])
       return
     }
-    setSelectedTeams(game.teams)
+    setSelectedTeams(game.teams.map(team => team.id))
   }, [game?.id])
 
   if (!openForm) return <></>
@@ -133,13 +133,18 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
-    // return console.log(selectedTeams)
     setLoading(true)
     try {
       const body = {
         ...game,
         date: game.date ? moment(game.date).toDate() : undefined,
-        teams: selectedTeams
+        teams: selectedTeams.map(team => {
+          return {
+            id: team,
+            goals:0,
+            points: 0
+          }
+        })
       }
       if (game.id) {
         await api.put(`games/${game.id}`, body)

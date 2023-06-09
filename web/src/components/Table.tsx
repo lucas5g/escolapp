@@ -94,7 +94,6 @@ export function Table({
                         window.scrollTo({ top: 0, behavior: 'smooth' })
                       } else {
                         window.scrollTo({ top: positionBottom, behavior: 'smooth' })
-                        // window.scrollBy({top:1500})
                       }
                     }}
                   >

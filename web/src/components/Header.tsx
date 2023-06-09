@@ -11,14 +11,12 @@ export const menus = [
   'Locais',
   'Modalidades',
   'Equipes',
-  // 'Agendas',
   'Jogos',
   'Pontos',
   'Usuários',
   'Conta'
 ]
 
-// const menus = ['Home', 'Turmas']
 
 
 export function Header() {
@@ -43,9 +41,7 @@ export function Header() {
         <Link to='/' className="">
           <img src={logo} alt="Logo" className="md:h-16 h-14" />
         </Link>
-        {/* <h1 className="text-left text-white text-3xl">
-           {title}
-          </h1> */}
+   
         <button
           onClick={() => setShowMenu(!showMenu)}
           className="lg:hidden h-11 w-12 rounded text-white bg-blue-400 flex items-center justify-center transition-all border border-blue-300"

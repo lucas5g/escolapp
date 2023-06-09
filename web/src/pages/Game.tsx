@@ -9,12 +9,13 @@ import { Loading } from "../components/Loading";
 import { Table } from "../components/Game/Table";
 import { FormEdit } from "../components/Game/FormEdit";
 
+
 export function Game() {
   const [gameEdit, setGameEdit] = useState({} as GameInterface)
   const [gameSport, setGameSport] = useState({} as GameInterface)
   const [openFormEdit, setOpenFormEdit] = useState<boolean>(false)
   const [openFormSport, setOpenFormSport] = useState<boolean>(false)
-  
+
   const { data, error }: { data: GameInterface[], error: any } = swr('games')
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
   const { data: students }: { data: StudentInterface[] } = swr('students')
@@ -24,23 +25,7 @@ export function Game() {
 
   if (error) return <Error error={error} />
   if (!data || !teams || !students) return <Loading />
-
-  // console.log(students)
-  const games: GameInterface[]|any[] = data.map(game => {
-    return {
-      ...game,
-      teamsStudents: game.teams.map(team => {
-        const gameTeam = teams.find(row => row.id === team)
-        return {
-          id: gameTeam?.id,
-          name: gameTeam?.name,
-          students: gameTeam?.students
-            .map(ra => students.find(student => student.ra === ra))
-
-        }
-      })
-    }
-  })
+  const games = data
   return (
     <Layout>
       <Main>
