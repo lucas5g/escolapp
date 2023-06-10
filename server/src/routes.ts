@@ -13,6 +13,7 @@ import { UserController } from './controllers/UserController'
 import { auth } from './utils/auth'
 import { errors } from './utils/errors'
 import { ConfigController } from './controllers/ConfigController'
+import { PointController } from './controllers/PointController'
 
 export const routes = Router()
 
@@ -98,6 +99,11 @@ routes.get('/teams/:id', TeamController.show)
 routes.post('/teams', TeamController.create)
 routes.put('/teams/:id', TeamController.update)
 routes.delete('/teams/:id',TeamController.delete)
+
+/**
+ * Points
+ */
+routes.get('/points', PointController.index)
 
 
 /**

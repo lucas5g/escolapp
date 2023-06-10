@@ -62,6 +62,9 @@ export function Table({
           </thead>
           <tbody>
             {games?.map(game => {
+              const title = game.teams.reduce((acc, team) => {
+                return acc+= `${team.name} g: ${team.goals} p: ${team.points}\n`
+              },'')
               return (
                 <tr
                   key={game.id}
@@ -75,15 +78,19 @@ export function Table({
                     {game.place.name} <br />
                     {game.user.name}
                   </td>
-                  <td className="py-1">
+                  <td className="py-1"
+                    title={title}
+                    >
                     {game.teams.map(team => {
                       return (
-                        <>
+                        <div key={team.id}>
+                          <strong>e</strong>
                           {team.id}
                           {' '}
                           <strong>g</strong>{team.goals}
+                          {' '}
                           <strong>p</strong>{team.points} <br />
-                        </>
+                        </div>
                       )
                     })}
                   </td>
