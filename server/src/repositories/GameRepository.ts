@@ -1,8 +1,7 @@
-import { cache } from "../utils/cache";
+import { ConfigService } from "../services/ConfigService";
 import { prisma } from "../utils/prisma";
 import { GameType } from "../utils/schemas";
 
-cache.flushAll()
 export class GameRepository {
 
 
@@ -40,6 +39,9 @@ export class GameRepository {
   }
 
   static async update(id: number, data: GameType) {
+  
+    await ConfigService.clearCaches()
+
 
     return await prisma.game.update({
       where: { id },
