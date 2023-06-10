@@ -28,7 +28,6 @@ export class GameService {
             students: studentsJson.map(ra => {
               return students.find(student => student.ra === ra)
             })
-            // students: studentsJson.map(ra => students.find(student => student.ra === ra))
           }
         }),
       }
