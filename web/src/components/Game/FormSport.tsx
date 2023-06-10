@@ -1,7 +1,7 @@
-import { GameInterface, TeamInterface } from "../../interfaces";
+import { GameInterface } from "../../interfaces";
 import { Card } from "../Card";
 import { Input } from "../Input";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Button } from "../Button";
 import { api } from "../../utils/axios";
 import { mutate } from "swr";
@@ -20,11 +20,6 @@ interface Props {
 export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
 
   const [loading, setLoading] = useState(false)
-  const [maxGoals, setMaxGoals] = useState(0)
-
-  useEffect(() => {
-
-  })
 
   if (!openForm) return <></>
   // console.log(game.teams[0].goals)
@@ -115,44 +110,47 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
 
 
   function changeInput(teamId: number, value: number) {
-    const teamsGoals = game.teams.map(team => {
-
+    const teams = game.teams.map(team => {
       if (team.id === teamId) {
-        team.goals = Number(value)
-        return team
+
+        return {
+          ...team,
+          goals: Number(value)
+        }
       }
       return team
     })
 
     let maxGoals = 0
-    teamsGoals.forEach(team => {
+    for (const team of teams) {
       if (team.goals > maxGoals) {
-        maxGoals = Number(team.goals)
+        maxGoals = team.goals
       }
-    })
-    const teams = teamsGoals.map((team, i) => {
+    }
 
-      console.log({ team: team.name, goals: team.goals, maxGoals })
+    for (const team of teams) {
 
       if (team.goals === maxGoals) {
         team.points = 3
-      }else{
+      } else {
         team.points = 1
       }
+    }
 
+    let maxGoalsCount = 0
+    for (const team of teams) {
+      if (team.goals === maxGoals) {
+        maxGoalsCount++
+      }
+    }
 
-      return team
-
-
-    })
-    // for (let j = 0; j < teams.length; j++) {
-    //   if (let i !== j && teams[i].goals === teams[j].goals) {
-    //     teams[i].points = 2;
-    //     teams[j].points = 2;
-    //   }
-    // }
-    
-    
+    if (maxGoalsCount > 1) {
+      for (const team of teams) {
+        if (team.goals === maxGoals) {
+          team.points = 2
+        }
+      }
+    }
 
     setGame({ ...game, teams })
   }
@@ -162,7 +160,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     setLoading(true)
     try {
       const body = {
-        comments: game.comments,
+        ...game,
         teams: game.teams.map(team => {
           return {
             id: team.id,
@@ -171,16 +169,8 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
           }
         })
       }
-      console.log('comments => ', body.comments)
-      console.log('teams => ', body.teams)
+      await api.put(`games/${game.id}`, body)
 
-      return
-      if (game.id) {
-        await api.put(`games/${game.id}`, body)
-      } else {
-        const { data } = await api.post('games', body)
-        setGame(data)
-      }
       mutate('games')
 
     } catch (error: any) {

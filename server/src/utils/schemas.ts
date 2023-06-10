@@ -54,7 +54,7 @@ export const gameSchema = z.object({
   placeId: z.number(),
   modalityId: z.number(),
   userId: z.number(),
-  // teams: z.number().array()
+  comments: z.string().optional().nullable(),
   teams:z.array(
     z.object({
       id: z.number(),

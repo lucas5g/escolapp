@@ -35,6 +35,7 @@ export function Table({
         item.name?.toLowerCase().includes(searchFilter) ||
         moment(item.date).format('DD/MM').includes(search) || 
         item.modality?.name.toLowerCase().includes(searchFilter)
+
       )
 
     })

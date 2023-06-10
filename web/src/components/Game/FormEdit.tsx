@@ -16,10 +16,11 @@ interface Props {
   teams: TeamInterface[]
   game: GameInterface
   setGame: (game: GameInterface) => void
-  openForm: boolean | undefined
+  openForm: boolean | undefined 
+  setOpenForm: (openForm:boolean) => void
 }
 
-export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter, game, setGame, openForm }: Props) {
+export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter, game, setGame, openForm, setOpenForm }: Props) {
 
   const [loading, setLoading] = useState(false)
   const [selectedTeams, setSelectedTeams] = useState([] as number[])
@@ -123,6 +124,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
             type="reset"
             onClick={() => {
               setGame({} as GameInterface)
+              setOpenForm(false)
               window.scrollTo({top:0, behavior:'smooth'})
             }}
           />

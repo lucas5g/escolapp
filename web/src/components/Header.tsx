@@ -31,7 +31,7 @@ export function Header() {
     const userJson = JSON.parse(userExist)
     setUser({
       ...userJson,
-      name: userJson.name.slice(0, 2)
+      name: userJson.name.slice(0, 2).toUpperCase()
     })
   }, [])
 

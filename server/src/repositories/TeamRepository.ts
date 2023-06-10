@@ -7,6 +7,10 @@ export class TeamRepository {
       orderBy: {
         name: 'asc'
       },
+      include:{
+        modality:true,
+        group:true
+      }
     })
   }
 

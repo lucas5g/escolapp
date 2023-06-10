@@ -6,7 +6,10 @@ describe('Team', () => {
   it('Team list', async () => {
     const teams = await TeamService.findMany()
     expect(teams).toBeTypeOf('object')
-    expect(teams[0]).toHaveProperty('students')
+    teams.forEach(team => {
+      expect(team).toHaveProperty('students')
+      expect(team).toHaveProperty('modality')
+    })
   })
 
   it('Team find by modalityId', async () => {
@@ -18,11 +21,6 @@ describe('Team', () => {
     })
 
   })
-
-  // it.only('Test delete', async() => {
-  //   await TeamService.delete(1)
-
-  // })
 
   it('Team crud', async () => {
 

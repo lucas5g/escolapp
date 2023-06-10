@@ -40,67 +40,88 @@ export function Table({
         value={search}
         onChange={event => setSearch(event.target.value)}
       />
-      <table className="w-full mt-5">
-        <thead>
-          <tr className="">
-            {['Data', 'Modalidade', 'Local', 'Juíz', 'Ação'].map(header => {
+      {games.length === 0 &&
+        <p className="text-gray-500 mt-5">Sem registros.</p>
+      }
+      {games.length > 0 &&
+        <table className="w-full mt-5">
+          <thead>
+            <tr className="">
+              {['Data', 'Modalidade', 'Local', 'Equipes', 'Ação'].map(header => {
+                return (
+                  <th
+                    key={header}
+                    className="text-start"
+                  >
+                    {header}
+                  </th>
+                )
+              })}
+
+            </tr>
+          </thead>
+          <tbody>
+            {games?.map(game => {
               return (
-                <th
-                  key={header}
-                  className="text-start"
+                <tr
+                  key={game.id}
+                  className={clsx('border-t text-sm', {
+                    'bg-blue-100': game.id === gameEdit.id || game.id === gameSport.id
+                  })}
                 >
-                  {header}
-                </th>
+                  <td>{game.datetime}</td>
+                  <td>{game.modality.name}</td>
+                  <td>
+                    {game.place.name} <br />
+                    {game.user.name}
+                  </td>
+                  <td className="py-1">
+                    {game.teams.map(team => {
+                      return (
+                        <>
+                          {team.id}
+                          {' '}
+                          <strong>g</strong>{team.goals}
+                          <strong>p</strong>{team.points} <br />
+                        </>
+                      )
+                    })}
+                  </td>
+                  <td>
+                    <>
+                      <Sports
+                        fontSize="small"
+                        className={clsx("text-zinc-600 cursor-pointer", {
+                          'text-blue-500': game.id === gameSport.id
+                        })}
+                        onClick={() => {
+                          setGameSport(game)
+                          setOpenFormEdit(false)
+                          setOpenFormSport(true)
+                          setGameEdit({} as GameInterface)
+                          scroll(games.length)
+
+                        }} />
+                      <Edit
+                        fontSize="small"
+                        className={clsx("text-zinc-600 cursor-pointer", {
+                          'text-blue-500': game.id === gameEdit.id
+                        })}
+                        onClick={() => {
+                          setGameEdit(game)
+                          setOpenFormSport(false)
+                          setOpenFormEdit(true)
+                          setGameSport({} as GameInterface)
+                          scroll(games.length)
+                        }} />
+                    </>
+                  </td>
+                </tr>
               )
             })}
-
-          </tr>
-        </thead>
-        <tbody>
-          {games?.map(game => {
-            return (
-              <tr
-                key={game.id}
-                className={clsx('border-t text-sm', {
-                  'bg-blue-100': game.id === gameEdit.id || game.id === gameSport.id
-                })}
-              >
-                <td>{game.datetime}</td>
-                <td>{game.modality.name}</td>
-                <td>{game.place.name}</td>
-                <td>{game.user.name}</td>
-                <td className="flex gap-2 h-10 items-center">
-                  <Sports
-                    fontSize="small"
-                    className={clsx("text-zinc-600 cursor-pointer", {
-                      'text-blue-500': game.id === gameSport.id
-                    })}
-                    onClick={() => {
-                      setGameSport(game)
-                      setOpenFormEdit(false)
-                      setOpenFormSport(true)
-                      setGameEdit({} as GameInterface)
-                      scroll(games.length)
-
-                    }} />
-                  <Edit
-                    fontSize="small"
-                    className={clsx("text-zinc-600 cursor-pointer", {
-                      'text-blue-500': game.id === gameEdit.id
-                    })}
-                    onClick={() => {
-                      setGameEdit(game)
-                      setOpenFormSport(false)
-                      setOpenFormEdit(true)
-                      setGameSport({} as GameInterface)
-                      scroll(games.length)
-                    }} />
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      }
 
       <button
         className={clsx("bg-blue-500 text-white fixed bottom-10 right-10 p-3 rounded-full hover:p-4 hover:bg-blue-600 transition-all", {

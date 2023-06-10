@@ -55,6 +55,7 @@ export function Game() {
           modalities={modalities}
           teams={teams}
           openForm={openFormEdit}
+          setOpenForm={setOpenFormEdit}
         />
       </Main>
 

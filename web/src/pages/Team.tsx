@@ -27,13 +27,7 @@ export function Team() {
   if (error) return <Error error={error} />
   if (!data || !groups || !modalities || !students) return <Loading />
 
-  const teams = data.map(team => {
-    return {
-      ...team,
-      modality: modalities.find(modality => modality.id === team.modalityId)?.name,
-      group: groups.find(group => group.id === team.groupId)?.name
-    }
-  })  
+  const teams = data
 
 
   return (
