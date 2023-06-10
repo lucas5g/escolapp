@@ -1,7 +1,10 @@
+import { cache } from "../utils/cache";
 import { prisma } from "../utils/prisma";
 import { GameType } from "../utils/schemas";
 
+cache.flushAll()
 export class GameRepository {
+
 
   static async findMany() {
     return await prisma.game.findMany({
