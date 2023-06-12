@@ -25,9 +25,10 @@ export function Table({
   const [search, setSearch] = useState('')
 
   const games = gamesWithoutFilter.filter(game => {
+    const searchFilter = search.trim().toLowerCase()
     return (
-      game.datetime.includes(search) ||
-      game.modality.name.toLowerCase().includes(search.toLowerCase())
+      game.datetime.includes(searchFilter) ||
+      game.modality.name.toLowerCase().includes(searchFilter)
     )
   })
 
