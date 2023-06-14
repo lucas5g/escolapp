@@ -14,6 +14,7 @@ import { auth } from './utils/auth'
 import { errors } from './utils/errors'
 import { ConfigController } from './controllers/ConfigController'
 import { PointController } from './controllers/PointController'
+import { permission } from './utils/permission'
 
 export const routes = Router()
 
@@ -29,6 +30,28 @@ routes.get('/clear-caches', ConfigController.clearCaches)
  */
 routes.use(auth)
 
+/**
+ * Auth
+ */
+routes.get('/me', AuthController.me)
+routes.put('/update-me', AuthController.updateMe)
+
+routes.use(permission('judge'))
+routes.get('/users', UserController.index)
+routes.get('/modalities', ModalityController.index)
+routes.get('/games', GameController.index)
+routes.get('/students', StudentController.index)
+routes.get('/places', PlaceController.index)
+routes.get('/teams', TeamController.index)
+
+
+
+
+/**
+ * Routes for admin
+ */
+
+routes.use(permission('manager'))
 
 /**
  * Users
@@ -69,7 +92,6 @@ routes.delete('/places/:id',PlaceController.delete)
 /**
  * Students
  */
-routes.get('/students', StudentController.index)
 // routes.get('/students/:id', StudentController.show)
 // routes.post('/students', StudentController.create)
 // routes.put('/students/:id', StudentController.update)
@@ -78,7 +100,7 @@ routes.get('/students', StudentController.index)
 /**
  * Games
  */
-routes.get('/games', GameController.index)
+routes.get('/games', permission('judge'), GameController.index)
 routes.get('/games/:id', GameController.show)
 routes.post('/games', GameController.create)
 routes.put('/games/:id', GameController.update)
@@ -104,13 +126,6 @@ routes.delete('/teams/:id',TeamController.delete)
  * Points
  */
 routes.get('/points', PointController.index)
-
-
-/**
- * Auth
- */
-routes.get('/me', AuthController.me)
-routes.put('/update-me', AuthController.updateMe)
 
 routes.use(errors)
 
