@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import logo from '../assets/logo.png'
 import { UserInterface } from "../interfaces"
-
+import jwtDecode from "jwt-decode"
 
 export const menus = [
   'Turmas',
@@ -23,17 +23,16 @@ export function Header() {
 
   const [showMenu, setShowMenu] = useState(false)
   const [user, setUser] = useState<UserInterface>()
-  useEffect(() => {
-    const userExist = localStorage.getItem('user')
-    if (!userExist) {
-      return setUser({} as UserInterface)
-    }
-    const userJson = JSON.parse(userExist)
-    setUser({
-      ...userJson,
-      name: userJson.name.slice(0, 2).toUpperCase()
-    })
-  }, [])
+  const accessToken = localStorage.getItem('accessToken')
+    const {name, email}:UserInterface = jwtDecode(accessToken ?? '') 
+  // useEffect(() => {
+    //   if(!accessToken) return 
+
+
+  //   setUser({
+  //     name: userJson.name.slice(0, 2).toUpperCase()
+  //   })
+  // }, [])
 
   return (
     <header className="z-10">
@@ -50,13 +49,13 @@ export function Header() {
           {showMenu && <X size={40} />}
 
         </button>
-        {user?.name &&
+        {/* {user?.name && */}
           <button
-            title={user.email}
+            title={email}
             className="hidden lg:block text-white bg-blue-300 rounded-full px-3 py-[.54em]">
-            {user.name}
+            {name.slice(0,2).toUpperCase()}
           </button>
-        }
+        {/* } */}
       </nav>
 
       <nav className={clsx("lg:hidden md:mt-[5em] mt-[4em] fixed w-full flex flex-col bg-blue-50  text-gray-800 text-xl transition-all duration-500 ", {
