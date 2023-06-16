@@ -4,6 +4,8 @@ import { Input } from "../components/Input";
 import { api } from "../utils/axios";
 import { translate } from "../utils/translate";
 import { sleep } from "../utils/sleep";
+import jwtDecode from "jwt-decode";
+import { UserInterface } from "../interfaces";
 
 export function Login() {
 

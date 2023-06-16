@@ -1,38 +1,19 @@
 import clsx from "clsx"
 import { List, X } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import logo from '../assets/logo.png'
 import { UserInterface } from "../interfaces"
 import jwtDecode from "jwt-decode"
-
-export const menus = [
-  'Turmas',
-  'Locais',
-  'Modalidades',
-  'Equipes',
-  'Jogos',
-  'Pontos',
-  'Usuários',
-  'Conta'
-]
+import { menus } from "../utils/menus"
 
 
 
 export function Header() {
 
   const [showMenu, setShowMenu] = useState(false)
-  const [user, setUser] = useState<UserInterface>()
   const accessToken = localStorage.getItem('accessToken')
-    const {name, email}:UserInterface = jwtDecode(accessToken ?? '') 
-  // useEffect(() => {
-    //   if(!accessToken) return 
-
-
-  //   setUser({
-  //     name: userJson.name.slice(0, 2).toUpperCase()
-  //   })
-  // }, [])
+  const { name, email }: UserInterface = jwtDecode(accessToken ?? '')
 
   return (
     <header className="z-10">
@@ -40,7 +21,7 @@ export function Header() {
         <Link to='/' className="">
           <img src={logo} alt="Logo" className="md:h-16 h-14" />
         </Link>
-   
+
         <button
           onClick={() => setShowMenu(!showMenu)}
           className="lg:hidden h-11 w-12 rounded text-white bg-blue-400 flex items-center justify-center transition-all border border-blue-300"
@@ -50,18 +31,18 @@ export function Header() {
 
         </button>
         {/* {user?.name && */}
-          <button
-            title={email}
-            className="hidden lg:block text-white bg-blue-300 rounded-full px-3 py-[.54em]">
-            {name.slice(0,2).toUpperCase()}
-          </button>
+        <button
+          title={email}
+          className="hidden lg:block text-white bg-blue-300 rounded-full px-3 py-[.54em]">
+          {name.slice(0, 2).toUpperCase()}
+        </button>
         {/* } */}
       </nav>
 
       <nav className={clsx("lg:hidden md:mt-[5em] mt-[4em] fixed w-full flex flex-col bg-blue-50  text-gray-800 text-xl transition-all duration-500 ", {
         'hidden': !showMenu
       })}>
-        {menus.map(menu => {
+        {menus().map(menu => {
           return (
             <Link
               key={menu}

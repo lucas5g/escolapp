@@ -1,11 +1,12 @@
-import jwtDecode from "jwt-decode";
-import { UserInterface } from "../interfaces";
+import { storageLogged } from "./storage-logged"
 
 export function menus() {
-  const accessToken = localStorage.getItem('accessToken') 
-  if(!accessToken) return 
-  const { profile }: UserInterface = jwtDecode(accessToken) 
-  if (profile === 'manager') {
+
+  const menusDefault = [
+    'Conta',
+    'Sair'
+  ]
+  if (storageLogged().profile === 'manager') {
     return [
       'Turmas',
       'Locais',
@@ -14,12 +15,12 @@ export function menus() {
       'Jogos',
       'Pontos',
       'Usuários',
-      'Conta'
+      ...menusDefault,
     ]
   }
 
   return [
     'Jogos',
-    'Conta'
+    ...menusDefault
   ]
 }

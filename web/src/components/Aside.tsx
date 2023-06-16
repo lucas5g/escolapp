@@ -1,12 +1,12 @@
 import clsx from "clsx"
 import { Link } from "react-router-dom"
-import { menus } from "./Header"
+import { menus } from "../utils/menus";
 
 
 export function Aside() {
   return (
     <aside className={'hidden lg:flex fixed hover:flex  w-[9em]  flex-col pb-10'}>
-      {menus.map(menu => {
+      {menus().map(menu => {
         const menuActual = menu
           .normalize("NFD") // Normaliza a string em forma de decomposição
           .replace(/[\u0300-\u036f]/g, "") // Remove os caracteres acentuados
@@ -24,16 +24,6 @@ export function Aside() {
           </Link>
         )
       })}
-      <button
-        className="text-left pl-5 hover:bg-blue-100 py-3 rounded"
-        title="Sair da Plataforma"
-        onClick={() => {
-          localStorage.clear()
-          location.href = '/login'
-        }}
-      >
-        Sair
-      </button>
     </aside>
   )
 }

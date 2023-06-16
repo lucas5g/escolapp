@@ -5,6 +5,7 @@ import { Plus } from "phosphor-react";
 import clsx from "clsx";
 import { Input } from "../Input";
 import { useState } from "react";
+import { storageLogged } from "../../utils/storage-logged";
 
 interface Props {
   games: GameInterface[]
@@ -23,6 +24,7 @@ export function Table({
 }: Props) {
 
   const [search, setSearch] = useState('')
+  const logged = storageLogged()
 
   const games = gamesWithoutFilter.filter(game => {
     const searchFilter = search.trim().toLowerCase()
@@ -64,8 +66,8 @@ export function Table({
           <tbody>
             {games?.map(game => {
               const title = game.teams.reduce((acc, team) => {
-                return acc+= `${team.name} g: ${team.goals} p: ${team.points}\n`
-              },'')
+                return acc += `${team.name} g: ${team.goals} p: ${team.points}\n`
+              }, '')
               return (
                 <tr
                   key={game.id}
@@ -81,7 +83,7 @@ export function Table({
                   </td>
                   <td className="py-1"
                     title={title}
-                    >
+                  >
                     {game.teams.map(team => {
                       return (
                         <div key={team.id}>
@@ -110,18 +112,20 @@ export function Table({
                           scroll(games.length)
 
                         }} />
-                      <Edit
-                        fontSize="small"
-                        className={clsx("text-zinc-600 cursor-pointer", {
-                          'text-blue-500': game.id === gameEdit.id
-                        })}
-                        onClick={() => {
-                          setGameEdit(game)
-                          setOpenFormSport(false)
-                          setOpenFormEdit(true)
-                          setGameSport({} as GameInterface)
-                          scroll(games.length)
-                        }} />
+                      {logged.profile !== 'judge' &&
+                        <Edit
+                          fontSize="small"
+                          className={clsx("text-zinc-600 cursor-pointer", {
+                            'text-blue-500': game.id === gameEdit.id
+                          })}
+                          onClick={() => {
+                            setGameEdit(game)
+                            setOpenFormSport(false)
+                            setOpenFormEdit(true)
+                            setGameSport({} as GameInterface)
+                            scroll(games.length)
+                          }} />
+                      }
                     </>
                   </td>
                 </tr>
@@ -131,16 +135,19 @@ export function Table({
         </table>
       }
 
-      <button
-        className={clsx("bg-blue-500 text-white fixed bottom-10 right-10 p-3 rounded-full hover:p-4 hover:bg-blue-600 transition-all", {
-          'invisible': openFormEdit === true || openFormSport === true
-        })}
+      {logged.profile !== 'judge' &&
 
-        title="Cadastrar Jogo"
-        onClick={() => { setOpenFormEdit(true), setOpenFormSport(false) }}
-      >
-        <Plus size={30} weight="bold" />
-      </button>
+        <button
+          className={clsx("bg-blue-500 text-white fixed bottom-10 right-10 p-3 rounded-full hover:p-4 hover:bg-blue-600 transition-all", {
+            'invisible': openFormEdit === true || openFormSport === true
+          })}
+
+          title="Cadastrar Jogo"
+          onClick={() => { setOpenFormEdit(true), setOpenFormSport(false) }}
+        >
+          <Plus size={30} weight="bold" />
+        </button>
+      }
     </Card>
   )
   function scroll(quantity: number) {

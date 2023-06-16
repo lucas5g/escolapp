@@ -8,6 +8,7 @@ import { Error } from "../components/Error";
 import { Loading } from "../components/Loading";
 import { Table } from "../components/Game/Table";
 import { FormEdit } from "../components/Game/FormEdit";
+import { storageLogged } from "../utils/storage-logged";
 
 
 export function Game() {
@@ -15,8 +16,11 @@ export function Game() {
   const [gameSport, setGameSport] = useState({} as GameInterface)
   const [openFormEdit, setOpenFormEdit] = useState<boolean>(false)
   const [openFormSport, setOpenFormSport] = useState<boolean>(false)
+  const logged = storageLogged()
 
-  const { data, error }: { data: GameInterface[], error: any } = swr('games')
+  const uri = logged.profile === 'judge' ? `games?userId=${logged.id}` : 'games'
+
+  const { data, error }: { data: GameInterface[], error: any } = swr(uri)
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
   const { data: students }: { data: StudentInterface[] } = swr('students')
   const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
