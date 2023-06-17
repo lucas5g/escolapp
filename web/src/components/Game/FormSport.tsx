@@ -9,6 +9,7 @@ import { Main } from "../Main";
 import { renameLowerCase } from "../../utils/rename-lowercase";
 import { TextareaAutosize } from "@mui/material";
 import { te } from "date-fns/locale";
+import { storageLogged } from "../../utils/storage-logged";
 
 interface Props {
   game: GameInterface
@@ -20,6 +21,7 @@ interface Props {
 export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
 
   const [loading, setLoading] = useState(false)
+  const logged = storageLogged()
 
   if (!openForm) return <></>
   // console.log(game.teams[0].goals)
@@ -75,9 +77,9 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                   name={`teamPoints_${team.id}`}
                   label={`PONTOS ${team.name}`}
                   type="number"
-                  disabled={true}
+                  disabled={logged.profile === 'judge' ? true : false}
                   value={team.points ?? ''}
-                // onChange={event => changeInput(team.id, 'goals', event.target.value)}
+                  onChange={event => changeInputPoints(team.id, event.target.value)}
 
                 />
               )
@@ -108,7 +110,17 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     </Main>
   )
 
+  function changeInputPoints(teamId: number, value: number) {
+    const teams = game.teams.map(team => {
+      if(teamId === team.id){
+        team.points = Number(value) 
+        return team 
+      }
+      return team
+    })
 
+    setGame({...game, teams})
+  }
   function changeInput(teamId: number, value: number) {
     const teams = game.teams.map(team => {
       if (team.id === teamId) {
