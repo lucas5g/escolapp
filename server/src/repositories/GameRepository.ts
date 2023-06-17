@@ -1,12 +1,13 @@
 import { ConfigService } from "../services/ConfigService";
 import { prisma } from "../utils/prisma";
-import { GameType } from "../utils/schemas";
+import { GameFilterType, GameType } from "../utils/schemas";
 
 export class GameRepository {
 
 
-  static async findMany() {
+  static async findMany(filter: GameFilterType) {
     return await prisma.game.findMany({
+      where:filter,
       orderBy: [
         { date: 'asc' },
         { startHours: 'asc' }

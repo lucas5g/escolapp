@@ -1,6 +1,6 @@
 import moment from "moment";
 import { GameRepository } from "../repositories/GameRepository";
-import { GameType, gameSchema } from "../utils/schemas";
+import { GameType, gameFilterSchema, gameSchema } from "../utils/schemas";
 import { StudentRepository } from "../repositories/StudentRepository";
 import { Prisma } from "@prisma/client";
 import { TeamRepository } from "../repositories/TeamRepository";
@@ -8,8 +8,10 @@ import { TeamRepository } from "../repositories/TeamRepository";
 
 export class GameService {
 
-  static async findMany() {
-    const games = await GameRepository.findMany()
+  static async findMany(data?:any) {
+    const filter = data ? gameFilterSchema.parse(data) : {}
+
+    const games = await GameRepository.findMany(filter)
     const students = await StudentRepository.findMany() 
     const teams = await TeamRepository.findMany({})
 

@@ -64,6 +64,12 @@ export const gameSchema = z.object({
   )
 })
 
+export const gameFilterSchema = z.object({
+  userId: z.number().optional()
+})
+
+export type GameFilterType = z.infer<typeof gameFilterSchema>
+
 export type GameType = z.infer<typeof gameSchema>
 
 

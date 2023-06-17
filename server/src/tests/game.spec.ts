@@ -1,13 +1,10 @@
 import moment from "moment";
 import { describe, expect, it } from "vitest";
 import { GameService } from "../services/GameService";
-import { PlaceService } from "../services/PlaceService";
-import { UserService } from "../services/UserService";
 
 describe('Game', () => {
-  it.only('Game list', async () => {
+  it('Game list', async () => {
     const games = await GameService.findMany()
-    console.log(games[0].teams)
     games.forEach(game => {
 
       expect(game).toHaveProperty('modality')
@@ -19,9 +16,8 @@ describe('Game', () => {
       expect(game.teams[0]).toHaveProperty('goals')
       expect(game.teams[0]).toHaveProperty('points')
       
-      // expect(game.teams[0]).toHaveProperty('name')
     })
-  })
+  }, 5000)
 
 
   // it('Game create', async () => {
@@ -41,9 +37,6 @@ describe('Game', () => {
 
 
   it('Game crud', async () => {
-
-    const users = await UserService.findMany({})
-    const places = await PlaceService.findMany()
 
     const data = {
       date: new Date().toISOString(),
@@ -65,7 +58,6 @@ describe('Game', () => {
     expect(game).toHaveProperty('startHours', data.startHours)
     expect(game).toHaveProperty('teams')
 
-    return console.log(game)
     /**
      * Show
      */
@@ -84,5 +76,14 @@ describe('Game', () => {
      */
     await GameService.delete(game.id)
   })
+
+  it('List game by userId', async() => {
+    const games = await GameService.findMany({userId:1})
+
+    games.forEach(game => {
+      expect(game).contain({userId:1})
+    })
+
+  }, 5100)
 
 })
