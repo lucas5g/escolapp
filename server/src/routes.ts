@@ -36,7 +36,7 @@ routes.use(auth)
 routes.get('/me', AuthController.me)
 routes.put('/update-me', AuthController.updateMe)
 
-routes.use(permission('judge'))
+// routes.use(permission('judge'))
 routes.get('/users', UserController.index)
 routes.get('/modalities', ModalityController.index)
 routes.get('/games', GameController.index)
@@ -51,7 +51,7 @@ routes.get('/teams', TeamController.index)
  * Routes for admin
  */
 
-routes.use(permission('manager'))
+routes.use(permission('manager', 'coordinator'))
 
 /**
  * Users

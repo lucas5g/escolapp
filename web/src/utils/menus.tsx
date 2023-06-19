@@ -2,11 +2,15 @@ import { storageLogged } from "./storage-logged"
 
 export function menus() {
 
+  const logged = storageLogged()
+
   const menusDefault = [
     'Conta',
     'Sair'
   ]
-  if (storageLogged().profile === 'manager') {
+  
+  console.log(logged)
+  if (storageLogged().profile === 'manager' || storageLogged().profile === 'coordinator') {
     return [
       'Turmas',
       'Locais',
