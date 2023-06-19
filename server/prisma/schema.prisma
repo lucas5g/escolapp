@@ -20,6 +20,7 @@ model User {
   password String
   name     String
   profile  Profile?
+  unity    Unity?
   games    Game[]
 }
 

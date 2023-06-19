@@ -7,23 +7,27 @@ const profiles = [
   'representative'
 ] as const 
 
+const unities = [
+  'contagem',
+  'bh'
+] as const 
+
 export const userCreateSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string(),
-  profile: z.enum(profiles).optional()
+  profile: z.enum(profiles), 
+  unity: z.enum(unities)
 })  
-
-export const userFilterSchema = z.object({
-  profile: z.enum(profiles).optional()
-})
-
 
 export const userUpdateSchema = userCreateSchema.extend({
   id: z.number().optional(),
   password: z.string().optional()
 })
 
+export const userFilterSchema = z.object({
+  profile: z.enum(profiles).optional()
+})
 export type UserCreateType = z.infer<typeof userCreateSchema>
 export type UserUpdateType = z.infer<typeof userUpdateSchema>
 

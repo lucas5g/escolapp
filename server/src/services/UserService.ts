@@ -1,12 +1,13 @@
 import { UserRepository } from "../repositories/UserRepository";
 import bcrypt from 'bcrypt'
 
-import {UserUpdateType, UserCreateType, userUpdateSchema, userCreateSchema, userFilterSchema,  } from '../utils/schemas'
+import {userUpdateSchema, userCreateSchema, userFilterSchema  } from '../utils/schemas'
 export class UserService{
 
   static async findMany(data:any){
-    const where = userFilterSchema.parse(data)
-    return UserRepository.findMany(where)
+    const filter = userFilterSchema.parse(data)
+    const users = await UserRepository.findMany(filter)
+    return users
   }
 
   static async findById(id:number){
@@ -26,7 +27,7 @@ export class UserService{
     return  await UserRepository.create(user)
   }
 
-  static async update(id:number, data: UserUpdateType){
+  static async update(id:number, data: any){
 
     const user = userUpdateSchema.parse(data)
 

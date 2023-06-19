@@ -10,7 +10,8 @@ import { Form } from "../components/Form";
 const fields = [
   { key: 'name', value: 'Nome' },
   { key: 'email', value: 'E-mail' },
-  { key: 'profile', value: 'Perfil' }
+  { key: 'profile', value: 'Perfil' },
+  // { key: 'unity', value: 'Unidade'}
   
 ]
 
@@ -28,6 +29,14 @@ const fieldsForm = [
       {id:'coordinator', name:'Coordenador'},
       {id:'representative', name:'Representante'},
       
+    ]
+  },
+  {
+    key:'unity',
+    value: 'Unidade',
+    options:[
+      {id:'bh', name:'Belo Horizonte'},
+      {id:'contagem', name:'Contagem'}
     ]
   }
 ]

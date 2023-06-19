@@ -1,13 +1,17 @@
 import { describe, expect, it } from 'vitest'
 import { UserService } from '../services/UserService'
-import { AuthService } from '../services/AuthService'
 
 describe('User', () => {
 
   it('User list', async () => {
 
     const users = await UserService.findMany({})
-    expect(users.length).toBeGreaterThanOrEqual(0)
+    users.forEach(user => {
+      expect(user).toHaveProperty('name')
+      expect(user).toHaveProperty('unity')
+      expect(user).not.toHaveProperty('password')
+      
+    })
   })
 
   it('User find by profile', async() => {
@@ -18,17 +22,19 @@ describe('User', () => {
   })
 
 
-  // it.only('User update', async() => {
+  // it.only('User create', async() => {
   //   const data = {
   //     name:`lucas test ${new Date().getMinutes()}`,
-  //     email:'test@mail.com',
-  //     password: 'login123'
+  //     email:'test1@mail.com',
+  //     password: 'login123',
+  //     unity: 'contagem',
+  //     profile: 'manager'
   //   }
-  //   const user = await UserService.update(1, data)
-  //   expect(user).toContain({name: data.name})
+  //   const user = await UserService.create(data)
+  //   console.log(user)
 
-  //   const auth = await AuthService.login(data)
-  //   console.log('auth ', auth)
+  //   expect(user).toContain({name: data.name})
+  //   UserService.delete(user.id)
   // })
 
   it('User crud', async () => {
@@ -36,7 +42,9 @@ describe('User', () => {
     const data = {
       email: 'test-delete@mail.com',
       name: `admin ${new Date().getMinutes()}`,
-      password: 'qweqwe'
+      password: 'qweqwe',
+      unity: 'contagem',
+      profile: 'judge'
     }
 
     /**

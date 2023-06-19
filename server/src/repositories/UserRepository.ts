@@ -4,7 +4,8 @@ const select = {
   id: true,
   email: true,
   name: true,
-  profile: true
+  profile: true,
+  unity: true
 }
 export class UserRepository {
 
