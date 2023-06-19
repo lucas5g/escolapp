@@ -30,7 +30,9 @@ export function Table({
     const searchFilter = search.trim().toLowerCase()
     return (
       game.datetime.includes(searchFilter) ||
-      game.modality.name.toLowerCase().includes(searchFilter)
+      game.modality.name.toLowerCase().includes(searchFilter) || 
+      game.place.name.toLowerCase().includes(searchFilter) ||
+      game.user.name.toLowerCase().includes(searchFilter)
     )
   })
 
@@ -38,7 +40,7 @@ export function Table({
     <Card>
       <Input
         label="Pesquisar"
-        placeholder="Pesquisar por Data ou Modalidade"
+        placeholder="Pesquisar por Data, Modalidade, Local ou Juíz"
         name="search"
         value={search}
         onChange={event => setSearch(event.target.value)}
