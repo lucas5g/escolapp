@@ -61,7 +61,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                 <Input
                   key={team.id}
                   name={`teamGoals_${team.id}`}
-                  label={`GOLS ${team.name}`}
+                  label={`PLACAR ${team.name}`}
                   type="number"
                   value={team.goals ?? ''}
                   onChange={event => changeInput(team.id, event.target.value)}
