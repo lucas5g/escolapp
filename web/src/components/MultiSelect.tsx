@@ -18,11 +18,22 @@ export function MultiSelect({ selected, setSelected, label, items, limit, column
       return selected.some(row => item.id === row)
     })
     // console.log('itemsExistInSelected => ', itemsExistInSelected)
-    // console.log('selected => ', selected)
+    // console.log('selected => ', selected.length)
     // console.log('items => ', items)
     return itemsExistInSelected.length
 
   }
+
+  function itemsSelected(){
+    const itemsExistInSelected = items.filter( item => {
+      return selected.some( row => item.id === row)
+    })
+
+    return itemsExistInSelected
+  }
+
+  // console.log('students => ', items)
+  // console.log('selected => ', selected)
 
   return (
     <div className="flex flex-col">
@@ -54,7 +65,10 @@ export function MultiSelect({ selected, setSelected, label, items, limit, column
                 if (limit && itemsQuantity() === limit) {
                   return alert(`Selecione somente ${limit}.`)
                 }
-                return setSelected([...selected, item.id])
+
+                const itemsSelected = [...selected, item.id]
+   
+                return setSelected(itemsSelected)
 
               }}
               title={item.name}

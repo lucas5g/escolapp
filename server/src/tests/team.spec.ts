@@ -13,7 +13,7 @@ describe('Team', () => {
   })
 
   it('Team find by modalityId', async () => {
-    const modalityId = 5
+    const modalityId = 3
     const teams = await TeamService.findMany({ modalityId })
 
     teams.forEach(team => {
@@ -31,10 +31,10 @@ describe('Team', () => {
       genreId: 3,
       students: [
         'C123123',
-        'C111222' 
+        'C111222'
       ]
     }
-    
+
     /**
      * Create
      */
@@ -48,7 +48,6 @@ describe('Team', () => {
      */
     const teamShow = await TeamService.findById(team.id)
     expect(teamShow).toHaveProperty('name', data.name)
-
 
     /**
      * Try create same name exist

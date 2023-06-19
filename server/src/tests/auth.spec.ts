@@ -66,8 +66,6 @@ describe('Auth', () => {
       name: data.name
     })
     
-    console.log(me)
-
   })
 
 })

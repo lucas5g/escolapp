@@ -61,7 +61,8 @@ export interface TeamInterface {
   points:number
   students: {
     ra: string,
-    name: string
+    name: string,
+    group: string
   }[]
 }
 

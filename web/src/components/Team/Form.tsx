@@ -8,6 +8,7 @@ import { GroupInterface, ModalityInterface, StudentInterface, TeamInterface } fr
 import { Row } from "../Row";
 import { MultiSelect } from "../MultiSelect";
 import { renameLowerCase } from "../../utils/rename-lowercase";
+import { group } from "console";
 
 
 interface Props {
@@ -32,30 +33,28 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
 
 
   useEffect(() => {
-    // if (team.id) return
     const group = groups.find(group => group.id === team.groupId)
-
     const modality = modalities.find((modality: any) => modality.id === team.modalityId)
-
     const genre = genres.find((genre: any) => genre.id === team.genreId)
     const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`.trim()
     setTeam({ ...team, name: teamName })
 
   }, [team.id, team.modalityId, team.genreId, team.groupId])
 
-  // console.log(mo)
   useEffect(() => {
     if (!team.students) {
       return setStudentsSelected([])
     }
 
-    // setStudentsSelected([])
-    setStudentsSelected(team.students)
+    setStudentsSelected(team.students
+      .filter(student => student.group === groups.find(group => group.id === team.groupId)?.name)
+      .map(student => student.ra)
+    )
 
-  }, [team.id])
+  }, [team.id, team.groupId])
 
   const modality = modalities.find(modality => modality.id === team.modalityId)
-  
+
   const students = studentsWithoutFilter.filter(student => {
     const group = groups.find(group => group.id === team.groupId)
     return student.group === group?.name
@@ -65,7 +64,6 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
       name: renameLowerCase(student.name)
     }
   })
-
 
   return (
     <Card>
@@ -144,7 +142,10 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
       genreId: team.genreId,
       students: studentsSelected
     }
+    // console.log('students => ', body.students)
+    // console.log('students length => ', body.students.length)
 
+    // return 
     try {
       if (team.id) {
         await api.put(`teams/${team.id}`, body)
