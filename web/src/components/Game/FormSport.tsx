@@ -29,7 +29,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     <Main position="col">
       <Card>
         <div className="text-sm">
-          {game.datetime} | {game.user.name} | {game.teams.length} Euipes
+          {game.datetime} | {game.user.name} | {game.teams.length} Equipes
         </div>
         <div className="grid grid-cols-2 text-sm gap-2 mt-5">
           {game.teams?.map(team => {

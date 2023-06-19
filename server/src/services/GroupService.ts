@@ -1,7 +1,7 @@
 import { GroupRepository } from "../repositories/GroupRepository";
 import { StudentRepository } from "../repositories/StudentRepository";
-import { cache } from "../utils/cache";
 import { groupSchema } from "../utils/schemas";
+import { ConfigService } from "./ConfigService";
 
 export class GroupService{
   static async findMany(){
@@ -22,12 +22,15 @@ export class GroupService{
   }
 
   static async create(data:any){
+    ConfigService.clearCaches()
+
     const group = groupSchema.parse(data)
     return await GroupRepository.create(group)
   }
 
   static async update(id:number, data:any){
-    
+    ConfigService.clearCaches()
+
     const group = groupSchema.parse(data)
     return await GroupRepository.update(id, group)
   }

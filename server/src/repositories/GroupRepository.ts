@@ -1,5 +1,4 @@
 import { prisma } from "../utils/prisma";
-
 export class GroupRepository {
 
   static async findMany(){

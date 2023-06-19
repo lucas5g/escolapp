@@ -9,7 +9,7 @@ export function menus() {
     'Sair'
   ]
   
-  console.log(logged)
+  // console.log(logged)
   if (storageLogged().profile === 'manager' || storageLogged().profile === 'coordinator') {
     return [
       'Turmas',
