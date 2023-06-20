@@ -122,12 +122,13 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     setGame({...game, teams})
   }
   function changeInput(teamId: number, value: number) {
+
     const teams = game.teams.map(team => {
       if (team.id === teamId) {
 
         return {
           ...team,
-          goals: Number(value)
+          goals: Number(value) === 0 ? undefined : Number(value )
         }
       }
       return team
@@ -135,6 +136,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
 
     let maxGoals = 0
     for (const team of teams) {
+      if(!team.goals) return 
       if (team.goals > maxGoals) {
         maxGoals = team.goals
       }
