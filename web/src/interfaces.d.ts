@@ -57,7 +57,7 @@ export interface TeamInterface {
   groupId: number
   modalityId: number
   genreId: number
-  goals:number 
+  goals:number | undefined
   points:number
   students: {
     ra: string,

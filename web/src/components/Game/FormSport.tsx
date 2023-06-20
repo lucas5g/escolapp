@@ -8,7 +8,6 @@ import { mutate } from "swr";
 import { Main } from "../Main";
 import { renameLowerCase } from "../../utils/rename-lowercase";
 import { TextareaAutosize } from "@mui/material";
-import { te } from "date-fns/locale";
 import { storageLogged } from "../../utils/storage-logged";
 
 interface Props {
@@ -121,23 +120,26 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
 
     setGame({...game, teams})
   }
-  function changeInput(teamId: number, value: number) {
+  function changeInput(teamId: number, value: string) {
 
     const teams = game.teams.map(team => {
       if (team.id === teamId) {
-
         return {
           ...team,
+          // goals: Number(value)
           goals: Number(value) === 0 ? undefined : Number(value )
         }
       }
       return team
     })
+    if(value === ''){
+      return setGame({ ...game, teams })
+    }
 
     let maxGoals = 0
     for (const team of teams) {
-      if(!team.goals) return 
-      if (team.goals > maxGoals) {
+
+      if (team.goals && team.goals > maxGoals) {
         maxGoals = team.goals
       }
     }
@@ -178,11 +180,12 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
         teams: game.teams.map(team => {
           return {
             id: team.id,
-            goals: team.goals,
+            goals: team.goals ?? 0,
             points: team.points
           }
         })
       }
+      
       await api.put(`games/${game.id}`, body)
 
       mutate('games')
