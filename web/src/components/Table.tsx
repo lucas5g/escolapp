@@ -6,6 +6,7 @@ import { Card, Width } from "./Card";
 import { translate } from "../utils/translate";
 import { Input } from "./Input";
 import { useState } from "react";
+import { X } from "phosphor-react";
 interface Props {
   fields: any[]
   items: any[]
@@ -112,13 +113,27 @@ export function Table({
                       }
                       return (
                         <td
-                          className="h-10 px-1"
+                          className="h-10 px-2"
                           key={field.key}>
 
                           {translate(row[keyName]?.['name']) ?? translate(row[field.key])}
                         </td>
                       )
-                    })}
+                    })} 
+                    <td 
+                      className="px-2"
+                      title="Deletar?"
+                      onClick={() => {
+                        if(!confirm('Deseja deletar ?')) return 
+                        console.log(row.id)
+                      }}
+                      >
+                      {/* <X 
+                        weight="bold" 
+                        className="hover:text-red-500"
+                        size={15}
+                        /> */}
+                    </td>
                   </tr>
                 )
               })}

@@ -6,13 +6,7 @@ import { Main } from "../components/Main";
 import { Table } from "../components/Table";
 import { swr } from "../utils/swr";
 import { Form } from "../components/Form";
-// import { Form } from "../components/Form";
 
-// const fields = [
-//   { key: 'name', value: 'Nome da Turma', },
-//   { key: 'codcur', value: 'Código do Curso' },
-//   { key: 'codper', value: 'Código do Período' }
-// ]
 const fields = [
   { key: 'name', value: 'Nome', },
   { key: 'unity', value: 'Unidade' },
