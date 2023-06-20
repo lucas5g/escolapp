@@ -1,5 +1,6 @@
 import { GroupRepository } from "../repositories/GroupRepository";
 import { StudentRepository } from "../repositories/StudentRepository";
+import { TeamRepository } from "../repositories/TeamRepository";
 import { groupSchema } from "../utils/schemas";
 import { ConfigService } from "./ConfigService";
 
@@ -36,6 +37,9 @@ export class GroupService{
   }
 
   static async delete(id:number){
+    if(await TeamRepository.findByColumn('groupId', id)){
+      throw new Error('Possui Equipes com essa turma.')
+    }
     return await GroupRepository.delete(id)
   }
 }
