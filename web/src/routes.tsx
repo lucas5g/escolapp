@@ -8,7 +8,6 @@ import { Place } from './pages/Place'
 import { Team } from './pages/Team'
 import { User } from './pages/User'
 import { Point } from './pages/Point'
-import { Schedule } from './pages/Schedule'
 import { Game } from './pages/Game'
 import { Account } from './pages/Account'
 import { Logout } from './pages/Logout'
@@ -21,7 +20,6 @@ const routesPrivate = createBrowserRouter([
   { path: '/modalidades', element: <Modality /> },
   { path: '/equipes', element: <Team /> },
   { path: '/locais', element: <Place /> },
-  { path: '/agendas', element: <Schedule /> },
   { path: '/jogos', element: <Game /> },
   { path: '/pontos', element:<Point />},
   { path: '/usuarios', element: <User /> },
