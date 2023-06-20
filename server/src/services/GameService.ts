@@ -8,8 +8,9 @@ import { TeamRepository } from "../repositories/TeamRepository";
 
 export class GameService {
 
-  static async findMany(data?:any) {
-    const filter = data ? gameFilterSchema.parse(data) : {}
+  static async findMany(data:any) {
+    // const filter = data ? gameFilterSchema.parse(data) : {}
+    const filter = gameFilterSchema.parse(data)
 
     const games = await GameRepository.findMany(filter)
     const students = await StudentRepository.findMany() 

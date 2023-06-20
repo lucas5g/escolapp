@@ -9,6 +9,7 @@ import { Loading } from "../components/Loading";
 import { Table } from "../components/Game/Table";
 import { FormEdit } from "../components/Game/FormEdit";
 import { storageLogged } from "../utils/storage-logged";
+import moment from "moment";
 
 
 export function Game() {
@@ -18,8 +19,10 @@ export function Game() {
   const [openFormSport, setOpenFormSport] = useState<boolean>(false)
   const logged = storageLogged()
 
-  const uri = logged.profile === 'judge' ? `games?userId=${logged.id}` : 'games'
+  const date = moment(moment().format('YYYY-MM-DD')).toISOString()
+  const uri = logged.profile === 'judge' ? `games?userId=${logged.id}&date=${date}` : 'games'
 
+  // const uri = 'games'
   const { data, error }: { data: GameInterface[], error: any } = swr(uri)
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
   const { data: students }: { data: StudentInterface[] } = swr('students')

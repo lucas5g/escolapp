@@ -3,8 +3,12 @@ import { GameService } from "../services/GameService";
 
 export class GameController{
 
-  static async index(req:Request, res:Response){
-    return res.json(await GameService.findMany())
+  static async index(req:Request, res:Response, next:NextFunction){
+    try{
+      return res.json(await GameService.findMany(req.query))
+    }catch(error){
+      next(error)
+    }
   }
 
   static async show(req:Request, res:Response){

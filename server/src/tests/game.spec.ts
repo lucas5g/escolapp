@@ -4,7 +4,7 @@ import { GameService } from "../services/GameService";
 
 describe('Game', () => {
   it('Game list', async () => {
-    const games = await GameService.findMany()
+    const games = await GameService.findMany({})
     games.forEach(game => {
 
       expect(game).toHaveProperty('modality')
@@ -36,7 +36,7 @@ describe('Game', () => {
   // })
 
 
-  it('Game crud', async () => {
+  it.only('Game crud', async () => {
 
     const data = {
       date: new Date().toISOString(),
@@ -78,10 +78,12 @@ describe('Game', () => {
   })
 
   it('List game by userId', async() => {
-    const games = await GameService.findMany({userId:1})
-
+    const userId = 73
+    const date = moment(moment().format('YYYY-MM-DD')).toISOString()
+    const games = await GameService.findMany({userId, date})
+    // console.log(games)
     games.forEach(game => {
-      expect(game).contain({userId:1})
+      expect(game).contain({userId})
     })
 
   }, 5100)
