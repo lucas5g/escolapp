@@ -17,25 +17,7 @@ export function Home() {
    <Layout>
       <Card>
         Aplicação para a gestão do JISA.
-      </Card>
-
-      <input 
-        type="number" 
-        value={number}
-        onChange={event => {
-
-          const  value  = Number(event.target.value)
-          
-          if(value === 0){
-            return setNumber(undefined)
-          }
-
-          setNumber(Number(event.target.value))
-        }}
-
-      />
-
-   
+      </Card>   
     </Layout>
   )
 }
