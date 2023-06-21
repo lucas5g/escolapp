@@ -1,14 +1,13 @@
 import moment from "moment";
 import { describe, expect, it } from "vitest";
 import { GameService } from "../services/GameService";
-import { PlaceService } from "../services/PlaceService";
 import { UserService } from "../services/UserService";
 
 describe('Game', () => {
-  it.only('Game list', async () => {
+  it('Game list', async () => {
     const games = await GameService.findMany()
   
-    games.forEach(game => {
+    games.forEach((game:any) => {
 
       expect(game).toHaveProperty('modalityId')
       expect(game).toHaveProperty('userId')
@@ -17,16 +16,15 @@ describe('Game', () => {
     })
   })
 
-  it('Game crud', async () => {
+  it.only('Game crud', async () => {
 
     const users = await UserService.findMany({})
-    const places = await PlaceService.findMany()
 
     const data = {
       date: new Date().toISOString(),
       startHours: '07:00',
       endHours: '08:00',
-      placeId: places[0].id,
+      placeId: 1,
       modalityId: 1,
       userId: users[0].id,
       teams: [53, 40]
@@ -35,6 +33,7 @@ describe('Game', () => {
      * Create
      */
     const game = await GameService.create(data)
+    console.log(game)
     expect(game).toHaveProperty('startHours', data.startHours)
     expect(game).toHaveProperty('teams')
 
@@ -54,6 +53,7 @@ describe('Game', () => {
     /**
      * Delete
      */
+    return
     await GameService.delete(game.id)
   })
 

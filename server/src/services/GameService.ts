@@ -28,6 +28,7 @@ export class GameService {
             ...teamFind,
             goals: team.goals,
             points: team.points,
+            fairPlay: team.fairPlay,
             students: studentsJson.map(ra => {
               return students.find(student => student.ra === ra)
             })

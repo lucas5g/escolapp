@@ -1,4 +1,4 @@
-import { GameInterface } from "../../interfaces";
+import { ChangeInputInterface, GameInterface } from "../../interfaces";
 import { Card } from "../Card";
 import { Input } from "../Input";
 import { FormEvent, useState } from "react";
@@ -33,7 +33,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
         <div className="grid grid-cols-2 text-sm gap-2 mt-5">
           {game.teams?.map(team => {
             return (
-              <div key={team.id}>
+              <div key={team.id} className="space-y-1">
                 <strong>{team.name}</strong>
                 <ul className="flex flex-col gap-1">
                   {team.students.map(student => {
@@ -54,7 +54,59 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
           className="flex flex-col gap-5"
           onSubmit={handleSubmit}
         >
-          <div className="flex flex-col gap-3">
+          {/* new feature */}
+          <div className="text-sm flex flex-col gap-4">
+            {game.teams.map((team, i) => {
+              return (
+                <div key={team.id} className="space-y-3">
+                  <strong>
+                    {team.name}
+                  </strong>
+                  <div className="flex gap-1">
+                    <Input
+                      name={`teamGoals${team.id}`}
+                      label={`Placar`}
+                      type='number'
+                      value={team.goals ?? ''}
+                      onChange={event => changeInput({
+                        field: 'goals',
+                        teamId: team.id,
+                        value: Number(event.target.value)
+                      })}
+
+                    />
+                    <Input
+                      name={`teamFairPlay`}
+                      label="FairPlay"
+                      value={team.fairPlay ?? ''}
+                      onChange={event => changeInput({
+                        teamId: team.id,
+                        field: 'fairPlay',
+                        value: Number(event.target.value)
+                      })}
+                      options={[
+                        { id: 0, name: 'Não' },
+                        { id: 1, name: 'Sim' }
+                      ]}
+                    />
+                    <Input
+                      name={`teamGoals${team.id}`}
+                      label={`Pontos`}
+                      type="number"
+                      disabled={logged.profile === 'judge' ? true : false}
+                      value={team.points ?? ''}
+                      onChange={event => changeInput(
+                        { field: 'points', teamId: team.id, value: event.target.value }
+                      )}
+
+                    />
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          {/* end feature */}
+          {/* <div className="flex flex-col gap-3">
             {game?.teams?.map((team, i) => {
               return (
                 <Input
@@ -64,6 +116,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                   type="number"
                   value={team.goals ?? ''}
                   onChange={event => changeInput(team.id, event.target.value)}
+
                 />
               )
             })}
@@ -83,7 +136,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                 />
               )
             })}
-          </div>
+          </div> */}
           <TextareaAutosize
             placeholder="Comentários"
             className="bg-zinc-100 rounded p-2 focus:border-blue-500"
@@ -109,30 +162,25 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     </Main>
   )
 
-  function changeInputPoints(teamId: number, value: number) {
+
+  function changeInput({ field, teamId, value }: ChangeInputInterface) {
     const teams = game.teams.map(team => {
-      if(teamId === team.id){
-        team.points = Number(value) 
-        return team 
+      if (teamId !== team.id) {
+        return team
       }
+      if (field === 'fairPlay') {
+        team.fairPlay = value
+        team.points = value === 1 ? team.points + 1 : team.points - 1
+        return team
+      }
+
+      team[field] = value === 0 ? undefined : value
       return team
     })
 
-    setGame({...game, teams})
-  }
-  function changeInput(teamId: number, value: string) {
+    // console.log({field, teamId})
 
-    const teams = game.teams.map(team => {
-      if (team.id === teamId) {
-        return {
-          ...team,
-          // goals: Number(value)
-          goals: Number(value) === 0 ? undefined : Number(value )
-        }
-      }
-      return team
-    })
-    if(value === ''){
+    if (value === '' || field === 'fairPlay' || field === 'points') {
       return setGame({ ...game, teams })
     }
 
@@ -147,9 +195,9 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     for (const team of teams) {
 
       if (team.goals === maxGoals) {
-        team.points = 3
+        team.points = team.fairPlay === 1 ? 4 : 3
       } else {
-        team.points = 1
+        team.points = team.fairPlay === 1 ? 2 : 1
       }
     }
 
@@ -163,13 +211,15 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     if (maxGoalsCount > 1) {
       for (const team of teams) {
         if (team.goals === maxGoals) {
-          team.points = 2
+          team.points = 2 
         }
       }
     }
 
     setGame({ ...game, teams })
+
   }
+
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -181,11 +231,12 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
           return {
             id: team.id,
             goals: team.goals ?? 0,
+            fairPlay: team.fairPlay,
             points: team.points
           }
         })
       }
-      
+
       await api.put(`games/${game.id}`, body)
 
       mutate('games')

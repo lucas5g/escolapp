@@ -130,6 +130,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
               helperText={translate(errors?.[field.key])}
               autoComplete="on"
               disabled={field.disabled}
+              size="small"
             >
               {field?.options?.map((option: any) => {
                 return (

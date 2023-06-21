@@ -58,6 +58,7 @@ export function Input(props: Props) {
       placeholder={props?.placeholder}
       disabled={props?.disabled}
       autoComplete={props.autoComplete}
+      size='small'
       // className={props.className}
       InputProps={props.setSearch && {
         endAdornment: (

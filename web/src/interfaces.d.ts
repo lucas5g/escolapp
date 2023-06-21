@@ -59,6 +59,7 @@ export interface TeamInterface {
   genreId: number
   goals:number | undefined
   points:number
+  fairPlay:number
   students: {
     ra: string,
     name: string,
@@ -80,4 +81,10 @@ export interface StudentInterface {
   group: string
   // codcur: number
   // codper: number
+}
+
+export interface ChangeInputInterface{
+  teamId: number 
+  field:  'fairPlay' | 'goals' | 'points'
+  value: number|underfined
 }

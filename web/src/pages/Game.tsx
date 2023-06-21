@@ -22,7 +22,6 @@ export function Game() {
   const date = moment(moment().format('YYYY-MM-DD')).toISOString()
   const uri = logged.profile === 'judge' ? `games?userId=${logged.id}&date=${date}` : 'games'
 
-  // const uri = 'games'
   const { data, error }: { data: GameInterface[], error: any } = swr(uri)
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
   const { data: students }: { data: StudentInterface[] } = swr('students')

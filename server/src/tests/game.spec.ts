@@ -14,29 +14,14 @@ describe('Game', () => {
       expect(game).toHaveProperty('datetime')
       expect(game.teams[0]).toHaveProperty('students')
       expect(game.teams[0]).toHaveProperty('goals')
-      expect(game.teams[0]).toHaveProperty('points')
+      expect(game.teams[0]).toHaveProperty('points') 
+      expect(game.teams[0]).toHaveProperty('fairPlay') 
+
       
     })
   }, 5000)
 
-
-  // it('Game create', async () => {
-  //   const data = {
-  //     date: new Date().toISOString(),
-  //     startHours: '07:00',
-  //     endHours: '08:00',
-  //     placeId: 1,
-  //     modalityId: 1,
-  //     userId: 1,
-  //     teams: [53, 40]
-  //   }
-
-  //   const game = await GameService.create(data)
-
-  // })
-
-
-  it.only('Game crud', async () => {
+  it('Game crud', async () => {
 
     const data = {
       date: new Date().toISOString(),
@@ -46,8 +31,8 @@ describe('Game', () => {
       modalityId: 1,
       userId: 1,
       teams: [
-        {id: 1, goals: 1, points: 3},
-        {id: 2, goals: 0, points: 1},
+        {id: 1, goals: 1, fairPlay:0,  points: 3},
+        {id: 2, goals: 0, fairPlay:0,  points: 1},
       ]
       // teams: [53, 40]
     }

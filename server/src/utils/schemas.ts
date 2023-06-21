@@ -63,6 +63,7 @@ export const gameSchema = z.object({
     z.object({
       id: z.number(),
       goals: z.number(),
+      fairPlay: z.number(),
       points: z.number()
     })
   )

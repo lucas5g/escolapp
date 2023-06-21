@@ -144,6 +144,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
           return {
             id: team,
             goals:0,
+            fairPlay:0,
             points: 0
           }
         })
