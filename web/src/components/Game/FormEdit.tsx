@@ -153,7 +153,8 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
         await api.put(`games/${game.id}`, body)
       } else {
         const { data } = await api.post('games', body)
-        setGame(data)
+        // setGame(data)
+        setGame({} as GameInterface)
       }
       mutate('games')
 

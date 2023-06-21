@@ -18,7 +18,7 @@ interface Props {
     // type?: 'text' | 'date' | 'time'
     options?: any[]
     multiple?: any
-    disabled?:boolean
+    disabled?: boolean
   }[]
   uri: string,
   width?: Width
@@ -45,14 +45,15 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
         item.date = new Date(item.date).toISOString()
       }
 
-      if(uri === 'update-me'){
+      if (uri === 'update-me') {
         console.log(item)
         await api.put('update-me', item)
-      }else if (item.id) {
+      } else if (item.id) {
         await api.put(`${uri}/${item.id}`, item)
       } else {
-        const { data } = await api.post(uri, item)
-        setItem(data)
+        await api.post(uri, item)
+        setItem({})
+        // setItem(data)
       }
       setErrors('')
       mutate(uri)

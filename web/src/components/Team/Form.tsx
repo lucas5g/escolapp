@@ -151,7 +151,8 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
         await api.put(`teams/${team.id}`, body)
       } else {
         const { data } = await api.post(`teams`, body)
-        setTeam(data)
+        // setTeam(data)
+        setTeam({} as TeamInterface)
       }
       mutate('teams')
     } catch (error: any) {
