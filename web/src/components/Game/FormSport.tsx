@@ -90,13 +90,13 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                       ]}
                     />
                     <Input
-                      name={`teamGoals${team.id}`}
+                      name={`teamPoints${team.id}`}
                       label={`Pontos`}
                       type="number"
                       disabled={logged.profile === 'judge' ? true : false}
                       value={team.points ?? ''}
                       onChange={event => changeInput(
-                        { field: 'points', teamId: team.id, value: event.target.value }
+                        { field: 'points', teamId: team.id, value: Number(event.target.value)}
                       )}
 
                     />
@@ -143,6 +143,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
             minRows={3}
             value={game.comments ?? ''}
             onChange={event => setGame({ ...game, comments: event.target.value })}
+            required={game.teams.find(team => team.points > 3) && true }
           />
 
           <div className="flex justify-end gap-3 ">
@@ -177,8 +178,6 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
       team[field] = value === 0 ? undefined : value
       return team
     })
-
-    // console.log({field, teamId})
 
     if (value === '' || field === 'fairPlay' || field === 'points') {
       return setGame({ ...game, teams })
