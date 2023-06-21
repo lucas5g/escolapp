@@ -9,13 +9,13 @@ import { Form } from "../components/Form";
 
 const fields = [
   { key: 'name', value: 'Nome', },
-  { key: 'unity', value: 'Unidade' },
+  // { key: 'unity', value: 'Unidade' },
   { key: 'quantity', value: 'Quantidade' }
 ]
 
 const fieldsForm = [
   { key: 'name', value: 'Nome', },
-  { key: 'unity', value: 'Unidade' },
+  { key: 'unity', value: 'Unidade'}
 ]
 interface Group {
   id: number
