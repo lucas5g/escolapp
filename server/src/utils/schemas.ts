@@ -108,5 +108,6 @@ export type teamQuerySchema = z.infer<typeof teamQuerySchema>
 export const modalitySchema = z.object({
   name: z.string(),
   membersQuantity: z.coerce.number(),
-  teamsQuantity: z.coerce.number()
+  teamsQuantity: z.coerce.number(),
+  type: z.enum(['collective', 'individual'])
 })

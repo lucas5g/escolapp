@@ -3,7 +3,9 @@ export function translate(text:string){
     Required:'É obrigatório.',
     manager: 'Admin',
     judge: 'Juíz',
-    coordinator: 'Coordenador'
+    coordinator: 'Coordenador',
+    collective: 'Coletivo',
+    individual: 'Individual'
   }
   return optional[text] ?? text
 }

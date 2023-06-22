@@ -12,6 +12,10 @@ export function Modality() {
 
   const fields = [
     { key: 'name', value: 'Nome da Modalidade', },
+    { key: 'type', value: 'Tipo', options:[
+      {id:'collective', name:'Coletivo'},
+      {id: 'individual', name: 'Individual'}
+    ]},
     { key: 'membersQuantity', value: 'Qtd. Membros', type:'number' },
     { key: 'teamsQuantity', value: 'Qtd. Equipes', type:'number' }
   ]

@@ -10,29 +10,32 @@ describe('Modality', () => {
     })
   })
 
-  it('Modality show', async() => {
+  it('Modality show', async () => {
     const modality = await ModalityService.findById(1)
     expect(modality).toHaveProperty('membersQuantity')
   })
 
-  it('Modality crud', async() => {
+  it('Modality crud', async () => {
 
     const data = {
-     name: 'teste',
-     membersQuantity:22,
-     teamsQuantity:2
+      name: 'teste',
+      membersQuantity: 22,
+      teamsQuantity: 2,
+      type: 'collective'
     }
     /**
      * Create
      */
     const modality = await ModalityService.create(data)
     expect(modality).toHaveProperty('name', data.name)
-
     /**
      * Update
      */
-    const modalityUpdate = await ModalityService.update(modality.id, {...data, teamsQuantity:9 })
-    expect(modalityUpdate).toHaveProperty('teamsQuantity', 9)
+    const modalityUpdate = await ModalityService.update(modality.id, { ...data, type:'individual', teamsQuantity: 9 })
+    expect(modalityUpdate).contain({
+      teamsQuantity: 9,
+      type:'individual'
+    })
     /**
      * Delete
      */
