@@ -23,7 +23,6 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
   const logged = storageLogged()
 
   if (!openForm) return <></>
-  // console.log(game.teams[0].goals)
   return (
     <Main position="col">
       <Card>
@@ -96,7 +95,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                       disabled={logged.profile === 'judge' ? true : false}
                       value={team.points ?? ''}
                       onChange={event => changeInput(
-                        { field: 'points', teamId: team.id, value: Number(event.target.value)}
+                        { field: 'points', teamId: team.id, value: Number(event.target.value) }
                       )}
 
                     />
@@ -105,45 +104,14 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
               )
             })}
           </div>
-          {/* end feature */}
-          {/* <div className="flex flex-col gap-3">
-            {game?.teams?.map((team, i) => {
-              return (
-                <Input
-                  key={team.id}
-                  name={`teamGoals_${team.id}`}
-                  label={`PLACAR ${team.name}`}
-                  type="number"
-                  value={team.goals ?? ''}
-                  onChange={event => changeInput(team.id, event.target.value)}
 
-                />
-              )
-            })}
-          </div>
-          <div className="flex flex-col gap-3">
-            {game.teams?.map(team => {
-              return (
-                <Input
-                  key={team.id}
-                  name={`teamPoints_${team.id}`}
-                  label={`PONTOS ${team.name}`}
-                  type="number"
-                  disabled={logged.profile === 'judge' ? true : false}
-                  value={team.points ?? ''}
-                  onChange={event => changeInputPoints(team.id, event.target.value)}
-
-                />
-              )
-            })}
-          </div> */}
           <TextareaAutosize
             placeholder="Comentários"
             className="bg-zinc-100 rounded p-2 focus:border-blue-500"
             minRows={3}
             value={game.comments ?? ''}
             onChange={event => setGame({ ...game, comments: event.target.value })}
-            required={game.teams.find(team => team.points > 3) && true }
+            required={game.teams.find(team => team.points > 3) && true}
           />
 
           <div className="flex justify-end gap-3 ">
@@ -184,6 +152,9 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     }
 
     let maxGoals = 0
+    let maxGoalsCount = 0
+
+
     for (const team of teams) {
 
       if (team.goals && team.goals > maxGoals) {
@@ -191,16 +162,42 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
       }
     }
 
+    if (game.modality.type === 'individual') {
+
+      for (const team of teams) {
+        if (team.goals === maxGoals) {
+          team.points = team.fairPlay === 1 ? 3 : 2
+        } else {
+          team.points = team.fairPlay === 1 ? 2 : 1
+        }
+      }
+
+      for (const team of teams) {
+        if (team.goals === maxGoals) {
+          maxGoalsCount++
+        }
+      }
+
+      if (maxGoalsCount > 1) {
+        for (const team of teams) {
+          if (team.goals === maxGoals) {
+            team.points = 1
+          }
+        }
+      }
+      return setGame({ ...game, teams })
+    }
+
     for (const team of teams) {
 
       if (team.goals === maxGoals) {
+
         team.points = team.fairPlay === 1 ? 4 : 3
       } else {
         team.points = team.fairPlay === 1 ? 2 : 1
       }
     }
 
-    let maxGoalsCount = 0
     for (const team of teams) {
       if (team.goals === maxGoals) {
         maxGoalsCount++
@@ -210,7 +207,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     if (maxGoalsCount > 1) {
       for (const team of teams) {
         if (team.goals === maxGoals) {
-          team.points = 2 
+          team.points = 2
         }
       }
     }

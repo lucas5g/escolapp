@@ -15,14 +15,16 @@ export class GameService {
     const games = await GameRepository.findMany(filter)
     const students = await StudentRepository.findMany() 
     const teams = await TeamRepository.findMany({})
-
     return games.map(game => {
       const gameTeams = game.teams as Prisma.JsonArray
+      // console.log({gameTeams})
       return {
         ...game,
         datetime: `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`,
         teams: gameTeams?.map((team: any) => {
           const teamFind = teams.find(row => row.id === team.id)
+          // console.log(teamFind)
+          // return ''
           const studentsJson = teamFind?.students as Prisma.JsonArray
           return {
             ...teamFind,

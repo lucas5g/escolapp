@@ -18,7 +18,8 @@ export interface GameInterface {
     name: string
   }
   modality: {
-    name: string
+    name: string,
+    type: 'collective' | 'individual'
   }
   errors?: {
     id?: string

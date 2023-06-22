@@ -3,10 +3,9 @@ import { describe, expect, it } from "vitest";
 import { GameService } from "../services/GameService";
 
 describe('Game', () => {
-  it('Game list', async () => {
+  it.only('Game list', async () => {
     const games = await GameService.findMany({})
     games.forEach(game => {
-
       expect(game).toHaveProperty('modality')
       expect(game).toHaveProperty('user')
       expect(game).toHaveProperty('place')
