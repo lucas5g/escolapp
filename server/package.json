@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^4.15.0",
+    "@prisma/client": "^4.16.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
@@ -38,7 +38,7 @@
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "^18.11.18",
     "@vitest/coverage-c8": "^0.29.2",
-    "prisma": "^4.15.0",
+    "prisma": "^4.16.0",
     "tsup": "^6.6.3",
     "tsx": "^3.12.2",
     "typescript": "^4.9.4",

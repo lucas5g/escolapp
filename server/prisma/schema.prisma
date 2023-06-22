@@ -47,11 +47,17 @@ model Group {
   teams Team[]
 }
 
+enum Type {
+  collective
+  individual
+}
+
 model Modality {
   id              Int    @id @default(autoincrement())
   name            String @unique
   membersQuantity Int
   teamsQuantity   Int
+  type            Type?
   teams           Team[]
   games           Game[]
 }
