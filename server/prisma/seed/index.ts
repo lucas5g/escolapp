@@ -5,10 +5,12 @@ import fs from 'fs'
 import { idToStringProfile } from '../../src/utils/id-to-string-profile'
 import { setTimeout } from 'timers/promises'
 import groups from './data/groups.json'
+import modalities from './data/modalities.json'
+import teams from './data/teams.json'
 
 const prisma = new PrismaClient();
 
-(async() => {
+(async () => {
 
   await createUsers()
   await createGroups()
@@ -75,7 +77,7 @@ async function createGame() {
       placeId: 1,
       modalityId: 1,
       userId: 1,
-      teams:[1,2]
+      teams: [1, 2]
     }
   })
 }
@@ -100,42 +102,15 @@ async function createGenres() {
 }
 
 async function createTeams() {
-  const teams = await csvtojson().fromFile(`${__dirname}/data/teams.csv`)
 
   teams.forEach(async (team, index) => {
     try {
 
       await prisma.team.upsert({
-        where: {
-          id: Number(team.id)
-        },
-        update: {
-          name: team.name,
-          modalityId: Number(team.modalityId),
-          groupId: Number(team.groupId),
-          genreId: Number(team.genreId),
-          students: {
-            create: [
-              { studentId: 'C123123' },
-              { studentId: 'C111222' }
-            ]
-          }
-        },
-        create: {
-          id: Number(team.id),
-          name: team.name,
-          modalityId: Number(team.modalityId),
-          groupId: Number(team.groupId),
-          genreId: Number(team.genreId),
-          students: {
-            create: [
-              { studentId: 'C123123' },
-              { studentId: 'C111222' }
-            ]
-          }
-        }
+        where: { id: team.id },
+        update: team,
+        create: team
       })
-      // console.log(`${team.name} atualizado com sucesso!`)
     } catch (error) {
       console.log(error + team.name)
     }
@@ -155,7 +130,7 @@ async function createGroups() {
         },
         update: {
           ...group,
-          unity:'contagem'
+          unity: 'contagem'
         },
         create: {
           ...group,
@@ -170,25 +145,15 @@ async function createGroups() {
 }
 
 async function createModalities() {
-  const modalities = await csvtojson().fromFile(`${__dirname}/data/modalities.csv`)
-  modalities.forEach((async (modality, index) => {
+  modalities.forEach((async (modality) => {
     try {
 
       await prisma.modality.upsert({
         where: {
-          id: Number(modality.id)
+          id: modality.id
         },
-        update: {
-          name: modality.name,
-          membersQuantity: Number(modality.membersQuantity),
-          teamsQuantity: Number(modality.teamsQuantity)
-        },
-        create: {
-          id: Number(modality.id),
-          name: modality.name,
-          membersQuantity: Number(modality.membersQuantity),
-          teamsQuantity: Number(modality.teamsQuantity)
-        }
+        update: modality,
+        create: modality
       })
       // console.log(`${index + 1} ${modality.name} - Atualizado!`)
     } catch (error) {

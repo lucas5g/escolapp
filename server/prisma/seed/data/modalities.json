@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Futebol",
+    "membersQuantity": 10,
+    "teamsQuantity": 2,
+    "type": "collective"
+  },
+  {
+    "id": 2,
+    "name": "xadrez",
+    "membersQuantity": 1,
+    "teamsQuantity": 2,
+    "type": "individual"
+  }
+]

@@ -5,6 +5,9 @@ describe('Modality', () => {
   it('Modality list', async () => {
     const modalities = await ModalityService.findMany()
     expect(modalities.length).toBeGreaterThan(0)
+    modalities.forEach(modality => {
+      expect(modality).toHaveProperty('type')
+    })
   })
 
   it('Modality show', async() => {
