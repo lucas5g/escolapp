@@ -42,7 +42,12 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setLoading(true)
+
     try {
+      if(!item.unity){
+        item.unity = logged.unity
+      }
+
       if (item?.date) {
         item.date = new Date(item.date).toISOString()
       }
@@ -120,10 +125,12 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
           /**
            * Quando não admin e o campo for unidade, ocultar o campo de unidade.
            */
-          // const value = item[field.key] || ''
 
+          if(logged.profile !== 'manager' && field.key === 'unity'){
+            return <></>
+          }
           const valueInput = () => {
-            
+
             return item[field.key] || ''
           }
           const value = valueInput()
@@ -141,7 +148,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
               error={errors?.[field.key] && true}
               helperText={translate(errors?.[field.key])}
               autoComplete="on"
-              disabled={field.disabled}
+              disabled={field.disabled }
               size="small"
             >
               {field?.options?.map((option: any) => {

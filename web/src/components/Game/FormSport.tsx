@@ -194,19 +194,31 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     }
 
     if (game.modality.type === 'ranking') {
-      const teamsQuantity = teams.length
-      for (const team of teams) {
+      //       teams.sort((a, b) => b.goals - a.goals);
+      // console.log(teams)
+      // for(const team of teams){
 
-        if (team.goals === maxGoals) {
-          team.points = teamsQuantity
-          // team.points = team.fairPlay === 1 ? teamsQuantity + 1 : teamsQuantity
-        } else {
-          // team.points
-          // team.points = team.fairPlay === 1 ? 2 : 1
-        }
-      }
+      //   console.log(team)
+      // } 
+      // Atribui os pontos com base na posição do time no ranking de gols
+      // for (let i = 0; i < teams.length; i++) {
+      //   const team = teams[i];
+      //   team.points = teams.length - i;
+      // }
+      // let currentPoints = teams.length;
+      // for (let i = 0; i < teams.length; i++) {
+      //   const team = teams[i];
+      //   const prevTeam = teams[i - 1];
+      //   if (prevTeam && team.goals !== prevTeam.goals) {
+      //     currentPoints--;
+      //   }
+      //   team.points = currentPoints;
+      // }
+      console.log(teams);
 
-      return setGame({...game, teams})
+
+
+      // return setGame({...game, teams})
     }
 
     for (const team of teams) {
