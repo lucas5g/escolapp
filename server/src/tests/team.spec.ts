@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { TeamService } from "../services/TeamService";
+import { GameService } from "../services/GameService";
 
 describe('Team', () => {
 
@@ -59,4 +60,42 @@ describe('Team', () => {
      */
     await TeamService.delete(team.id)
   })
+
+  it.only('Try to delete team that has a game', async() => {
+
+    const team = {
+      name: 'Team delete',
+      modalityId: 1,
+      groupId: 1,
+      genreId: 3,
+      students: [
+        'C123123',
+        'C111222'
+      ]
+    }
+
+    const { id: teamId } = await TeamService.create(team)
+
+    
+    const game = {
+      date: new Date().toISOString(),
+      startHours: '07:00',
+      endHours: '08:00',
+      placeId: 1,
+      modalityId: 1,
+      userId: 1,
+      teams: [
+        {id: teamId, goals: 1, fairPlay:0,  points: 3},
+        {id: 2, goals: 0, fairPlay:0,  points: 1},
+      ]
+    }
+    const {id: gameId } = await GameService.create(game)
+
+    await expect(() => TeamService.delete(teamId)).rejects.toThrow('Possui jogos com essa equipe.')
+
+    await GameService.delete(gameId)
+    await TeamService.delete(teamId)
+  })
+
 })
+

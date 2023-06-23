@@ -28,7 +28,7 @@ describe('Modality', () => {
     /**
      * Create
      */
-    const modality = await ModalityService.create(data)
+    const modality = await ModalityService.create({...data, type:'collective'})
     expect(modality).toHaveProperty('name', data.name)
     /**
      * Update

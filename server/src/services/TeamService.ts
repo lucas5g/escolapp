@@ -1,3 +1,5 @@
+import { games } from "googleapis/build/src/apis/games"
+import { GameRepository } from "../repositories/GameRepository"
 import { StudentRepository } from "../repositories/StudentRepository"
 import { TeamRepository } from "../repositories/TeamRepository"
 import { cache } from "../utils/cache"
@@ -54,6 +56,15 @@ export class TeamService {
   }
 
   static async delete(id: number) {
+
+    // const games = await GameRepository.findMany({})
+    // games.find( game => game)
+    // if(games.find)
+
+    // if(await GameRepository.findByColumn('teamId', id)){
+    //   throw new Error('Não foi possível deletar :(\nPossui jogos com essa equipe.')
+    // }
+
     return await TeamRepository.delete(id)
   }
 }
