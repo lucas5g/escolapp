@@ -7,6 +7,7 @@ import { Input } from "../Input";
 import { useState } from "react";
 import { storageLogged } from "../../utils/storage-logged";
 import { api } from "../../utils/axios";
+import { mutate } from "swr";
 
 interface Props {
   games: GameInterface[]
@@ -139,6 +140,7 @@ export function Table({
                               if (!confirm(`Deseja deletar o jogo ID ${game.id}?`)) return
                               try{
                                 await api.delete(`games/${game.id}`) 
+                                mutate('games')
                                 setGameEdit({})
                                 setGameSport({})
                               }catch(error:any){
