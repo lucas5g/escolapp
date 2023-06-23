@@ -49,7 +49,8 @@ export interface UserInterface {
   id: number
   name: string
   profile: 'coordinator' | 'manager' | 'judge'
-  email: string
+  email: string 
+  unity: 'contagem' | 'bh'
 }
 
 export interface TeamInterface {

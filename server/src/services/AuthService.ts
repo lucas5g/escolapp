@@ -21,7 +21,8 @@ export class AuthService {
       id: user.id,
       name: user.name,
       email: user.email,
-      profile: user.profile
+      profile: user.profile,
+      unity: user.unity
     }
 
     const accessToken = jwt.sign(

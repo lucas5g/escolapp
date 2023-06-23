@@ -6,6 +6,7 @@ import { Button } from "./Button";
 import { Card, Width } from "./Card";
 import { translate } from "../utils/translate";
 import moment from "moment";
+import { storageLogged } from "../utils/storage-logged";
 
 
 interface Props {
@@ -30,6 +31,7 @@ interface Props {
 export function Form({ item, setItem, fields, uri, width, children, hasButtonCancel = true }: Props) {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<any>()
+  const logged = storageLogged()
 
   useEffect(() => {
     setTimeout(() => {
@@ -46,7 +48,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
       }
 
       if (uri === 'update-me') {
-        console.log(item)
+    
         await api.put('update-me', item)
       } else if (item.id) {
         await api.put(`${uri}/${item.id}`, item)
@@ -83,8 +85,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
 
         {children}
         {fields?.map(field => {
-
-          const value = item[field.key] || ''
+        
 
           if (field?.multiple) {
             return (
@@ -116,6 +117,16 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
             )
           }
 
+          /**
+           * Quando não admin e o campo for unidade, ocultar o campo de unidade.
+           */
+          // const value = item[field.key] || ''
+
+          const valueInput = () => {
+            
+            return item[field.key] || ''
+          }
+          const value = valueInput()
           return (
             <TextField
               key={field.key}

@@ -15,7 +15,10 @@ const fields = [
 
 const fieldsForm = [
   { key: 'name', value: 'Nome', },
-  { key: 'unity', value: 'Unidade'}
+  { key: 'unity', value: 'Unidade', options:[
+    {id: 'bh', name:'Belo Horizonte'},
+    {id: 'contagem', name:'Contagem'}
+  ]}
 ]
 interface Group {
   id: number
