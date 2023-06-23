@@ -43,7 +43,7 @@ export function MultiSelect({ selected, setSelected, label, items, limit, column
       >
         {label} ({itemsQuantity()})
       </label>
-      <ul className={clsx("text-sm grid grid-cols-4", {
+      <ul className={clsx("text-sm grid grid-cols-3", {
         'grid-cols-2': columns
       })}>
         {items.map(item => {

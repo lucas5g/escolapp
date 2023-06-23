@@ -78,7 +78,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                     <Input
                       name={`teamFairPlay`}
                       label="FairPlay"
-                      value={team.fairPlay ?? ''} 
+                      value={team.fairPlay ?? ''}
                       disabled={game.modality.type === 'participative' && true}
 
                       onChange={event => changeInput({
@@ -95,7 +95,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                       name={`teamPoints${team.id}`}
                       label={`Pontos`}
                       type="number"
-                      disabled={logged.profile === 'judge'|| game.modality.type === 'participative'  ? true : false}
+                      disabled={logged.profile === 'judge' || game.modality.type === 'participative' ? true : false}
                       value={team.points ?? ''}
                       onChange={event => changeInput(
                         { field: 'points', teamId: team.id, value: Number(event.target.value) }
@@ -137,16 +137,6 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
 
   function changeInput({ field, teamId, value }: ChangeInputInterface) {
 
-    // if(game.modality.type === 'participative'){
-    //   // const teams = game.teams.map(team => {
-    //   //   return 
-    //   // })      
-
-    //   return 
-    // }
-
-
-
     const teams = game.teams.map(team => {
       if (teamId !== team.id) {
         return team
@@ -176,7 +166,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
       }
     }
 
-  
+
     if (game.modality.type === 'individual') {
 
       for (const team of teams) {
@@ -203,8 +193,20 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
       return setGame({ ...game, teams })
     }
 
-    if(game.modality.type === 'ranking'){
-      
+    if (game.modality.type === 'ranking') {
+      const teamsQuantity = teams.length
+      for (const team of teams) {
+
+        if (team.goals === maxGoals) {
+          team.points = teamsQuantity
+          // team.points = team.fairPlay === 1 ? teamsQuantity + 1 : teamsQuantity
+        } else {
+          // team.points
+          // team.points = team.fairPlay === 1 ? 2 : 1
+        }
+      }
+
+      return setGame({...game, teams})
     }
 
     for (const team of teams) {
