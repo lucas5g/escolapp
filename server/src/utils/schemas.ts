@@ -9,7 +9,9 @@ const profiles = [
 
 const unities = [
   'contagem',
-  'bh'
+  'bh',
+  'gutierrez', 
+  'novalima'
 ] as const 
 
 export const userCreateSchema = z.object({
@@ -17,7 +19,7 @@ export const userCreateSchema = z.object({
   email: z.string().email(),
   password: z.string(),
   profile: z.enum(profiles), 
-  unity: z.enum(unities)
+  unityId: z.number()
 })  
 
 export const userUpdateSchema = userCreateSchema.extend({
@@ -34,7 +36,7 @@ export type UserUpdateType = z.infer<typeof userUpdateSchema>
 
 export const groupSchema = z.object({
   name: z.string(),
-  unity: z.enum(['bh', 'contagem', 'gutierrez', 'novalima'])
+  unityId: z.number()
   // codcur: z.number(),
   // codper: z.number()
 })
@@ -109,7 +111,13 @@ export const modalitySchema = z.object({
   name: z.string(),
   membersQuantity: z.coerce.number(),
   teamsQuantity: z.coerce.number(),
-  type: z.enum(['collective', 'individual', 'participative', 'ranking'])
+  type: z.enum(['collective', 'individual', 'participative', 'ranking']),
+  unityId: z.number()
 })
 
 export type ModalityInterface = z.infer<typeof modalitySchema >
+
+export const placeSchema = z.object({
+  name: z.string(),
+  unityId: z.number()
+})

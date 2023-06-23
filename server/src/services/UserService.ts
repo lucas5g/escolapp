@@ -6,8 +6,7 @@ export class UserService{
 
   static async findMany(data:any){
     const filter = userFilterSchema.parse(data)
-    const users = await UserRepository.findMany(filter)
-    return users
+    return await UserRepository.findMany(filter)
   }
 
   static async findById(id:number){

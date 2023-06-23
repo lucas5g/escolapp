@@ -11,7 +11,7 @@ describe('Group', () => {
     // expect(groups).deep.equal(groups.sort((a, b) => a.name.localeCompare(b)))
     groups.forEach((group: any) => {
       expect(group).toHaveProperty('name')
-      expect(group).toHaveProperty('unity')
+      expect(group).toHaveProperty('unityId')
       expect(group).toHaveProperty('quantity')
     })
   })
@@ -25,7 +25,7 @@ describe('Group', () => {
 
     const data = {
       name: 'delete',
-      unity: 'contagem'
+      unityId:2 
     }
     /**
      * Create
@@ -47,7 +47,7 @@ describe('Group', () => {
   it('Try to delete a group that has a team', async () => {
     const group = {
       name: 'group with team',
-      unity: 'contagem'
+      unityId: 2
     }
 
     const {id:groupId} = await GroupService.create(group)

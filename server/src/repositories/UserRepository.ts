@@ -5,7 +5,8 @@ const select = {
   email: true,
   name: true,
   profile: true,
-  unity: true
+  unityId: true,
+  unity:true
 }
 export class UserRepository {
 
@@ -28,7 +29,10 @@ export class UserRepository {
 
   static async findByEmail(email: string) {
     return await prisma.user.findUnique({
-      where: { email }
+      where: { email },
+      include:{
+        unity:true
+      }
     })
   }
 

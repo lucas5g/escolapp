@@ -43,10 +43,9 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setLoading(true)
-
     try {
-      if (!item.unity) {
-        item.unity = logged.unity
+      if (!item.unityId) {
+        item.unityId = logged.unity.id
       }
 
       if (item?.date) {
@@ -57,6 +56,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
 
         await api.put('update-me', item)
       } else if (item.id) {
+        // console.log(item)
         await api.put(`${uri}/${item.id}`, item)
       } else {
         await api.post(uri, item)
@@ -163,17 +163,17 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
             </TextField>
           )
         })}
-        {/* const permission =  */}
+        {/* {console.log(logged)} */}
         {logged.profile === 'manager'  &&
           <Input
-            name='Unidade'
+            name='unityId'
             label="Unidade"
             options={[
-              { id: 'bh', name: 'Belo Horizonte' },
-              { id: 'contagem', name: 'Contagem' }
+              { id: 1, name: 'Belo Horizonte' },
+              { id: 2, name: 'Contagem' }
             ]}
-            value={item.unity}
-            onChange={event => setItem({...item, unity: event.target.valye})}
+            value={item.unityId ?? logged.unity.id}
+            onChange={event => setItem({...item, unityId: event.target.value})}
           />
         }
 

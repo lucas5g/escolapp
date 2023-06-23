@@ -14,37 +14,38 @@ enum Profile {
   representative
 }
 
+model Unity {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  groups     Group[]
+  places     Place[]
+  users      User[]
+  modalities Modality[]
+}
+
 model User {
   id       Int      @id @default(autoincrement())
   email    String   @unique
   password String
   name     String
+  unityId  Int?
   profile  Profile?
-  unity    Unity?
-  games    Game[]
-}
 
-model Project {
-  id         Int    @id @default(autoincrement())
-  name       String
-  permission String
-}
-
-enum Unity {
-  bh
-  contagem
-  gutierrez
-  novalima
+  games Game[]
+  unity Unity? @relation(fields: [unityId], references: [id])
 }
 
 model Group {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  unity Unity
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  unityId Int?
 
-  // codcur Int
-  // codper Int
   teams Team[]
+  unity Unity? @relation(fields: [unityId], references: [id])
 }
 
 enum Type {
@@ -60,15 +61,20 @@ model Modality {
   membersQuantity Int
   teamsQuantity   Int
   type            Type?
-  teams           Team[]
-  games           Game[]
+  unityId         Int?
+
+  teams Team[]
+  games Game[]
+  Unity Unity? @relation(fields: [unityId], references: [id])
 }
 
 model Place {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  unityId Int?
 
   games Game[]
+  Unity Unity? @relation(fields: [unityId], references: [id])
 }
 
 model Genre {
@@ -88,7 +94,6 @@ model Team {
   genre    Genre?    @relation(fields: [genreId], references: [id])
   group    Group?    @relation(fields: [groupId], references: [id])
   modality Modality? @relation(fields: [modalityId], references: [id])
-  points   Point[]
 
   @@index([genreId], map: "Team_genreId_fkey")
   @@index([groupId], map: "Team_groupId_fkey")
@@ -113,16 +118,4 @@ model Game {
   place    Place?    @relation(fields: [placeId], references: [id])
   modality Modality? @relation(fields: [modalityId], references: [id])
   user     User?     @relation(fields: [userId], references: [id])
-  points   Point[]
-}
-
-model Point {
-  id     Int  @id @default(autoincrement())
-  gameId Int?
-  teamId Int?
-  goals  Int
-  points Int
-
-  Game Game? @relation(fields: [gameId], references: [id])
-  Team Team? @relation(fields: [teamId], references: [id])
 }

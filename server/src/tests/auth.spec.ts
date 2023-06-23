@@ -14,7 +14,8 @@ describe('Auth', () => {
       name: 'user login',
       email: 'auth@mail.com',
       password: '123456',
-      profile: 'judge'
+      profile: 'judge',
+      unityId:2
     }
     user = await UserService.create(data)
 
@@ -34,11 +35,12 @@ describe('Auth', () => {
     await expect(() => login).rejects.toThrow('inválidos!')
   })
 
-  it('login', async () => {
+  it.only('login', async () => {
 
     const login = await AuthService.login({ ...user, password: '123456' })
     expect(login).toHaveProperty('accessToken')
     expect(login).not.toHaveProperty('password')
+    expect(login.unity).toHaveProperty('name')
   })
 
   it('me', async () => {
@@ -59,7 +61,7 @@ describe('Auth', () => {
     const me = await AuthService.updateMe(user.id, data)
     expect(me).not.contain({
       profile: data.profile,
-      email: data.email
+      email: data.email,
     })
 
     expect(me).contain({

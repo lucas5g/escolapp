@@ -8,7 +8,7 @@ describe('User', () => {
     const users = await UserService.findMany({})
     users.forEach(user => {
       expect(user).toHaveProperty('name')
-      expect(user).toHaveProperty('unity')
+      expect(user).toHaveProperty('unityId')
       expect(user).not.toHaveProperty('password')
       
     })
@@ -22,20 +22,19 @@ describe('User', () => {
   })
 
 
-  // it.only('User create', async() => {
-  //   const data = {
-  //     name:`lucas test ${new Date().getMinutes()}`,
-  //     email:'test1@mail.com',
-  //     password: 'login123',
-  //     unity: 'contagem',
-  //     profile: 'manager'
-  //   }
-  //   const user = await UserService.create(data)
-  //   console.log(user)
+  it('User create', async() => {
+    const data = {
+      name:`lucas test ${new Date().getMinutes()}`,
+      email:'test1@mail.com',
+      password: 'login123',
+      unityId: 1,
+      profile: 'manager'
+    }
+    const user = await UserService.create(data)
 
-  //   expect(user).toContain({name: data.name})
-  //   UserService.delete(user.id)
-  // })
+    expect(user).toContain({name: data.name})
+    UserService.delete(user.id)
+  })
 
   it('User crud', async () => {
 
@@ -43,7 +42,7 @@ describe('User', () => {
       email: 'test-delete@mail.com',
       name: `admin ${new Date().getMinutes()}`,
       password: 'qweqwe',
-      unity: 'contagem',
+      unityId: 2,
       profile: 'judge'
     }
 

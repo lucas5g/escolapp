@@ -50,9 +50,11 @@ export interface UserInterface {
   name: string
   profile: 'coordinator' | 'manager' | 'judge'
   email: string 
-  unity: 'contagem' | 'bh'
+  unity: {
+    id: number
+    name: string
+  }
 }
-
 export interface TeamInterface {
   id: number
   name: string

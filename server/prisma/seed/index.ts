@@ -4,12 +4,17 @@ import bcrypt from 'bcrypt'
 import fs from 'fs'
 import { idToStringProfile } from '../../src/utils/id-to-string-profile'
 import { setTimeout } from 'timers/promises'
-import groups from './data/groups.json'
-import modalities from './data/modalities.json'
+
 import teams from './data/teams.json'
+import { groups, modalities, places, unities } from './data'
 
 const prisma = new PrismaClient();
-
+const types:any = {
+  collective: 'collective',
+  individual: 'individual'
+  // VALUE2: 'VALUE2',
+  // VALUE3: 'VALUE3',
+};
 (async () => {
 
   await createUsers()
@@ -18,9 +23,20 @@ const prisma = new PrismaClient();
   await createGenres()
   await createPlaces()
   await createTeams()
-  await createGame()
+  await createGame() 
+  await createUnities()
 })()
 
+
+async function createUnities() {
+  unities.forEach(async (unity) => {
+    await prisma.unity.upsert({
+      where: { id: unity.id },
+      update: unity,
+      create: unity
+    })
+  })
+}
 
 
 async function createUsers() {
@@ -97,7 +113,6 @@ async function createGenres() {
       update: row,
       create: row
     })
-    // console.log(`${row.name} atualizado com sucesso!`)
   })
 }
 
@@ -120,65 +135,44 @@ async function createTeams() {
 
 async function createGroups() {
 
-  // const groups = [{ id: 1, name: 'turma test', codcur: 20, codper: 1 }]
-  groups.forEach(async (group, index) => {
+  groups.forEach(async (group) => {
     try {
 
       await prisma.group.upsert({
-        where: {
-          id: group.id
-        },
-        update: {
-          ...group,
-          unity: 'contagem'
-        },
-        create: {
-          ...group,
-          unity: 'contagem'
-        }
+        where: { id: group.id },
+        update: group,
+        create: group
       })
     } catch (error) {
-      console.log(group)
+      console.log(error)
     }
   })
 
 }
 
-async function createModalities() {
-  modalities.forEach((async (modality) => {
-    try {
 
+
+async function createModalities() {
+  modalities.forEach(async (modality) => {
+    try {
       await prisma.modality.upsert({
-        where: {
-          id: modality.id
-        },
-        update: modality,
-        create: modality
-      })
-      // console.log(`${index + 1} ${modality.name} - Atualizado!`)
+        where: { id: modality.id },
+        update: { ...modality, type: types[modality.type] }, // change the type property to an enum value
+        create: {...modality, type:types[modality.type]},
+      });
     } catch (error) {
-      console.log(error)
-      // console.log(`Erro no cadastro`, modality)
+      console.log(error);
     }
-  }))
+  });
 }
 
 async function createPlaces() {
 
-  const places = await csvtojson().fromFile(`${__dirname}/data/places.csv`)
-
   places.forEach((async (place) => {
     await prisma.place.upsert({
-      where: {
-        id: Number(place.id)
-      },
-      update: {
-        name: place.name
-      },
-      create: {
-        id: Number(place.id),
-        name: place.name
-      }
+      where: { id: place.id },
+      update: place,
+      create: place
     })
   }))
 }

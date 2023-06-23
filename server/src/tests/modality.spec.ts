@@ -23,7 +23,8 @@ describe('Modality', () => {
       name: 'teste',
       membersQuantity: 22,
       teamsQuantity: 2,
-      type: 'collective'
+      type: 'collective',
+      unityId: 2
     }
     /**
      * Create
@@ -33,10 +34,15 @@ describe('Modality', () => {
     /**
      * Update
      */
-    const modalityUpdate = await ModalityService.update(modality.id, { ...data, type:'individual', teamsQuantity: 9 })
+    const modalityUpdate = await ModalityService.update(modality.id, { ...data, 
+      type:'individual', 
+      teamsQuantity: 9,
+      unityId: 1
+     })
     expect(modalityUpdate).contain({
       teamsQuantity: 9,
-      type:'individual'
+      type:'individual',
+      unityId: 1
     })
     /**
      * Delete
@@ -47,10 +53,11 @@ describe('Modality', () => {
   it('Try to delete modality that has a team', async() => {
 
     const modality:ModalityInterface = {
-      name: 'test modality',
+      name: 'test modality del',
       membersQuantity: 1,
       teamsQuantity: 2,
-      type: 'collective' 
+      type: 'collective',
+      unityId: 2
     }
 
     const { id: modalityId } = await ModalityService.create(modality)

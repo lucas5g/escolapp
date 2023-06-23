@@ -12,7 +12,8 @@ describe('Place', () => {
   it('Place crud', async() => {
 
     const data = {
-     name: 'name',
+     name: 'name place del',
+     unityId: 2
     }
     /**
      * Create
@@ -30,7 +31,7 @@ describe('Place', () => {
     /**
      * Update
      */
-    const placeUpdate = await PlaceService.update(place.id, {name:'test-update' })
+    const placeUpdate = await PlaceService.update(place.id, {...data, name:'test-update' })
     expect(placeUpdate).toHaveProperty('name', 'test-update')
     /**
      * Delete
@@ -42,6 +43,7 @@ describe('Place', () => {
   it('Try to delete a place that has a game', async () => {
     const place = {
       name: 'place with game',
+      unityId: 2
     }
 
     const {id:placeId} = await PlaceService.create(place)

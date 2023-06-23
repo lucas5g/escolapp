@@ -31,14 +31,7 @@ const fieldsForm = [
       
     ]
   },
-  {
-    key:'unity',
-    value: 'Unidade',
-    options:[
-      {id:'bh', name:'Belo Horizonte'},
-      {id:'contagem', name:'Contagem'}
-    ]
-  }
+
 ]
 interface UserInterface{
   id:number 
@@ -52,6 +45,7 @@ export function User(){
   const {data:users, error}:{data:UserInterface[], error:any} = swr(uri)
   if (error) return <Error error={error} />
   if (!users) return <Loading />
+  
   return(
     <Layout>
       <Main>
