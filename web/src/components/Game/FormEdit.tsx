@@ -78,7 +78,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
         </div>
         <Input
           name='userId'
-          label="Juíz"
+          label="Moderador"
           value={game.userId ?? ''}
           onChange={event => setGame({ ...game, userId: event.target.value })}
           options={users}

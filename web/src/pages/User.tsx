@@ -25,7 +25,7 @@ const fieldsForm = [
     options:[
       {id:'', name:''},
       {id:'manager', name:'Admin'},
-      {id:'judge', name:'Juíz'},
+      {id:'judge', name:'Moderador'},
       {id:'coordinator', name:'Coordenador'},
       {id:'representative', name:'Representante'},
       

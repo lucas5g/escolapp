@@ -1,7 +1,7 @@
 import { Edit, Sports } from "@mui/icons-material";
 import { GameInterface } from "../../interfaces";
 import { Card } from "../Card";
-import { Plus } from "phosphor-react";
+import { Plus, X } from "phosphor-react";
 import clsx from "clsx";
 import { Input } from "../Input";
 import { useState } from "react";
@@ -30,7 +30,7 @@ export function Table({
     const searchFilter = search.trim().toLowerCase()
     return (
       game.datetime.includes(searchFilter) ||
-      game.modality.name.toLowerCase().includes(searchFilter) || 
+      game.modality.name.toLowerCase().includes(searchFilter) ||
       game.place.name.toLowerCase().includes(searchFilter) ||
       game.user.name.toLowerCase().includes(searchFilter)
     )
@@ -128,16 +128,26 @@ export function Table({
                             scroll(games.length)
                           }} />
                       }
+                      {logged.profile === 'manager' &&
+                        <X
+                          weight="bold"
+                          className="hover:text-red-500 cursor-pointer "
+                          size={15}
+                          // textRendering={'qweqwe'}
+                        />
+                      }
                     </>
                   </td>
+
                 </tr>
               )
             })}
           </tbody>
-        </table>
+        </table >
       }
 
-      {logged.profile !== 'judge' &&
+      {
+        logged.profile !== 'judge' &&
 
         <button
           className={clsx("bg-blue-500 text-white fixed bottom-10 right-10 p-3 rounded-full hover:p-4 hover:bg-blue-600 transition-all", {
@@ -150,7 +160,7 @@ export function Table({
           <Plus size={30} weight="bold" />
         </button>
       }
-    </Card>
+    </Card >
   )
   function scroll(quantity: number) {
     const width = document.querySelector('body')?.offsetWidth
