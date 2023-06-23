@@ -19,7 +19,7 @@ export interface GameInterface {
   }
   modality: {
     name: string,
-    type: 'collective' | 'individual'
+    type: 'collective' | 'individual' | 'participative' | 'ranking'
   }
   errors?: {
     id?: string

@@ -67,6 +67,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                       label={`Placar`}
                       type='number'
                       value={team.goals ?? ''}
+                      disabled={game.modality.type === 'participative' && true}
                       onChange={event => changeInput({
                         field: 'goals',
                         teamId: team.id,
@@ -77,7 +78,9 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                     <Input
                       name={`teamFairPlay`}
                       label="FairPlay"
-                      value={team.fairPlay ?? ''}
+                      value={team.fairPlay ?? ''} 
+                      disabled={game.modality.type === 'participative' && true}
+
                       onChange={event => changeInput({
                         teamId: team.id,
                         field: 'fairPlay',
@@ -92,7 +95,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                       name={`teamPoints${team.id}`}
                       label={`Pontos`}
                       type="number"
-                      disabled={logged.profile === 'judge' ? true : false}
+                      disabled={logged.profile === 'judge'|| game.modality.type === 'participative'  ? true : false}
                       value={team.points ?? ''}
                       onChange={event => changeInput(
                         { field: 'points', teamId: team.id, value: Number(event.target.value) }
@@ -133,6 +136,17 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
 
 
   function changeInput({ field, teamId, value }: ChangeInputInterface) {
+
+    // if(game.modality.type === 'participative'){
+    //   // const teams = game.teams.map(team => {
+    //   //   return 
+    //   // })      
+
+    //   return 
+    // }
+
+
+
     const teams = game.teams.map(team => {
       if (teamId !== team.id) {
         return team
@@ -162,6 +176,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
       }
     }
 
+  
     if (game.modality.type === 'individual') {
 
       for (const team of teams) {
@@ -186,6 +201,10 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
         }
       }
       return setGame({ ...game, teams })
+    }
+
+    if(game.modality.type === 'ranking'){
+      
     }
 
     for (const team of teams) {
