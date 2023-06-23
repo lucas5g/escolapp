@@ -1,3 +1,4 @@
+import { GameRepository } from "../repositories/GameRepository"
 import { PlaceRepository } from "../repositories/PlaceRepository"
 
 export class PlaceService{
@@ -24,6 +25,11 @@ export class PlaceService{
   }
 
   static async delete(id:number){
+
+    if(await GameRepository.findByColumn('placeId', id)){
+      throw new Error('Não foi possível deletar :(\nPossui Jogos com este local.')
+    }
+
     return await PlaceRepository.delete(id)
   }
 }

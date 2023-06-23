@@ -19,7 +19,7 @@ export function Modality() {
     { key: 'membersQuantity', value: 'Qtd. Membros', type:'number' },
     { key: 'teamsQuantity', value: 'Qtd. Equipes', type:'number' }
   ]
-
+  localStorage.setItem('uri', 'modalities')
   const [modality, setModality] = useState({})
   const { data, error } = swr('modalities')
 
@@ -37,6 +37,7 @@ export function Modality() {
           item={modality}
           setItem={setModality}
           positionBottom={modalities.length * 100}
+          deleteItem
         />
         <Form
           fields={fields}

@@ -7,6 +7,9 @@ import { translate } from "../utils/translate";
 import { Input } from "./Input";
 import { useState } from "react";
 import { X } from "phosphor-react";
+import { storageLogged } from "../utils/storage-logged";
+import { api } from "../utils/axios";
+import { mutate } from "swr";
 interface Props {
   fields: any[]
   items: any[]
@@ -14,7 +17,8 @@ interface Props {
   setItem: Function
   width?: Width
   positionBottom?: number
-  placeholderInputFilter?: string 
+  placeholderInputFilter?: string
+  deleteItem?: boolean
 }
 
 
@@ -25,7 +29,8 @@ export function Table({
   setItem,
   width = 100,
   positionBottom = 500,
-  placeholderInputFilter = 'Pesquisar por nome.'
+  placeholderInputFilter = 'Pesquisar por nome.',
+  deleteItem = false
 }: Props) {
   const [search, setSearch] = useState('')
 
@@ -34,7 +39,7 @@ export function Table({
       const searchFilter = search.toLowerCase().trim()
       return (
         item.name?.toLowerCase().includes(searchFilter) ||
-        moment(item.date).format('DD/MM').includes(search) || 
+        moment(item.date).format('DD/MM').includes(search) ||
         item.modality?.name.toLowerCase().includes(searchFilter)
 
       )
@@ -119,21 +124,31 @@ export function Table({
                           {translate(row[keyName]?.['name']) ?? translate(row[field.key])}
                         </td>
                       )
-                    })} 
-                    <td 
-                      className="px-2"
-                      title="Deletar?"
-                      onClick={() => {
-                        if(!confirm('Deseja deletar ?')) return 
-                        console.log(row.id)
-                      }}
+                    })}
+                    {deleteItem && storageLogged().profile === 'manager'  &&
+                      <td
+                        className="px-2"
+                        title="Deletar?"
+                        onClick={async() => {
+                          if (!confirm(`Deseja deletar ${row.name}?`)) return
+
+                          try{
+                            const uri = localStorage.getItem('uri')
+                            await api.delete(`${uri}/${row.id}`)
+                            setItem({})
+                            mutate(uri)
+                          }catch(error:any){
+                            alert(error.response.data.message)
+                          }
+                        }}
                       >
-                      {/* <X 
-                        weight="bold" 
-                        className="hover:text-red-500"
-                        size={15}
-                        /> */}
-                    </td>
+                        <X
+                          weight="bold"
+                          className="hover:text-red-500"
+                          size={15}
+                        />
+                      </td>
+                    }
                   </tr>
                 )
               })}

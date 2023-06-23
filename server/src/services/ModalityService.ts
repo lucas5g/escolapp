@@ -1,5 +1,6 @@
 import { ModalityRepository } from "../repositories/ModalityRepository"
-import { modalitySchema } from "../utils/schemas"
+import { TeamRepository } from "../repositories/TeamRepository"
+import { ModalityInterface, modalitySchema } from "../utils/schemas"
 
 export class ModalityService{
 
@@ -11,7 +12,7 @@ export class ModalityService{
     return await ModalityRepository.findById(id)
   }
 
-  static async create(data:any){
+  static async create(data:ModalityInterface){
 
     const modality = modalitySchema.parse(data)
 
@@ -30,6 +31,9 @@ export class ModalityService{
   }
 
   static async delete(id:number){
+    if(await TeamRepository.findByColumn('modalityId', id)){
+      throw new Error('Não foi possível deletar :(\nPossui Equipes com essa modalidade.')
+    }
     return await ModalityRepository.delete(id)
   }
 }

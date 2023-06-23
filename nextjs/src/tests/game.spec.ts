@@ -16,7 +16,7 @@ describe('Game', () => {
     })
   })
 
-  it.only('Game crud', async () => {
+  it('Game crud', async () => {
 
     const users = await UserService.findMany({})
 
@@ -53,7 +53,6 @@ describe('Game', () => {
     /**
      * Delete
      */
-    return
     await GameService.delete(game.id)
   })
 

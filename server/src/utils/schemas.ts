@@ -111,3 +111,5 @@ export const modalitySchema = z.object({
   teamsQuantity: z.coerce.number(),
   type: z.enum(['collective', 'individual'])
 })
+
+export type ModalityInterface = z.infer<typeof modalitySchema >

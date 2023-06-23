@@ -1,5 +1,4 @@
-import { Request, Response } from "express";
-import { GroupRepository } from "../repositories/GroupRepository";
+import { NextFunction, Request, Response } from "express";
 import { GroupService } from "../services/GroupService";
 
 export class GroupController{
@@ -20,7 +19,11 @@ export class GroupController{
     res.json(await GroupService.update(Number(req.params.id), req.body))
   }
 
-  static async delete(req:Request, res: Response){
-    res.json(await GroupRepository.delete(Number(req.params.id)))
+  static async delete(req:Request, res: Response, next:NextFunction){
+    try{
+      res.json(await GroupService.delete(Number(req.params.id)))
+    }catch(error){
+      next(error)
+    }
   }
 }

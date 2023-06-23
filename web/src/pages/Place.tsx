@@ -12,7 +12,7 @@ export function Place() {
   const fields = [
     { key: 'name', value: 'Nome do Local',  },
   ]
-
+  localStorage.setItem('uri', 'places')
   const [place, setPlace] = useState({})
   const { data, error } = swr('places')
 
@@ -30,6 +30,7 @@ export function Place() {
           items={places}
           setItem={setPlace}
           positionBottom={places.length * 100}
+          deleteItem
         />
         <Form
           fields={fields}

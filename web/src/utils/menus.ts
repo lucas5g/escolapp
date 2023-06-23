@@ -8,9 +8,9 @@ export function menus() {
     'Conta',
     'Sair'
   ]
-  
+
   // console.log(logged)
-  if (storageLogged().profile === 'manager' || storageLogged().profile === 'coordinator') {
+  if (storageLogged().profile === 'manager') {
     return [
       'Turmas',
       'Locais',
@@ -19,6 +19,18 @@ export function menus() {
       'Jogos',
       'Pontos',
       'Usuários',
+      ...menusDefault,
+    ]
+  }
+
+  if (logged.profile === 'coordinator') {
+    return [
+      'Turmas',
+      'Locais',
+      'Modalidades',
+      'Equipes',
+      'Jogos',
+      'Pontos',
       ...menusDefault,
     ]
   }

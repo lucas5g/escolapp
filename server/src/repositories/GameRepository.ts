@@ -33,6 +33,14 @@ export class GameRepository {
     })
   }
 
+  static async findByColumn(columm:string, value:any){
+    return prisma.game.findFirst({
+      where:{
+        [columm]:value
+      }
+    })
+  }
+
   static async create(data: GameType) {
     return await prisma.game.create({
       data

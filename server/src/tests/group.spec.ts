@@ -44,7 +44,7 @@ describe('Group', () => {
     await GroupService.delete(group.id)
   })
 
-  it.skip('Try to delete a class that has a team', async () => {
+  it('Try to delete a group that has a team', async () => {
     const group = {
       name: 'group with team',
       unity: 'contagem'
@@ -63,9 +63,10 @@ describe('Group', () => {
 
     const { id: teamId} = await TeamService.create(team)
 
-    await GroupService.delete(groupId)
+    await expect(() => GroupService.delete(groupId)).rejects.toThrow('Possui Equipes')
 
-    console.log(groupId, teamId)
+    await TeamService.delete(teamId)
+    await GroupService.delete(groupId)
   })
 
 })

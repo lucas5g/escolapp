@@ -38,8 +38,9 @@ export class GroupService{
 
   static async delete(id:number){
     if(await TeamRepository.findByColumn('groupId', id)){
-      throw new Error('Possui Equipes com essa turma.')
+      throw new Error('Não foi possível deletar :(\nPossui Equipes com essa turma.')
     }
+    // console.log({id})
     return await GroupRepository.delete(id)
   }
 }

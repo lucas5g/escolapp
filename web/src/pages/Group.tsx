@@ -27,6 +27,7 @@ export function Group() {
 
   const [group, setGroup] = useState({} as Group)
   const { data: groups, error } = swr('groups')
+  localStorage.setItem('uri', 'groups')
 
   if (error) return <Error error={error} />
   if (!groups) return <Loading />
@@ -40,6 +41,7 @@ export function Group() {
           item={group}
           setItem={setGroup}
           positionBottom={groups.length * 100}
+          deleteItem
         />
         <Form
           fields={fieldsForm}
