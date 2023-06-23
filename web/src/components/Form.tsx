@@ -7,6 +7,7 @@ import { Card, Width } from "./Card";
 import { translate } from "../utils/translate";
 import moment from "moment";
 import { storageLogged } from "../utils/storage-logged";
+import { Input } from "./Input";
 
 
 interface Props {
@@ -44,7 +45,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
     setLoading(true)
 
     try {
-      if(!item.unity){
+      if (!item.unity) {
         item.unity = logged.unity
       }
 
@@ -53,7 +54,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
       }
 
       if (uri === 'update-me') {
-    
+
         await api.put('update-me', item)
       } else if (item.id) {
         await api.put(`${uri}/${item.id}`, item)
@@ -90,7 +91,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
 
         {children}
         {fields?.map(field => {
-        
+
 
           if (field?.multiple) {
             return (
@@ -126,9 +127,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
            * Quando não admin e o campo for unidade, ocultar o campo de unidade.
            */
 
-          if(logged.profile !== 'manager' && field.key === 'unity'){
-            return <></>
-          }
+
           const valueInput = () => {
 
             return item[field.key] || ''
@@ -148,7 +147,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
               error={errors?.[field.key] && true}
               helperText={translate(errors?.[field.key])}
               autoComplete="on"
-              disabled={field.disabled }
+              disabled={field.disabled}
               size="small"
             >
               {field?.options?.map((option: any) => {
@@ -164,6 +163,19 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
             </TextField>
           )
         })}
+        {/* const permission =  */}
+        {logged.profile === 'manager'  &&
+          <Input
+            name='Unidade'
+            label="Unidade"
+            options={[
+              { id: 'bh', name: 'Belo Horizonte' },
+              { id: 'contagem', name: 'Contagem' }
+            ]}
+            value={item.unity}
+            onChange={event => setItem({...item, unity: event.target.valye})}
+          />
+        }
 
 
         <footer className="flex justify-end gap-3">

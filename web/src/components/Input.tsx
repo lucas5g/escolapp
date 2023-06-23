@@ -20,7 +20,7 @@ interface Props {
   disabled?: boolean
   autoComplete?: 'no'
   options?: {
-    id: number,
+    id: number|string,
     name: string
   }[]
 }
