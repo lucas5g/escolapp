@@ -14,7 +14,9 @@ export function Modality() {
     { key: 'name', value: 'Nome da Modalidade', },
     { key: 'type', value: 'Tipo', options:[
       {id:'collective', name:'Coletivo'},
-      {id: 'individual', name: 'Individual'}
+      {id: 'individual', name: 'Individual'},
+      {id: 'participative', name: 'Participativo'},
+      {id: 'ranking', name: 'Ranking'},
     ]},
     { key: 'membersQuantity', value: 'Qtd. Membros', type:'number' },
     { key: 'teamsQuantity', value: 'Qtd. Equipes', type:'number' }

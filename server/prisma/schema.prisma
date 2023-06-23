@@ -50,6 +50,8 @@ model Group {
 enum Type {
   collective
   individual
+  participative
+  ranking
 }
 
 model Modality {

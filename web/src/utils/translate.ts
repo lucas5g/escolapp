@@ -5,7 +5,9 @@ export function translate(text:string){
     judge: 'Mediador',
     coordinator: 'Coordenador',
     collective: 'Coletivo',
-    individual: 'Individual'
+    individual: 'Individual',
+    participative: 'Participativo',
+    ranking: 'Ranking'
   }
   return optional[text] ?? text
 }
