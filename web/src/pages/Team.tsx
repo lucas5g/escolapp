@@ -13,6 +13,7 @@ const fields = [
   { key: 'modality', value: 'Modalidade' },
   { key: 'group', value: 'Turma' },
 ]
+localStorage.setItem('uri', 'teams')
 
 export function Team() {
 
@@ -39,6 +40,7 @@ export function Team() {
           items={teams}
           setItem={setTeam}
           positionBottom={teams.length * 100}
+          deleteItem
         />
         <Form
           team={team}

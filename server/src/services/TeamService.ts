@@ -57,13 +57,16 @@ export class TeamService {
 
   static async delete(id: number) {
 
-    // const games = await GameRepository.findMany({})
-    // games.find( game => game)
-    // if(games.find)
+    const games = await GameRepository.findMany({})
 
-    // if(await GameRepository.findByColumn('teamId', id)){
-    //   throw new Error('Não foi possível deletar :(\nPossui jogos com essa equipe.')
-    // }
+    const gameTeam = games.find( game => {
+      const teams = game.teams as Prisma.JsonArray
+      return teams.find((team:any) => team.id === id)
+    })
+
+    if(gameTeam){
+      throw new Error('Não foi possível deletar :(\nPossui jogos com essa equipe.')
+    }
 
     return await TeamRepository.delete(id)
   }

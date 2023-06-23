@@ -31,7 +31,11 @@ export class TeamController{
     }
   }
 
-  static async delete(req:Request, res: Response){
-    res.json(await TeamService.delete(Number(req.params.id)))
+  static async delete(req:Request, res: Response, next:NextFunction){
+    try{
+      res.json(await TeamService.delete(Number(req.params.id)))
+    }catch(error){
+      next(error)
+    }
   }
 }

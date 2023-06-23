@@ -61,7 +61,7 @@ describe('Team', () => {
     await TeamService.delete(team.id)
   })
 
-  it.only('Try to delete team that has a game', async() => {
+  it('Try to delete team that has a game', async() => {
 
     const team = {
       name: 'Team delete',
@@ -92,9 +92,9 @@ describe('Team', () => {
     const {id: gameId } = await GameService.create(game)
 
     await expect(() => TeamService.delete(teamId)).rejects.toThrow('Possui jogos com essa equipe.')
-
     await GameService.delete(gameId)
     await TeamService.delete(teamId)
+
   })
 
 })
