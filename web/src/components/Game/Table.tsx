@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { Input } from "../Input";
 import { useState } from "react";
 import { storageLogged } from "../../utils/storage-logged";
+import { api } from "../../utils/axios";
 
 interface Props {
   games: GameInterface[]
@@ -129,12 +130,23 @@ export function Table({
                           }} />
                       }
                       {logged.profile === 'manager' &&
-                        <X
-                          weight="bold"
-                          className="hover:text-red-500 cursor-pointer "
-                          size={15}
-                          // textRendering={'qweqwe'}
-                        />
+                        <span title="Deletar">
+                          <X
+                            weight="bold"
+                            className="hover:text-red-500 cursor-pointer "
+                            size={15} 
+                            onClick={async() => {
+                              if (!confirm(`Deseja deletar o jogo ID ${game.id}?`)) return
+                              try{
+                                await api.delete(`games/${game.id}`) 
+                                setGameEdit({})
+                                setGameSport({})
+                              }catch(error:any){
+                                console.log(error)
+                              }
+                            }}
+                          />
+                        </span>
                       }
                     </>
                   </td>
