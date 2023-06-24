@@ -27,6 +27,7 @@ export function Login() {
         password
       })
       localStorage.setItem('accessToken', data.accessToken)
+      localStorage.setItem('unityId', data.unity.id)
       location.href = '/'
       await sleep(200)
     } catch (error: any) {

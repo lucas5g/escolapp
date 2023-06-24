@@ -1,20 +1,30 @@
 import { GroupRepository } from "../repositories/GroupRepository";
 import { TeamRepository } from "../repositories/TeamRepository";
+import { cache } from "../utils/cache";
 import { groupSchema } from "../utils/schemas";
 import { ConfigService } from "./ConfigService";
 import { StudentService } from "./StudentService";
 
 export class GroupService{
-  static async findMany(){
-    const groups = await GroupRepository.findMany()
-    const students = await StudentService.findMany({unity:'contagem'})
 
-    return groups.map(group => {
+  static async findMany(filter: any){
+
+
+    if(cache.has('groups')){
+      return cache.get('groups')
+    }
+
+    const groupsWithoutQuantityStudents = await GroupRepository.findMany()
+    const students = await StudentService.findMany({unity: 'contagem' })
+    const groups = groupsWithoutQuantityStudents.map(group => {
       return {
         ...group,
         quantity: students.filter(student => student.group === group.name).length
       }
     })
+
+    cache.set('groups', groups)
+    return groups
 
   }
 

@@ -92,3 +92,8 @@ export interface ChangeInputInterface{
   field:  'fairPlay' | 'goals' | 'points'
   value: number|underfined
 }
+
+export interface UnityInterface{
+  id: number 
+  name: string 
+}

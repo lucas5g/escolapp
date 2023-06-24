@@ -1,7 +1,7 @@
 export function Logout() {
   setTimeout(() => {
 
-    localStorage.clear()
+    localStorage.removeItem('accessToken')
     location.href = '/login'
   }, 1000)
   return (

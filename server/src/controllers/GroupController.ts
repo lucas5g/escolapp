@@ -4,7 +4,7 @@ import { GroupService } from "../services/GroupService";
 export class GroupController{
 
   static async index(req:Request, res:Response){
-    return res.json(await GroupService.findMany())
+    return res.json(await GroupService.findMany(req.query))
   }
 
   static async show(req:Request, res:Response){

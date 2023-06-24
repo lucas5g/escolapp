@@ -11,6 +11,7 @@ import { Point } from './pages/Point'
 import { Game } from './pages/Game'
 import { Account } from './pages/Account'
 import { Logout } from './pages/Logout'
+import { Unity } from './pages/Unity'
 
 
 const routesPrivate = createBrowserRouter([
@@ -25,6 +26,7 @@ const routesPrivate = createBrowserRouter([
   { path: '/usuarios', element: <User /> },
   { path: '/conta', element: <Account />},
   { path: '/sair', element: <Logout />},
+  { path: '/unidades', element: <Unity />},
   { path: '*', element: <Home /> }, 
 
 ])

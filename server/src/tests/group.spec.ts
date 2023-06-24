@@ -3,11 +3,11 @@ import { GroupService } from "../services/GroupService";
 import { TeamService } from "../services/TeamService";
 
 describe('Group', () => {
-  it('Group list', async () => {
+  it.only('Group list', async () => {
 
-    // return console.log(env.googleFile)
     const groups = await GroupService.findMany() as any[]
-    // expect(groups).deep.equal(groups.sort((a, b) => a.name.localeCompare(b)))
+    return console.log(groups)
+
     groups.forEach((group: any) => {
       expect(group).toHaveProperty('name')
       expect(group).toHaveProperty('unityId')

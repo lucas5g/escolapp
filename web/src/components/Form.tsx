@@ -8,6 +8,8 @@ import { translate } from "../utils/translate";
 import moment from "moment";
 import { storageLogged } from "../utils/storage-logged";
 import { Input } from "./Input";
+import { swr } from "../utils/swr";
+import { UnityInterface } from "../interfaces";
 
 
 interface Props {
@@ -34,6 +36,8 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
   const [errors, setErrors] = useState<any>()
   const logged = storageLogged()
 
+  const { data: unities, error }: { data: UnityInterface[], error: any } = swr('unities')
+
   useEffect(() => {
     setTimeout(() => {
       setErrors(false)
@@ -44,9 +48,8 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
     event.preventDefault()
     setLoading(true)
     try {
-      if (!item.unityId) {
-        item.unityId = logged.unity.id
-      }
+      
+      item.unityId = Number(localStorage.getItem('unityId'))
 
       if (item?.date) {
         item.date = new Date(item.date).toISOString()
@@ -164,18 +167,24 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
           )
         })}
         {/* {console.log(logged)} */}
-        {logged.profile === 'manager'  &&
+        {/* {logged.profile === 'manager' && uri !== 'unities' && unities && 
           <Input
             name='unityId'
             label="Unidade"
-            options={[
-              { id: 1, name: 'Belo Horizonte' },
-              { id: 2, name: 'Contagem' }
-            ]}
+            options={unities.map(unity => {
+              return {
+                id: unity.id,
+                name: unity.name
+              }
+            })}
+            // options={[
+            //   { id: 1, name: 'Belo Horizonte' },
+            //   { id: 2, name: 'Contagem' }
+            // ]}
             value={item.unityId ?? logged.unity.id}
-            onChange={event => setItem({...item, unityId: event.target.value})}
+            onChange={event => setItem({ ...item, unityId: event.target.value })}
           />
-        }
+        } */}
 
 
         <footer className="flex justify-end gap-3">

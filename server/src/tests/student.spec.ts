@@ -3,9 +3,6 @@ import { StudentService } from "../services/StudentService";
 
 describe('Student', () => {
   it('Student list', async () => {
-
-    
-
     const students = await StudentService.findMany({unity:'contagem'})
     students.forEach(student => {
       expect(student).toHaveProperty('name')

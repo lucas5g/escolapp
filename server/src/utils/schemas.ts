@@ -7,13 +7,6 @@ const profiles = [
   'representative'
 ] as const 
 
-const unities = [
-  'contagem',
-  'bh',
-  'gutierrez', 
-  'novalima'
-] as const 
-
 export const userCreateSchema = z.object({
   name: z.string(),
   email: z.string().email(),
@@ -120,4 +113,8 @@ export type ModalityInterface = z.infer<typeof modalitySchema >
 export const placeSchema = z.object({
   name: z.string(),
   unityId: z.number()
+})
+
+export const unitySchema = z.object({
+  name: z.string()
 })

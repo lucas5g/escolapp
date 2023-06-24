@@ -12,7 +12,8 @@ export function Layout({ children }: Props) {
   const { data } = swr('/')
   if(localStorage.getItem('release') !== data?.api && data){
     localStorage.setItem('release', data.api)
-    window.location.reload()
+    window.location.href = '/login'
+
   }
 
   return (

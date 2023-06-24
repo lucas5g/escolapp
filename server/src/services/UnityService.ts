@@ -1,9 +1,18 @@
 import { UnityRepository } from "../repositories/UnityRepository";
+import { cache } from "../utils/cache";
+import { unitySchema } from "../utils/schemas";
 
 export class UnityService{
   
   static async findMany(){
-    return await UnityRepository.findMany()
+    if(cache.has('unities')){
+      return cache.get('unities') as {id:number, name:string}[]
+    }
+    const unities = await UnityRepository.findMany()
+    cache.set('unities', unities)
+
+    return unities
+
   }
 
   static async findById(id:number){
@@ -11,11 +20,17 @@ export class UnityService{
   }
 
   static async update(id:number, data:any){
-    return await UnityRepository.update(id, data)
+    cache.del('unities')
+
+    const unity = unitySchema.parse(data)
+    return await UnityRepository.update(id, unity)
   }
 
   static async create(data:any){
-    return await UnityRepository.create(data)
+    cache.del('unities')
+
+    const unity = unitySchema.parse(data)
+    return await UnityRepository.create(unity)
   }
 
   static async delete(id:number){

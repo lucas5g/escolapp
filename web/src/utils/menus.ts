@@ -19,6 +19,7 @@ export function menus() {
       'Jogos',
       'Pontos',
       'Usuários',
+      'Unidades',
       ...menusDefault,
     ]
   }
