@@ -17,11 +17,16 @@ const profiles: any = {
 (async () => {
 
   await createUnities()
+  await setTimeout(500)
+
   await createUsers()
   await createGroups()
   await createModalities()
-  await createGenres()
   await createPlaces()
+
+  await createGenres()
+  await setTimeout(500)
+  // return;
   await createTeams()
   await createGames()
 })()
