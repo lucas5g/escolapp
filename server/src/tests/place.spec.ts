@@ -4,8 +4,11 @@ import { GameService } from "../services/GameService";
 
 describe('Place', () => {
   it('Place list', async () => {
-    const places = await PlaceService.findMany()
-    expect(places.length).toBeGreaterThanOrEqual(0)
+    const unityId = 2
+    const places = await PlaceService.findMany({unityId})
+    places.forEach(place => {
+      expect(place).toHaveProperty('unityId', unityId)
+    })
   })
 
 

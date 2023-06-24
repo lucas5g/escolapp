@@ -2,11 +2,12 @@ import { prisma } from "../utils/prisma";
 
 export class PlaceRepository {
 
-  static async findMany(){
+  static async findMany(filter:any){
     return await prisma.place.findMany({
       orderBy:{
         name:'asc'
-      }
+      },
+      where:filter
     })
   }
 

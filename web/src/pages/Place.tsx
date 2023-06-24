@@ -13,8 +13,9 @@ export function Place() {
     { key: 'name', value: 'Nome do Local',  },
   ]
   localStorage.setItem('uri', 'places')
+  const uriFilterByUnityId = `places?unityId=${localStorage.getItem('unityId')}`
   const [place, setPlace] = useState({})
-  const { data, error } = swr('places')
+  const { data, error } = swr(uriFilterByUnityId)
 
   if (error) return <Error error={error} />
   if (!data) return <Loading />
@@ -36,7 +37,7 @@ export function Place() {
           fields={fields}
           item={place}
           setItem={setPlace}
-          uri='places'
+          uri={uriFilterByUnityId}
         />
 
       </Main>

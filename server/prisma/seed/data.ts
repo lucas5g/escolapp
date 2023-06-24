@@ -1,3 +1,5 @@
+import { PlaceType } from "../../src/utils/schemas"
+
 export const unities = [
   {
     id: 1,
@@ -49,14 +51,22 @@ export const modalities = [
   }
 ]
 
-export const places = [
+export const places:PlaceType[] = [
   {
     id: 1,
-    name: 'Quadra'
+    name: 'Quadra',
+    unityId: 2
+
   },
   {
     id: 2,
-    name: 'sala'
+    name: 'sala',
+    unityId: 2
+  },
+  {
+    id: 3,
+    name: 'campo bh',
+    unityId: 1
   }
 ]
 

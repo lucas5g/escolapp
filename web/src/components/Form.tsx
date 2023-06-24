@@ -34,9 +34,6 @@ interface Props {
 export function Form({ item, setItem, fields, uri, width, children, hasButtonCancel = true }: Props) {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<any>()
-  const logged = storageLogged()
-
-  const { data: unities, error }: { data: UnityInterface[], error: any } = swr('unities')
 
   useEffect(() => {
     setTimeout(() => {

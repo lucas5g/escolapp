@@ -3,7 +3,7 @@ import { PlaceService } from "../services/PlaceService";
 export class PlaceController{
 
   static async index(req:Request, res:Response){
-    res.json(await PlaceService.findMany())
+    res.json(await PlaceService.findMany(req.query as any))
   }
 
   static async show(req:Request, res:Response){

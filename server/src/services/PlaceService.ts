@@ -1,11 +1,13 @@
 import { GameRepository } from "../repositories/GameRepository"
 import { PlaceRepository } from "../repositories/PlaceRepository"
-import { placeSchema } from "../utils/schemas"
+import { PlaceFilterType, placeFilterSchema, placeSchema } from "../utils/schemas"
 
 export class PlaceService {
 
-  static async findMany() {
-    return await PlaceRepository.findMany()
+  static async findMany(data:PlaceFilterType) {
+
+    const filter = placeFilterSchema.parse(data)
+    return await PlaceRepository.findMany(filter)
   }
 
   static async findById(id: number) {
