@@ -14,18 +14,14 @@ const fields = [
 ]
 
 const fieldsForm = [
-  { key: 'name', value: 'Nome', },
+  { key: 'name', value: 'Nome' },
 ]
-interface Group {
-  id: number
-  name: string
-  unity: 'bh' | 'contagem' 
-}
 
 export function Group() {
 
-  const [group, setGroup] = useState({} as Group)
-  const { data: groups, error } = swr('groups')
+  const [group, setGroup] = useState({} as any)
+  const uri = `groups?unityId=${localStorage.getItem('unityId')}` 
+  const { data: groups, error } = swr(uri)
   localStorage.setItem('uri', 'groups')
 
   if (error) return <Error error={error} />
@@ -46,7 +42,7 @@ export function Group() {
           fields={fieldsForm}
           item={group}
           setItem={setGroup}
-          uri='groups'
+          uri={uri}
         />
 
       </Main>

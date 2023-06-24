@@ -10,7 +10,6 @@ export class TeamService {
     const filter = teamQuerySchema.parse(data)
     
     const teams = await TeamRepository.findMany({modalityId: filter.modalityId})
-    return teams
     const students = await StudentService.findMany({unity: 'contagem'})
 
     const teamsStudents = teams.map(team => {

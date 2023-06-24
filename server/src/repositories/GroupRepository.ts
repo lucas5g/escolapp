@@ -1,11 +1,13 @@
 import { prisma } from "../utils/prisma";
+import { GroupFilterType } from "../utils/schemas";
 export class GroupRepository {
 
-  static async findMany(){
+  static async findMany(filter: GroupFilterType){
     return await prisma.group.findMany({
       orderBy:{
         name:'asc'
-      }
+      },
+      where:filter
     })
   }
 

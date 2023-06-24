@@ -1,21 +1,26 @@
 import { GroupRepository } from "../repositories/GroupRepository";
 import { TeamRepository } from "../repositories/TeamRepository";
 import { cache } from "../utils/cache";
-import { groupSchema } from "../utils/schemas";
+import { GroupFilterType, groupFilterSchema, groupSchema } from "../utils/schemas";
 import { ConfigService } from "./ConfigService";
 import { StudentService } from "./StudentService";
+import { UnityService } from "./UnityService";
 
 export class GroupService{
 
-  static async findMany(filter: any){
+  static async findMany(data?: any){
+    const {unityId} = groupFilterSchema.parse(data)
 
-
-    if(cache.has('groups')){
-      return cache.get('groups')
+    const groupsCache = `groups_${unityId}`
+    if(cache.has(groupsCache)){
+      return cache.get(groupsCache)
     }
 
-    const groupsWithoutQuantityStudents = await GroupRepository.findMany()
-    const students = await StudentService.findMany({unity: 'contagem' })
+    const unity = await UnityService.findById(unityId!)
+    const groupsWithoutQuantityStudents = await GroupRepository.findMany({unityId})
+    const students = await StudentService.findMany({unity: unity?.name! })
+
+
     const groups = groupsWithoutQuantityStudents.map(group => {
       return {
         ...group,
@@ -23,7 +28,7 @@ export class GroupService{
       }
     })
 
-    cache.set('groups', groups)
+    cache.set(groupsCache, groups)
     return groups
 
   }

@@ -30,9 +30,13 @@ export type UserUpdateType = z.infer<typeof userUpdateSchema>
 export const groupSchema = z.object({
   name: z.string(),
   unityId: z.number()
-  // codcur: z.number(),
-  // codper: z.number()
 })
+
+export const groupFilterSchema = z.object({
+  unityId: z.coerce.number()
+})
+
+export type GroupFilterType = z.infer<typeof groupFilterSchema>
 
 export const authSchema = z.object({
   email: z.string().email(),

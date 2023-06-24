@@ -3,14 +3,13 @@ import { GroupService } from "../services/GroupService";
 import { TeamService } from "../services/TeamService";
 
 describe('Group', () => {
-  it.only('Group list', async () => {
+  it('Group list', async () => {
 
-    const groups = await GroupService.findMany() as any[]
-    return console.log(groups)
+    const groups = await GroupService.findMany({unityId:2}) as any[]
 
     groups.forEach((group: any) => {
       expect(group).toHaveProperty('name')
-      expect(group).toHaveProperty('unityId')
+      expect(group).toHaveProperty('unityId', 2)
       expect(group).toHaveProperty('quantity')
     })
   })
