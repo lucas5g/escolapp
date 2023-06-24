@@ -15,6 +15,7 @@ import { errors } from './utils/errors'
 import { ConfigController } from './controllers/ConfigController'
 import { PointController } from './controllers/PointController'
 import { permission } from './utils/permission'
+import { UnityController } from './controllers/UnityController'
 
 export const routes = Router()
 
@@ -127,6 +128,13 @@ routes.delete('/teams/:id',TeamController.delete)
  */
 routes.get('/points', PointController.index)
 
+/**
+ * Unities
+ */
+routes.get('/unities', UnityController.index)
+routes.get('/unities/:id', UnityController.show)
+routes.put('/unities/:id', UnityController.update)
+routes.post('/unities', UnityController.create)
 routes.use(errors)
 
 

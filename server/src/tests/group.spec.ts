@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { GroupService } from "../services/GroupService";
-import { env } from "../utils/env";
 import { TeamService } from "../services/TeamService";
 
 describe('Group', () => {
