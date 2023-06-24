@@ -1,22 +1,23 @@
 import { PrismaClient } from '@prisma/client'
-import csvtojson from 'csvtojson'
 import bcrypt from 'bcrypt'
-import fs from 'fs'
-import { idToStringProfile } from '../../src/utils/id-to-string-profile'
 import { setTimeout } from 'timers/promises'
 
 import teams from './data/teams.json'
-import { groups, modalities, places, unities } from './data'
+import { groups, modalities, places, unities, users } from './data'
 
 const prisma = new PrismaClient();
 const types:any = {
   collective: 'collective',
   individual: 'individual'
-  // VALUE2: 'VALUE2',
-  // VALUE3: 'VALUE3',
 };
+const profiles:any = {
+  manager: 'manager',
+  judge: 'judge'
+};
+
 (async () => {
 
+  await createUnities()
   await createUsers()
   await createGroups()
   await createModalities()
@@ -24,7 +25,6 @@ const types:any = {
   await createPlaces()
   await createTeams()
   await createGame() 
-  await createUnities()
 })()
 
 
@@ -40,43 +40,15 @@ async function createUnities() {
 
 
 async function createUsers() {
-  const usersFile = `${__dirname}/data/users.csv`
-  let users = []
-  if (fs.existsSync(usersFile)) {
-    users = await csvtojson().fromFile(usersFile)
-  } else {
-    users = [
-      {
-        email: 'admin@mail.com',
-        name: 'test',
-        password: 'qweqwe',
-        profile: 'manager'
-      }
-    ]
-  }
 
   users.forEach(async (user) => {
     try {
 
       await prisma.user.upsert({
-        where: {
-          email: user.email || `${user.user}@santoagostinho.com.br`,
-        },
-        update: {
-          email: user.email || `${user.user}@santoagostinho.com.br`,
-          name: user.name,
-          password: await bcrypt.hash(user.password, 12),
-          profile: idToStringProfile(user.id_perfil)
-        },
-        create: {
-          email: user.email || `${user.user}@santoagostinho.com.br`,
-          name: user.name,
-          password: await bcrypt.hash(user.password, 12),
-          profile: idToStringProfile(user.id_perfil)
-
-        }
+        where: {id: user.id},
+        update: {...user, profile: profiles[user.profile] },
+        create: {...user, profile: profiles[user.profile]},          
       })
-      // console.log(`${user.name} atualizado com sucesso!`)
     } catch (error) {
       console.log(`${error} ${user.name} - ${user.email}`)
     }
@@ -137,7 +109,6 @@ async function createGroups() {
 
   groups.forEach(async (group) => {
     try {
-
       await prisma.group.upsert({
         where: { id: group.id },
         update: group,

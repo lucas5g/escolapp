@@ -54,3 +54,24 @@ export const places = [
     name: 'sala'
   }
 ]
+
+export const users = [
+  {
+    id: 1,
+    email: 'admin@mail.com',
+    password: 'qweqwe',
+    name: 'admin',
+    unityId: 2,
+    profile: 'manager'
+  },
+  {
+    id: 2,
+    email: 'juiz@mail.com',
+    password: 'qweqwe',
+    name: 'admin',
+    unityId: 2,
+    profile: 'judge'
+  },
+
+
+]
