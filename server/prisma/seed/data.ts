@@ -78,8 +78,9 @@ export const users = [
 
 export const games = [
   {
-    id: 1,
-    date: "2023-03-15 04:29:51.961",
+    // id: 1,
+    // date: "2023-03-15",
+    date: new Date().toISOString(),
     startHours: "08:00",
     endHours: "09:00",
     placeId: 1,
@@ -99,7 +100,6 @@ export const games = [
         fairPlay: 0
       },
     ]
-
   }
 ]
 
@@ -114,7 +114,7 @@ export const teams = [
   },
 
   {
-    id: 1,
+    id: 2,
     name: 'xadrez',
     modalityId: 2,
     groupId: 1,
@@ -122,3 +122,4 @@ export const teams = [
     students:['C123123', 'C321321']
   }
 ]
+

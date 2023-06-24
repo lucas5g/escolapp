@@ -2,14 +2,14 @@ import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { setTimeout } from 'timers/promises'
 
-import { groups, modalities, places, teams, unities, users } from './data'
+import { games, groups, modalities, places, teams, unities, users } from './data'
 
 const prisma = new PrismaClient();
-const types:any = {
+const types: any = {
   collective: 'collective',
   individual: 'individual'
 };
-const profiles:any = {
+const profiles: any = {
   manager: 'manager',
   judge: 'judge'
 };
@@ -23,7 +23,7 @@ const profiles:any = {
   await createGenres()
   await createPlaces()
   await createTeams()
-  await createGame() 
+  await createGames()
 })()
 
 
@@ -37,16 +37,15 @@ async function createUnities() {
   })
 }
 
-
 async function createUsers() {
 
   users.forEach(async (user) => {
     try {
 
       await prisma.user.upsert({
-        where: {id: user.id},
-        update: {...user, profile: profiles[user.profile] },
-        create: {...user, profile: profiles[user.profile]},          
+        where: { id: user.id },
+        update: { ...user, profile: profiles[user.profile] },
+        create: { ...user, profile: profiles[user.profile] },
       })
     } catch (error) {
       console.log(`${error} ${user.name} - ${user.email}`)
@@ -54,18 +53,12 @@ async function createUsers() {
   })
 }
 
-async function createGame() {
+async function createGames() {
   await setTimeout(2000)
-  await prisma.game.create({
-    data: {
-      date: '2023-03-15T04:29:51.961Z',
-      startHours: '08:00',
-      endHours: '09:00',
-      placeId: 1,
-      modalityId: 1,
-      userId: 1,
-      teams: [1, 2]
-    }
+  games.forEach(async(game) => {
+    await prisma.game.create({
+      data: game
+    })
   })
 }
 
@@ -120,15 +113,13 @@ async function createGroups() {
 
 }
 
-
-
 async function createModalities() {
   modalities.forEach(async (modality) => {
     try {
       await prisma.modality.upsert({
         where: { id: modality.id },
         update: { ...modality, type: types[modality.type] }, // change the type property to an enum value
-        create: {...modality, type:types[modality.type]},
+        create: { ...modality, type: types[modality.type] },
       });
     } catch (error) {
       console.log(error);
