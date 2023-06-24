@@ -15,6 +15,15 @@ export class GroupRepository {
     })
   }
 
+  static async findByColumn(column:string, value:any){
+    return await prisma.group.findFirst({
+      where:{
+        [column]:value
+      }
+    })
+  }
+
+
   static async create(data:any) {
     return await prisma.group.create({ data })
   }

@@ -26,6 +26,11 @@ export class GroupService{
     ConfigService.clearCaches()
 
     const group = groupSchema.parse(data)
+    if(await GroupRepository.findByColumn('name', group.name)){
+      throw new Error(`A turma ${group.name} já foi cadastrado!.`)
+    }
+
+
     return await GroupRepository.create(group)
   }
 

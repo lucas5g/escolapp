@@ -11,8 +11,12 @@ export class GroupController{
     res.json(await GroupService.findById(Number(req.params.id)))
   }
 
-  static async create(req: Request, res:Response){
-    res.json(await GroupService.create(req.body))
+  static async create(req: Request, res:Response, next:NextFunction){
+    try{
+      res.json(await GroupService.create(req.body))
+    }catch(error){
+      next(error)
+    }
   }
 
   static async update(req: Request, res:Response){
