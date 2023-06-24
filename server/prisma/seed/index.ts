@@ -2,8 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { setTimeout } from 'timers/promises'
 
-import teams from './data/teams.json'
-import { groups, modalities, places, unities, users } from './data'
+import { groups, modalities, places, teams, unities, users } from './data'
 
 const prisma = new PrismaClient();
 const types:any = {
@@ -99,7 +98,7 @@ async function createTeams() {
         create: team
       })
     } catch (error) {
-      console.log(error + team.name)
+      console.log(error)
     }
   })
 
