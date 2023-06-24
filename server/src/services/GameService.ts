@@ -13,7 +13,7 @@ export class GameService {
     const filter = gameFilterSchema.parse(data)
 
     const games = await GameRepository.findMany(filter)
-    const students = await StudentRepository.findMany() 
+    const students = await StudentRepository.findMany({unity:'contagem'}) 
     const teams = await TeamRepository.findMany({})
     return games.map(game => {
       const gameTeams = game.teams as Prisma.JsonArray

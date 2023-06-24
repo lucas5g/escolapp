@@ -1,31 +1,35 @@
 import { cache } from "../utils/cache";
 import { googleSheets } from "../utils/google-sheets";
+import { StudentFilterType } from "../utils/schemas";
 
 interface StudentInterface{
   ra:string 
   name:string 
   group:string 
   groupOld:string
+  unity:string
 }
 
 export class StudentRepository {
 
-  static async findMany(){
+  static async findMany(filter:StudentFilterType){
 
-    if(cache.has('students')){
-      return cache.get('students') as StudentInterface[]
+    const studentsCache = `students_${filter.unity}`
+    if(cache.has(studentsCache)){
+      return cache.get(studentsCache) as StudentInterface[]
     }
-
-    const studentsAllFields = await googleSheets({range:'all!a:g'}) as StudentInterface[]
+    
+    const studentsAllFields = await googleSheets({range:`${filter.unity}!a:g`}) as StudentInterface[]
     const students= studentsAllFields.map(student => {
       return {
         ra: student.ra,
         name: student.name,
-        group: student.group
+        group: student.group,
+        unity: student.unity
       }
     })
 
-    cache.set('students', students)
+    cache.set(studentsCache, students)
     return students
 
   }

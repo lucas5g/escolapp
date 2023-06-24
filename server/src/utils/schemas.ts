@@ -83,14 +83,14 @@ export type GameType = z.infer<typeof gameSchema>
 
 
 
-export const studentQuerySchema = z.object({
+export const studentFilterSchema = z.object({
   group: z.string().optional(),
-  unity: z.string().optional()
+  unity: z.string()
   // codcur:z.coerce.number().optional(),
   // codper:z.coerce.number().optional()
 })
 
-export type StudentQueryType = z.infer<typeof studentQuerySchema>
+export type StudentFilterType = z.infer<typeof studentFilterSchema>
 
 export const teamSchema = z.object({
   name: z.string(),
@@ -101,7 +101,7 @@ export const teamSchema = z.object({
 })
 
 export const teamQuerySchema = z.object({
-  modalityId: z.coerce.number().optional()
+  modalityId: z.coerce.number().optional(),
 })
 
 export type TeamType = z.infer<typeof teamSchema>

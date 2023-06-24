@@ -1,13 +1,13 @@
 import { GroupRepository } from "../repositories/GroupRepository";
-import { StudentRepository } from "../repositories/StudentRepository";
 import { TeamRepository } from "../repositories/TeamRepository";
 import { groupSchema } from "../utils/schemas";
 import { ConfigService } from "./ConfigService";
+import { StudentService } from "./StudentService";
 
 export class GroupService{
   static async findMany(){
     const groups = await GroupRepository.findMany()
-    const students = await StudentRepository.findMany()
+    const students = await StudentService.findMany({unity:'contagem'})
 
     return groups.map(group => {
       return {

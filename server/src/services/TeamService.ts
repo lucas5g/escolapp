@@ -1,21 +1,17 @@
-import { games } from "googleapis/build/src/apis/games"
 import { GameRepository } from "../repositories/GameRepository"
-import { StudentRepository } from "../repositories/StudentRepository"
 import { TeamRepository } from "../repositories/TeamRepository"
 import { cache } from "../utils/cache"
 import { TeamType, teamQuerySchema, teamSchema } from "../utils/schemas"
 import { Prisma } from "@prisma/client"
+import { StudentService } from "./StudentService"
 
 export class TeamService {
   static async findMany(data?: teamQuerySchema) {
-
-    // if(cache.has('teams')){
-    //   return cache.get('teams') as []
-    // }
-
-    const students = await StudentRepository.findMany()
-
-    const teams = await TeamRepository.findMany(data ? teamQuerySchema.parse(data) : {})
+    const filter = teamQuerySchema.parse(data)
+    
+    const teams = await TeamRepository.findMany({modalityId: filter.modalityId})
+    return teams
+    const students = await StudentService.findMany({unity: 'contagem'})
 
     const teamsStudents = teams.map(team => {
       const teamStudents = team.students as Prisma.JsonArray

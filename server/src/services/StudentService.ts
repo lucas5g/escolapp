@@ -1,24 +1,26 @@
 import { StudentRepository } from "../repositories/StudentRepository"
-import { StudentQueryType, studentQuerySchema } from "../utils/schemas"
+import { StudentFilterType, studentFilterSchema } from "../utils/schemas"
 
-interface StudentInterface{
-  ra: string 
-  name: string 
-  group: string 
+interface StudentInterface {
+  ra: string
+  name: string
+  group: string
+  unity: string
 }
 export class StudentService {
 
-  static async findMany(query?: StudentQueryType) {
+  static async findMany(data: StudentFilterType) {
 
-    const { group } = studentQuerySchema.parse(query)
-    const students = await StudentRepository.findMany() as StudentInterface[]
+    const filter = studentFilterSchema.parse(data)
+    return await StudentRepository.findMany(filter)
+    // const students = await StudentRepository.findMany() as StudentInterface[]
 
-    if(group){
-      return students.filter( student => student.group === group)
-    }
-    
-    return students
-    
+    // if (group) {
+    //   return students.filter(student => student.group === group)
+    // }
+
+    // return students
+
   }
 
   // static async findById(id: string) {

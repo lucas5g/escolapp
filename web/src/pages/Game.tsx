@@ -24,13 +24,12 @@ export function Game() {
 
   const { data, error }: { data: GameInterface[], error: any } = swr(uri)
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
-  const { data: students }: { data: StudentInterface[] } = swr('students')
   const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
   const { data: places }: { data: PlaceInterface[] } = swr('places')
   const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
 
   if (error) return <Error error={error} />
-  if (!data || !teams || !students) return <Loading />
+  if (!data || !teams ) return <Loading />
   const games = data
   return (
     <Layout>

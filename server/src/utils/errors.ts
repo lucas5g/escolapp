@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 export function errors(error:any, req:Request, res:Response, next:NextFunction){
 
+  // console.log(error)
   const validations = error?.issues?.reduce((acc:any, error:any) => {
     return {...acc, [error.path[0]]: error.message}
   }, {})

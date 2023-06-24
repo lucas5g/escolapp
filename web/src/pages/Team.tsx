@@ -21,12 +21,12 @@ export function Team() {
   const { data, error }:{data:TeamInterface[], error:any} = swr('teams')
   const { data: groups, error: errorGroups }: { data: GroupInterface[], error: any } = swr('groups')
   const { data: modalities, error: errorModalities }:{data:ModalityInterface[], error:any} = swr('modalities')
-  const { data: students, error: errorStudents } = swr(`students`) as { data: StudentInterface[], error: any }
+  const { data: students, error: errorStudents } = swr(`students?unity='contagem'`) as { data: StudentInterface[], error: any }
   localStorage.setItem('uri', 'teams')
   
 
-  if (error) return <Error error={error} />
-  if (!data || !groups || !modalities || !students) return <Loading />
+  if (error || errorStudents) return <Error error={error} />
+  if (!data || !groups || !modalities || !students ) return <Loading />
 
   const teams = data
 

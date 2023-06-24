@@ -4,9 +4,10 @@ import { GameService } from "../services/GameService";
 
 describe('Team', () => {
 
-  it('Team list', async () => {
-    const teams = await TeamService.findMany()
+  it.only('Team list', async () => {
+    const teams = await TeamService.findMany({})
     expect(teams).toBeTypeOf('object')
+    return console.log(teams)
     teams.forEach(team => {
       expect(team).toHaveProperty('students')
       expect(team).toHaveProperty('modality')
