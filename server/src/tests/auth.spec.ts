@@ -35,7 +35,7 @@ describe('Auth', () => {
     await expect(() => login).rejects.toThrow('inválidos!')
   })
 
-  it.only('login', async () => {
+  it('login', async () => {
 
     const login = await AuthService.login({ ...user, password: '123456' })
     expect(login).toHaveProperty('accessToken')
