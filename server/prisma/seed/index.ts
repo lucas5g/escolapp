@@ -11,7 +11,8 @@ const types: any = {
 };
 const profiles: any = {
   manager: 'manager',
-  judge: 'judge'
+  judge: 'judge',
+  coordinator: 'coordinator'
 };
 
 (async () => {
@@ -46,11 +47,16 @@ async function createUsers() {
 
   users.forEach(async (user) => {
     try {
+      const userObj = {
+          ...user,
+          password: await bcrypt.hash(user.password, 12),
+          profile: profiles[user.profile]
+      }
 
       await prisma.user.upsert({
         where: { id: user.id },
-        update: { ...user, profile: profiles[user.profile] },
-        create: { ...user, profile: profiles[user.profile] },
+        update: userObj,
+        create: userObj,
       })
     } catch (error) {
       console.log(`${error} ${user.name} - ${user.email}`)
@@ -59,11 +65,17 @@ async function createUsers() {
 }
 
 async function createGames() {
-  await setTimeout(2000)
-  games.forEach(async(game) => {
-    await prisma.game.create({
-      data: game
-    })
+  games.forEach(async (game) => {
+    try{
+
+      await prisma.game.upsert({
+        where:{id: game.id},
+        update: game,
+        create: game
+      })
+    }catch(error){
+      console.log(error)
+    }
   })
 }
 

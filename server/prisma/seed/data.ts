@@ -14,12 +14,17 @@ export const unities = [
 ]
 export const groups = [
   {
-    "id": 1,
+    id: 1,
+    name: 'TESTE',
+    unityId:2
+  },
+  {
+    "id": 2,
     "name": "F1AMARELO",
     unityId: 2
   },
   {
-    "id": 2,
+    "id": 3,
     "name": "F1VERDE",
     unityId: 2
   }
@@ -68,24 +73,33 @@ export const users = [
     id: 2,
     email: 'juiz@mail.com',
     password: 'qweqwe',
-    name: 'admin',
+    name: 'juiz',
     unityId: 2,
     profile: 'judge'
   },
+  {
+    id: 3,
+    email: 'coordenador@mail.com',
+    password: 'qweqwe',
+    name: 'coordenador',
+    unityId: 2,
+    profile: 'coordinator'
+  },
+
 
 
 ]
 
 export const games = [
   {
-    // id: 1,
+    id: 1,
     // date: "2023-03-15",
     date: new Date().toISOString(),
     startHours: "08:00",
     endHours: "09:00",
     placeId: 1,
     modalityId: 1,
-    userId: 1,
+    userId: 2,
     teams: [
       {
         id: 1,
@@ -94,7 +108,7 @@ export const games = [
         fairPlay: 0
       },
       {
-        id: 2,
+        id: 3,
         gols: 0,
         points: 0,
         fairPlay: 0
@@ -112,7 +126,6 @@ export const teams = [
     genreId: 3,
     students:['C123123', 'C321321']
   },
-
   {
     id: 2,
     name: 'xadrez',
@@ -120,6 +133,22 @@ export const teams = [
     groupId: 1,
     genreId: 1,
     students:['C123123', 'C321321']
-  }
+  },
+  {
+    id: 3,
+    name: 'Futebol 3',
+    modalityId: 1,
+    groupId: 1,
+    genreId: 3,
+    students:['C123123', 'C321321']
+  },
+  {
+    id: 4,
+    name: 'Futebol 4',
+    modalityId: 1,
+    groupId: 1,
+    genreId: 3,
+    students:['C123123', 'C321321']
+  },
 ]
 

@@ -8,7 +8,6 @@ import { swr } from "../utils/swr";
 export function Home() {
 
   const { data, error } = swr('me')
-  const [number, setNumber] = useState<number>()
   if(error) return <Error error={error} />
   if(!data) return <Loading />
 

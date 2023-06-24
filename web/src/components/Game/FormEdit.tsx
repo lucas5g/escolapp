@@ -30,8 +30,11 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
       setSelectedTeams([])
       return
     }
-    setSelectedTeams(game.teams.map(team => team.id))
-  }, [game?.id])
+    setSelectedTeams(game.teams
+      .filter(team => team.modalityId === game.modalityId)
+      .map(team => team.id)
+    )
+  }, [game?.id, game.modalityId])
 
   if (!openForm) return <></>
 
@@ -147,7 +150,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
             fairPlay:0,
             points: 0
           }
-        })
+        }).sort((a,b) => a.id - b.id)
       }
       if (game.id) {
         await api.put(`games/${game.id}`, body)
