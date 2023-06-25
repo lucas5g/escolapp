@@ -4,8 +4,7 @@ import { Input } from "../components/Input";
 import { api } from "../utils/axios";
 import { translate } from "../utils/translate";
 import { sleep } from "../utils/sleep";
-import jwtDecode from "jwt-decode";
-import { UserInterface } from "../interfaces";
+
 
 export function Login() {
 
@@ -27,7 +26,6 @@ export function Login() {
         password
       })
       localStorage.setItem('accessToken', data.accessToken)
-      localStorage.setItem('unityId', data.unityId)
       location.href = '/'
       await sleep(200)
     } catch (error: any) {
