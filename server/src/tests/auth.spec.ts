@@ -38,7 +38,6 @@ describe('Auth', () => {
   it('login', async () => {
 
     const login = await AuthService.login({ ...user, password: '123456' })
-    console.log(login)
     expect(login).toHaveProperty('accessToken')
     expect(login).not.toHaveProperty('password')
     expect(login).toHaveProperty('unityId')
@@ -54,18 +53,21 @@ describe('Auth', () => {
 
   it('Update me', async () => {
     const data = {
-      profile: 'manager',
+      profile: 'judge',
       email: 'authNew@mail.com',
       name: 'user login update',
-      password: 'qweqwe'
+      password: 'qweqwe',
+      unityId: 2
     }
     const me = await AuthService.updateMe(user.id, data)
+    // console.log(me)
     expect(me).not.contain({
       profile: data.profile,
       email: data.email,
     })
-
+    
     expect(me).contain({
+      unityId: data.unityId,
       name: data.name
     })
     
