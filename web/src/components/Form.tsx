@@ -46,7 +46,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
     setLoading(true)
     try {
       
-      item.unityId = Number(localStorage.getItem('unityId'))
+      item.unityId = storageLogged().unityId
 
       if (item?.date) {
         item.date = new Date(item.date).toISOString()
