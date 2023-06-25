@@ -4,7 +4,7 @@ import { ModalityInterface, modalitySchema } from "../utils/schemas"
 
 export class ModalityService{
 
-  static async findMany({unityId}: {unityId:number}|any){
+  static async findMany({unityId}: {unityId:number}){
     return await ModalityRepository.findMany({unityId})
   }
 
