@@ -3,7 +3,7 @@ import { ModalityService } from "../services/ModalityService";
 export class ModalityController{
 
   static async index(req:Request, res:Response){
-    res.json(await ModalityService.findMany())
+    res.json(await ModalityService.findMany(req.user))
   }
 
   static async show(req:Request, res:Response){

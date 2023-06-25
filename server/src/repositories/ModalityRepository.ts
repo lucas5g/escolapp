@@ -2,11 +2,12 @@ import { prisma } from "../utils/prisma";
 
 export class ModalityRepository {
 
-  static async findMany(){
+  static async findMany(filter:any){
     return await prisma.modality.findMany({
       orderBy:{
         name:'asc'
-      }
+      },
+      where:filter
     })
   }
 

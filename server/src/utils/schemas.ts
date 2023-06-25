@@ -45,7 +45,8 @@ export const authSchema = z.object({
 
 export const authUpdateMeSchema = z.object({
   name: z.string(),
-  password: z.string().optional()
+  password: z.string().optional(),
+  unityId: z.number()
 })
 
 export type authType = z.infer<typeof authSchema>

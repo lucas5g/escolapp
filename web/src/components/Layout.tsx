@@ -1,8 +1,10 @@
-import { ReactNode} from "react";
+import { ReactNode } from "react";
 import { Aside } from "./Aside";
 import { Header } from "./Header";
 import { Title } from "./Title";
 import { swr } from "../utils/swr";
+import { ChangeUnity } from "./ChangeUnity";
+
 
 interface Props {
   children: ReactNode
@@ -10,7 +12,7 @@ interface Props {
 export function Layout({ children }: Props) {
 
   const { data } = swr('/')
-  if(localStorage.getItem('release') !== data?.api && data){
+  if (localStorage.getItem('release') !== data?.api && data) {
     localStorage.setItem('release', data.api)
     window.location.href = '/login'
   }
@@ -25,7 +27,7 @@ export function Layout({ children }: Props) {
           {children}
         </section>
       </main>
-      {/* <Footer /> */}
+      <ChangeUnity />
     </div>
 
   )

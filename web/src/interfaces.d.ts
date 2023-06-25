@@ -49,11 +49,8 @@ export interface UserInterface {
   id: number
   name: string
   profile: 'coordinator' | 'manager' | 'judge'
-  email: string 
-  unity: {
-    id: number
-    name: string
-  }
+  email: string
+  unityId: number
 }
 export interface TeamInterface {
   id: number
@@ -61,9 +58,9 @@ export interface TeamInterface {
   groupId: number
   modalityId: number
   genreId: number
-  goals:number | undefined
-  points:number
-  fairPlay:number
+  goals: number | undefined
+  points: number
+  fairPlay: number
   students: {
     ra: string,
     name: string,
@@ -87,13 +84,13 @@ export interface StudentInterface {
   // codper: number
 }
 
-export interface ChangeInputInterface{
-  teamId: number 
-  field:  'fairPlay' | 'goals' | 'points'
-  value: number|underfined
+export interface ChangeInputInterface {
+  teamId: number
+  field: 'fairPlay' | 'goals' | 'points'
+  value: number | underfined
 }
 
-export interface UnityInterface{
-  id: number 
-  name: string 
+export interface UnityInterface {
+  id: number
+  name: string
 }

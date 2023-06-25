@@ -164,7 +164,7 @@ export function Table({
         logged.profile !== 'judge' &&
 
         <button
-          className={clsx("bg-blue-500 text-white fixed bottom-10 right-10 p-3 rounded-full hover:p-4 hover:bg-blue-600 transition-all", {
+          className={clsx("bg-blue-500 text-white fixed bottom-14 right-4 p-2 rounded-full hover:p-4 hover:bg-blue-600 transition-all", {
             'invisible': openFormEdit === true || openFormSport === true
           })}
 

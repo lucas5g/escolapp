@@ -25,7 +25,7 @@ export function Team() {
   localStorage.setItem('uri', 'teams')
   
 
-  if (error || errorStudents) return <Error error={error} />
+  if (error || errorStudents || errorGroups) return <Error error={error || errorGroups} />
   if (!data || !groups || !modalities || !students ) return <Loading />
 
   const teams = data

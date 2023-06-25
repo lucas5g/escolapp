@@ -20,7 +20,7 @@ const fieldsForm = [
 export function Group() {
 
   const [group, setGroup] = useState({} as any)
-  const uri = `groups?unityId=${localStorage.getItem('unityId')}` 
+  const uri = 'groups' 
   const { data: groups, error } = swr(uri)
   localStorage.setItem('uri', 'groups')
 

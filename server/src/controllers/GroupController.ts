@@ -5,7 +5,7 @@ export class GroupController{
 
   static async index(req:Request, res:Response, next:NextFunction){
     try{
-      return res.json(await GroupService.findMany(req.query))
+      return res.json(await GroupService.findMany(req.user))
     }catch(error){
       next(error)
     }

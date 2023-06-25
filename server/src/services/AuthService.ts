@@ -22,7 +22,7 @@ export class AuthService {
       name: user.name,
       email: user.email,
       profile: user.profile,
-      unity: user.unity
+      unityId: user.unityId
     }
 
     const accessToken = jwt.sign(
@@ -45,8 +45,24 @@ export class AuthService {
   }
 
   static async updateMe(userId: number, data: any) {
+    
+    
     const user = authUpdateMeSchema.parse(data)
-    return await UserRepository.update(userId, user)
+
+    const auth =  await UserRepository.update(userId, user)
+
+    const accessToken = jwt.sign(
+      auth,
+      env.jwtSecret,
+      {
+        expiresIn: '5d'
+      }
+    )
+
+    return {
+      ...auth,
+      accessToken
+    }
   }
 
 }

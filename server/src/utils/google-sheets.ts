@@ -29,7 +29,7 @@ export async function googleSheets({ range }: { range: string }) {
 
     return values
   } catch (error) {
-    throw new Error('Não possui essa planilha cadastrada.')
+    throw new Error('Cadastre esse unidade na planilha de importação.')
   }
 }
 

@@ -10,7 +10,6 @@ export class GroupService{
 
   static async findMany(data?: any){
     const {unityId} = groupFilterSchema.parse(data)
-
     const groupsCache = `groups_${unityId}`
     if(cache.has(groupsCache)){
       return cache.get(groupsCache)

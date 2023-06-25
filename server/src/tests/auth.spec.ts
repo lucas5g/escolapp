@@ -38,9 +38,10 @@ describe('Auth', () => {
   it('login', async () => {
 
     const login = await AuthService.login({ ...user, password: '123456' })
+    console.log(login)
     expect(login).toHaveProperty('accessToken')
     expect(login).not.toHaveProperty('password')
-    expect(login.unity).toHaveProperty('name')
+    expect(login).toHaveProperty('unityId')
   })
 
   it('me', async () => {

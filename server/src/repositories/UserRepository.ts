@@ -6,7 +6,6 @@ const select = {
   name: true,
   profile: true,
   unityId: true,
-  unity:true
 }
 export class UserRepository {
 

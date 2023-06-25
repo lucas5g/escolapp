@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express"
 import { AuthService } from "../services/AuthService"
-import { UserService } from "../services/UserService"
   
 export class AuthController{
   static async login(req:Request, res:Response, next:NextFunction){
