@@ -136,13 +136,16 @@ routes.get('/unities', UnityController.index)
 routes.get('/unities/:id', UnityController.show)
 routes.put('/unities/:id', UnityController.update)
 routes.post('/unities', UnityController.create)
-routes.use(errors)
-
 
 /**
  * Setups
  */
 routes.get('/setups', SetupController.index)
-// routes.get('/setups', SetupController.update)
+routes.put('/setups', SetupController.update)
+routes.post('/setups', SetupController.create)
 // routes.get('/setups', SetupController.index)
-// routes.get('/setups', SetupController.index)
+
+
+
+routes.use(errors)
+

@@ -36,7 +36,6 @@ export function Setup() {
   if (error) return <Error error={error} />
   if (!data || !setups) return <Loading />
 
-  // setup.
   return (
     <Layout>
       <Main>

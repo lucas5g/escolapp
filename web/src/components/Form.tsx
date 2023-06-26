@@ -7,9 +7,6 @@ import { Card, Width } from "./Card";
 import { translate } from "../utils/translate";
 import moment from "moment";
 import { storageLogged } from "../utils/storage-logged";
-import { Input } from "./Input";
-import { swr } from "../utils/swr";
-import { UnityInterface } from "../interfaces";
 
 
 interface Props {
@@ -60,9 +57,12 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
         // console.log(item)
         await api.put(`${uri}/${item.id}`, item)
       } else {
-        await api.post(uri, item)
-        setItem({})
-        // setItem(data)
+        const { data } = await api.post(uri, item)
+        if(uri === 'setups'){
+          setItem(data)
+        }else{
+          setItem({})
+        }
       }
       setErrors('')
       mutate(uri)

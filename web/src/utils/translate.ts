@@ -7,7 +7,10 @@ export function translate(text:string){
     collective: 'Coletivo',
     individual: 'Individual',
     participative: 'Participativo',
-    ranking: 'Ranking'
+    ranking: 'Ranking',
+    'Invalid url':'Link inválido.'
+
+
   }
   return optional[text] ?? text
 }
