@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 
 
-export function permission(...profiles: ('coordinator' | 'manager' | 'judge')[]) {
+export function permission(...profiles: ('coordinator' | 'manager' | 'judge' | 'admin' | 'teacher')[]) {
 
   return function (req: Request, res: Response, next: NextFunction) {
 

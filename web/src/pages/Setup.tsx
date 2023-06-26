@@ -10,6 +10,7 @@ import { Main } from "../components/Main";
 import { Button } from "../components/Button";
 import { api } from "../utils/axios";
 import { sleep } from "../utils/sleep";
+import { storageLogged } from "../utils/storage-logged";
 
 
 const fieldsSetup = [
@@ -27,7 +28,7 @@ export function Setup() {
 
   const [me, setMe] = useState<UserInterface>()
   const [setup, setSetup] = useState<SetupInterface>()
-
+  const logged = storageLogged()
 
   const [loading, setLoading] = useState<boolean>()
   const { data, error }: { data: UserInterface, error: any } = swr('me')
@@ -40,15 +41,16 @@ export function Setup() {
     <Layout>
       <Main>
         <Main position="col">
-
-          <Form
-            title="Confirgurações"
-            item={setup || setups[0] || {}}
-            setItem={setSetup}
-            fields={fieldsSetup}
-            hasButtonCancel={false}
-            uri='setups'
-          />
+          {(logged.profile === 'admin' || logged.profile === 'coordinator' || logged.profile === 'manager' ) &&
+            <Form
+              title="Confirgurações"
+              item={setup || setups[0] || {}}
+              setItem={setSetup}
+              fields={fieldsSetup}
+              hasButtonCancel={false}
+              uri='setups'
+            />
+          }
           <Card>
             <div className="flex justify-end">
               <Button

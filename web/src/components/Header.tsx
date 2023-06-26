@@ -6,6 +6,7 @@ import logo from '../assets/logo.png'
 import { UserInterface } from "../interfaces"
 import jwtDecode from "jwt-decode"
 import { menus } from "../utils/menus"
+import { menuToUri } from "../utils/menu-to-uri"
 
 
 
@@ -46,9 +47,9 @@ export function Header() {
           return (
             <Link
               key={menu}
-              to={`/${menu.toLowerCase().replace('á', 'a')}`}
+              to={`/${menuToUri(menu)}`}
               className={clsx('py-3 pl-5 text-gray-900 hover:text-gray-800 hover:bg-blue-100 transition-colors rounded ', {
-                'text-gray-800 font-bold border-b-4 border-b-blue-300 rounded-none transition-colors': menu.toLocaleLowerCase() === location.pathname.replace('/', '') || menu === 'Home' && location.pathname === '/',
+                'text-gray-800 font-bold border-b-4 border-b-blue-300 rounded-none transition-colors': menuToUri(menu) === location.pathname.replace('/', '') || menu === 'Home' && location.pathname === '/',
               })}>
               {menu}
             </Link>

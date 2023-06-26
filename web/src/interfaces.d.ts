@@ -48,7 +48,7 @@ export interface UserInterface {
   name: string
   id: number
   name: string
-  profile: 'coordinator' | 'manager' | 'judge'
+  profile: 'coordinator' | 'manager' | 'judge' | 'admin' | 'teacher'
   email: string
   unityId: number
 }

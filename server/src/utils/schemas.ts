@@ -2,6 +2,8 @@ import { z } from "zod";
 
 const profiles = [
   'coordinator', 
+  'admin',
+  'teacher',
   'judge',
   'manager', 
   'representative'

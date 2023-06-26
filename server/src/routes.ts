@@ -53,7 +53,7 @@ routes.get('/teams', TeamController.index)
  * Routes for admin
  */
 
-routes.use(permission('manager', 'coordinator'))
+routes.use(permission('manager', 'coordinator', 'admin', 'teacher'))
 
 /**
  * Users

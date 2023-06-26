@@ -14,7 +14,7 @@ export function ChangeUnity() {
   const { data: unities, error }: { data: UnityInterface[], error: any } = swr('unities')
   // const { data: me, error: errorMe}:{data:UserInterface, error:any} = swr('me')
 
-  if(logged.profile !== 'manager') return <></>
+  if(logged.profile !== 'admin') return <></>
 
   return (
     

@@ -11,59 +11,60 @@ const fields = [
   { key: 'name', value: 'Nome' },
   { key: 'email', value: 'E-mail' },
   { key: 'profile', value: 'Perfil' },
-  // { key: 'unity', value: 'Unidade'}
-  
+]
+
+const options = [
+  {id: 'admin', name: 'Admin'},
+  { id: 'coordinator', name: 'Coordenador' },
+  { id: 'manager', name: 'Gerente' },
+  { id: 'judge', name: 'Moderador' },
+  { id: 'teacher', name: 'Professor' },
+  { id: 'representative', name: 'Representante' },
+
 ]
 
 const fieldsForm = [
-  {key:'name', value:'Nome'},
-  {key:'email', value:'E-mail', type:'email'},
-  {key:'password', value:'Senha', type:'password'},
+  { key: 'name', value: 'Nome' },
+  { key: 'email', value: 'E-mail', type: 'email' },
+  { key: 'password', value: 'Senha', type: 'password' },
   {
-    key:'profile', 
-    value:'Perfil',
-    options:[
-      {id:'', name:''},
-      {id:'manager', name:'Admin'},
-      {id:'judge', name:'Moderador'},
-      {id:'coordinator', name:'Coordenador'},
-      {id:'representative', name:'Representante'},
-      
-    ]
+    key: 'profile',
+    value: 'Perfil',
+    options
   },
 
 ]
-interface UserInterface{
-  id:number 
-  name: string 
+interface UserInterface {
+  id: number
+  name: string
 }
 
-export function User(){
+export function User() {
 
   const [user, setUser] = useState({} as UserInterface)
   const uri = 'users'
-  const {data:users, error}:{data:UserInterface[], error:any} = swr(uri)
+  const { data: users, error }: { data: UserInterface[], error: any } = swr(uri)
   if (error) return <Error error={error} />
   if (!users) return <Loading />
-  
-  return(
+
+  return (
     <Layout>
       <Main>
-        <Table 
+        <Table
           fields={fields}
           items={users}
           item={user}
           setItem={setUser}
           positionBottom={users.length * 100}
 
-          />
-          <Form 
-            fields={fieldsForm}
-            item={user}
-            setItem={setUser}
-            uri={uri}
-            width={80}
-            />
+        />
+        <Form
+          fields={fieldsForm}
+          item={user}
+          setItem={setUser}
+          uri={uri}
+          width={80}
+        />
       </Main>
     </Layout>
   )

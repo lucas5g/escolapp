@@ -11,7 +11,7 @@ export function menus() {
   ]
 
   // console.log(logged)
-  if (storageLogged().profile === 'manager') {
+  if (logged.profile === 'admin') {
     return [
       'Turmas',
       'Locais',
@@ -25,7 +25,32 @@ export function menus() {
     ]
   }
 
-  if (logged.profile === 'coordinator') {
+  if(logged.profile === 'manager'){
+    return [
+      'Turmas',
+      'Locais',
+      'Modalidades',
+      'Equipes',
+      'Jogos',
+      'Pontos',
+      'Usuários',
+      ...menusDefault,
+    ]
+  }
+
+  if(logged.profile === 'coordinator'){
+    return [
+      'Turmas',
+      'Locais',
+      'Modalidades',
+      'Equipes',
+      'Jogos',
+      'Pontos',
+      ...menusDefault,
+    ]
+  }
+
+  if (logged.profile === 'teacher') {
     return [
       'Turmas',
       'Locais',

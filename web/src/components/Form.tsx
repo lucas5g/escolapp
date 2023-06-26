@@ -33,6 +33,8 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<any>()
 
+  const logged = storageLogged()
+
   useEffect(() => {
     setTimeout(() => {
       setErrors(false)
@@ -160,7 +162,8 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
                 return (
                   <MenuItem
                     key={option.id}
-                    value={option.id}
+                    value={option.id} 
+                    disabled={option.id === 'admin' && logged.profile !== 'admin' && true }
                   >
                     {option.name}
                   </MenuItem>
@@ -169,27 +172,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
             </TextField>
           )
         })}
-        {/* {console.log(logged)} */}
-        {/* {logged.profile === 'manager' && uri !== 'unities' && unities && 
-          <Input
-            name='unityId'
-            label="Unidade"
-            options={unities.map(unity => {
-              return {
-                id: unity.id,
-                name: unity.name
-              }
-            })}
-            // options={[
-            //   { id: 1, name: 'Belo Horizonte' },
-            //   { id: 2, name: 'Contagem' }
-            // ]}
-            value={item.unityId ?? logged.unity.id}
-            onChange={event => setItem({ ...item, unityId: event.target.value })}
-          />
-        } */}
-
-
+      
         <footer className="flex justify-end gap-3">
           <Button value={item?.id ? 'Atualizar' : 'Cadastrar'} disabled={loading} />
           {hasButtonCancel &&

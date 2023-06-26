@@ -12,6 +12,8 @@ enum Profile {
   judge
   coordinator
   representative
+  teacher
+  admin
 }
 
 model Unity {

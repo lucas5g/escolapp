@@ -33,6 +33,7 @@ export function Table({
   deleteItem = false
 }: Props) {
   const [search, setSearch] = useState('')
+  const logged = storageLogged()
 
   const items = itemsWithoutFilter
     .filter(item => {
@@ -125,7 +126,7 @@ export function Table({
                         </td>
                       )
                     })}
-                    {deleteItem && storageLogged().profile === 'manager'  &&
+                    {deleteItem && (logged.profile === 'manager' || logged.profile === 'admin' || logged.profile === 'coordinator' ) &&
                       <td
                         className="px-2"
                         title="Deletar?"

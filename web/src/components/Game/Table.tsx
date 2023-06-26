@@ -130,7 +130,7 @@ export function Table({
                             scroll(games.length)
                           }} />
                       }
-                      {logged.profile === 'manager' &&
+                      {(logged.profile === 'manager' || logged.profile === 'admin' || logged.profile === 'coordinator') &&
                         <span title="Deletar">
                           <X
                             weight="bold"
