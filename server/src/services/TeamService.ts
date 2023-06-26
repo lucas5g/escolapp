@@ -7,8 +7,9 @@ import { StudentService } from "./StudentService"
 
 export class TeamService {
   static async findMany(data?: teamQuerySchema) {
-    if(cache.has('teams')){
-      return cache.get('teams') as any[]
+    const teamsCache = `teams_${data?.modalityId}`
+    if(cache.has(teamsCache)){
+      return cache.get(teamsCache) as any[]
     }
 
     const filter = teamQuerySchema.parse(data)    
@@ -27,7 +28,7 @@ export class TeamService {
       }
     })
 
-    cache.set('teams', teams)
+    cache.set(teamsCache, teams)
     return teams
   }
 
@@ -36,7 +37,7 @@ export class TeamService {
   }
 
   static async create(data: TeamType) {
-    cache.del('teams')
+    cache.flushAll()
 
     const team = teamSchema.parse(data)
 
@@ -48,14 +49,14 @@ export class TeamService {
   }
 
   static async update(id: number, data: any) {
-    cache.del('teams')
+    cache.flushAll()
 
     const team = teamSchema.parse(data)
     return await TeamRepository.update(id, team)
   }
 
   static async delete(id: number) {
-    cache.del('teams')
+    cache.flushAll()
 
     const games = await GameRepository.findMany({})
 
