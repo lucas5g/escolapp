@@ -77,9 +77,9 @@ export const gameFilterSchema = z.object({
 
 })
 
+export type GameType = z.infer<typeof gameSchema>
 export type GameFilterType = z.infer<typeof gameFilterSchema>
 
-export type GameType = z.infer<typeof gameSchema>
 
 
 
