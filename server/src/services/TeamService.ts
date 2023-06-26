@@ -7,12 +7,16 @@ import { StudentService } from "./StudentService"
 
 export class TeamService {
   static async findMany(data?: teamQuerySchema) {
-    const filter = teamQuerySchema.parse(data)
+    if(cache.has('teams')){
+      return cache.get('teams')
+    }
+
+    const filter = teamQuerySchema.parse(data)    
     
-    const teams = await TeamRepository.findMany({modalityId: filter.modalityId})
+    const teamsWithoutStudents = await TeamRepository.findMany({modalityId: filter.modalityId})
     const students = await StudentService.findMany({unity: 'contagem'})
 
-    const teamsStudents = teams.map(team => {
+    const teams = teamsWithoutStudents.map(team => {
       const teamStudents = team.students as Prisma.JsonArray
       return {
         ...team,
@@ -23,8 +27,8 @@ export class TeamService {
       }
     })
 
-    // cache.set('teams', teamsStudents)
-    return teamsStudents
+    cache.set('teams', teams)
+    return teams
   }
 
   static async findById(id: number) {
@@ -51,6 +55,7 @@ export class TeamService {
   }
 
   static async delete(id: number) {
+    cache.del('teams')
 
     const games = await GameRepository.findMany({})
 
