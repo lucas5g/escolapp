@@ -137,3 +137,8 @@ export type PlaceFilterType = z.infer<typeof placeFilterSchema>
 export const unitySchema = z.object({
   name: z.string()
 })
+
+export const setupSchema = z.object({
+  documentLink: z.string().url(),
+  unityId: z.number()
+})

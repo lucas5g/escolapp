@@ -5,7 +5,8 @@ export function menus() {
   const logged = storageLogged()
 
   const menusDefault = [
-    'Conta',
+    // 'Conta',
+    'Configurações',
     'Sair'
   ]
 

@@ -16,6 +16,7 @@ import { ConfigController } from './controllers/ConfigController'
 import { PointController } from './controllers/PointController'
 import { permission } from './utils/permission'
 import { UnityController } from './controllers/UnityController'
+import { SetupController } from './controllers/SetupController'
 
 export const routes = Router()
 
@@ -138,3 +139,10 @@ routes.post('/unities', UnityController.create)
 routes.use(errors)
 
 
+/**
+ * Setups
+ */
+routes.get('/setups', SetupController.index)
+// routes.get('/setups', SetupController.update)
+// routes.get('/setups', SetupController.index)
+// routes.get('/setups', SetupController.index)

@@ -162,3 +162,17 @@ export const teams = [
   },
 ]
 
+
+export const setups = [
+  {
+    id: 1,
+    unityId: 2,
+    documentLink:'https://docs.google.com/document/d/1U0uJvTwSmepAQZgiPAlbNiqYBY4RggBCV4bjtO5H9zY/edit?usp=drive_link'
+  },
+  {
+    id: 2,
+    unityId: 1,
+    documentLink:'https://docs.google.com/document/d/1U0uJvTwSmepAQZgiPAlbNiqYBY4RggBCV4bjtO5H9zY/edit?usp=drive_link'
+  },
+
+]

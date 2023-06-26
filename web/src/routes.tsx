@@ -9,7 +9,7 @@ import { Team } from './pages/Team'
 import { User } from './pages/User'
 import { Point } from './pages/Point'
 import { Game } from './pages/Game'
-import { Account } from './pages/Account'
+import { Setup } from './pages/Setup'
 import { Logout } from './pages/Logout'
 import { Unity } from './pages/Unity'
 
@@ -24,7 +24,7 @@ const routesPrivate = createBrowserRouter([
   { path: '/jogos', element: <Game /> },
   { path: '/pontos', element:<Point />},
   { path: '/usuarios', element: <User /> },
-  { path: '/conta', element: <Account />},
+  { path: '/configuracoes', element: <Setup />},
   { path: '/sair', element: <Logout />},
   { path: '/unidades', element: <Unity />},
   { path: '*', element: <Home /> }, 

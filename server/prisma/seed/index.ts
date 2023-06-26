@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { setTimeout } from 'timers/promises'
 
-import { games, groups, modalities, places, teams, unities, users } from './data'
+import { games, groups, modalities, places, setups, teams, unities, users } from './data'
 
 const prisma = new PrismaClient();
 const types: any = {
@@ -30,7 +30,18 @@ const profiles: any = {
   // return;
   await createTeams()
   await createGames()
+  await createSetups()
 })()
+
+async function createSetups(){
+  setups.forEach(async(setup) => {
+    await prisma.setup.upsert({
+      where:{id: setup.id},
+      update: setup,
+      create: setup
+    })
+  })
+}
 
 
 async function createUnities() {
