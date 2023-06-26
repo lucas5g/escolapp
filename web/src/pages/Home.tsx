@@ -20,17 +20,17 @@ export function Home() {
       <Card>
         Aplicação para a gestão do JISA.
       </Card>
-      <Card>
-        {data[0]?.documentLink &&
-          <a 
+      {data[0]?.documentLink &&
+        <Card>
+          <a
             href={data[0].documentLink}
             className="text-blue-600 flex items-center gap-2"
             target="_blanket"
-            >
-            Documentos <Link weight="bold"/>
+          >
+            Documentos <Link weight="bold" />
           </a>
-        }
-      </Card>
+        </Card>
+      }
     </Layout>
   )
 }
