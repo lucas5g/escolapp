@@ -28,10 +28,11 @@ interface Props {
   width?: Width
   children?: ReactNode
   hasButtonCancel?: boolean
+  title?: string
 }
 
 
-export function Form({ item, setItem, fields, uri, width, children, hasButtonCancel = true }: Props) {
+export function Form({ item, setItem, fields, uri, width, children, hasButtonCancel = true, title }: Props) {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<any>()
 
@@ -45,7 +46,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
     event.preventDefault()
     setLoading(true)
     try {
-      
+
       item.unityId = storageLogged().unityId
 
       if (item?.date) {
@@ -86,6 +87,11 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
 
   return (
     <Card width={width} >
+      {title &&
+        <h2 className="text-zinc-600 text-lg mb-2 text-right italic">
+          {title}
+        </h2>
+      }
       <form onSubmit={handleSubmit}
         className='flex flex-col gap-5'>
 

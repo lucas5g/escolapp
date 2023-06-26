@@ -94,3 +94,9 @@ export interface UnityInterface {
   id: number
   name: string
 }
+
+export interface SetupInterface{
+  id:number
+  documentLink: string 
+  
+}
