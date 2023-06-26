@@ -36,7 +36,6 @@ export function Setup() {
   if (error) return <Error error={error} />
   if (!data || !setups) return <Loading />
 
-  console.log(setups[0])
   // setup.
   return (
     <Layout>
@@ -45,7 +44,7 @@ export function Setup() {
 
           <Form
             title="Confirgurações"
-            item={setup || setups[0]}
+            item={setup || setups[0] || {}}
             setItem={setSetup}
             fields={fieldsSetup}
             hasButtonCancel={false}
