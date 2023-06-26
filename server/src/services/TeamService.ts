@@ -8,7 +8,7 @@ import { StudentService } from "./StudentService"
 export class TeamService {
   static async findMany(data?: teamQuerySchema) {
     if(cache.has('teams')){
-      return cache.get('teams')
+      return cache.get('teams') as any[]
     }
 
     const filter = teamQuerySchema.parse(data)    

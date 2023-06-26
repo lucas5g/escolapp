@@ -13,7 +13,7 @@ export class GameService {
     // const filter = data ? gameFilterSchema.parse(data) : {}
     const gamesCache = `games_${data.userId}_${data.date}`
     if(cache.has(gamesCache)){
-      return cache.get(gamesCache)
+      return cache.get(gamesCache) as any[]
     }
 
     const filter = gameFilterSchema.parse(data)
