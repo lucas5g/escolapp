@@ -8,7 +8,7 @@ interface Props {
 
 export function Error({ error }: Props) {
 
-  // console.log('error fetch', error.response)
+  console.log('Mensagem de error', error.message)
 
   if (error?.response?.data?.message === 'Without permission') {
     return (
@@ -23,7 +23,7 @@ export function Error({ error }: Props) {
     return <LayoutError title="Fim da sessão!" />
   }
 
-  if(error.response.data.message) return <LayoutError title={error.response.data.message}/>
+  if(error.response?.data.message) return <LayoutError title={error.response.data.message}/>
   
 
   return <LayoutError title='Erro ao conectar com servidor :(' />
