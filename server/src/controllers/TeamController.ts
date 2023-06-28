@@ -17,7 +17,7 @@ export class TeamController{
 
   static async create(req: Request, res:Response, next:NextFunction){
     try{
-      res.json(await TeamService.create(req.body))
+      res.status(201).json(await TeamService.create(req.body))
     }catch(error){
       next(error)
     }

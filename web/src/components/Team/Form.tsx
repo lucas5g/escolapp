@@ -8,7 +8,6 @@ import { GroupInterface, ModalityInterface, StudentInterface, TeamInterface } fr
 import { Row } from "../Row";
 import { MultiSelect } from "../MultiSelect";
 import { renameLowerCase } from "../../utils/rename-lowercase";
-import { group } from "console";
 
 
 interface Props {
