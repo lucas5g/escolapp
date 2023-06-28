@@ -56,6 +56,8 @@ export class GroupService{
   }
 
   static async delete(id:number){
+    cache.flushAll()
+    
     if(await TeamRepository.findByColumn('groupId', id)){
       throw new Error('Não foi possível deletar :(\nPossui Equipes com essa turma.')
     }
