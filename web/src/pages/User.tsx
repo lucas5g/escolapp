@@ -17,7 +17,7 @@ const options = [
   {id: 'admin', name: 'Admin'},
   { id: 'coordinator', name: 'Coordenador' },
   { id: 'manager', name: 'Gerente' },
-  { id: 'judge', name: 'Moderador' },
+  { id: 'judge', name: 'Mediador' },
   { id: 'teacher', name: 'Professor' },
   { id: 'representative', name: 'Representante' },
 
