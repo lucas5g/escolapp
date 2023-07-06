@@ -1,3 +1,4 @@
+import moment from "moment";
 import { ConfigService } from "../services/ConfigService";
 import { prisma } from "../utils/prisma";
 import { GameFilterType, GameType } from "../utils/schemas";
@@ -6,8 +7,16 @@ export class GameRepository {
 
 
   static async findMany(filter: GameFilterType) {
+    // console.log({filter})
+    // console.log('mais 1', moment(filter.date).add(1, 'day').toDate())
     return await prisma.game.findMany({
-      where:filter,
+      where:filter.userId ? {
+        date:{
+         gte:filter.date,
+         lte:  moment(filter.date).add(1, 'days').toDate()
+        },
+        userId: filter.userId
+      }:{},
       orderBy: [
         { date: 'asc' },
         { startHours: 'asc' }

@@ -62,7 +62,7 @@ describe('Game', () => {
   })
 
   it('List game by userId', async() => {
-    const userId = 73
+    const userId = 2
     const date = moment(moment().format('YYYY-MM-DD')).toISOString()
     const games = await GameService.findMany({userId, date})
     // console.log(games)

@@ -19,6 +19,7 @@ export class GameService {
     const filter = gameFilterSchema.parse(data)
 
     const gamesWithoutTeams = await GameRepository.findMany(filter)
+    // console.log({gamesWithoutTeams})
     const students = await StudentRepository.findMany({unity:'contagem'}) 
     const teams = await TeamRepository.findMany({})
 

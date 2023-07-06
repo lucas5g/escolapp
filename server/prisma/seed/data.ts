@@ -1,3 +1,4 @@
+import moment from "moment"
 import { PlaceType } from "../../src/utils/schemas"
 
 export const unities = [
@@ -104,7 +105,7 @@ export const games = [
   {
     id: 1,
     // date: "2023-03-15",
-    date: new Date().toISOString(),
+    date: moment(moment().format('YYYY-MM-DD')).toDate(),
     startHours: "08:00",
     endHours: "09:00",
     placeId: 1,
