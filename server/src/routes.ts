@@ -45,6 +45,7 @@ routes.get('/games', GameController.index)
 routes.get('/students', StudentController.index)
 routes.get('/places', PlaceController.index)
 routes.get('/teams', TeamController.index)
+routes.get('/setups', SetupController.index)
 
 
 
