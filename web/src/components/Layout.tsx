@@ -13,7 +13,7 @@ export function Layout({ children }: Props) {
 
   const { data } = swr('/')
 
-    if (localStorage.getItem('release') !== data?.api && data || !localStorage.getItem('accessToken')) {
+    if (localStorage.getItem('release') !== data?.api && data) {
       localStorage.setItem('release', data.api)
       window.location.href = '/login'
     }
