@@ -27,7 +27,7 @@ export function Login() {
       })
       localStorage.setItem('accessToken', data.accessToken)
       location.href = '/'
-      await sleep(200)
+      await sleep(500)
     } catch (error: any) {
       const { message, errors } = error?.response.data
       if (
