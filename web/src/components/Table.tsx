@@ -126,7 +126,7 @@ export function Table({
                         </td>
                       )
                     })}
-                    {deleteItem && (logged.profile === 'manager' || logged.profile === 'admin' || logged.profile === 'coordinator' ) &&
+                    {deleteItem && (logged?.profile === 'manager' || logged?.profile === 'admin' || logged?.profile === 'coordinator' ) &&
                       <td
                         className="px-2"
                         title="Deletar?"

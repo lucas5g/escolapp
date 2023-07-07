@@ -20,7 +20,7 @@ export function Game() {
   const logged = storageLogged()
 
   const date = moment(moment().format('YYYY-MM-DD')).toISOString()
-  const uri = logged.profile === 'judge' ? `games?userId=${logged.id}&date=${date}` : 'games'
+  const uri = logged?.profile === 'judge' ? `games?userId=${logged.id}&date=${date}` : 'games'
 
   const { data, error }: { data: GameInterface[], error: any } = swr(uri)
   const { data: teams }: { data: TeamInterface[] } = swr('teams')

@@ -12,7 +12,8 @@ const types: any = {
 const profiles: any = {
   manager: 'manager',
   judge: 'judge',
-  coordinator: 'coordinator'
+  coordinator: 'coordinator',
+  admin:'admin'
 };
 
 (async () => {

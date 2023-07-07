@@ -41,7 +41,7 @@ export function Setup() {
     <Layout>
       <Main>
         <Main position="col">
-          {(logged.profile === 'admin' || logged.profile === 'coordinator' || logged.profile === 'manager' ) &&
+          {(logged?.profile === 'admin' || logged?.profile === 'coordinator' || logged?.profile === 'manager' ) &&
             <Form
               title="Confirgurações"
               item={setup || setups[0] || {}}

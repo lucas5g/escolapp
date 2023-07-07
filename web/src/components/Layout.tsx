@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Aside } from "./Aside";
 import { Header } from "./Header";
 import { Title } from "./Title";
@@ -12,10 +12,12 @@ interface Props {
 export function Layout({ children }: Props) {
 
   const { data } = swr('/')
-  if (localStorage.getItem('release') !== data?.api && data) {
-    localStorage.setItem('release', data.api)
-    window.location.href = '/login'
-  }
+
+    if (localStorage.getItem('release') !== data?.api && data || !localStorage.getItem('accessToken')) {
+      localStorage.setItem('release', data.api)
+      window.location.href = '/login'
+    }
+
 
   return (
     <div className="h-screen flex flex-col justify-between bg-blue-50">

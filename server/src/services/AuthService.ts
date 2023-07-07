@@ -29,7 +29,8 @@ export class AuthService {
       userAuth,
       env.jwtSecret,
       {
-        expiresIn: '5d'
+        expiresIn: '7d'
+        // expiresIn: 10
       }
     )
 

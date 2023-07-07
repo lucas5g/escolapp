@@ -78,7 +78,7 @@ export const users = [
     password: 'qweqwe',
     name: 'admin',
     unityId: 2,
-    profile: 'manager'
+    profile: 'admin'
   },
   {
     id: 2,
@@ -96,9 +96,6 @@ export const users = [
     unityId: 2,
     profile: 'coordinator'
   },
-
-
-
 ]
 
 export const games = [

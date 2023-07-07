@@ -11,7 +11,7 @@ export function menus() {
   ]
 
   // console.log(logged)
-  if (logged.profile === 'admin') {
+  if (logged?.profile === 'admin') {
     return [
       'Turmas',
       'Locais',
@@ -25,7 +25,7 @@ export function menus() {
     ]
   }
 
-  if(logged.profile === 'manager'){
+  if(logged?.profile === 'manager'){
     return [
       'Turmas',
       'Locais',
@@ -38,7 +38,7 @@ export function menus() {
     ]
   }
 
-  if(logged.profile === 'coordinator'){
+  if(logged?.profile === 'coordinator'){
     return [
       'Turmas',
       'Locais',
@@ -50,7 +50,7 @@ export function menus() {
     ]
   }
 
-  if (logged.profile === 'teacher') {
+  if (logged?.profile === 'teacher') {
     return [
       'Turmas',
       'Locais',

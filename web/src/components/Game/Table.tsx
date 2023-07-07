@@ -116,7 +116,7 @@ export function Table({
                           scroll(games.length)
 
                         }} />
-                      {logged.profile !== 'judge' &&
+                      {logged?.profile !== 'judge' &&
                         <Edit
                           fontSize="small"
                           className={clsx("text-zinc-600 cursor-pointer", {
@@ -130,7 +130,7 @@ export function Table({
                             scroll(games.length)
                           }} />
                       }
-                      {(logged.profile === 'manager' || logged.profile === 'admin' || logged.profile === 'coordinator') &&
+                      {(logged?.profile === 'manager' || logged?.profile === 'admin' || logged?.profile === 'coordinator') &&
                         <span title="Deletar">
                           <X
                             weight="bold"
@@ -161,7 +161,7 @@ export function Table({
       }
 
       {
-        logged.profile !== 'judge' &&
+        logged?.profile !== 'judge' &&
 
         <button
           className={clsx("bg-blue-500 text-white fixed bottom-14 right-4 p-2 rounded-full hover:p-4 hover:bg-blue-600 transition-all", {

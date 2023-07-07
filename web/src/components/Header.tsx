@@ -3,19 +3,16 @@ import { List, X } from "phosphor-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import logo from '../assets/logo.png'
-import { UserInterface } from "../interfaces"
-import jwtDecode from "jwt-decode"
 import { menus } from "../utils/menus"
 import { menuToUri } from "../utils/menu-to-uri"
+import { storageLogged } from "../utils/storage-logged"
 
 
 
 export function Header() {
 
   const [showMenu, setShowMenu] = useState(false)
-  const accessToken = localStorage.getItem('accessToken')
-  const { name, email }: UserInterface = jwtDecode(accessToken ?? '')
-
+  const logged = storageLogged()
   return (
     <header className="z-10">
       <nav className="bg-blue-500 fixed  w-full lg:py-2 px-5 py-4 flex items-center justify-between">
@@ -33,9 +30,9 @@ export function Header() {
         </button>
         {/* {user?.name && */}
         <button
-          title={email}
+          title={logged?.email}
           className="hidden lg:block text-white bg-blue-300 rounded-full px-3 py-[.54em]">
-          {name.slice(0, 2).toUpperCase()}
+          {logged?.name.slice(0, 2).toUpperCase()}
         </button>
         {/* } */}
       </nav>
