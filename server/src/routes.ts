@@ -42,6 +42,8 @@ routes.put('/update-me', AuthController.updateMe)
 routes.get('/users', UserController.index)
 routes.get('/modalities', ModalityController.index)
 routes.get('/games', GameController.index)
+routes.put('/games/:id', GameController.update)
+
 routes.get('/students', StudentController.index)
 routes.get('/places', PlaceController.index)
 routes.get('/teams', TeamController.index)
