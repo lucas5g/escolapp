@@ -46,7 +46,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
     setLoading(true)
     try {
 
-      item.unityId = storageLogged().unityId
+      item.unity_id = storageLogged()?.unity_id
 
       if (item?.date) {
         item.date = new Date(item.date).toISOString()
@@ -54,10 +54,9 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
 
       if (uri === 'update-me') {
 
-        await api.put('update-me', item)
+        await api.patch('update-me', item)
       } else if (item.id) {
-        // console.log(item)
-        await api.put(`${uri}/${item.id}`, item)
+        await api.patch(`${uri}/${item.id}`, item)
       } else {
         const { data } = await api.post(uri, item)
         if(uri === 'setups'){
@@ -163,7 +162,7 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
                   <MenuItem
                     key={option.id}
                     value={option.id} 
-                    disabled={option.id === 'admin' && logged.profile !== 'admin' && true }
+                    disabled={option.id === 'admin' && logged?.profile !== 'admin' && true }
                   >
                     {option.name}
                   </MenuItem>

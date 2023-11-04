@@ -32,7 +32,7 @@ export function Header() {
         <button
           title={logged?.email}
           className="hidden lg:block text-white bg-blue-300 rounded-full px-3 py-[.54em]">
-          {logged?.name.slice(0, 2).toUpperCase()}
+          {logged?.email.slice(0, 2).toUpperCase()}
         </button>
         {/* } */}
       </nav>

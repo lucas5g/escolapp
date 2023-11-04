@@ -32,32 +32,33 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
 
 
   useEffect(() => {
-    const group = groups.find(group => group.id === team.groupId)
-    const modality = modalities.find((modality: any) => modality.id === team.modalityId)
-    const genre = genres.find((genre: any) => genre.id === team.genreId)
-    const teamName = `${group?.name ?? ''} ${modality?.name ?? ''} ${genre?.name ?? ''}`.trim()
+    if(!team.id)return 
+
+    const group = team.group
+    const modality = modalities.find((modality: any) => modality.id === team.modality_id)
+    const genre = team.genre
+    const teamName = `${group} ${modality?.name ?? ''} ${genre}`.trim()
     setTeam({ ...team, name: teamName })
 
-  }, [team.id, team.modalityId, team.genreId, team.groupId])
+  }, [team.id, team.modality_id, team.genre, team.group])
 
   useEffect(() => {
     if (!team.students) {
       return setStudentsSelected([])
     }
 
-    setStudentsSelected(team.students
-      .filter(student => student.group === groups.find(group => group.id === team.groupId)?.name)
-      .map(student => student.ra)
-    )
+    // setStudentsSelected(team.students
+    //   // .filter(student => student.group === groups.find(group => group.id === team.group).)
+    //   .map(student => student.ra)
+    // )
 
-  }, [team.id, team.groupId])
+  }, [team.id, team.group])
 
-  const modality = modalities.find(modality => modality.id === team.modalityId)
+  const modality = modalities.find(modality => modality.id === team.modality_id)
 
   const students = studentsWithoutFilter.filter(student => {
-    const group = groups.find(group => group.id === team.groupId)
-    return student.group === group?.name
-  }).map(student => {
+    return student.group === team.group
+    }).map(student => {
     return {
       id: student.ra,
       name: renameLowerCase(student.name)
@@ -74,23 +75,23 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
           name='groupId'
           label='Turma'
           options={groups}
-          value={team.groupId ?? ''}
-          onChange={event => setTeam({ ...team, groupId: Number(event.target.value) })}
+          value={team.group ?? ''}
+          onChange={event => setTeam({ ...team, group: event.target.value })}
         />
         <Row>
           <Input
             name='modalityId'
             label='Modalidade'
             options={modalities}
-            value={team.modalityId ?? ''}
-            onChange={event => setTeam({ ...team, modalityId: Number(event.target.value) })}
+            value={team.modality_id ?? ''}
+            onChange={event => setTeam({ ...team, modality_id: Number(event.target.value) })}
           />
           <Input
-            name='genreId'
+            name='genre_id'
             label='Gênero'
             options={genres}
-            value={team.genreId ?? ''}
-            onChange={event => setTeam({ ...team, genreId: Number(event.target.value) })}
+            value={team.genre ?? ''}
+            onChange={event => setTeam({ ...team, genre: event.target.value })}
             className="w-1/2"
           />
         </Row>
@@ -100,7 +101,7 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
           value={team.name || ''}
           onChange={event => setTeam({ ...team, name: event.target.value })}
         />
-        {students && team.groupId &&
+        {students && team.group &&
           <MultiSelect
             label="Alunos"
             selected={studentsSelected}
@@ -136,9 +137,9 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
 
     const body = {
       name: team.name,
-      groupId: team.groupId,
-      modalityId: team.modalityId,
-      genreId: team.genreId,
+      group: team.group,
+      modalityId: team.modality_id,
+      genreId: team.genre,
       students: studentsSelected
     }
     // console.log('students => ', body.students)

@@ -9,9 +9,9 @@ import { Link } from "phosphor-react";
 
 export function Home() {
 
-  const { data, error }: { data: SetupInterface[], error: any } = swr('setups')
-  if (error) return <Error error={error} />
-  if (!data) return <Loading />
+  // const { data, error }: { data: SetupInterface[], error: any } = swr('setups')
+  // if (error) return <Error error={error} />
+  // if (!data) return <Loading />
 
 
 
@@ -20,7 +20,7 @@ export function Home() {
       <Card>
         Aplicação para a gestão do JISA.
       </Card>
-      {data[0]?.documentLink &&
+      {/* {data[0]?.documentLink &&
         <Card>
           <a
             href={data[0].documentLink}
@@ -29,8 +29,8 @@ export function Home() {
           >
             Documentos <Link weight="bold" />
           </a>
-        </Card>
-      }
+        </Card> */}
+      {/* } */}
     </Layout>
   )
 }

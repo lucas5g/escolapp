@@ -50,17 +50,17 @@ export interface UserInterface {
   name: string
   profile: 'coordinator' | 'manager' | 'judge' | 'admin' | 'teacher'
   email: string
-  unityId: number
+  unity_id:number
 }
 export interface TeamInterface {
   id: number
   name: string
-  groupId: number
-  modalityId: number
-  genreId: number
-  goals: number | undefined
-  points: number
-  fairPlay: number
+  group: string
+  modality_id: number
+  genre: number
+  // goals: number | undefined
+  // points: number
+  // fairPlay: number
   students: {
     ra: string,
     name: string,

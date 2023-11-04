@@ -18,8 +18,8 @@ export function Modality() {
       {id: 'participative', name: 'Participativo'},
       {id: 'ranking', name: 'Ranking'},
     ]},
-    { key: 'membersQuantity', value: 'Qtd. Membros', type:'number' },
-    { key: 'teamsQuantity', value: 'Qtd. Equipes', type:'number' }
+    { key: 'members_quantity', value: 'Qtd. Membros', type:'number' },
+    { key: 'teams_quantity', value: 'Qtd. Equipes', type:'number' }
   ]
   localStorage.setItem('uri', 'modalities')
   const [modality, setModality] = useState({})

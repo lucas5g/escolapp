@@ -8,7 +8,6 @@ export function storageLogged(){
     return null 
   }
   const logged:UserInterface = jwtDecode(accessToken ?? '')
-
   return logged
 
 }  
