@@ -31,17 +31,18 @@ export function Setup() {
   const logged = storageLogged()
 
   const [loading, setLoading] = useState<boolean>()
-  const { data, error }: { data: UserInterface, error: any } = swr('me')
-  const { data: setups, error: errorSetup }: { data: any, error: any } = swr('setups')
+  const { data, error }: { data: UserInterface, error: any } = swr('auth/me')
+  // const { data: setups, error: errorSetup }: { data: any, error: any } = swr('setups')
 
   if (error) return <Error error={error} />
-  if (!data || !setups) return <Loading />
+  // if (!data || !setups) return <Loading />
+  if(!data) return <Loading />
 
   return (
     <Layout>
       <Main>
         <Main position="col">
-          {(logged?.profile === 'admin' || logged?.profile === 'coordinator' || logged?.profile === 'manager' ) &&
+          {/* {(logged?.profile === 'admin' || logged?.profile === 'coordinator' || logged?.profile === 'manager' ) &&
             <Form
               title="Confirgurações"
               item={setup || setups[0] || {}}
@@ -50,7 +51,7 @@ export function Setup() {
               hasButtonCancel={false}
               uri='setups'
             />
-          }
+          } */}
           <Card>
             <div className="flex justify-end">
               <Button
@@ -59,7 +60,7 @@ export function Setup() {
                 secondary
                 onClick={async () => {
                   setLoading(true)
-                  await api.get('clear-caches')
+                  await api.get('reset-cache')
                   await sleep(800)
                   setLoading(false)
                 }}

@@ -58,14 +58,7 @@ export interface TeamInterface {
   group: string
   modality_id: number
   genre: number
-  // goals: number | undefined
-  // points: number
-  // fairPlay: number
-  students: {
-    ra: string,
-    name: string,
-    group: string
-  }[]
+  students: string[]
 }
 
 

@@ -8,6 +8,7 @@ import { GroupInterface, ModalityInterface, StudentInterface, TeamInterface } fr
 import { Row } from "../Row";
 import { MultiSelect } from "../MultiSelect";
 import { renameLowerCase } from "../../utils/rename-lowercase";
+import { storageLogged } from "../../utils/storage-logged";
 
 
 interface Props {
@@ -19,9 +20,9 @@ interface Props {
 }
 
 const genres = [
-  { id: 2, name: 'FEM' },
-  { id: 1, name: 'MAS' },
-  { id: 3, name: 'MISTO' },
+  { id: 'fem', name: 'FEM' },
+  { id: 'mas', name: 'MAS' },
+  { id: 'misto', name: 'MISTO' },
 ]
 
 export function Form({ team, setTeam, groups, modalities, students: studentsWithoutFilter }: Props) {
@@ -32,12 +33,11 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
 
 
   useEffect(() => {
-    if(!team.id)return 
 
     const group = team.group
     const modality = modalities.find((modality: any) => modality.id === team.modality_id)
     const genre = team.genre
-    const teamName = `${group} ${modality?.name ?? ''} ${genre}`.trim()
+    const teamName = `${group ?? ''} ${modality?.name ?? ''} ${genre ?? ''}`.trim()
     setTeam({ ...team, name: teamName })
 
   }, [team.id, team.modality_id, team.genre, team.group])
@@ -47,10 +47,7 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
       return setStudentsSelected([])
     }
 
-    // setStudentsSelected(team.students
-    //   // .filter(student => student.group === groups.find(group => group.id === team.group).)
-    //   .map(student => student.ra)
-    // )
+    setStudentsSelected(team.students)
 
   }, [team.id, team.group])
 
@@ -58,10 +55,11 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
 
   const students = studentsWithoutFilter.filter(student => {
     return student.group === team.group
-    }).map(student => {
+  }).map(student => {
     return {
       id: student.ra,
-      name: renameLowerCase(student.name)
+      name: renameLowerCase(student.name),
+      group: student.group
     }
   })
 
@@ -72,7 +70,7 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
         className="flex flex-col gap-5"
       >
         <Input
-          name='groupId'
+          name='group'
           label='Turma'
           options={groups}
           value={team.group ?? ''}
@@ -80,14 +78,14 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
         />
         <Row>
           <Input
-            name='modalityId'
+            name='modality_id'
             label='Modalidade'
             options={modalities}
             value={team.modality_id ?? ''}
             onChange={event => setTeam({ ...team, modality_id: Number(event.target.value) })}
           />
           <Input
-            name='genre_id'
+            name='genre'
             label='Gênero'
             options={genres}
             value={team.genre ?? ''}
@@ -138,20 +136,17 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
     const body = {
       name: team.name,
       group: team.group,
-      modalityId: team.modality_id,
-      genreId: team.genre,
-      students: studentsSelected
+      modality_id: team.modality_id,
+      genre: team.genre,
+      students: studentsSelected,
+      unity_id: storageLogged()?.unity_id
     }
-    // console.log('students => ', body.students)
-    // console.log('students length => ', body.students.length)
-
-    // return 
+    
     try {
       if (team.id) {
-        await api.put(`teams/${team.id}`, body)
+        await api.patch(`teams/${team.id}`, body)
       } else {
-        const { data } = await api.post(`teams`, body)
-        // setTeam(data)
+        await api.post('teams', body)
         setTeam({} as TeamInterface)
       }
       mutate('teams')

@@ -21,7 +21,7 @@ export function Team() {
   const { data, error }:{data:TeamInterface[], error:any} = swr('teams')
   const { data: groups, error: errorGroups }: { data: GroupInterface[], error: any } = swr('groups')
   const { data: modalities, error: errorModalities }:{data:ModalityInterface[], error:any} = swr('modalities')
-  const { data: students, error: errorStudents }: { data: StudentInterface[], error: any } = swr(`students?unity='contagem'`) 
+  const { data: students, error: errorStudents }: { data: StudentInterface[], error: any } = swr(`students`) 
   localStorage.setItem('uri', 'teams')
   
 
@@ -34,9 +34,6 @@ export function Team() {
       modality: modalities.find(modality => modality.id === team.modality_id)?.name
     }
   })
-
-  console.table(teams.slice(0,3))
-
   return (
     <Layout>
       <Main>
