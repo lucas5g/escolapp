@@ -18,7 +18,7 @@ export function Home() {
   return (
     <Layout>
       <Card>
-        Aplicação para a gestão do JISA.
+        Aplicação para a gestão do JISA DEMO.
       </Card>
       {/* {data[0]?.documentLink &&
         <Card>
