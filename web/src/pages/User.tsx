@@ -8,7 +8,6 @@ import { Loading } from "../components/Loading";
 import { Form } from "../components/Form";
 
 const fields = [
-  { key: 'name', value: 'Nome' },
   { key: 'email', value: 'E-mail' },
   { key: 'profile', value: 'Perfil' },
 ]
@@ -24,7 +23,6 @@ const options = [
 ]
 
 const fieldsForm = [
-  { key: 'name', value: 'Nome' },
   { key: 'email', value: 'E-mail', type: 'email' },
   { key: 'password', value: 'Senha', type: 'password' },
   {
