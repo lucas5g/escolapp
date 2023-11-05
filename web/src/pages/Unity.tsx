@@ -14,6 +14,10 @@ export function Unity() {
     { key: 'name', value: 'Nome' }
   ]
 
+  const fieldsForm = [
+    {key:'name', value: 'Nome'},
+    {key: 'spreedsheetId', value: 'Spreedsheet Id'}
+  ]
 
   const { data, error } = swr('unities')
 
@@ -31,7 +35,7 @@ export function Unity() {
         />
         <Form
           item={unity}
-          fields={fields}
+          fields={fieldsForm}
           setItem={setUnity}
           uri='unities'
         />

@@ -36,8 +36,8 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students }: Pr
               <div key={team.id} className="space-y-1">
                 <strong>{team.name}</strong>
                 <ul className="flex flex-col gap-1">
-                  {/* {JSON.stringify(team.students)} */}
-                  {team.students.map(student => {
+                  {team.students?.map(student => {
+                    console.table(student)
                     return (
                       <li key={student} className="border rounded pl-1 py-1">
                         {renameLowerCase(

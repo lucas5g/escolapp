@@ -50,7 +50,6 @@ export function Game() {
     }
   })
 
-  console.table(games[0].teams)
   return (
     <Layout>
       <Main>
