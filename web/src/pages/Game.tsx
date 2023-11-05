@@ -27,10 +27,30 @@ export function Game() {
   const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
   const { data: places }: { data: PlaceInterface[] } = swr('places')
   const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
+  const { data: students}:{data:StudentInterface[]} = swr('students')
 
   if (error) return <Error error={error} />
-  if (!data || !teams ) return <Loading />
-  const games = data
+  if (!data || !teams || !users || !places || !modalities  ) return <Loading />
+  const games = data.map(game => {
+    return {
+      ...game,
+      datetime:  `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`, 
+      modality: modalities.find(modality => modality.id === game.modality_id)?.name,
+      place: places.find(place => place.id === game.place_id)?.name,
+      user: users.find(user => user.id === game.user_id)?.email.split('@')[0],
+      teams: game.teams.map(gameTeam => {
+        return {
+          ...gameTeam,
+          students:teams.find(team => gameTeam.id === team.id )?.students,
+          name: teams.find(team => team.id === gameTeam.id)?.name
+        }
+      })
+
+
+    }
+  })
+
+  console.table(games[0].teams)
   return (
     <Layout>
       <Main>
@@ -51,6 +71,7 @@ export function Game() {
           setGame={setGameSport}
           openForm={openFormSport}
           setOpenForm={setOpenFormSport}
+          students={students}
         />
         <FormEdit
           game={gameEdit}

@@ -1,4 +1,4 @@
-import { ChangeInputInterface, GameInterface } from "../../interfaces";
+import { ChangeInputInterface, GameInterface, StudentInterface } from "../../interfaces";
 import { Card } from "../Card";
 import { Input } from "../Input";
 import { FormEvent, useState } from "react";
@@ -15,9 +15,10 @@ interface Props {
   setGame: (game: GameInterface) => void
   openForm: boolean
   setOpenForm: (openForm: boolean) => void
+  students: StudentInterface[]
 }
 
-export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
+export function FormSport({ game, setGame, openForm, setOpenForm, students }: Props) {
 
   const [loading, setLoading] = useState(false)
   const logged = storageLogged()
@@ -27,7 +28,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
     <Main position="col">
       <Card>
         <div className="text-sm">
-          {game.datetime} | {game.user.name} | {game.teams.length} Equipes
+          {game.datetime} | {game.user} | {game.teams.length} Equipes
         </div>
         <div className="grid grid-cols-2 text-sm gap-2 mt-5">
           {game.teams?.map(team => {
@@ -35,10 +36,13 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
               <div key={team.id} className="space-y-1">
                 <strong>{team.name}</strong>
                 <ul className="flex flex-col gap-1">
+                  {/* {JSON.stringify(team.students)} */}
                   {team.students.map(student => {
                     return (
-                      <li key={student.ra} className="border rounded pl-1 py-1">
-                        {renameLowerCase(student.name, 33)}
+                      <li key={student} className="border rounded pl-1 py-1">
+                        {renameLowerCase(
+                          students.find(row => row.ra === student)?.name ?? '',
+                          33)}
                       </li>
                     )
                   })}
@@ -95,7 +99,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
                       name={`teamPoints${team.id}`}
                       label={`Pontos`}
                       type="number"
-                      disabled={logged.profile === 'judge' || game.modality.type === 'participative' ? true : false}
+                      disabled={logged?.profile === 'judge' || game.modality.type === 'participative' ? true : false}
                       value={team.points ?? ''}
                       onChange={event => changeInput(
                         { field: 'points', teamId: team.id, value: Number(event.target.value) }
@@ -202,19 +206,19 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
       teams.sort((a, b) => Number(b.goals) - Number(a.goals))
 
       for (const team of teams) {
-        if (team.goals !== prevGoals){
-          prevGoals = team.goals 
-          currentPoints -= sameGoalsCount 
+        if (team.goals !== prevGoals) {
+          prevGoals = team.goals
+          currentPoints -= sameGoalsCount
           sameGoalsCount = 1
-        }else{
+        } else {
           sameGoalsCount++
         }
-        team.points = currentPoints 
+        team.points = currentPoints
       }
 
       teams.sort((a, b) => a.id - b.id)
 
-      return setGame({...game, teams})
+      return setGame({ ...game, teams })
     }
 
     for (const team of teams) {
@@ -262,7 +266,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm }: Props) {
         })
       }
 
-      await api.put(`games/${game.id}`, body)
+      await api.patch(`games/${game.id}`, body)
 
       mutate('games')
 

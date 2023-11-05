@@ -59,7 +59,6 @@ export function Input(props: Props) {
       disabled={props?.disabled}
       autoComplete={props.autoComplete}
       size='small'
-      // className={props.className}
       InputProps={props.setSearch && {
         endAdornment: (
           <InputAdornment 
@@ -73,9 +72,7 @@ export function Input(props: Props) {
         )
       }}
     >
-      {/* <MenuItem value='0'>
-        Selecione
-      </MenuItem> */}
+
       {props.options?.map(option => {
         return (
           <MenuItem

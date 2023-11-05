@@ -28,15 +28,19 @@ export function Table({
   const [search, setSearch] = useState('')
   const logged = storageLogged()
 
-  const games = gamesWithoutFilter.filter(game => {
-    const searchFilter = search.trim().toLowerCase()
-    return (
-      game.datetime.includes(searchFilter) ||
-      game.modality.name.toLowerCase().includes(searchFilter) ||
-      game.place.name.toLowerCase().includes(searchFilter) ||
-      game.user.name.toLowerCase().includes(searchFilter)
-    )
-  })
+  const games = gamesWithoutFilter
+
+  // const games = gamesWithoutFilter.filter(game => {
+  //   const searchFilter = search.trim().toLowerCase()
+  //   console.log(game)
+  //   return game
+  //   // return (
+  //     // game.datetime.includes(searchFilter) 
+  //     // game.modality.name.toLowerCase().includes(searchFilter) ||
+  //     // game.place.name.toLowerCase().includes(searchFilter) ||
+  //     // game.user.name.toLowerCase().includes(searchFilter)
+  //   // )
+  // })
 
   return (
     <Card>
@@ -80,10 +84,10 @@ export function Table({
                   })}
                 >
                   <td>{game.datetime}</td>
-                  <td>{game.modality.name}</td>
+                  <td>{game.modality}</td>
                   <td>
-                    {game.place.name} <br />
-                    {game.user.name}
+                    {game.place} <br />
+                    {game.user}
                   </td>
                   <td className="py-1"
                     title={title}
@@ -103,6 +107,7 @@ export function Table({
                   </td>
                   <td>
                     <>
+   
                       <Sports
                         fontSize="small"
                         className={clsx("text-zinc-600 cursor-pointer", {

@@ -6,21 +6,21 @@ export interface GameInterface {
   startHours: string
   endHours: string
   comments?: string
-  placeId: number
-  modalityId: number
-  userId: number
-  teams: TeamInterface[]
-  place: {
+  place_id: number
+  modality_id: number
+  user_id: number
+  teams: {
     id: number
-    name: string
-  }
-  user: {
-    name: string
-  }
-  modality: {
-    name: string,
-    type: 'collective' | 'individual' | 'participative' | 'ranking'
-  }
+    name: string | undefined
+    points: number
+    goals: number 
+    fairPlay: number
+    modality_id: number
+    students:string[]|undefined
+  }[],
+  place: string|undefined
+  user: string|undefined
+  modality: name
   errors?: {
     id?: string
     date?: string
@@ -50,7 +50,7 @@ export interface UserInterface {
   name: string
   profile: 'coordinator' | 'manager' | 'judge' | 'admin' | 'teacher'
   email: string
-  unity_id:number
+  unity_id: number
 }
 export interface TeamInterface {
   id: number
@@ -88,8 +88,8 @@ export interface UnityInterface {
   name: string
 }
 
-export interface SetupInterface{
-  id:number
-  documentLink: string 
-  
+export interface SetupInterface {
+  id: number
+  documentLink: string
+
 }
