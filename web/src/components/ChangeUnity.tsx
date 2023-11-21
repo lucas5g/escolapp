@@ -22,29 +22,24 @@ export function ChangeUnity() {
     <div>
       {open &&
         <div className="flex flex-col items-center justify-around rounded-lg bg-white w-40 fixed bottom-1 right-2 h-12 transition-all p-1">
-          {/* <div className="flex justify-end w-full pr-1" >
-            <button
-              className="border rounded-full p-1"
-              title="Fechar"
-              onClick={() => setOpen(false)}
-            >
-              <X weight="bold" size={11} />
-            </button>
-          </div> */}
+   
           <div className="w-36">
             <Input
               name="unityIdLogged"
               label="Unidade"
               className="w-12"
-              value={user.unityId}
+              value={user.unity_id}
               onChange={async (event) => {
-                const unityId = event.target.value
-                setUser({ ...user, unityId })
+                const unity_id = event.target.value
+                const userUpdate = {...user, unity_id}
 
-                const { data } = await api.put('update-me', { ...user, unityId })
+                console.log({userUpdate})
+
+                setUser(userUpdate)
+
+                const { data } = await api.put('update-me', userUpdate)
                 localStorage.setItem('accessToken', data.accessToken)
                 location.reload()
-                // console.log({value})
               }}
 
               options={unities.map(unity => {
@@ -71,15 +66,4 @@ export function ChangeUnity() {
     </div>
   )
 
-  // async function handleSubmit(){
-
-  //   const unityId = Number((document.querySelector('input[name=unityIdLogged]') as HTMLInputElement)?.value)
-
-  //   try{
-  //     await api.put(`users/${logged.id}`, { ...logged, unityId })
-  //     location.reload
-  //   } catch(error:any){
-  //     console.log(error)
-  //   }
-  // }
 }

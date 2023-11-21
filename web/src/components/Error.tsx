@@ -9,6 +9,7 @@ interface Props {
 export function Error({ error }: Props) {
 
   console.log('Mensagem de error', error.message)
+  // console.log(error)
 
   if (error?.response?.data?.message === 'Without permission') {
     return (
@@ -16,15 +17,17 @@ export function Error({ error }: Props) {
     )
   }
 
-  if (error?.response?.data?.message === 'Token inválido!') {
-  
+  if (error?.response?.data?.message === 'Token inválido!'
+    ||
+    error?.response?.status === 401) {
+
     localStorage.clear()
     window.location.href = '/login'
     return <LayoutError title="Fim da sessão!" />
   }
 
-  if(error.response?.data.message) return <LayoutError title={error.response.data.message}/>
-  
+  if (error.response?.data.message) return <LayoutError title={error.response.data.message} />
+
 
   return <LayoutError title='Erro ao conectar com servidor :(' />
 
