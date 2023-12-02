@@ -37,7 +37,7 @@ export function ChangeUnity() {
 
                 setUser(userUpdate)
 
-                const { data } = await api.put('update-me', userUpdate)
+                const { data } = await api.patch('auth/me', userUpdate)
                 localStorage.setItem('accessToken', data.accessToken)
                 location.reload()
               }}
