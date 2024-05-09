@@ -41,7 +41,8 @@ export function Table({
       return (
         item.name?.toLowerCase().includes(searchFilter) ||
         moment(item.date).format('DD/MM').includes(search) ||
-        item.modality?.name.toLowerCase().includes(searchFilter)
+        item.modality?.name.toLowerCase().includes(searchFilter) ||
+        item.email.includes(searchFilter)
 
       )
 
@@ -126,19 +127,19 @@ export function Table({
                         </td>
                       )
                     })}
-                    {deleteItem && (logged?.profile === 'manager' || logged?.profile === 'admin' || logged?.profile === 'coordinator' ) &&
+                    {deleteItem && (logged?.profile === 'manager' || logged?.profile === 'admin' || logged?.profile === 'coordinator') &&
                       <td
                         className="px-2"
                         title="Deletar?"
-                        onClick={async() => {
+                        onClick={async () => {
                           if (!confirm(`Deseja deletar ${row.name}?`)) return
 
-                          try{
+                          try {
                             const uri = localStorage.getItem('uri')
                             await api.delete(`${uri}/${row.id}`)
                             setItem({})
                             mutate(uri)
-                          }catch(error:any){
+                          } catch (error: any) {
                             alert(error.response.data.message)
                           }
                         }}
