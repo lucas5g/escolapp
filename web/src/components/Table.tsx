@@ -41,8 +41,8 @@ export function Table({
       return (
         item.name?.toLowerCase().includes(searchFilter) ||
         moment(item.date).format('DD/MM').includes(search) ||
-        item.modality?.name.toLowerCase().includes(searchFilter) ||
-        item.email.includes(searchFilter)
+        item.modality?.name?.toLowerCase().includes(searchFilter) ||
+        item.email?.includes(searchFilter)
 
       )
 
