@@ -18,7 +18,8 @@ interface Props {
   width?: Width
   positionBottom?: number
   placeholderInputFilter?: string
-  deleteItem?: boolean
+  deleteItem?: boolean,
+  isEditable?:boolean
 }
 
 
@@ -30,7 +31,8 @@ export function Table({
   width = 100,
   positionBottom = 500,
   placeholderInputFilter = 'Pesquisar por nome.',
-  deleteItem = false
+  deleteItem = false,
+  isEditable = true
 }: Props) {
   const [search, setSearch] = useState('')
   const logged = storageLogged()
@@ -71,7 +73,6 @@ export function Table({
           <table className="w-full mt-2">
             <thead>
               <tr className="border-b font-semibold ">
-                {/* <td className="pb-3 pr-1">N°</td> */}
                 <td className="pb-2">N°</td>
                 {fields.map(head => {
                   return (
@@ -87,11 +88,12 @@ export function Table({
                 return (
                   <tr
                     key={row.id}
-                    className={clsx("border-b hover:bg-blue-50 hover:cursor-pointer transition-colors rounded text-sm", {
+                    className={clsx("border-b hover:bg-blue-50 transition-colors rounded text-sm", {
                       'border-b-blue-300 bg-blue-100': row.id === item.id,
+                      'hover:cursor-pointer':isEditable
                       // 'text-sm': item.id
                     })}
-                    title="Clique para Editar"
+                    title={isEditable ? 'Clique para Editar':''}
                     onClick={() => {
                       if ('date' in row) {
                         setItem({ ...row, date: moment(row.date).toDate() })

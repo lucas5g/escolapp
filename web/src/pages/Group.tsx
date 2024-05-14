@@ -32,6 +32,7 @@ export function Group() {
           item={group}
           setItem={setGroup}
           positionBottom={groups.length * 100}
+          isEditable={false}
         />
        
       </Main>
