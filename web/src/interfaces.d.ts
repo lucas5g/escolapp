@@ -56,7 +56,7 @@ export interface TeamInterface {
   id: number
   name: string
   group: string
-  modality_id: number
+  modalityId: number
   genre: number
   students: string[]
 }

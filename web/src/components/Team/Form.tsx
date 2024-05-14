@@ -35,12 +35,12 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
   useEffect(() => {
 
     const group = team.group
-    const modality = modalities.find((modality: any) => modality.id === team.modality_id)
+    const modality = modalities.find((modality: any) => modality.id === team.modalityId)
     const genre = team.genre
     const teamName = `${group ?? ''} ${modality?.name ?? ''} ${genre ?? ''}`.trim()
     setTeam({ ...team, name: teamName })
 
-  }, [team.id, team.modality_id, team.genre, team.group])
+  }, [team.id, team.modalityId, team.genre, team.group])
 
   useEffect(() => {
     if (!team.students) {
@@ -51,7 +51,7 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
 
   }, [team.id, team.group])
 
-  const modality = modalities.find(modality => modality.id === team.modality_id)
+  const modality = modalities.find(modality => modality.id === team.modalityId)
 
   const students = studentsWithoutFilter.filter(student => {
     return student.group === team.group
@@ -81,8 +81,8 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
             name='modality_id'
             label='Modalidade'
             options={modalities}
-            value={team.modality_id ?? ''}
-            onChange={event => setTeam({ ...team, modality_id: Number(event.target.value) })}
+            value={team.modalityId ?? ''}
+            onChange={event => setTeam({ ...team, modalityId: Number(event.target.value) })}
           />
           <Input
             name='genre'
@@ -136,10 +136,10 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
     const body = {
       name: team.name,
       group: team.group,
-      modality_id: team.modality_id,
+      modality_id: team.modalityId,
       genre: team.genre,
       students: studentsSelected,
-      unity_id: storageLogged()?.unity_id
+      unity_id: storageLogged()?.unityId
     }
     
     try {

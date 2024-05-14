@@ -11,7 +11,6 @@ import { GroupInterface, ModalityInterface, StudentInterface, TeamInterface } fr
 const fields = [
   { key: 'name', value: 'Nome da Equipe', },
   { key: 'modality', value: 'Modalidade' },
-  // { key: 'group', value: 'Turma' },
 ]
 
 export function Team() {
@@ -31,7 +30,7 @@ export function Team() {
   const teams = data.map(team => {
     return {
       ...team,
-      modality: modalities.find(modality => modality.id === team.modality_id)?.name
+      modality: modalities.find(modality => modality.id === team.modalityId)?.name
     }
   })
   return (
