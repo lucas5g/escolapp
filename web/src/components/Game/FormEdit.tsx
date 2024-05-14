@@ -7,7 +7,6 @@ import { Button } from "../Button";
 import { api } from "../../utils/axios";
 import { mutate } from "swr";
 import { MultiSelect } from "../MultiSelect";
-import { TextareaAutosize } from "@mui/material";
 import { storageLogged } from "../../utils/storage-logged";
 
 interface Props {
@@ -32,14 +31,14 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
       return
     }
     setSelectedTeams(game.teams
-      .filter(team => team.modality_id === game.modality_id)
+      .filter(team => team.modality_id === game.modalityId)
       .map(team => team.id)
     )
-  }, [game?.id, game.modality_id])
+  }, [game?.id, game.modalityId])
 
   if (!openForm) return <></>
 
-  const teams = teamsWithoutFilter.filter(team => team.modality_id === game?.modality_id)
+  const teams = teamsWithoutFilter.filter(team => team.modalityId === game?.modalityId)
   return (
     <Card>
       <form
@@ -81,10 +80,10 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
           />
         </div>
         <Input
-          name='user_id'
+          name='userId'
           label="Mediador"
-          value={game.user_id ?? ''}
-          onChange={event => setGame({ ...game, user_id: event.target.value })}
+          value={game.userId ?? ''}
+          onChange={event => setGame({ ...game, userId: event.target.value })}
           error={game.errors?.userId}
           options={users.map(user => {
             return {
@@ -97,8 +96,8 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
         <Input
           name='place_id'
           label="Local"
-          value={game.place_id ?? ''}
-          onChange={event => setGame({ ...game, place_id: event.target.value })}
+          value={game.placeId ?? ''}
+          onChange={event => setGame({ ...game, placeId: event.target.value })}
           options={places}
           error={game.errors?.placeId}
 
@@ -106,20 +105,20 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
         <Input
           name='modalityId'
           label="Modalidade"
-          value={game.modality_id ?? ''}
-          onChange={event => setGame({ ...game, modality_id: event.target.value })}
+          value={game.modalityId ?? ''}
+          onChange={event => setGame({ ...game, modalityId: event.target.value })}
           options={modalities}
           error={game.errors?.modalityId}
 
         />
-        {game.modality_id &&
+        {game.modalityId &&
           <MultiSelect
             label="Equipes"
             items={teams}
             selected={selectedTeams}
             setSelected={setSelectedTeams}
             columns={2}
-            limit={modalities.find(modality => modality.id === game.modality_id)?.teamsQuantity}
+            limit={modalities.find(modality => modality.id === game.modalityId)?.teamsQuantity}
           />
         }
         <div className="flex justify-end gap-3 ">
@@ -157,7 +156,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
             points: 0
           }
         }).sort((a,b) => a.id - b.id),
-        unity_id: storageLogged()?.unity_id
+        unity_id: storageLogged()?.unityId
       }
       if (game.id) {
         await api.patch(`games/${game.id}`, body)

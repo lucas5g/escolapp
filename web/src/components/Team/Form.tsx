@@ -78,7 +78,7 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
         />
         <Row>
           <Input
-            name='modality_id'
+            name='modalityId'
             label='Modalidade'
             options={modalities}
             value={team.modalityId ?? ''}

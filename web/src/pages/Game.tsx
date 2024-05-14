@@ -35,9 +35,9 @@ export function Game() {
     return {
       ...game,
       datetime:  `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`, 
-      modality: modalities.find(modality => modality.id === game.modality_id)?.name,
-      place: places.find(place => place.id === game.place_id)?.name,
-      user: users.find(user => user.id === game.user_id)?.email.split('@')[0],
+      modality: modalities.find(modality => modality.id === game.modalityId)?.name,
+      place: places.find(place => place.id === game.placeId)?.name,
+      user: users.find(user => user.id === game.userId)?.email.split('@')[0],
       teams: game.teams.map(gameTeam => {
         return {
           ...gameTeam,

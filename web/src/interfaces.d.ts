@@ -6,9 +6,9 @@ export interface GameInterface {
   startHours: string
   endHours: string
   comments?: string
-  place_id: number
-  modality_id: number
-  user_id: number
+  placeId: number
+  modalityId: number
+  userId: number
   teams: {
     id: number
     name: string | undefined
