@@ -18,7 +18,6 @@ const fieldsSetup = [
 ]
 
 const fieldsMe = [
-  { key: 'name', value: 'Nome' },
   { key: 'email', value: 'E-mail', disabled: true },
   { key: 'password', value: 'Senha', type: 'password' },
 ]
@@ -73,7 +72,7 @@ export function Setup() {
           item={me || data}
           setItem={setMe}
           fields={fieldsMe}
-          uri="update-me"
+          uri="auth/me"
           hasButtonCancel={false}
         />
       </Main>

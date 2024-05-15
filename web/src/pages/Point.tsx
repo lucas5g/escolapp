@@ -25,6 +25,7 @@ export function Point() {
           items={data}
           item={{}}
           setItem={() => {}}
+          isEditable={false}
         />
       </Main>
     </Layout>

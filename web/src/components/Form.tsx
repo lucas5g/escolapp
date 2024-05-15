@@ -52,9 +52,9 @@ export function Form({ item, setItem, fields, uri, width, children, hasButtonCan
         item.date = new Date(item.date).toISOString()
       }
 
-      if (uri === 'update-me') {
+      if (uri === 'auth/me') {
 
-        await api.patch('update-me', item)
+        await api.patch('auth/me', item)
       } else if (item.id) {
         await api.patch(`${uri}/${item.id}`, item)
       } else {
