@@ -12,7 +12,7 @@ export function ChangeUnity() {
   const [open, setOpen] = useState(false)
   const [user, setUser] = useState(logged as UserInterface)
   const { data: unities, error }: { data: UnityInterface[], error: any } = swr('unities')
-  // const { data: me, error: errorMe}:{data:UserInterface, error:any} = swr('me')
+  // const { data: me, error: errorMe}:{data:UserInterface, error:any} = swr('auth/me')
 
   if(logged?.profile !== 'admin') return <></>
 
@@ -28,18 +28,18 @@ export function ChangeUnity() {
               name="unityIdLogged"
               label="Unidade"
               className="w-12"
-              value={user.unity_id}
+              value={user.unityId}
               onChange={async (event) => {
-                const unity_id = event.target.value
-                const userUpdate = {...user, unity_id}
+                const unityId = event.target.value
+                const userUpdate = {...user, unityId}
 
-                console.log({userUpdate})
+                // console.log({userUpdate})
 
                 setUser(userUpdate)
 
-                const { data } = await api.patch('auth/me', userUpdate)
+                const { data } = await api.patch('auth/me', {unityId})
                 localStorage.setItem('accessToken', data.accessToken)
-                location.reload()
+                // location.reload()
               }}
 
               options={unities.map(unity => {
