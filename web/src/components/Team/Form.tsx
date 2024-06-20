@@ -136,10 +136,10 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
     const body = {
       name: team.name,
       group: team.group,
-      modality_id: team.modalityId,
+      modalityId: team.modalityId,
       genre: team.genre,
       students: studentsSelected,
-      unity_id: storageLogged()?.unityId
+      unityId: storageLogged()?.unityId
     }
     
     try {
