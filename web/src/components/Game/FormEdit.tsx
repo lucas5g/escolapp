@@ -156,7 +156,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
             points: 0
           }
         }).sort((a,b) => a.id - b.id),
-        unity_id: storageLogged()?.unityId
+        unityId: storageLogged()?.unityId
       }
       if (game.id) {
         await api.patch(`games/${game.id}`, body)
