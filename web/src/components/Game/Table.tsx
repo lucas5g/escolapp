@@ -28,19 +28,15 @@ export function Table({
   const [search, setSearch] = useState('')
   const logged = storageLogged()
 
-  const games = gamesWithoutFilter
-
-  // const games = gamesWithoutFilter.filter(game => {
-  //   const searchFilter = search.trim().toLowerCase()
-  //   console.log(game)
-  //   return game
-  //   // return (
-  //     // game.datetime.includes(searchFilter) 
-  //     // game.modality.name.toLowerCase().includes(searchFilter) ||
-  //     // game.place.name.toLowerCase().includes(searchFilter) ||
-  //     // game.user.name.toLowerCase().includes(searchFilter)
-  //   // )
-  // })
+  const games = gamesWithoutFilter.filter(game => {
+    const searchFilter = search.trim().toLowerCase()
+    return (
+      game.datetime.includes(searchFilter) ||
+      game.modality.toLowerCase().includes(searchFilter) ||
+      game.place.toLowerCase().includes(searchFilter) ||
+      game.user.toLowerCase().includes(searchFilter)
+    )
+  })
 
   return (
     <Card>

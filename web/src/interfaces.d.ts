@@ -7,19 +7,21 @@ export interface GameInterface {
   endHours: string
   comments?: string
   placeId: number
+  place: string
+  user: string
   modalityId: number
   userId: number
   teams: {
     id: number
     name: string | undefined
     points: number
-    goals: number 
+    goals: number
     fairPlay: number
     modality_id: number
-    students:string[]|undefined
+    students: string[] | undefined
   }[],
-  place: string|undefined
-  user: string|undefined
+  place: string | undefined
+  user: string | undefined
   modality: name
   errors?: {
     id?: string
