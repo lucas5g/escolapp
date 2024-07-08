@@ -7,8 +7,7 @@ export interface GameInterface {
   endHours: string
   comments?: string
   placeId: number
-  place: string
-  user: string
+  place: string | undefined
   modalityId: number
   userId: number
   teams: {
