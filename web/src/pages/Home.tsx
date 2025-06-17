@@ -12,7 +12,7 @@ export function Home() {
   if (error) return <Error error={error} />
   if (!data) return <Loading />
 
-
+  console.log('Versão => ', '2.0.0')
 
   return (
     <Layout>
