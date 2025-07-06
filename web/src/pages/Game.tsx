@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Layout } from "../components/Layout";
 import { Main } from "../components/Main";
-import { GameInterface, ModalityInterface, PlaceInterface, StudentInterface, TeamInterface, UserInterface } from "../interfaces";
+import { GameInterface, GroupInterface, ModalityInterface, PlaceInterface, StudentInterface, TeamInterface, UserInterface } from "../interfaces";
 import { FormSport } from "../components/Game/FormSport";
 import { swr } from "../utils/swr";
 import { Error } from "../components/Error";
@@ -27,21 +27,26 @@ export function Game() {
   const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
   const { data: places }: { data: PlaceInterface[] } = swr('places')
   const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
-  const { data: students}:{data:StudentInterface[]} = swr('students')
+  const { data: students }: { data: StudentInterface[] } = swr('students')
 
   if (error) return <Error error={error} />
-  if (!data || !teams || !users || !places || !modalities  ) return <Loading />
+  if (!data || !teams || !users || !places || !modalities) return <Loading />
   const games = data.map(game => {
     return {
       ...game,
-      datetime:  `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`, 
+      datetime: `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`,
       modality: modalities.find(modality => modality.id === game.modalityId)?.name,
       place: places.find(place => place.id === game.placeId)?.name,
       user: users.find(user => user.id === game.userId)?.email.split('@')[0],
+
       teams: game.teams.map(gameTeam => {
+        const team = teams.find(team => team.id === gameTeam.id)
         return {
           ...gameTeam,
-          students:teams.find(team => gameTeam.id === team.id )?.students,
+          students: team?.students,
+          group: team?.group,
+          // name: team?.name
+          // students: teams.find(team => gameTeam.id === team.id)?.students,
           name: teams.find(team => team.id === gameTeam.id)?.name
         }
       })
@@ -50,6 +55,7 @@ export function Game() {
     }
   })
 
+  console.log('games => ', games[0].teams)
   return (
     <Layout>
       <Main>

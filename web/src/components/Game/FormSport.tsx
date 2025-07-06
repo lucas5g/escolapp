@@ -1,7 +1,7 @@
 import { ChangeInputInterface, GameInterface, StudentInterface } from "../../interfaces";
 import { Card } from "../Card";
 import { Input } from "../Input";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button } from "../Button";
 import { api } from "../../utils/axios";
 import { mutate } from "swr";
@@ -36,16 +36,21 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students }: Pr
               <div key={team.id} className="space-y-1">
                 <strong>{team.name}</strong>
                 <ul className="flex flex-col gap-1">
-                  {team.students?.map(student => {
-                    console.table(student)
-                    return (
-                      <li key={student} className="border rounded pl-1 py-1">
-                        {renameLowerCase(
-                          students.find(row => row.ra === student)?.name ?? '',
-                          33)}
-                      </li>
-                    )
-                  })}
+                  {team.students
+                    ?.filter(student => {
+                      const studentFind = students.find(row => row.ra === student)
+                      return studentFind?.group === team.group
+                      // return students.some(row => student)
+                    })
+                    ?.map(student => {
+                      return (
+                        <li key={student} className="border rounded pl-1 py-1">
+                          {renameLowerCase(
+                            students.find(row => row.ra === student)?.name ?? '',
+                            33)}
+                        </li>
+                      )
+                    })}
                 </ul>
               </div>
             )
