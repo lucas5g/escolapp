@@ -16,8 +16,8 @@ interface Props {
   teams: TeamInterface[]
   game: GameInterface
   setGame: (game: GameInterface) => void
-  openForm: boolean | undefined 
-  setOpenForm: (openForm:boolean) => void
+  openForm: boolean | undefined
+  setOpenForm: (openForm: boolean) => void
 }
 
 export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter, game, setGame, openForm, setOpenForm }: Props) {
@@ -31,7 +31,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
       return
     }
     setSelectedTeams(game.teams
-      .filter(team => team.modality_id === game.modalityId)
+      // .filter(team => team.modality_id === game.modalityId) //remove para testar
       .map(team => team.id)
     )
   }, [game?.id, game.modalityId])
@@ -133,7 +133,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
             onClick={() => {
               setGame({} as GameInterface)
               setOpenForm(false)
-              window.scrollTo({top:0, behavior:'smooth'})
+              window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
           />
         </div>
@@ -151,11 +151,11 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
         teams: selectedTeams.map(team => {
           return {
             id: team,
-            goals:0,
-            fairPlay:0,
+            goals: 0,
+            fairPlay: 0,
             points: 0
           }
-        }).sort((a,b) => a.id - b.id),
+        }).sort((a, b) => a.id - b.id),
         unityId: storageLogged()?.unityId
       }
       if (game.id) {
