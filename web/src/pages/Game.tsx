@@ -38,7 +38,7 @@ export function Game() {
       modality: modalities.find(modality => modality.id === game.modalityId)?.name,
       place: places.find(place => place.id === game.placeId)?.name,
       user: users.find(user => user.id === game.userId)?.email.split('@')[0],
-      teams: game.teams.map(gameTeam => {
+      teams: game?.teams.map(gameTeam => {
         return {
           ...gameTeam,
           students:teams.find(team => gameTeam.id === team.id )?.students,
