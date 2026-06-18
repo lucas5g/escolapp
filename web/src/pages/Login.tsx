@@ -4,6 +4,7 @@ import { Input } from "../components/Input";
 import { api } from "../utils/axios";
 import { translate } from "../utils/translate";
 import { sleep } from "../utils/sleep";
+import { AxiosError } from "axios";
 
 
 export function Login() {
@@ -28,18 +29,26 @@ export function Login() {
       localStorage.setItem('accessToken', data.accessToken)
       location.href = '/'
       await sleep(1000)
-    } catch (error: any) {
-      const { message, errors } = error?.response.data
-      if (
-        message.includes('Please make sure your database server') || message.includes('Environment variable not found:') ||
-        message.includes('Invalid `prisma.user.findUnique()`')
-      ) {
-        return alert('Erro no Banco de Dados :(')
+    } catch (error) {
+      if (error instanceof AxiosError) {
+
+        if (error.code === 'ERR_NETWORK')
+          return alert('Sem conexão com o servidor :(')
+
+
+        const { message, errors } = error.response?.data
+        if (
+          message.includes('Please make sure your database server') || message.includes('Environment variable not found:') ||
+          message.includes('Invalid `prisma.user.findUnique()`')
+        ) {
+          return alert('Erro no Banco de Dados :(')
+        }
+
+        if (errors) {
+          return setErrors(errors)
+        }
+        return alert(message)
       }
-      if (errors) {
-        return setErrors(errors)
-      }
-      return alert(message)
     } finally {
       setLoading(false)
     }

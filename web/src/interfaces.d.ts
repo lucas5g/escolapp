@@ -17,6 +17,7 @@ export interface GameInterface {
     goals: number
     fairPlay: number
     modality_id: number
+    group?: string
     students: string[] | undefined
   }[],
   place: string | undefined

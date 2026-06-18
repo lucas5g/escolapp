@@ -47,7 +47,13 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
       return setStudentsSelected([])
     }
 
-    setStudentsSelected(team.students)
+    const students = studentsWithoutFilter.filter(student => student.group === team.group)
+
+    const studentsGroup = team.students.filter(student => {
+      return students.some(row => row.ra === student)
+    })
+
+    setStudentsSelected(studentsGroup)
 
   }, [team.id, team.group])
 
@@ -62,6 +68,9 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
       group: student.group
     }
   })
+
+  console.log('students => ', students)
+  console.log('studentsSelected => ', studentsSelected)
 
   return (
     <Card>
@@ -141,7 +150,7 @@ export function Form({ team, setTeam, groups, modalities, students: studentsWith
       students: studentsSelected,
       unityId: storageLogged()?.unityId
     }
-    
+
     try {
       if (team.id) {
         await api.patch(`teams/${team.id}`, body)
