@@ -121,45 +121,49 @@ export function Game() {
 
   return (
     <Layout>
-      <Main>
-        <Table
-          games={games}
-          gameEdit={gameEdit}
-          gameSport={gameSport}
-          setGameEdit={setGameEdit}
-          setGameSport={setGameSport}
+      <Main position="col">
+        <div className="flex lg:flex-row flex-col gap-3 w-full">
+          <Table
+            games={games}
+            gameEdit={gameEdit}
+            gameSport={gameSport}
+            setGameEdit={setGameEdit}
+            setGameSport={setGameSport}
 
-          openFormEdit={openFormEdit}
-          setOpenFormEdit={setOpenFormEdit}
-          openFormSport={openFormSport}
-          setOpenFormSport={setOpenFormSport}
-          refreshGames={mutate}
-        />
-        <div className="py-4 text-center text-gray-500">
-          {isLoadingMore && 'Carregando mais jogos...'}
-          {isReachingEnd && games.length > 0 && 'Todos os jogos foram carregados.'}
+            openFormEdit={openFormEdit}
+            setOpenFormEdit={setOpenFormEdit}
+            openFormSport={openFormSport}
+            setOpenFormSport={setOpenFormSport}
+            refreshGames={mutate}
+          />
+          <FormSport
+            game={gameSport}
+            setGame={setGameSport}
+            openForm={openFormSport}
+            setOpenForm={setOpenFormSport}
+            students={students}
+            refreshGames={mutate}
+            scrollRef={formSportRef}
+          />
+          <FormEdit
+            game={gameEdit}
+            setGame={setGameEdit}
+            users={users}
+            places={places}
+            modalities={modalities}
+            teams={teams}
+            openForm={openFormEdit}
+            setOpenForm={setOpenFormEdit}
+            refreshGames={mutate}
+            scrollRef={formEditRef}
+          />
         </div>
-        <FormSport
-          game={gameSport}
-          setGame={setGameSport}
-          openForm={openFormSport}
-          setOpenForm={setOpenFormSport}
-          students={students}
-          refreshGames={mutate}
-          scrollRef={formSportRef}
-        />
-        <FormEdit
-          game={gameEdit}
-          setGame={setGameEdit}
-          users={users}
-          places={places}
-          modalities={modalities}
-          teams={teams}
-          openForm={openFormEdit}
-          setOpenForm={setOpenFormEdit}
-          refreshGames={mutate}
-          scrollRef={formEditRef}
-        />
+        <div className="row w-full">
+          <div className="py-4 text-center text-gray-500">
+            {isLoadingMore && 'Carregando mais jogos...'}
+            {isReachingEnd && games.length > 0 && 'Todos os jogos foram carregados.'}
+          </div>
+        </div>
       </Main>
 
     </Layout>
