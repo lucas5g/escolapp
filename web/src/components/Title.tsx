@@ -1,12 +1,11 @@
 import { menus } from "../utils/menus";
+import { menuToUri, pathnameToMenuUri } from "../utils/menu-to-uri";
 import { Card } from "./Card";
 
 export function Title() {
+  const pathnameMenuUri = pathnameToMenuUri(location.pathname)
   const titleHeader = menus()
-    .find(menu => menu
-      .normalize("NFD") // Normaliza a string em forma de decomposição
-      .replace(/[\u0300-\u036f]/g, "") // Remove os caracteres acentuados
-      .toLowerCase() === location.pathname.replace('/', '')) || 'Home'
+    .find(menu => menuToUri(menu) === pathnameMenuUri) || 'Home'
 
   document.title = `${titleHeader} | EscolApp`
   return (

@@ -4,3 +4,7 @@ export function menuToUri(menu: string) {
     .replace(/[\u0300-\u036f]/g, "") // Remove os caracteres acentuados
     .toLowerCase();
 }
+
+export function pathnameToMenuUri(pathname: string) {
+  return pathname.split('/').filter(Boolean)[0] ?? ''
+}

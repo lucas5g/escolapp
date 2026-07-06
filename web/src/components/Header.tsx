@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import logo from '../assets/logo.png'
 import { menus } from "../utils/menus"
-import { menuToUri } from "../utils/menu-to-uri"
+import { menuToUri, pathnameToMenuUri } from "../utils/menu-to-uri"
 import { storageLogged } from "../utils/storage-logged"
 
 
@@ -13,6 +13,7 @@ export function Header() {
 
   const [showMenu, setShowMenu] = useState(false)
   const logged = storageLogged()
+  const pathnameMenuUri = pathnameToMenuUri(location.pathname)
   return (
     <header className="z-10">
       <nav className="bg-blue-500 fixed  w-full lg:py-2 px-5 py-4 flex items-center justify-between">
@@ -46,7 +47,7 @@ export function Header() {
               key={menu}
               to={`/${menuToUri(menu)}`}
               className={clsx('py-3 pl-5 text-gray-900 hover:text-gray-800 hover:bg-blue-100 transition-colors rounded ', {
-                'text-gray-800 font-bold border-b-4 border-b-blue-300 rounded-none transition-colors': menuToUri(menu) === location.pathname.replace('/', '') || menu === 'Home' && location.pathname === '/',
+                'text-gray-800 font-bold border-b-4 border-b-blue-300 rounded-none transition-colors': menuToUri(menu) === pathnameMenuUri || menu === 'Home' && location.pathname === '/',
               })}>
               {menu}
             </Link>
