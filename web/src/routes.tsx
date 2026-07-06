@@ -22,6 +22,7 @@ const routesPrivate = createBrowserRouter([
   { path: '/equipes', element: <Team /> },
   { path: '/locais', element: <Place /> },
   { path: '/jogos', element: <Game /> },
+  { path: '/jogos/:id/apitar', element: <Game /> },
   { path: '/pontos', element:<Point />},
   { path: '/usuarios', element: <User /> },
   { path: '/configuracoes', element: <Setup />},

@@ -12,12 +12,16 @@ import { storageLogged } from "../utils/storage-logged";
 import moment from "moment";
 import useSWRInfinite from "swr/infinite";
 import { api } from "../utils/axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PAGE_SIZE = 20
 
 export function Game() {
+  const { id } = useParams()
+  const navigate = useNavigate()
   const [gameEdit, setGameEdit] = useState({} as GameInterface)
   const [gameSport, setGameSport] = useState({} as GameInterface)
+  const [routeGame, setRouteGame] = useState<GameInterface | null>(null)
   const [openFormEdit, setOpenFormEdit] = useState<boolean>(false)
   const [openFormSport, setOpenFormSport] = useState<boolean>(false)
   const formSportRef = useRef<HTMLDivElement>(null)
@@ -51,10 +55,42 @@ export function Game() {
   const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
   const { data: students }: { data: StudentInterface[] } = swr('students')
 
+  const routeGameId = id ? Number(id) : undefined
   const rawGames = data?.flat() ?? []
   const isLoadingInitialData = !data && !error
   const isLoadingMore = isLoadingInitialData || Boolean(size > 0 && data && typeof data[size - 1] === 'undefined')
   const isReachingEnd = data ? data[data.length - 1]?.length < PAGE_SIZE : false
+  const hasReferenceData = Boolean(data && teams && users && places && modalities)
+
+  function formatGame(game: GameInterface) {
+    return {
+      ...game,
+      datetime: `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`,
+      modality: modalities.find(modality => modality.id === game.modalityId)?.name,
+      place: places.find(place => place.id === game.placeId)?.name,
+      user: users.find(user => user.id === game.userId)?.email.split('@')[0],
+
+      teams: game.teams.map(gameTeam => {
+        const team = teams.find(team => team.id === gameTeam.id)
+        return {
+          ...gameTeam,
+          students: team?.students,
+          group: team?.group,
+          // name: team?.name
+          // students: teams.find(team => gameTeam.id === team.id)?.students,
+          name: teams.find(team => team.id === gameTeam.id)?.name
+        }
+      })
+
+
+    }
+  }
+
+  const games = hasReferenceData ? rawGames.map(formatGame) : []
+  const routeGameFormatted = hasReferenceData && routeGame ? formatGame(routeGame) : null
+  const gamesWithRouteGame = routeGameFormatted && !games.some(game => game.id === routeGameFormatted.id)
+    ? [...games, routeGameFormatted]
+    : games
 
   useEffect(() => {
     paginationRef.current = {
@@ -88,6 +124,45 @@ export function Game() {
   }, [gameSport.id, openFormSport])
 
   useEffect(() => {
+    if (!routeGameId) {
+      setRouteGame(null)
+      return
+    }
+
+    if (rawGames.some(game => game.id === routeGameId) || routeGame?.id === routeGameId) return
+
+    let isMounted = true
+
+    api.get(`games/${routeGameId}`).then(({ data }) => {
+      if (isMounted) setRouteGame(data)
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [routeGameId, rawGames, routeGame?.id])
+
+  useEffect(() => {
+    if (!routeGameId || !hasReferenceData) {
+      if (!routeGameId && openFormSport) {
+        setGameSport({} as GameInterface)
+        setOpenFormSport(false)
+      }
+      return
+    }
+
+    const selectedGame = gamesWithRouteGame.find(game => game.id === routeGameId)
+    if (!selectedGame) return
+
+    if (gameSport.id !== selectedGame.id || !openFormSport) {
+      setGameSport(selectedGame)
+      setGameEdit({} as GameInterface)
+      setOpenFormEdit(false)
+      setOpenFormSport(true)
+    }
+  }, [routeGameId, hasReferenceData, gamesWithRouteGame, gameSport.id, openFormSport])
+
+  useEffect(() => {
     if (openFormEdit) {
       formEditRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -95,36 +170,18 @@ export function Game() {
 
   if (error) return <Error error={error} />
   if (!data || !teams || !users || !places || !modalities) return <Loading />
-  const games = rawGames.map(game => {
-    return {
-      ...game,
-      datetime: `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`,
-      modality: modalities.find(modality => modality.id === game.modalityId)?.name,
-      place: places.find(place => place.id === game.placeId)?.name,
-      user: users.find(user => user.id === game.userId)?.email.split('@')[0],
 
-      teams: game.teams.map(gameTeam => {
-        const team = teams.find(team => team.id === gameTeam.id)
-        return {
-          ...gameTeam,
-          students: team?.students,
-          group: team?.group,
-          // name: team?.name
-          // students: teams.find(team => gameTeam.id === team.id)?.students,
-          name: teams.find(team => team.id === gameTeam.id)?.name
-        }
-      })
-
-
-    }
-  })
+  function setSportFormOpen(open: boolean) {
+    setOpenFormSport(open)
+    if (!open && routeGameId) navigate('/jogos')
+  }
 
   return (
     <Layout>
       <Main position="col">
         <div className="flex lg:flex-row flex-col gap-3 w-full">
           <Table
-            games={games}
+            games={gamesWithRouteGame}
             gameEdit={gameEdit}
             gameSport={gameSport}
             setGameEdit={setGameEdit}
@@ -133,14 +190,14 @@ export function Game() {
             openFormEdit={openFormEdit}
             setOpenFormEdit={setOpenFormEdit}
             openFormSport={openFormSport}
-            setOpenFormSport={setOpenFormSport}
+            setOpenFormSport={setSportFormOpen}
             refreshGames={mutate}
           />
           <FormSport
             game={gameSport}
             setGame={setGameSport}
             openForm={openFormSport}
-            setOpenForm={setOpenFormSport}
+            setOpenForm={setSportFormOpen}
             students={students}
             refreshGames={mutate}
             scrollRef={formSportRef}

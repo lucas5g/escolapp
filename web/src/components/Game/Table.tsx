@@ -7,6 +7,7 @@ import { Input } from "../Input";
 import { useState } from "react";
 import { storageLogged } from "../../utils/storage-logged";
 import { api } from "../../utils/axios";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   games: GameInterface[]
@@ -26,6 +27,7 @@ export function Table({
 }: Props) {
 
   const [search, setSearch] = useState('')
+  const navigate = useNavigate()
   const logged = storageLogged()
 
   const games = gamesWithoutFilter.filter(game => {
@@ -114,6 +116,7 @@ export function Table({
                           setOpenFormEdit(false)
                           setOpenFormSport(true)
                           setGameEdit({} as GameInterface)
+                          navigate(`/jogos/${game.id}/apitar`)
 
                         }} />
                       {logged?.profile !== 'judge' &&
@@ -127,6 +130,7 @@ export function Table({
                             setOpenFormSport(false)
                             setOpenFormEdit(true)
                             setGameSport({} as GameInterface)
+                            navigate('/jogos')
                           }} />
                       }
                       {(logged?.profile === 'manager' || logged?.profile === 'admin' || logged?.profile === 'coordinator') &&
@@ -142,6 +146,7 @@ export function Table({
                                 refreshGames()
                                 setGameEdit({})
                                 setGameSport({})
+                                navigate('/jogos')
                               }catch(error:any){
                                 console.log(error)
                               }
@@ -168,7 +173,7 @@ export function Table({
           })}
 
           title="Cadastrar Jogo"
-          onClick={() => { setOpenFormEdit(true), setOpenFormSport(false) }}
+          onClick={() => { setOpenFormEdit(true), setOpenFormSport(false), navigate('/jogos') }}
         >
           <Plus size={30} weight="bold" />
         </button>
