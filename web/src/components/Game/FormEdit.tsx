@@ -2,10 +2,9 @@ import moment from "moment";
 import { GameInterface, ModalityInterface, PlaceInterface, TeamInterface, UserInterface } from "../../interfaces";
 import { Card } from "../Card";
 import { Input } from "../Input";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, RefObject, useEffect, useState } from "react";
 import { Button } from "../Button";
 import { api } from "../../utils/axios";
-import { mutate } from "swr";
 import { MultiSelect } from "../MultiSelect";
 import { storageLogged } from "../../utils/storage-logged";
 
@@ -18,9 +17,11 @@ interface Props {
   setGame: (game: GameInterface) => void
   openForm: boolean | undefined
   setOpenForm: (openForm: boolean) => void
+  refreshGames: () => void
+  scrollRef?: RefObject<HTMLDivElement>
 }
 
-export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter, game, setGame, openForm, setOpenForm }: Props) {
+export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter, game, setGame, openForm, setOpenForm, refreshGames, scrollRef }: Props) {
 
   const [loading, setLoading] = useState(false)
   const [selectedTeams, setSelectedTeams] = useState([] as number[])
@@ -41,6 +42,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
   const teams = teamsWithoutFilter.filter(team => team.modalityId === game?.modalityId)
   return (
     <Card>
+      <div ref={scrollRef} />
       <form
         className="flex flex-col gap-5"
         onSubmit={handleSubmit}
@@ -165,7 +167,7 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
         // setGame(data)
         setGame({} as GameInterface)
       }
-      mutate('games')
+      refreshGames()
 
     } catch (error: any) {
 

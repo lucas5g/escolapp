@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Layout } from "../components/Layout";
 import { Main } from "../components/Main";
 import { GameInterface, GroupInterface, ModalityInterface, PlaceInterface, StudentInterface, TeamInterface, UserInterface } from "../interfaces";
@@ -10,28 +10,92 @@ import { Table } from "../components/Game/Table";
 import { FormEdit } from "../components/Game/FormEdit";
 import { storageLogged } from "../utils/storage-logged";
 import moment from "moment";
+import useSWRInfinite from "swr/infinite";
+import { api } from "../utils/axios";
 
+const PAGE_SIZE = 20
 
 export function Game() {
   const [gameEdit, setGameEdit] = useState({} as GameInterface)
   const [gameSport, setGameSport] = useState({} as GameInterface)
   const [openFormEdit, setOpenFormEdit] = useState<boolean>(false)
   const [openFormSport, setOpenFormSport] = useState<boolean>(false)
+  const formSportRef = useRef<HTMLDivElement>(null)
+  const formEditRef = useRef<HTMLDivElement>(null)
+  const paginationRef = useRef({
+    isLoadingMore: false,
+    isReachingEnd: false,
+    isValidating: false,
+    isDisabled: false,
+  })
   const logged = storageLogged()
 
   const date = moment(moment().format('YYYY-MM-DD')).toISOString()
   const uri = logged?.profile === 'judge' ? `games?userId=${logged.id}&date=${date}` : 'games'
 
-  const { data, error }: { data: GameInterface[], error: any } = swr(uri)
+  const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite<GameInterface[]>(
+    (pageIndex, previousPageData) => {
+      if (previousPageData && previousPageData.length < PAGE_SIZE) return null
+
+      const separator = uri.includes('?') ? '&' : '?'
+      return `${uri}${separator}page=${pageIndex + 1}&limit=${PAGE_SIZE}`
+    },
+    async (url) => {
+      const { data } = await api.get(url)
+      return data
+    }
+  )
   const { data: teams }: { data: TeamInterface[] } = swr('teams')
   const { data: users }: { data: UserInterface[] } = swr('users?profile=judge')
   const { data: places }: { data: PlaceInterface[] } = swr('places')
   const { data: modalities }: { data: ModalityInterface[] } = swr('modalities')
   const { data: students }: { data: StudentInterface[] } = swr('students')
 
+  const rawGames = data?.flat() ?? []
+  const isLoadingInitialData = !data && !error
+  const isLoadingMore = isLoadingInitialData || Boolean(size > 0 && data && typeof data[size - 1] === 'undefined')
+  const isReachingEnd = data ? data[data.length - 1]?.length < PAGE_SIZE : false
+
+  useEffect(() => {
+    paginationRef.current = {
+      isLoadingMore,
+      isReachingEnd,
+      isValidating,
+      isDisabled: openFormEdit || openFormSport,
+    }
+  }, [isLoadingMore, isReachingEnd, isValidating, openFormEdit, openFormSport])
+
+  useEffect(() => {
+    function handleScroll() {
+      const distanceToBottom = document.documentElement.scrollHeight - (window.innerHeight + window.scrollY)
+      const { isLoadingMore, isReachingEnd, isValidating, isDisabled } = paginationRef.current
+
+      if (distanceToBottom < 300 && !isDisabled && !isLoadingMore && !isReachingEnd && !isValidating) {
+        paginationRef.current.isLoadingMore = true
+        setSize(currentSize => currentSize + 1)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [setSize])
+
+  useEffect(() => {
+    if (openFormSport) {
+      formSportRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [gameSport.id, openFormSport])
+
+  useEffect(() => {
+    if (openFormEdit) {
+      formEditRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [gameEdit.id, openFormEdit])
+
   if (error) return <Error error={error} />
   if (!data || !teams || !users || !places || !modalities) return <Loading />
-  const games = data.map(game => {
+  const games = rawGames.map(game => {
     return {
       ...game,
       datetime: `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`,
@@ -69,13 +133,20 @@ export function Game() {
           setOpenFormEdit={setOpenFormEdit}
           openFormSport={openFormSport}
           setOpenFormSport={setOpenFormSport}
+          refreshGames={mutate}
         />
+        <div className="py-4 text-center text-gray-500">
+          {isLoadingMore && 'Carregando mais jogos...'}
+          {isReachingEnd && games.length > 0 && 'Todos os jogos foram carregados.'}
+        </div>
         <FormSport
           game={gameSport}
           setGame={setGameSport}
           openForm={openFormSport}
           setOpenForm={setOpenFormSport}
           students={students}
+          refreshGames={mutate}
+          scrollRef={formSportRef}
         />
         <FormEdit
           game={gameEdit}
@@ -86,6 +157,8 @@ export function Game() {
           teams={teams}
           openForm={openFormEdit}
           setOpenForm={setOpenFormEdit}
+          refreshGames={mutate}
+          scrollRef={formEditRef}
         />
       </Main>
 

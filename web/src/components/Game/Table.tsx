@@ -7,7 +7,6 @@ import { Input } from "../Input";
 import { useState } from "react";
 import { storageLogged } from "../../utils/storage-logged";
 import { api } from "../../utils/axios";
-import { mutate } from "swr";
 
 interface Props {
   games: GameInterface[]
@@ -19,10 +18,11 @@ interface Props {
   setOpenFormSport: (openFormSport: boolean) => void
   gameEdit: GameInterface
   gameSport: GameInterface
+  refreshGames: () => void
 }
 
 export function Table({
-  games: gamesWithoutFilter, setGameEdit, setGameSport, openFormEdit, setOpenFormEdit, openFormSport, setOpenFormSport, gameEdit, gameSport
+  games: gamesWithoutFilter, setGameEdit, setGameSport, openFormEdit, setOpenFormEdit, openFormSport, setOpenFormSport, gameEdit, gameSport, refreshGames
 }: Props) {
 
   const [search, setSearch] = useState('')
@@ -114,7 +114,6 @@ export function Table({
                           setOpenFormEdit(false)
                           setOpenFormSport(true)
                           setGameEdit({} as GameInterface)
-                          scroll(games.length)
 
                         }} />
                       {logged?.profile !== 'judge' &&
@@ -128,7 +127,6 @@ export function Table({
                             setOpenFormSport(false)
                             setOpenFormEdit(true)
                             setGameSport({} as GameInterface)
-                            scroll(games.length)
                           }} />
                       }
                       {(logged?.profile === 'manager' || logged?.profile === 'admin' || logged?.profile === 'coordinator') &&
@@ -141,7 +139,7 @@ export function Table({
                               if (!confirm(`Deseja deletar o jogo ID ${game.id}?`)) return
                               try{
                                 await api.delete(`games/${game.id}`) 
-                                mutate('games')
+                                refreshGames()
                                 setGameEdit({})
                                 setGameSport({})
                               }catch(error:any){
@@ -177,12 +175,4 @@ export function Table({
       }
     </Card >
   )
-  function scroll(quantity: number) {
-    const width = document.querySelector('body')?.offsetWidth
-    if (Number(width) > 1024) {
-      return window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-    window.scrollTo({ top: quantity * 123, behavior: 'smooth' })
-  }
-
 }

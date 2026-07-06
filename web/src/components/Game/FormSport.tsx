@@ -1,10 +1,9 @@
 import { ChangeInputInterface, GameInterface, StudentInterface } from "../../interfaces";
 import { Card } from "../Card";
 import { Input } from "../Input";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, RefObject, useEffect, useState } from "react";
 import { Button } from "../Button";
 import { api } from "../../utils/axios";
-import { mutate } from "swr";
 import { Main } from "../Main";
 import { renameLowerCase } from "../../utils/rename-lowercase";
 import { TextareaAutosize } from "@mui/material";
@@ -16,9 +15,11 @@ interface Props {
   openForm: boolean
   setOpenForm: (openForm: boolean) => void
   students: StudentInterface[]
+  refreshGames: () => void
+  scrollRef?: RefObject<HTMLDivElement>
 }
 
-export function FormSport({ game, setGame, openForm, setOpenForm, students }: Props) {
+export function FormSport({ game, setGame, openForm, setOpenForm, students, refreshGames, scrollRef }: Props) {
 
   const [loading, setLoading] = useState(false)
   const logged = storageLogged()
@@ -27,6 +28,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students }: Pr
   return (
     <Main position="col">
       <Card>
+        <div ref={scrollRef} />
         <div className="text-sm">
           {game.datetime} | {game.user} | {game.teams.length} Equipes
         </div>
@@ -273,7 +275,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students }: Pr
 
       await api.patch(`games/${game.id}`, body)
 
-      mutate('games')
+      refreshGames()
 
     } catch (error: any) {
 
