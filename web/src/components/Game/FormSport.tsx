@@ -22,7 +22,16 @@ interface Props {
 export function FormSport({ game, setGame, openForm, setOpenForm, students, refreshGames, scrollRef }: Props) {
 
   const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState<{ message: string, type: 'success' | 'error' } | null>(null)
   const logged = storageLogged()
+
+  useEffect(() => {
+    if (!toast) return
+
+    const timeout = setTimeout(() => setToast(null), 4000)
+
+    return () => clearTimeout(timeout)
+  }, [toast])
 
   if (!openForm) return <></>
   return (
@@ -142,6 +151,11 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students, refr
           </div>
         </form>
       </Card>
+      {toast &&
+        <div className={`fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded px-4 py-3 text-sm font-medium text-white shadow-lg ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'}`}>
+          {toast.message}
+        </div>
+      }
     </Main>
   )
 
@@ -276,13 +290,15 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students, refr
       await api.patch(`games/${game.id}`, body)
 
       refreshGames()
+      setToast({ message: 'Jogo atualizado com sucesso.', type: 'success' })
 
     } catch (error: any) {
 
       if (error.response.data.errors === 400) {
+        setToast({ message: 'Erro ao atualizar o jogo.', type: 'error' })
         return setGame({ ...game, errors: error.response.data.errors })
       }
-      alert('Erro no servidor.')
+      setToast({ message: 'Erro ao atualizar o jogo.', type: 'error' })
     } finally {
       setLoading(false)
     }
