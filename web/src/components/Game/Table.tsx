@@ -35,8 +35,8 @@ export function Table({
     return (
       game.datetime.includes(searchFilter) ||
       game.modality.toLowerCase().includes(searchFilter) ||
-      game.place.toLowerCase().includes(searchFilter) ||
-      game.user.toLowerCase().includes(searchFilter)
+      game.place?.toLowerCase().includes(searchFilter) ||
+      game.user?.toLowerCase().includes(searchFilter)
     )
   })
 

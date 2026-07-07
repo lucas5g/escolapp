@@ -87,11 +87,11 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students, refr
                       label={`Placar`}
                       type='number'
                       value={team.goals ?? ''}
-                      disabled={game.modality.type === 'participative' && true}
+                      disabled={game.modalityType === 'participative' && true}
                       onChange={event => changeInput({
                         field: 'goals',
                         teamId: team.id,
-                        value: Number(event.target.value)
+                        value: event.target.value === '' ? undefined : Number(event.target.value)
                       })}
 
                     />
@@ -99,7 +99,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students, refr
                       name={`teamFairPlay`}
                       label="FairPlay"
                       value={team.fairPlay ?? ''}
-                      disabled={game.modality.type === 'participative' && true}
+                      disabled={game.modalityType === 'participative' && true}
 
                       onChange={event => changeInput({
                         teamId: team.id,
@@ -115,7 +115,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students, refr
                       name={`teamPoints${team.id}`}
                       label={`Pontos`}
                       type="number"
-                      disabled={logged?.profile === 'judge' || game.modality.type === 'participative' ? true : false}
+                      disabled={logged?.profile === 'judge' || game.modalityType === 'participative' ? true : false}
                       value={team.points ?? ''}
                       onChange={event => changeInput(
                         { field: 'points', teamId: team.id, value: Number(event.target.value) }
@@ -167,16 +167,21 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students, refr
         return team
       }
       if (field === 'fairPlay') {
-        team.fairPlay = value
+        team.fairPlay = value ?? 0
         team.points = value === 1 ? team.points + 1 : team.points - 1
         return team
       }
 
-      team[field] = value === 0 ? undefined : value
+      if (field === 'goals') {
+        team.goals = value
+        return team
+      }
+
+      team.points = value ?? 0
       return team
     })
 
-    if (value === '' || field === 'fairPlay' || field === 'points') {
+    if (value === undefined || field === 'fairPlay' || field === 'points') {
       return setGame({ ...game, teams })
     }
 
@@ -192,7 +197,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students, refr
     }
 
 
-    if (game.modality.type === 'individual') {
+    if (game.modalityType === 'individual') {
 
       for (const team of teams) {
         if (team.goals === maxGoals) {
@@ -218,7 +223,7 @@ export function FormSport({ game, setGame, openForm, setOpenForm, students, refr
       return setGame({ ...game, teams })
     }
 
-    if (game.modality.type === 'ranking') {
+    if (game.modalityType === 'ranking') {
 
       let currentPoints = teams.length;
       let prevGoals = null;

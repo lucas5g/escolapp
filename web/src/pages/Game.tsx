@@ -63,10 +63,13 @@ export function Game() {
   const hasReferenceData = Boolean(data && teams && users && places && modalities)
 
   function formatGame(game: GameInterface) {
+    const modality = modalities.find(modality => modality.id === game.modalityId)
+
     return {
       ...game,
       datetime: `${moment(game.date).format('DD/MM')} | ${game.startHours} - ${game.endHours}`,
-      modality: modalities.find(modality => modality.id === game.modalityId)?.name,
+      modality: modality?.name,
+      modalityType: modality?.type,
       place: places.find(place => place.id === game.placeId)?.name,
       user: users.find(user => user.id === game.userId)?.email.split('@')[0],
 

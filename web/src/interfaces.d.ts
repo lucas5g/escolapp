@@ -10,11 +10,12 @@ export interface GameInterface {
   place: string | undefined
   modalityId: number
   userId: number
+  modalityType?: 'collective' | 'individual' | 'participative' | 'ranking'
   teams: {
     id: number
     name: string | undefined
     points: number
-    goals: number
+    goals: number | undefined
     fairPlay: number
     modality_id: number
     group?: string
@@ -39,6 +40,7 @@ export interface GameInterface {
 export interface ModalityInterface {
   id: number
   name: string
+  type: 'collective' | 'individual' | 'participative' | 'ranking'
   membersQuantity: number
   teamsQuantity: number
 }
@@ -82,7 +84,7 @@ export interface StudentInterface {
 export interface ChangeInputInterface {
   teamId: number
   field: 'fairPlay' | 'goals' | 'points'
-  value: number | underfined
+  value: number | undefined
 }
 
 export interface UnityInterface {
