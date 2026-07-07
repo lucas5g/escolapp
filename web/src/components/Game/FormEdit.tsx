@@ -170,13 +170,43 @@ export function FormEdit({ places, modalities, users, teams: teamsWithoutFilter,
       refreshGames()
 
     } catch (error: any) {
+      const responseData = error.response?.data
 
-      if (error.response.data.errors === 400) {
-        return setGame({ ...game, errors: error.response.data.errors })
+      if (responseData?.statusCode === 400) {
+        return setGame({
+          ...game,
+          errors: {
+            ...game.errors,
+            ...getValidationErrors(responseData.message),
+          }
+        })
       }
       alert('Erro no servidor.')
     } finally {
       setLoading(false)
     }
+  }
+
+  function getValidationErrors(message: string | string[] | undefined) {
+    const errors = {} as GameInterface['errors']
+    const messages = Array.isArray(message) ? message : message ? [message] : []
+    const fields = ['date', 'startHours', 'endHours', 'placeId', 'modalityId', 'userId', 'teams']
+
+    messages.forEach(message => {
+      const field = getFieldName(message)
+      if (fields.includes(field)) {
+        errors[field] = message
+      }
+    })
+
+    return errors
+  }
+
+  function getFieldName(message: string) {
+    const field = message.split(' ')[0]
+
+    if (field === 'Data') return 'date'
+
+    return field as keyof NonNullable<GameInterface['errors']>
   }
 }
